@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bulles de Joie - Résultats Octobre</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --success: #4CAF50;
+      --warning: #FF9800;
+      --danger: #f44336;
+      --dark: #2c3e50;
+      --light: #ecf0f1;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 380px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .school-logo {
+      font-size: 3em;
+      margin-bottom: 15px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .school-name {
+      color: var(--dark);
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .teacher-name {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 1em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark);
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .results-container {
+      display: none;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      padding: 25px;
+      width: 95vw;
+      max-width: 1200px;
+      height: 90vh;
+      max-height: 700px;
+      animation: slideUp 0.5s ease-out;
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .student-badge {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+
+    .main-score {
+      font-size: 3.5em;
+      font-weight: bold;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 10px 0;
+    }
+
+    .student-name {
+      font-size: 1.8em;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+
+    .evaluation-title {
+      color: #666;
+      font-size: 1em;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+      height: calc(100% - 120px);
+    }
+
+    .stats-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      border-left: 4px solid var(--primary);
+    }
+
+    .stat-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .subjects-main {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      overflow-y: auto;
+      padding-right: 5px;
+      max-height: 100%;
+    }
+
+    .subjects-main::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .subjects-main::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+
+    .subjects-main::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    .subject-card {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: all 0.3s ease;
+      border-top: 3px solid var(--primary);
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+    }
+
+    .subject-name {
+      color: var(--dark);
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+      line-height: 1.2;
+    }
+
+    .subject-score {
+      font-size: 1.6em;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .score-excellent {
+      color: #4CAF50;
+    }
+
+    .score-good {
+      color: #8BC34A;
+    }
+
+    .score-average {
+      color: #FFC107;
+    }
+
+    .score-poor {
+      color: #f44336;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: #f0f0f0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease-in-out;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9em;
+      transition: transform 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .performance-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.8em;
+      color: #666;
+    }
+
+    .performance-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+
+    .dot-excellent {
+      background: #4CAF50;
+    }
+
+    .dot-good {
+      background: #8BC34A;
+    }
+
+    .dot-average {
+      background: #FFC107;
+    }
+
+    .dot-poor {
+      background: #f44336;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Page de connexion -->
+
+  <div class="login-container" id="loginContainer">
+
+    <div class="school-logo">🫧</div>
+
+    <h1 class="school-name">Les Bulles de Joie</h1>
+
+    <p class="teacher-name">C. J. S. Stein - Résultats Octobre</p>
+
+    <div class="login-form">
+
+      <div class="form-group">
+
+        <label for="studentSelect">Élève</label>
+
+        <select id="studentSelect">
+
+          <option value="">Sélectionnez un élève</option>
+
+          <option value="aglo">Aglo Fifamè</option>
+
+          <option value="akyoh">Akyoh Emmanuel</option>
+
+          <option value="amadou">Amadou YINKI</option>
+
+          <option value="bani">Bani Rahama</option>
+
+          <option value="dahougou">Dahougou Noham</option>
+
+          <option value="eda">Eda Queen</option>
+
+          <option value="houehou">Houehou Méka</option>
+
+          <option value="padonou">Padonou Faith</option>
+
+          <option value="sovi">Sovi Péniel</option>
+
+          <option value="tossavi">Tossavi Naelle</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="password">Mot de passe</label>
+
+        <input type="password" id="password" placeholder="Mot de passe personnel">
+
+      </div>
+
+      <button class="login-btn" onclick="login()">Voir mes résultats</button>
+
+    </div>
+
+  </div>
+
+  <!-- Page des résultats -->
+
+  <div class="results-container" id="resultsContainer">
+
+    <button class="logout-btn" onclick="logout()">← Retour</button>
+
+    <div class="student-badge" id="studentBadge">Élève</div>
+
+    <div class="header">
+
+      <div class="main-score" id="mainScore">-</div>
+
+      <h2 class="student-name" id="studentName">-</h2>
+
+      <p class="evaluation-title">Résultats détaillés - Évaluation d'Octobre</p>
+
+    </div>
+
+    <div class="dashboard">
+
+      <div class="stats-sidebar">
+
+        <div class="stat-card">
+
+          <div class="stat-value" id="averageScore">-</div>
+
+          <div class="stat-label">Moyenne Générale</div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-value" id="bestSubject">-</div>
+
+          <div class="stat-label">Meilleure matière</div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-value" id="totalPoints">-</div>
+
+          <div class="stat-label">Total des points</div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="performance-indicator">
+
+            <div style="display: flex; align-items: center;">
+
+              <div class="performance-dot dot-excellent"></div>
+
+              <span>Excellent</span>
+
+            </div>
+
+            <div>16-20</div>
+
+          </div>
+
+          <div class="performance-indicator">
+
+            <div style="display: flex; align-items: center;">
+
+              <div class="performance-dot dot-good"></div>
+
+              <span>Bon</span>
+
+            </div>
+
+            <div>12-15.9</div>
+
+          </div>
+
+          <div class="performance-indicator">
+
+            <div style="display: flex; align-items: center;">
+
+              <div class="performance-dot dot-average"></div>
+
+              <span>Moyen</span>
+
+            </div>
+
+            <div>8-11.9</div>
+
+          </div>
+
+          <div class="performance-indicator">
+
+            <div style="display: flex; align-items: center;">
+
+              <div class="performance-dot dot-poor"></div>
+
+              <span>À renforcer</span>
+
+            </div>
+
+            <div>0-7.9</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="subjects-main" id="subjectsGrid">
+
+        <!-- Les matières seront générées ici -->
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Données des élèves optimisées
+    const students = {
+      aglo: {
+        name: "Aglo Fifamè",
+        password: "aglo123",
+        scores: [19.25, 16.50, 5.00, 15.00, 15.25, 14.00, 15.00, 17.00, 12.00]
+      },
+      akyoh: {
+        name: "Akyoh Emmanuel",
+        password: "akyoh123",
+        scores: [7.50, 18.50, 0.00, 12.00, 7.00, 14.50, 5.25, 18.00, 13.00]
+      },
+      amadou: {
+        name: "Amadou YINKI",
+        password: "amadou123",
+        scores: [15.50, 19.00, 5.00, 16.25, 7.75, 15.00, 13.25, 17.00, 14.00]
+      },
+      bani: {
+        name: "Bani Rahama",
+        password: "bani123",
+        scores: [13.75, 18.25, 12.00, 20.00, 17.00, 14.50, 7.25, 18.00, 15.00]
+      },
+      dahougou: {
+        name: "Dahougou Noham",
+        password: "dahougou123",
+        scores: [15.25, 18.50, 3.00, 12.00, 8.75, 13.00, 5.75, 18.00, 14.00]
+      },
+      eda: {
+        name: "Eda Queen",
+        password: "eda123",
+        scores: [19.00, 18.25, 4.00, 13.75, 14.50, 12.00, 15.75, 18.00, 14.00]
+      },
+      houehou: {
+        name: "Houehou Méka",
+        password: "houehou123",
+        scores: [18.75, 19.50, 9.00, 15.00, 14.00, 14.50, 17.25, 17.00, 13.00]
+      },
+      padonou: {
+        name: "Padonou Faith",
+        password: "padonou123",
+        scores: [19.00, 15.75, 4.00, 19.00, 17.25, 15.00, 13.75, 18.00, 13.00]
+      },
+      sovi: {
+        name: "Sovi Péniel",
+        password: "sovi123",
+        scores: [12.50, 18.25, 8.00, 18.50, 16.50, 13.00, 16.25, 17.00, 14.00]
+      },
+      tossavi: {
+        name: "Tossavi Naelle",
+        password: "tossavi123",
+        scores: [19.00, 16.75, 9.00, 18.00, 18.00, 15.00, 12.25, 17.00, 14.00]
+      }
+    };
+    const subjects = ["Lecture", "Expression écrite", "Dictée", "Éducation Sociale", "Éducation scientifique", "Dessin", "Mathématiques", "Éducation Sportive", "Éducation Artistique"];
+
+    function getScoreClass(score) {
+      if (score >= 16) return 'score-excellent';
+      if (score >= 12) return 'score-good';
+      if (score >= 8) return 'score-average';
+      return 'score-poor';
+    }
+
+    function login() {
+      const studentSelect = document.getElementById('studentSelect');
+      const passwordInput = document.getElementById('password');
+      const selectedStudent = studentSelect.value;
+      const enteredPassword = passwordInput.value;
+      if (!selectedStudent) {
+        alert("Veuillez sélectionner un élève");
+        return;
+      }
+      const student = students[selectedStudent];
+      if (enteredPassword === student.password) {
+        showResults(student);
+      } else {
+        alert("Mot de passe incorrect");
+      }
+    }
+
+    function showResults(student) {
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('resultsContainer').style.display = 'block';
+      // Calcul des statistiques
+      const scores = student.scores;
+      const average = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2);
+      const total = scores.reduce((a, b) => a + b, 0).toFixed(2);
+      // Trouver la meilleure matière
+      let bestScore = 0;
+      let bestSubjectIndex = 0;
+      scores.forEach((score, index) => {
+        if (score > bestScore) {
+          bestScore = score;
+          bestSubjectIndex = index;
+        }
+      });
+      document.getElementById('mainScore').textContent = average;
+      document.getElementById('studentName').textContent = student.name;
+      document.getElementById('averageScore').textContent = average;
+      document.getElementById('bestSubject').textContent = subjects[bestSubjectIndex];
+      document.getElementById('totalPoints').textContent = total;
+      document.getElementById('studentBadge').textContent = student.name.split(' ')[0];
+      // Génération des cartes de matières
+      const subjectsGrid = document.getElementById('subjectsGrid');
+      subjectsGrid.innerHTML = '';
+      scores.forEach((score, index) => {
+        const subjectCard = document.createElement('div');
+        subjectCard.className = 'subject-card';
+        subjectCard.innerHTML = `
+
+                    <div>
+
+                        <div class="subject-name">${subjects[index]}</div>
+
+                        <div class="subject-score ${getScoreClass(score)}">${score}/20</div>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div class="progress-fill" style="width: 0%;"></div>
+
+                    </div>
+
+                `;
+        subjectsGrid.appendChild(subjectCard);
+        // Animation de la barre de progression
+        setTimeout(() => {
+          const progressFill = subjectCard.querySelector('.progress-fill');
+          progressFill.style.width = (score / 20 * 100) + '%';
+        }, 100 * index);
+      });
+    }
+
+    function logout() {
+      document.getElementById('resultsContainer').style.display = 'none';
+      document.getElementById('loginContainer').style.display = 'block';
+      document.getElementById('password').value = '';
+      document.getElementById('studentSelect').selectedIndex = 0;
+    }
+    // Entrée par touche
+    document.getElementById('password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') login();
+    });
+  </script>
+
+</body>
+
+</html>
+    
+  </body>
+  
+</html>
