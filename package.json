@@ -1,0 +1,11 @@
+{
+  "name": "les-bulles-de-joie",
+  "version": "1.0.0",
+  "description": "Site web des résultats scolaires - Les Bulles de Joie",
+  "scripts": {
+    "build": "echo 'Building static site'"
+  },
+  "keywords": ["école", "bénin", "résultats", "scolaires"],
+  "author": "Les Bulles de Joie",
+  "license": "MIT"
+}
