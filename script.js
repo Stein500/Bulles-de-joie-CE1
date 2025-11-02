@@ -228,14 +228,70 @@ class SchoolResultsSystem {
         });
     }
 
+    // ⭐⭐ NOUVELLE FONCTION handleLogin DYNAMIQUE ⭐⭐
+    async handleLogin() {
+        const selectedStudent = document.getElementById('studentSelect').value;
+        const enteredPassword = document.getElementById('passwordInput').value.trim().toLowerCase();
+        const telephoneParent = prompt("Entrez votre numéro de téléphone:");
+
+        if (!selectedStudent || !enteredPassword || !telephoneParent) {
+            this.showNotification(this.translateMessage('Veuillez remplir tous les champs', 'Please fill all fields', 'Por favor complete todos los campos'), 'warning');
+            return;
+        }
+
+        try {
+            // Essayer d'abord l'API Render (dynamique)
+            const response = await fetch(`https://bulles-de-joie-api.onrender.com/eleve/${selectedStudent}?telephone=${telephoneParent}`);
+            
+            if (response.ok) {
+                const data = await response.json();
+
+                if (data.succes) {
+                    await this.performLoginAnimation();
+                    this.displayResults(data.eleve);
+                    this.createCelebrationEffect();
+                    this.showNotification(
+                        this.translateMessage(`Bienvenue ${data.eleve.nom.split(' ')[1]} ! 🎉`, `Welcome ${data.eleve.nom.split(' ')[1]}! 🎉`, `¡Bienvenido ${data.eleve.nom.split(' ')[1]}! 🎉`), 
+                        'success'
+                    );
+                } else {
+                    this.handleFailedLogin();
+                }
+            } else {
+                // Si l'API échoue, utiliser les données locales (backup)
+                this.handleLocalLogin(selectedStudent, enteredPassword);
+            }
+        } catch (error) {
+            // En cas d'erreur, utiliser les données locales
+            console.log("API non disponible, utilisation des données locales");
+            this.handleLocalLogin(selectedStudent, enteredPassword);
+        }
+    }
+
+    // Fonction de backup avec données locales
+    handleLocalLogin(selectedStudent, enteredPassword) {
+        const student = this.studentsData[selectedStudent];
+        
+        if (enteredPassword === student.password) {
+            this.performLoginAnimation().then(() => {
+                this.displayResults(student);
+                this.createCelebrationEffect();
+                this.showNotification(
+                    this.translateMessage(`Bienvenue ${student.name.split(' ')[1]} ! 🎉`, `Welcome ${student.name.split(' ')[1]}! 🎉`, `¡Bienvenido ${student.name.split(' ')[1]}! 🎉`), 
+                    'success'
+                );
+            });
+        } else {
+            this.handleFailedLogin();
+        }
+    }
+
     switchTab(tabId) {
-        // Mettre à jour la navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.classList.remove('active');
         });
         document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
 
-        // Afficher le contenu de l'onglet
         document.querySelectorAll('.tab-pane').forEach(pane => {
             pane.classList.remove('active');
         });
@@ -246,7 +302,6 @@ class SchoolResultsSystem {
         this.currentLanguage = lang;
         document.documentElement.lang = lang;
         
-        // Traduire tous les éléments avec l'attribut data-translate
         document.querySelectorAll('[data-translate]').forEach(element => {
             const key = element.getAttribute('data-translate');
             if (this.translations[lang][key]) {
@@ -254,7 +309,6 @@ class SchoolResultsSystem {
             }
         });
 
-        // Traduire les placeholders
         document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
             const key = element.getAttribute('data-translate-placeholder');
             if (this.translations[lang][key]) {
@@ -262,7 +316,6 @@ class SchoolResultsSystem {
             }
         });
 
-        // Mettre à jour les résultats si affichés
         const resultsContainer = document.getElementById('resultsContainer');
         if (resultsContainer.style.display === 'block') {
             const selectedStudent = document.getElementById('studentSelect').value;
@@ -305,41 +358,6 @@ class SchoolResultsSystem {
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.body.setAttribute('data-theme', savedTheme);
         document.getElementById('themeToggle').checked = savedTheme === 'dark';
-    }
-
-    async handleLogin() {
-        const selectedStudent = document.getElementById('studentSelect').value;
-        const enteredPassword = document.getElementById('passwordInput').value.trim().toLowerCase();
-
-        if (!selectedStudent) {
-            this.showNotification(
-                this.translateMessage('Veuillez sélectionner un élève', 'Please select a student', 'Por favor seleccione un estudiante'), 
-                'warning'
-            );
-            return;
-        }
-
-        if (!enteredPassword) {
-            this.showNotification(
-                this.translateMessage('Veuillez entrer le mot de passe', 'Please enter the password', 'Por favor ingrese la contraseña'), 
-                'warning'
-            );
-            return;
-        }
-
-        const student = this.studentsData[selectedStudent];
-        
-        if (enteredPassword === student.password) {
-            await this.performLoginAnimation();
-            this.displayResults(student);
-            this.createCelebrationEffect();
-            this.showNotification(
-                this.translateMessage(`Bienvenue ${student.name.split(' ')[1]} ! 🎉`, `Welcome ${student.name.split(' ')[1]}! 🎉`, `¡Bienvenido ${student.name.split(' ')[1]}! 🎉`), 
-                'success'
-            );
-        } else {
-            this.handleFailedLogin();
-        }
     }
 
     async performLoginAnimation() {
