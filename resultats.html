@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats Scolaires - Les Bulles de Joie</title>
+    <meta name="description" content="Consultez les résultats scolaires de votre enfant aux Bulles de Joie.">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-theme="light" class="page-resultats">
+    <div id="bubbles-container"></div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">🎈</div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p class="establishment-type">Crèche • Garderie • Maternelle • Primaire Bilingue</p>
+                </div>
+            </div>
+            
+            <div class="header-contact">
+                <div class="contact-badge">
+                    <i class="fas fa-phone"></i>
+                    <div class="contact-info">
+                        <span class="contact-label">Secrétariat/Direction</span>
+                        <span class="contact-number">+229 01 58030302</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="apropos.html" class="nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Notre École</span>
+            </a>
+            <a href="pedagogie.html" class="nav-item">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Pédagogie</span>
+            </a>
+            <a href="activites.html" class="nav-item">
+                <i class="fas fa-paint-brush"></i>
+                <span>Activités</span>
+            </a>
+            <a href="resultats.html" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Résultats</span>
+            </a>
+            <a href="contact.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section Résultats -->
+        <section class="hero-section" style="background: var(--gradient-warning);">
+            <div class="hero-content">
+                <h1 class="hero-title">Résultats Scolaires</h1>
+                <p class="hero-subtitle">Suivez l'excellence en temps réel</p>
+                
+                <!-- Indicateurs en temps réel -->
+                <div class="live-stats">
+                    <div class="live-stat">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <div class="stat-value">98%</div>
+                            <div class="stat-label">Taux de Réussite</div>
+                        </div>
+                    </div>
+                    <div class="live-stat">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Mentions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Système de Consultation des Résultats -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Consultez les Résultats</h2>
+                <p class="section-subtitle">Accédez aux bulletins de votre enfant</p>
+                
+                <div class="results-system">
+                    <!-- Navigation par classe -->
+                    <div class="class-navigation">
+                        <div class="nav-tabs">
+                            <button class="class-tab active" data-class="ci">CI</button>
+                            <button class="class-tab" data-class="cp">CP</button>
+                            <button class="class-tab" data-class="ce1">CE1</button>
+                            <button class="class-tab" data-class="ce2">CE2</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Interface de connexion sécurisée -->
+                    <div class="login-interface">
+                        <div class="login-card">
+                            <h3>Accès Sécurisé</h3>
+                            <form class="results-form">
+                                <div class="form-group">
+                                    <label>Nom de l'élève</label>
+                                    <select class="student-select">
+                                        <option value="">Sélectionnez un élève</option>
+                                        <option value="agblo">AGBLO AGONDJIHOSSOU Fifamè</option>
+                                        <option value="akyoh">AKYOH Emmanuel</option>
+                                        <!-- Plus d'élèves -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mot de passe</label>
+                                    <input type="password" class="password-input" placeholder="Prénom en minuscules">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-unlock"></i> Accéder aux résultats
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="results-preview">
+                            <div class="preview-card">
+                                <h4>Exemple de Bulletin</h4>
+                                <div class="grades-visualization">
+                                    <div class="subject-grade">
+                                        <span class="subject">Mathématiques</span>
+                                        <div class="grade-bar">
+                                            <div class="grade-fill" data-grade="16"></div>
+                                            <span class="grade-value">16/20</span>
+                                        </div>
+                                    </div>
+                                    <div class="subject-grade">
+                                        <span class="subject">Français</span>
+                                        <div class="grade-bar">
+                                            <div class="grade-fill" data-grade="14"></div>
+                                            <span class="grade-value">14/20</span>
+                                        </div>
+                                    </div>
+                                    <div class="subject-grade">
+                                        <span class="subject">Anglais</span>
+                                        <div class="grade-bar">
+                                            <div class="grade-fill" data-grade="18"></div>
+                                            <span class="grade-value">18/20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistiques Générales avec Graphiques Animés -->
+        <section class="section" style="background: var(--gris-light);">
+            <div class="container">
+                <h2 class="section-title">Performances Globales</h2>
+                
+                <div class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-chart">
+                            <div class="chart-circle" data-percentage="95">
+                                <span class="chart-value">95%</span>
+                            </div>
+                        </div>
+                        <h3>Taux de Réussite</h3>
+                        <p>Moyenne générale sur 3 ans</p>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-chart">
+                            <div class="chart-bar">
+                                <div class="bar-section" data-value="85" style="--color: var(--vert-croissance);"></div>
+                                <div class="bar-section" data-value="12" style="--color: var(--jaune-soleil);"></div>
+                                <div class="bar-section" data-value="3" style="--color: var(--orange-joyeux);"></div>
+                            </div>
+                        </div>
+                        <h3>Répartition des Mentions</h3>
+                        <p>Très Bien / Bien / Assez Bien</p>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-chart">
+                            <div class="chart-progress">
+                                <div class="progress-item">
+                                    <span>Mathématiques</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" data-value="92"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <span>Français</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" data-value="88"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <span>Anglais</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" data-value="95"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Performance par Matière</h3>
+                        <p>Moyennes annuelles</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Palmarès -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Notre Palmarès</h2>
+                
+                <div class="achievements-showcase">
+                    <div class="achievement-item">
+                        <div class="achievement-badge">🥇</div>
+                        <div class="achievement-content">
+                            <h3>Concours Mathématiques 2024</h3>
+                            <p>1ère place au concours régional</p>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-item">
+                        <div class="achievement-badge">🏆</div>
+                        <div class="achievement-content">
+                            <h3>Tournoi d'Orthographe</h3>
+                            <p>Vainqueur départemental</p>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement-item">
+                        <div class="achievement-badge">🎨</div>
+                        <div class="achievement-content">
+                            <h3>Concours Artistique</h3>
+                            <p>3 prix remportés</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <!-- Footer identique -->
+    </footer>
+
+    <script src="js/theme.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/results-charts.js"></script>
+</body>
+</html>

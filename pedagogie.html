@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notre Pédagogie - Les Bulles de Joie</title>
+    <meta name="description" content="Découvrez notre approche pédagogique innovante et bienveillante aux Bulles de Joie.">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-theme="light" class="page-pedagogie">
+    <div id="bubbles-container"></div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">🎈</div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p class="establishment-type">Crèche • Garderie • Maternelle • Primaire Bilingue</p>
+                </div>
+            </div>
+            
+            <div class="header-contact">
+                <div class="contact-badge">
+                    <i class="fas fa-phone"></i>
+                    <div class="contact-info">
+                        <span class="contact-label">Secrétariat/Direction</span>
+                        <span class="contact-number">+229 01 58030302</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="apropos.html" class="nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Notre École</span>
+            </a>
+            <a href="pedagogie.html" class="nav-item active">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Pédagogie</span>
+            </a>
+            <a href="activites.html" class="nav-item">
+                <i class="fas fa-paint-brush"></i>
+                <span>Activités</span>
+            </a>
+            <a href="resultats.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Résultats</span>
+            </a>
+            <a href="contact.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section Pédagogie -->
+        <section class="hero-section" style="background: var(--gradient-success);">
+            <div class="hero-content">
+                <h1 class="hero-title">Notre Pédagogie</h1>
+                <p class="hero-subtitle">Innovante • Bienveillante • Bilingue</p>
+                
+                <!-- Animation éducative interactive -->
+                <div class="pedagogy-animation">
+                    <div class="learning-path">
+                        <div class="path-node active" data-step="1">👶 Éveil</div>
+                        <div class="path-node" data-step="2">🎨 Créativité</div>
+                        <div class="path-node" data-step="3">📚 Apprentissage</div>
+                        <div class="path-node" data-step="4">🌍 Ouverture</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Approches Pédagogiques -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Nos Approches Pédagogiques</h2>
+                
+                <div class="pedagogy-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="active">Pédagogie Active</button>
+                        <button class="tab-btn" data-tab="bilingue">Immersion Bilingue</button>
+                        <button class="tab-btn" data-tab="positive">Éducation Positive</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="tab-active">
+                        <div class="tab-visual">
+                            <div class="interactive-demo">
+                                <div class="demo-element" data-action="manipulate">Manipuler</div>
+                                <div class="demo-element" data-action="experiment">Expérimenter</div>
+                                <div class="demo-element" data-action="discover">Découvrir</div>
+                            </div>
+                        </div>
+                        <div class="tab-text">
+                            <h3>L'enfant acteur de ses apprentissages</h3>
+                            <p>À travers la manipulation, l'expérimentation et la découverte, l'enfant construit activement ses connaissances dans un environnement riche et stimulant.</p>
+                            <ul>
+                                <li>Apprentissage par le jeu</li>
+                                <li>Projets collaboratifs</li>
+                                <li>Résolution de problèmes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="tab-bilingue">
+                        <!-- Contenu bilingue -->
+                    </div>
+                    
+                    <div class="tab-content" id="tab-positive">
+                        <!-- Contenu éducation positive -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Cycles d'Apprentissage Interactive -->
+        <section class="section" style="background: var(--gris-light);">
+            <div class="container">
+                <h2 class="section-title">Cycles d'Apprentissage</h2>
+                
+                <div class="cycles-container">
+                    <div class="cycle-card" id="creche">
+                        <div class="cycle-header">
+                            <div class="cycle-icon">👶</div>
+                            <h3>Crèche & Garderie</h3>
+                            <span class="cycle-age">2-4 ans</span>
+                        </div>
+                        <div class="cycle-content">
+                            <div class="skill-progress">
+                                <div class="skill" data-skill="socialisation">Socialisation</div>
+                                <div class="skill" data-skill="autonomie">Autonomie</div>
+                                <div class="skill" data-skill="motricite">Motricité</div>
+                            </div>
+                            <ul>
+                                <li>Socialisation et autonomie</li>
+                                <li>Développement psychomoteur</li>
+                                <li>Éveil sensoriel et linguistique</li>
+                                <li>Routines sécurisantes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="cycle-card" id="maternelle">
+                        <div class="cycle-header">
+                            <div class="cycle-icon">🎨</div>
+                            <h3>Maternelle</h3>
+                            <span class="cycle-age">4-6 ans</span>
+                        </div>
+                        <div class="cycle-content">
+                            <div class="skill-progress">
+                                <div class="skill" data-skill="lecture">Pré-lecture</div>
+                                <div class="skill" data-skill="mathematiques">Pré-mathématiques</div>
+                                <div class="skill" data-skill="expression">Expression</div>
+                            </div>
+                            <ul>
+                                <li>Apprentissage par le jeu</li>
+                                <li>Pré-lecture et pré-mathématiques</li>
+                                <li>Expression artistique</li>
+                                <li>Développement socio-affectif</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="cycle-card" id="primaire">
+                        <div class="cycle-header">
+                            <div class="cycle-icon">📚</div>
+                            <h3>Primaire Bilingue</h3>
+                            <span class="cycle-age">6-12 ans</span>
+                        </div>
+                        <div class="cycle-content">
+                            <div class="skill-progress">
+                                <div class="skill" data-skill="francais">Français</div>
+                                <div class="skill" data-skill="anglais">Anglais</div>
+                                <div class="skill" data-skill="sciences">Sciences</div>
+                            </div>
+                            <ul>
+                                <li>Programme bilingue enrichi</li>
+                                <li>Technologies éducatives</li>
+                                <li>Projets interdisciplinaires</li>
+                                <li>Préparation au secondaire</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Résultats Pédagogiques -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Nos Résultats Pédagogiques</h2>
+                
+                <div class="results-showcase">
+                    <div class="result-item">
+                        <div class="result-value">95%</div>
+                        <div class="result-label">Taux de réussite</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">100%</div>
+                        <div class="result-label">Élèves bilingues</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">98%</div>
+                        <div class="result-label">Satisfaction parents</div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-carousel">
+                    <div class="testimonial active">
+                        <div class="testimonial-content">
+                            "Mon enfant s'épanouit merveilleusement aux Bulles de Joie. L'approche pédagogique est exceptionnelle."
+                        </div>
+                        <div class="testimonial-author">Parent de CP</div>
+                    </div>
+                    <!-- Plus de témoignages -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <!-- Footer identique -->
+    </footer>
+
+    <script src="js/theme.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/pedagogy-interactive.js"></script>
+</body>
+</html>
