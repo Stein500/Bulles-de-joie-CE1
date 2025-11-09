@@ -485,5 +485,80 @@
             }
         }
     </style>
+
+    <script>
+        // Initialisation des onglets de classe
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initialisation des onglets de classe...');
+            
+            // Ajouter les écouteurs d'événements aux onglets
+            const classTabs = document.querySelectorAll('.class-tab');
+            classTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Retirer la classe active de tous les onglets
+                    classTabs.forEach(t => t.classList.remove('active'));
+                    // Ajouter la classe active à l'onglet cliqué
+                    this.classList.add('active');
+                    
+                    const className = this.getAttribute('data-class');
+                    console.log('Onglet cliqué:', className);
+                    loadClassResults(className);
+                });
+            });
+            
+            // Charger les résultats de la classe active par défaut (CE1)
+            loadClassResults('ce1');
+        });
+
+        function loadClassResults(className) {
+            console.log('📂 Chargement classe:', className);
+            
+            const resultsContainer = document.getElementById('resultsContainer');
+            const loginInterface = document.querySelector('.login-interface');
+            
+            if (className === 'ce1') {
+                // Afficher l'interface de connexion pour CE1
+                if (loginInterface) loginInterface.style.display = 'grid';
+                if (resultsContainer) {
+                    resultsContainer.style.display = 'none';
+                    resultsContainer.innerHTML = '';
+                }
+            } else {
+                // Afficher "Disponible bientôt" pour les autres classes
+                if (loginInterface) loginInterface.style.display = 'none';
+                showComingSoon(className);
+            }
+        }
+
+        function showComingSoon(className) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                const classNames = {
+                    'ci': 'Classe d\'Initiation (CI)',
+                    'cp': 'Cours Préparatoire (CP)', 
+                    'ce2': 'Cours Élémentaire 2ème année (CE2)'
+                };
+                
+                resultsContainer.innerHTML = `
+                    <div class="coming-soon-message">
+                        <div class="coming-soon-icon">⏳</div>
+                        <h3>Disponible Bientôt</h3>
+                        <p>Les résultats pour la <strong>${classNames[className] || className.toUpperCase()}</strong> seront disponibles prochainement.</p>
+                        <p>Actuellement, seuls les résultats du <strong>CE1</strong> sont accessibles.</p>
+                        <a href="contact.html" class="btn btn-primary" style="margin-top: 1rem;">
+                            <i class="fas fa-envelope"></i> Nous contacter pour plus d'informations
+                        </a>
+                    </div>
+                `;
+                resultsContainer.style.display = 'block';
+                
+                // Animation d'apparition
+                setTimeout(() => {
+                    resultsContainer.style.opacity = '1';
+                    resultsContainer.style.transform = 'translateY(0)';
+                }, 100);
+            }
+        }
+    </script>
 </body>
 </html>
