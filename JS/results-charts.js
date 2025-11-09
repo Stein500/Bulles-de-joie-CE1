@@ -1,683 +1,251 @@
-// results-system.js - Système complet de gestion des résultats
-class ResultsSystem {
-    constructor() {
-        this.currentStudent = null;
-        this.currentLanguage = 'fr';
-        this.studentsData = this.getStudentsData();
-        this.init();
-    }
 
-    init() {
-        this.setupEventListeners();
-        this.setupCharts();
-        this.showWelcomeNotification();
-    }
+// results-charts.js - Gestion des résultats scolaires
+document.addEventListener('DOMContentLoaded', function() {
+    initClassTabs();
+    initGradeVisualization();
+    initPerformanceCharts();
+    initResultsForm();
+    loadCE1Results();
+});
 
-    getStudentsData() {
-        return {
-            "agblo": {
-                name: "AGBLO AGONDJIHOSSOU Fifamè",
-                password: "fifamè",
-                notes: {
-                    "Lecture": 19.25,
-                    "Expression Écrite": 16.50,
-                    "Dictée": 5,
-                    "Éducation Sociale": 15,
-                    "Éducation Scientifique": 15.25,
-                    "Dessin": 14,
-                    "Mathématiques": 15,
-                    "Éducation Sportive": 17,
-                    "Éducation Artistique": 12
-                },
-                comment: "Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.",
-                strengths: ["Lecture", "Expression Écrite"],
-                improvements: ["Dictée"]
-            },
-            "akyoh": {
-                name: "AKYOH Emmanuel",
-                password: "emmanuel",
-                notes: {
-                    "Lecture": 7.50,
-                    "Expression Écrite": 18.50,
-                    "Dictée": 0,
-                    "Éducation Sociale": 12,
-                    "Éducation Scientifique": 7,
-                    "Dessin": 14.50,
-                    "Mathématiques": 5.25,
-                    "Éducation Sportive": 18,
-                    "Éducation Artistique": 13
-                },
-                comment: "Emmanuel excelle en expression écrite et en éducation sportive. Un effort particulier est nécessaire en dictée et en mathématiques.",
-                strengths: ["Expression Écrite", "Éducation Sportive"],
-                improvements: ["Dictée", "Mathématiques"]
-            },
-            "amadou": {
-                name: "AMADOU Yinki",
-                password: "yinki",
-                notes: {
-                    "Lecture": 15.5,
-                    "Expression Écrite": 19,
-                    "Dictée": 5,
-                    "Éducation Sociale": 16.25,
-                    "Éducation Scientifique": 7.75,
-                    "Dessin": 15,
-                    "Mathématiques": 13.25,
-                    "Éducation Sportive": 17,
-                    "Éducation Artistique": 14
-                },
-                comment: "Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé.",
-                strengths: ["Expression Écrite"],
-                improvements: ["Éducation Scientifique"]
-            },
-            "bani": {
-                name: "BANI Rahama",
-                password: "rahama",
-                notes: {
-                    "Lecture": 13.75,
-                    "Expression Écrite": 18.25,
-                    "Dictée": 12,
-                    "Éducation Sociale": 20,
-                    "Éducation Scientifique": 17,
-                    "Dessin": 14.5,
-                    "Mathématiques": 7.25,
-                    "Éducation Sportive": 18,
-                    "Éducation Artistique": 15
-                },
-                comment: "Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale! Son engagement en mathématiques mériterait d'être soutenu.",
-                strengths: ["Éducation Sociale", "Expression Écrite"],
-                improvements: ["Mathématiques"]
-            },
-            "dahougou": {
-                name: "DAHOUGOU Noham",
-                password: "noham",
-                notes: {
-                    "Lecture": 15.25,
-                    "Expression Écrite": 18.50,
-                    "Dictée": 3,
-                    "Éducation Sociale": 12,
-                    "Éducation Scientifique": 8.75,
-                    "Dessin": 13,
-                    "Mathématiques": 5.75,
-                    "Éducation Sportive": 18,
-                    "Éducation Artistique": 14
-                },
-                comment: "Noham montre de belles capacités en expression écrite et en éducation sportive. La dictée et les mathématiques nécessitent un travail régulier supplémentaire.",
-                strengths: ["Expression Écrite", "Éducation Sportive"],
-                improvements: ["Dictée", "Mathématiques"]
-            },
-            "eda": {
-                name: "EDA Queen",
-                password: "queen",
-                notes: {
-                    "Lecture": 19,
-                    "Expression Écrite": 18.25,
-                    "Dictée": 4,
-                    "Éducation Sociale": 13.75,
-                    "Éducation Scientifique": 14.5,
-                    "Dessin": 12,
-                    "Mathématiques": 15.75,
-                    "Éducation Sportive": 18,
-                    "Éducation Artistique": 14
-                },
-                comment: "Queen possède d'excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.",
-                strengths: ["Lecture", "Expression Écrite"],
-                improvements: ["Dictée"]
-            },
-            "houehou": {
-                name: "HOUEHOU Méka",
-                password: "méka",
-                notes: {
-                    "Lecture": 18.75,
-                    "Expression Écrite": 19.5,
-                    "Dictée": 9,
-                    "Éducation Sociale": 15,
-                    "Éducation Scientifique": 14,
-                    "Dessin": 14.5,
-                    "Mathématiques": 17.25,
-                    "Éducation Sportive": 17,
-                    "Éducation Artistique": 13
-                },
-                comment: "Méka est un élève très appliqué qui obtient d'excellents résultats dans la plupart des matières. Félicitations pour ce beau travail!",
-                strengths: ["Expression Écrite", "Mathématiques", "Lecture"],
-                improvements: []
-            },
-            "padonou": {
-                name: "PADONOU Faith",
-                password: "faith",
-                notes: {
-                    "Lecture": 19,
-                    "Expression Écrite": 15.75,
-                    "Dictée": 4,
-                    "Éducation Sociale": 19,
-                    "Éducation Scientifique": 17.25,
-                    "Dessin": 15,
-                    "Mathématiques": 13.75,
-                    "Éducation Sportive": 18,
-                    "Éducation Artistique": 13
-                },
-                comment: "Faith excelle en lecture et en éducation sociale. Continuez à l'encourager dans sa progression en expression écrite.",
-                strengths: ["Lecture", "Éducation Sociale"],
-                improvements: ["Expression Écrite"]
-            },
-            "sovi": {
-                name: "SOVI Péniel",
-                password: "péniel",
-                notes: {
-                    "Lecture": 12.5,
-                    "Expression Écrite": 18.25,
-                    "Dictée": 8,
-                    "Éducation Sociale": 18.5,
-                    "Éducation Scientifique": 16.5,
-                    "Dessin": 13,
-                    "Mathématiques": 16.25,
-                    "Éducation Sportive": 17,
-                    "Éducation Artistique": 14
-                },
-                comment: "Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.",
-                strengths: ["Éducation Sociale", "Éducation Scientifique"],
-                improvements: ["Lecture"]
-            },
-            "tossavi": {
-                name: "TOSSAVI Naelle",
-                password: "naelle",
-                notes: {
-                    "Lecture": 19,
-                    "Expression Écrite": 16.75,
-                    "Dictée": 9,
-                    "Éducation Sociale": 18,
-                    "Éducation Scientifique": 18,
-                    "Dessin": 15,
-                    "Mathématiques": 12.25,
-                    "Éducation Sportive": 17,
-                    "Éducation Artistique": 14
-                },
-                comment: "Naelle a obtenu d'excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée!",
-                strengths: ["Lecture", "Éducation Sociale", "Éducation Scientifique"],
-                improvements: ["Mathématiques"]
-            }
-        };
-    }
-
-    setupEventListeners() {
-        // Navigation des onglets
-        document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.switchTab(item.dataset.tab);
-            });
-        });
-
-        // Connexion
-        document.getElementById('submitBtn').addEventListener('click', () => this.handleLogin());
-        document.getElementById('passwordInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.handleLogin();
-        });
-
-        // Affichage du mot de passe
-        document.getElementById('togglePassword').addEventListener('click', this.togglePasswordVisibility);
-
-        // Actions des résultats
-        document.getElementById('printBtn').addEventListener('click', () => this.generatePrintableBulletin());
-        document.getElementById('pdfBtn').addEventListener('click', () => this.exportToPDF());
-
-        // Sélection d'élève
-        document.getElementById('studentSelect').addEventListener('change', (e) => {
-            if (e.target.value) {
-                const studentName = this.studentsData[e.target.value].name.split(' ')[1];
-                document.getElementById('passwordInput').placeholder = `Prénom: ${studentName}`;
-            }
-        });
-    }
-
-    switchTab(tabId) {
-        // Mise à jour de la navigation
-        document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
-            item.classList.remove('active');
-        });
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-
-        // Affichage du contenu
-        document.querySelectorAll('.tab-pane').forEach(pane => {
-            pane.classList.remove('active');
-        });
-        document.getElementById(tabId).classList.add('active');
-    }
-
-    togglePasswordVisibility() {
-        const input = document.getElementById('passwordInput');
-        const icon = this.querySelector('i');
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            input.type = 'password';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
-    }
-
-    async handleLogin() {
-        const studentId = document.getElementById('studentSelect').value;
-        const password = document.getElementById('passwordInput').value.trim().toLowerCase();
-
-        if (!studentId) {
-            this.showNotification('Veuillez sélectionner un élève', 'warning');
-            return;
-        }
-
-        if (!password) {
-            this.showNotification('Veuillez entrer le mot de passe', 'warning');
-            return;
-        }
-
-        const student = this.studentsData[studentId];
-        
-        if (password === student.password) {
-            await this.performLoginAnimation();
-            this.currentStudent = student;
-            this.displayStudentResults(student);
-            this.createCelebrationEffect();
-            this.showNotification(`Bienvenue ${student.name.split(' ')[1]} ! 🎉`, 'success');
-        } else {
-            this.handleFailedLogin();
-        }
-    }
-
-    async performLoginAnimation() {
-        const btn = document.getElementById('submitBtn');
-        const originalHTML = btn.innerHTML;
-        
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
-        btn.disabled = true;
-
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        btn.innerHTML = '<i class="fas fa-check"></i> Connecté !';
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        btn.innerHTML = originalHTML;
-        btn.disabled = false;
-    }
-
-    displayStudentResults(student) {
-        const resultsCard = document.getElementById('resultsCard');
-        const container = document.getElementById('studentResultsContainer');
-        
-        const stats = this.calculateStatistics(student);
-        
-        container.innerHTML = this.generateResultsHTML(student, stats);
-        resultsCard.style.display = 'block';
-        
-        this.setupCharts(student, stats);
-        this.animateResultsAppearance();
-        
-        resultsCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    calculateStatistics(student) {
-        const notes = Object.values(student.notes);
-        const average = notes.reduce((a, b) => a + b, 0) / notes.length;
-        
-        const bestSubject = Object.entries(student.notes).reduce((a, b) => a[1] > b[1] ? a : b);
-        const worstSubject = Object.entries(student.notes).reduce((a, b) => a[1] < b[1] ? a : b);
-
-        return {
-            average: average.toFixed(2),
-            bestSubject: bestSubject[0],
-            bestNote: bestSubject[1],
-            worstSubject: worstSubject[0],
-            worstNote: worstSubject[1],
-            total: notes.reduce((a, b) => a + b, 0).toFixed(2)
-        };
-    }
-
-    generateResultsHTML(student, stats) {
-        return `
-            <div class="student-header">
-                <h3 class="student-name">${student.name}</h3>
-                <div class="student-meta">
-                    <span class="class-badge">CE1</span>
-                    <span class="period">Octobre 2025</span>
-                </div>
-            </div>
-
-            <div class="stats-overview">
-                <div class="stat-card main-stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-label">Moyenne Générale</div>
-                        <div class="stat-value">${stats.average}<small>/20</small></div>
-                    </div>
-                </div>
-                
-                <div class="stat-card success-stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-label">Matière Excellente</div>
-                        <div class="stat-value">${stats.bestSubject}</div>
-                        <div class="stat-note">${stats.bestNote}/20</div>
-                    </div>
-                </div>
-                
-                <div class="stat-card improvement-stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-target"></i>
-                    </div>
-                    <div class="stat-content">
-                        <div class="stat-label">À Renforcer</div>
-                        <div class="stat-value">${stats.worstSubject}</div>
-                        <div class="stat-note">${stats.worstNote}/20</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="results-content">
-                <div class="charts-section">
-                    <div class="chart-container">
-                        <canvas id="performanceChart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="subjectChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="grades-section">
-                    <h4><i class="fas fa-list-ol"></i> Notes détaillées par matière</h4>
-                    <div class="grades-grid">
-                        ${Object.entries(student.notes).map(([subject, note]) => `
-                            <div class="grade-item ${note < 10 ? 'low' : note >= 16 ? 'high' : ''}">
-                                <div class="subject-name">${subject}</div>
-                                <div class="grade-value">${note}/20</div>
-                                <div class="grade-bar">
-                                    <div class="grade-fill" style="width: ${(note / 20) * 100}%"></div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-
-                <div class="teacher-comment-section">
-                    <h4><i class="fas fa-comment-dots"></i> Commentaire de l'enseignant</h4>
-                    <div class="teacher-comment">
-                        <div class="comment-content">
-                            <p>${student.comment}</p>
-                        </div>
-                        <div class="comment-meta">
-                            <strong>CODJO J. Stein</strong>
-                            <span>Enseignant CE1</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recommendations-section">
-                    <h4><i class="fas fa-lightbulb"></i> Recommandations</h4>
-                    <div class="recommendations-grid">
-                        <div class="recommendation-card strength">
-                            <div class="rec-icon">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="rec-content">
-                                <h5>Points Forts</h5>
-                                <ul>
-                                    ${student.strengths.map(strength => `<li>${strength}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="recommendation-card improvement">
-                            <div class="rec-icon">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="rec-content">
-                                <h5>Axes d'Amélioration</h5>
-                                <ul>
-                                    ${student.improvements.map(improvement => `<li>${improvement}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    setupCharts(student, stats) {
-        this.createPerformanceChart(student);
-        this.createSubjectChart(student);
-    }
-
-    createPerformanceChart(student) {
-        const ctx = document.getElementById('performanceChart').getContext('2d');
-        const notes = Object.values(student.notes);
-        
-        new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: Object.keys(student.notes),
-                datasets: [{
-                    label: 'Performance',
-                    data: notes,
-                    backgroundColor: 'rgba(46, 134, 171, 0.2)',
-                    borderColor: '#2E86AB',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#2E86AB',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#2E86AB'
-                }]
-            },
-            options: {
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 20,
-                        ticks: {
-                            stepSize: 5
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    }
-
-    createSubjectChart(student) {
-        const ctx = document.getElementById('subjectChart').getContext('2d');
-        const subjects = Object.keys(student.notes);
-        const notes = Object.values(student.notes);
-        
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: subjects,
-                datasets: [{
-                    label: 'Notes /20',
-                    data: notes,
-                    backgroundColor: subjects.map(subject => {
-                        const note = student.notes[subject];
-                        if (note >= 16) return '#27AE60';
-                        if (note >= 10) return '#2E86AB';
-                        return '#E74C3C';
-                    }),
-                    borderColor: subjects.map(subject => {
-                        const note = student.notes[subject];
-                        if (note >= 16) return '#1E8449';
-                        if (note >= 10) return '#1A5A7A';
-                        return '#C0392B';
-                    }),
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 20
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    }
-
-    animateResultsAppearance() {
-        const elements = document.querySelectorAll('.stat-card, .grade-item, .recommendation-card');
-        elements.forEach((element, index) => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
+function initClassTabs() {
+    const classTabs = document.querySelectorAll('.class-tab');
+    
+    classTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            classTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
             
-            setTimeout(() => {
-                element.style.transition = 'all 0.6s ease';
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 100);
+            const className = tab.getAttribute('data-class');
+            loadClassResults(className);
         });
-    }
+    });
+}
 
-    generatePrintableBulletin() {
-        if (!this.currentStudent) {
-            this.showNotification('Aucun élève sélectionné', 'error');
-            return;
-        }
-
-        const student = this.currentStudent;
-        const stats = this.calculateStatistics(student);
-        const bulletin = document.getElementById('printableBulletin');
-        
-        bulletin.innerHTML = this.createBulletinHTML(student, stats);
-        bulletin.style.display = 'block';
+function loadClassResults(className) {
+    // Simulation du chargement des résultats
+    console.log('Chargement des résultats pour:', className);
+    
+    // Animation de chargement
+    const previewCard = document.querySelector('.preview-card');
+    if (previewCard) {
+        previewCard.style.opacity = '0.5';
         
         setTimeout(() => {
-            window.print();
-            bulletin.style.display = 'none';
-        }, 500);
+            previewCard.style.opacity = '1';
+            updatePreviewGrades(className);
+        }, 1000);
     }
-
-    createBulletinHTML(student, stats) {
-        return `
-            <div class="bulletin-content">
-                <div class="bulletin-header">
-                    <div class="school-info">
-                        <h1>École "Les Bulles de Joie"</h1>
-                        <p>Crèche, Garderie, Maternelle et Primaire Bilingue</p>
-                        <p>Bénin - Parakou - Zongo</p>
-                    </div>
-                    <div class="bulletin-title">
-                        <h2>BULLETIN SCOLAIRE</h2>
-                        <p>CE1 - Octobre 2025</p>
-                    </div>
-                </div>
-
-                <div class="student-info">
-                    <h3>Élève: ${student.name}</h3>
-                    <div class="student-stats">
-                        <div class="stat">Moyenne Générale: <strong>${stats.average}/20</strong></div>
-                    </div>
-                </div>
-
-                <table class="grades-table">
-                    <thead>
-                        <tr>
-                            <th>Matières</th>
-                            <th>Notes/20</th>
-                            <th>Appréciations</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${Object.entries(student.notes).map(([subject, note]) => `
-                            <tr>
-                                <td>${subject}</td>
-                                <td class="note-cell ${note < 10 ? 'low' : note >= 16 ? 'high' : ''}">${note}</td>
-                                <td>${this.getAppreciation(note)}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-
-                <div class="comment-section">
-                    <h4>Commentaire de l'Enseignant:</h4>
-                    <p>${student.comment}</p>
-                </div>
-
-                <div class="signatures">
-                    <div class="signature-box">
-                        <div class="signature-line"></div>
-                        <p>CODJO J. Stein<br>Enseignant CE1</p>
-                    </div>
-                    <div class="signature-box">
-                        <div class="signature-line"></div>
-                        <p>SEGBO S. A. D. Carole<br>Directrice</p>
-                    </div>
-                </div>
-
-                <div class="bulletin-footer">
-                    <p>École Les Bulles de Joie - Parakou Zongo - Tél: +229 97 91 94 52</p>
-                </div>
-            </div>
-        `;
-    }
-
-    getAppreciation(note) {
-        if (note >= 16) return 'Excellent';
-        if (note >= 14) return 'Très Bien';
-        if (note >= 12) return 'Bien';
-        if (note >= 10) return 'Assez Bien';
-        if (note >= 8) return 'Passable';
-        return 'Insuffisant';
-    }
-
-    exportToPDF() {
-        this.showNotification('Fonctionnalité PDF en développement', 'info');
-        // Implémentation PDF à ajouter avec jsPDF
-    }
-
-    createCelebrationEffect() {
-        const colors = ['#2E86AB', '#FF7B54', '#27AE60', '#F1C40F'];
-        for (let i = 0; i < 50; i++) {
-            setTimeout(() => {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.cssText = `
-                    left: ${Math.random() * 100}vw;
-                    background: ${colors[Math.floor(Math.random() * colors.length)]};
-                    width: ${Math.random() * 10 + 5}px;
-                    height: ${Math.random() * 10 + 5}px;
-                `;
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 3000);
-            }, i * 30);
-        }
-    }
-
-    handleFailedLogin() {
-        this.showNotification('Mot de passe incorrect. Vérifiez le prénom en minuscules.', 'error');
-        const input = document.getElementById('passwordInput');
-        input.style.animation = 'shake 0.5s ease-in-out';
-        setTimeout(() => input.style.animation = '', 500);
-    }
-
-    showNotification(message, type = 'info') {
-        // Implémentation des notifications
-        console.log(`${type}: ${message}`);
-    }
-
-    showWelcomeNotification() {
-        this.showNotification('Bienvenue sur le portail des résultats! 🎓', 'success');
+    
+    // Charger les résultats spécifiques
+    if (className === 'ce1') {
+        loadCE1Results();
+    } else {
+        showComingSoon(className);
     }
 }
 
-// Initialisation
-let resultsSystem;
-document.addEventListener('DOMContentLoaded', function() {
-    resultsSystem = new ResultsSystem();
-});
+function showComingSoon(className) {
+    const resultsContainer = document.getElementById('resultsContainer');
+    if (resultsContainer) {
+        resultsContainer.innerHTML = `
+            <div class="coming-soon-message">
+                <div class="coming-soon-icon">⏳</div>
+                <h3>Disponible Bientôt</h3>
+                <p>Les résultats pour la classe ${className.toUpperCase()} seront disponibles prochainement.</p>
+            </div>
+        `;
+    }
+}
+
+function loadCE1Results() {
+    const students = [
+        { id: 'agblo', name: 'AGBLO AGONDJIHOSSOU Fifamè', notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12] },
+        { id: 'akyoh', name: 'AKYOH Emmanuel', notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13] },
+        { id: 'amadou', name: 'AMADOU Yinki', notes: [15.5, 19, 5, 16.25, 7.75, 15, 13.25, 17, 14] },
+        { id: 'bani', name: 'BANI Rahama', notes: [13.75, 18.25, 12, 20, 17, 14.5, 7.25, 18, 15] },
+        { id: 'dahougou', name: 'DAHOUGOU Noham', notes: [15.25, 18.50, 3, 12, 8.75, 13, 5.75, 18, 14] },
+        { id: 'eda', name: 'EDA Queen', notes: [19, 18.25, 4, 13.75, 14.5, 12, 15.75, 18, 14] },
+        { id: 'houehou', name: 'HOUEHOU Méka', notes: [18.75, 19.5, 9, 15, 14, 14.5, 17.25, 17, 13] },
+        { id: 'padonou', name: 'PADONOU Faith', notes: [19, 15.75, 4, 19, 17.25, 15, 13.75, 18, 13] },
+        { id: 'sovi', name: 'SOVI Péniel', notes: [12.5, 18.25, 8, 18.5, 16.5, 13, 16.25, 17, 14] },
+        { id: 'tossavi', name: 'TOSSAVI Naelle', notes: [19, 16.75, 9, 18, 18, 15, 12.25, 17, 14] }
+    ];
+
+    const subjects = ['Lecture', 'Expression Écrite', 'Dictée', 'Éducation Sociale', 'Éducation Scientifique', 'Dessin', 'Mathématiques', 'Éducation Sportive', 'Éducation Artistique'];
+
+    let html = `
+        <div class="results-header">
+            <h3>Résultats CE1 - Octobre 2025</h3>
+            <button class="btn btn-secondary" onclick="printAllResults()">
+                <i class="fas fa-print"></i> Imprimer tous les résultats
+            </button>
+        </div>
+        <div class="students-results">
+    `;
+
+    students.forEach(student => {
+        const average = (student.notes.reduce((a, b) => a + b, 0) / student.notes.length).toFixed(2);
+        
+        html += `
+            <div class="student-result-card">
+                <div class="student-header">
+                    <h4>${student.name}</h4>
+                    <span class="average">Moyenne: ${average}/20</span>
+                </div>
+                <div class="grades-grid">
+                    ${student.notes.map((note, index) => `
+                        <div class="subject-grade">
+                            <span class="subject">${subjects[index]}</span>
+                            <div class="grade-bar">
+                                <div class="grade-fill" style="width: ${(note / 20) * 100}%"></div>
+                                <span class="grade-value ${note < 10 ? 'low' : note >= 16 ? 'high' : ''}">${note}/20</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-outline print-btn" onclick="printStudentResult('${student.id}')">
+                    <i class="fas fa-download"></i> PDF
+                </button>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+
+    const resultsContainer = document.getElementById('resultsContainer');
+    if (resultsContainer) {
+        resultsContainer.innerHTML = html;
+        initGradeVisualization();
+    }
+}
+
+function updatePreviewGrades(className) {
+    const gradeData = {
+        'ci': { math: 14, french: 15, english: 16 },
+        'cp': { math: 15, french: 14, english: 17 },
+        'ce1': { math: 16, french: 14, english: 18 },
+        'ce2': { math: 15, french: 16, english: 17 }
+    };
+    
+    const data = gradeData[className] || gradeData.ce1;
+    
+    // Mettre à jour les barres de progression
+    const mathBar = document.querySelector('[data-grade="math"]');
+    const frenchBar = document.querySelector('[data-grade="french"]');
+    const englishBar = document.querySelector('[data-grade="english"]');
+    
+    if (mathBar) mathBar.style.width = (data.math / 20 * 100) + '%';
+    if (frenchBar) frenchBar.style.width = (data.french / 20 * 100) + '%';
+    if (englishBar) englishBar.style.width = (data.english / 20 * 100) + '%';
+}
+
+function initGradeVisualization() {
+    const gradeBars = document.querySelectorAll('.grade-fill');
+    
+    gradeBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        
+        setTimeout(() => {
+            bar.style.width = width;
+        }, 500);
+    });
+}
+
+function initPerformanceCharts() {
+    // Graphiques circulaires
+    const chartCircles = document.querySelectorAll('.chart-circle');
+    chartCircles.forEach(circle => {
+        const percentage = circle.getAttribute('data-percentage');
+        circle.style.setProperty('--percentage', percentage + '%');
+    });
+    
+    // Barres de performance
+    const barSections = document.querySelectorAll('.bar-section');
+    barSections.forEach(section => {
+        const value = section.getAttribute('data-value');
+        section.style.height = value + '%';
+    });
+    
+    // Barres de progression
+    const progressFills = document.querySelectorAll('.progress-fill');
+    progressFills.forEach(fill => {
+        const value = fill.getAttribute('data-value');
+        fill.style.width = value + '%';
+    });
+}
+
+function initResultsForm() {
+    const resultsForm = document.querySelector('.results-form');
+    
+    if (resultsForm) {
+        resultsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentSelect = this.querySelector('.student-select');
+            const passwordInput = this.querySelector('.password-input');
+            
+            if (studentSelect.value && passwordInput.value) {
+                // Simulation de connexion réussie
+                showStudentResults(studentSelect.value);
+            } else {
+                showNotification('Veuillez remplir tous les champs', 'error');
+            }
+        });
+    }
+}
+
+function showStudentResults(studentId) {
+    // Simulation de l'affichage des résultats
+    const modal = document.createElement('div');
+    modal.className = 'results-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Résultats de l'élève</h3>
+            <div class="student-grades">
+                <!-- Contenu des résultats -->
+            </div>
+            <button class="btn btn-primary close-modal">Fermer</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Animation d'entrée
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 100);
+    
+    // Fermeture du modal
+    modal.querySelector('.close-modal').addEventListener('click', () => {
+        modal.classList.remove('show');
+        setTimeout(() => modal.remove(), 300);
+    });
+}
+
+function printStudentResult(studentId) {
+    // Simulation de génération de PDF
+    showNotification('Génération du PDF en cours...', 'success');
+    
+    setTimeout(() => {
+        showNotification('PDF généré avec succès!', 'success');
+    }, 2000);
+}
+
+function printAllResults() {
+    showNotification('Génération de tous les PDF en cours...', 'success');
+    
+    setTimeout(() => {
+        showNotification('Tous les PDF ont été générés!', 'success');
+    }, 3000);
+}
+
+function showNotification(message, type = 'success') {
+    if (window.schoolWebsite) {
+        window.schoolWebsite.showNotification(message, type);
+    } else {
+        // Fallback simple
+        alert(message);
+    }
+}
