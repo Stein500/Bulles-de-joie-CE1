@@ -1,7 +1,7 @@
 // results-charts.js - Gestion des résultats scolaires CORRIGÉE
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ results-charts.js chargé');
     initClassTabs();
-    initGradeVisualization();
     initPerformanceCharts();
     initResultsForm();
 });
@@ -21,6 +21,8 @@ function initClassTabs() {
 }
 
 function loadClassResults(className) {
+    console.log('Chargement classe:', className);
+    
     const resultsContainer = document.getElementById('resultsContainer');
     const loginInterface = document.querySelector('.login-interface');
     
@@ -51,6 +53,8 @@ function showComingSoon(className) {
 }
 
 function displayStudentResultsAfterLogin() {
+    console.log('🚀 Affichage des résultats...');
+    
     const students = [
         { id: 'agblo', name: 'AGBLO AGONDJIHOSSOU Fifamè', notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12] },
         { id: 'akyoh', name: 'AKYOH Emmanuel', notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13] },
@@ -119,14 +123,18 @@ function displayStudentResultsAfterLogin() {
         resultsContainer.innerHTML = html;
         resultsContainer.style.display = 'block';
         
+        // Animer les barres de progression
         setTimeout(() => {
             initGradeVisualization();
         }, 100);
+        
+        console.log('✅ Résultats affichés avec succès');
     }
 }
 
 function initGradeVisualization() {
     const gradeBars = document.querySelectorAll('.grade-fill');
+    console.log('🎯 Animation de', gradeBars.length, 'barres de progression');
     
     gradeBars.forEach(bar => {
         const width = bar.style.width;
@@ -140,6 +148,8 @@ function initGradeVisualization() {
 }
 
 function initPerformanceCharts() {
+    console.log('📊 Initialisation des graphiques');
+    
     const chartCircles = document.querySelectorAll('.chart-circle');
     chartCircles.forEach(circle => {
         const percentage = circle.getAttribute('data-percentage');
@@ -164,6 +174,8 @@ function initPerformanceCharts() {
 }
 
 function initResultsForm() {
+    console.log('🔑 Initialisation du formulaire');
+    
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('passwordInput');
     const submitBtn = document.getElementById('submitBtn');
@@ -179,6 +191,7 @@ function initResultsForm() {
     
     if (submitBtn) {
         submitBtn.addEventListener('click', handleLogin);
+        console.log('✅ Bouton de connexion initialisé');
     }
     
     if (passwordInput) {
@@ -191,10 +204,15 @@ function initResultsForm() {
 }
 
 function handleLogin() {
+    console.log('🔐 Tentative de connexion...');
+    
     const studentSelect = document.getElementById('studentSelect');
     const passwordInput = document.getElementById('passwordInput');
     const selectedStudent = studentSelect.value;
     const enteredPassword = passwordInput.value.trim().toLowerCase();
+    
+    console.log('Élève sélectionné:', selectedStudent);
+    console.log('Mot de passe entré:', enteredPassword);
     
     if (!selectedStudent) {
         showNotification('Veuillez sélectionner un élève', 'warning');
@@ -222,6 +240,7 @@ function handleLogin() {
     const student = studentData[selectedStudent];
     
     if (student && enteredPassword === student.password) {
+        console.log('✅ Connexion réussie pour:', student.name);
         showNotification(`Connexion réussie ! Bienvenue ${student.name.split(' ')[1]} ! 🎉`, 'success');
         
         displayStudentResultsAfterLogin();
@@ -242,6 +261,7 @@ function handleLogin() {
         }, 1000);
         
     } else {
+        console.log('❌ Mot de passe incorrect');
         showNotification('Mot de passe incorrect. Le mot de passe correspond au prénom en minuscules.', 'error');
         passwordInput.style.animation = 'shake 0.5s ease-in-out';
         setTimeout(() => {
@@ -267,6 +287,8 @@ function printAllResults() {
 }
 
 function showNotification(message, type = 'success') {
+    console.log('📢 Notification:', message);
+    
     if (window.schoolWebsite && typeof window.schoolWebsite.showNotification === 'function') {
         window.schoolWebsite.showNotification(message, type);
     } else {
@@ -285,7 +307,11 @@ function showNotification(message, type = 'success') {
     }
 }
 
+// Rendre les fonctions accessibles globalement
 window.displayStudentResultsAfterLogin = displayStudentResultsAfterLogin;
 window.handleLogin = handleLogin;
 window.printStudentResult = printStudentResult;
 window.printAllResults = printAllResults;
+window.initGradeVisualization = initGradeVisualization;
+
+console.log('🎯 results-charts.js entièrement chargé et prêt');
