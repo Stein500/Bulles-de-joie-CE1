@@ -1,0 +1,224 @@
+/* animations.css - Animations spécifiques */
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0,0,0);
+    }
+    40%, 43% {
+        transform: translate3d(0,-30px,0);
+    }
+    70% {
+        transform: translate3d(0,-15px,0);
+    }
+    90% {
+        transform: translate3d(0,-4px,0);
+    }
+}
+
+/* Animations pour les éléments au scroll */
+.animate-in {
+    animation: slideInUp 0.6s ease both;
+}
+
+/* Délais d'animation */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Animation pour les résultats */
+.coming-soon-message {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--rose-pale);
+    border-radius: 20px;
+    margin: 2rem 0;
+}
+
+.coming-soon-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite;
+}
+
+.students-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.student-result-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--rose-pale);
+    transition: var(--transition-smooth);
+}
+
+.student-result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--rose-pale);
+}
+
+.student-header h4 {
+    margin: 0;
+    color: var(--rose);
+}
+
+.average {
+    background: var(--gradient-rose);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.grades-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.subject-grade {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.subject {
+    min-width: 150px;
+    font-weight: 600;
+    color: var(--noir);
+}
+
+.grade-bar {
+    flex: 1;
+    height: 20px;
+    background: var(--rose-pale);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.grade-fill {
+    height: 100%;
+    background: var(--gradient-rose);
+    border-radius: 10px;
+    transition: width 1s ease;
+}
+
+.grade-value {
+    min-width: 50px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.grade-value.low {
+    color: #E74C3C;
+}
+
+.grade-value.high {
+    color: #27AE60;
+}
+
+.print-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Animation pour le formulaire de contact */
+.contact-success {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--rose-pale);
+    border-radius: 20px;
+    margin: 2rem 0;
+}
+
+.contact-success-icon {
+    font-size: 4rem;
+    color: var(--rose);
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite;
+}
+
+/* Responsive pour les résultats */
+@media (max-width: 768px) {
+    .students-results {
+        grid-template-columns: 1fr;
+    }
+    
+    .student-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .subject-grade {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .grade-bar {
+        width: 100%;
+    }
+    
+    .results-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
