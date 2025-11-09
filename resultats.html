@@ -30,6 +30,257 @@
       "url": "https://lesbullesdejoie.bj/resultats.html"
     }
     </script>
+
+    <style>
+        .results-hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .result-stat {
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+        }
+        
+        .result-stat .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-stat .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-stat .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Styles pour les résultats */
+        .student-result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+        }
+
+        .student-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .student-header h4 {
+            margin: 0;
+            color: var(--texte-fonce);
+            font-size: 1.4rem;
+        }
+
+        .average {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .average.excellent {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .average.good {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .average.average {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subject-grade {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .subject {
+            flex: 1;
+            font-weight: 500;
+            color: var(--texte-fonce);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grade-bar {
+            flex: 2;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .grade-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+
+        .grade-fill.high {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+        }
+
+        .grade-fill.medium {
+            background: linear-gradient(90deg, #2196F3, #03A9F4);
+        }
+
+        .grade-fill.low {
+            background: linear-gradient(90deg, #FF9800, #FFC107);
+        }
+
+        .grade-value {
+            font-weight: bold;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .grade-value.high { color: #4CAF50; }
+        .grade-value.medium { color: #2196F3; }
+        .grade-value.low { color: #FF9800; }
+
+        .student-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .results-summary {
+            margin-top: 2rem;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, var(--bleu), var(--violet));
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success { background: #4CAF50; }
+        .notification.warning { background: #FF9800; }
+        .notification.error { background: #f44336; }
+        .notification.info { background: #2196F3; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @media (max-width: 768px) {
+            .results-hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .student-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .grades-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subject-grade {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .grade-bar {
+                width: 100%;
+            }
+            
+            .student-actions {
+                flex-direction: column;
+            }
+            
+            .summary-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body data-theme="light">
     <div class="floating-stickers">
@@ -180,128 +431,10 @@
                                 </p>
                             </div>
                         </div>
-                        
-                        <div class="card results-preview">
-                            <h2 class="card-title"><i class="fas fa-chart-bar"></i> Aperçu des performances</h2>
-                            <div class="preview-card">
-                                <div class="grades-visualization">
-                                    <div class="subject-grade">
-                                        <span class="subject">Mathématiques</span>
-                                        <div class="grade-bar">
-                                            <div class="grade-fill" data-grade="math" style="width: 85%"></div>
-                                        </div>
-                                        <span class="grade-value">17/20</span>
-                                    </div>
-                                    <div class="subject-grade">
-                                        <span class="subject">Français</span>
-                                        <div class="grade-bar">
-                                            <div class="grade-fill" data-grade="french" style="width: 75%"></div>
-                                        </div>
-                                        <span class="grade-value">15/20</span>
-                                    </div>
-                                    <div class="subject-grade">
-                                        <span class="subject">Anglais</span>
-                                        <div class="grade-bar">
-                                            <div class="grade-fill" data-grade="english" style="width: 90%"></div>
-                                        </div>
-                                        <span class="grade-value">18/20</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     
                     <div id="resultsContainer" class="results-container">
                         <!-- Les résultats s'afficheront ici après connexion -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" style="background: var(--rose-pale);">
-            <div class="container">
-                <h2 class="section-title">Performances Globales</h2>
-                <p class="section-subtitle">Statistiques de l'ensemble des élèves du CE1</p>
-                
-                <div class="performance-grid">
-                    <div class="performance-card">
-                        <div class="chart-circle" data-percentage="95">
-                            <div class="chart-value">95%</div>
-                        </div>
-                        <h3>Taux de Réussite</h3>
-                        <p>Élèves avec moyenne supérieure à 10/20</p>
-                    </div>
-                    
-                    <div class="performance-card">
-                        <div class="chart-bar">
-                            <div class="bar-section" data-value="80" style="--color: var(--rose);"></div>
-                            <div class="bar-section" data-value="90" style="--color: var(--bleu);"></div>
-                            <div class="bar-section" data-value="85" style="--color: var(--accent);"></div>
-                        </div>
-                        <h3>Moyennes par matière</h3>
-                        <p>Lecture • Mathématiques • Anglais</p>
-                    </div>
-                    
-                    <div class="performance-card">
-                        <div class="progress-item">
-                            <span>Progression trimestrielle</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-value="75"></div>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <span>Participation en classe</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-value="90"></div>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <span>Autonomie</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-value="85"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Récompenses et Distinctions</h2>
-                <p class="section-subtitle">Encourager l'excellence et les efforts</p>
-                
-                <div class="achievements-showcase">
-                    <div class="achievement-item">
-                        <div class="achievement-badge">🏆</div>
-                        <div class="achievement-info">
-                            <h4>Excellence Académique</h4>
-                            <p>Récompense pour les moyennes supérieures à 16/20</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-item">
-                        <div class="achievement-badge">🚀</div>
-                        <div class="achievement-info">
-                            <h4>Progression Remarquable</h4>
-                            <p>Amélioration significative des résultats</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-item">
-                        <div class="achievement-badge">💡</div>
-                        <div class="achievement-info">
-                            <h4>Créativité</h4>
-                            <p>Excellence dans les matières artistiques</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-item">
-                        <div class="achievement-badge">🌟</div>
-                        <div class="achievement-info">
-                            <h4>Assiduité</h4>
-                            <p>Présence et participation exemplaires</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -438,93 +571,121 @@
         </div>
     </footer>
 
-    <div id="printable-bulletin" class="printable-bulletin" style="display: none;">
-    </div>
-
     <script src="js/main.js"></script>
-    <script src="js/results-charts.js"></script>
     
-    <style>
-        .results-hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .result-stat {
-            text-align: center;
-            background: rgba(255,255,255,0.2);
-            padding: 1.5rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            min-width: 150px;
-        }
-        
-        .result-stat .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .result-stat .stat-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .result-stat .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        @media (max-width: 768px) {
-            .results-hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
-
     <script>
-        // Initialisation des onglets de classe
+        // Données des élèves avec l'ordre CORRIGÉ des matières
+        const studentsData = {
+            "agblo": { 
+                password: "fifamè", 
+                name: "AGBLO AGONDJIHOSSOU Fifamè", 
+                notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12],
+                moyenne: "14.11"
+            },
+            "akyoh": { 
+                password: "emmanuel", 
+                name: "AKYOH Emmanuel", 
+                notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13],
+                moyenne: "10.64"
+            },
+            "amadou": { 
+                password: "yinki", 
+                name: "AMADOU Yinki", 
+                notes: [15.5, 19, 5, 16.25, 7.75, 15, 13.25, 17, 14],
+                moyenne: "13.53"
+            },
+            "bani": { 
+                password: "rahama", 
+                name: "BANI Rahama", 
+                notes: [13.75, 18.25, 12, 20, 17, 14.5, 7.25, 18, 15],
+                moyenne: "15.08"
+            },
+            "dahougou": { 
+                password: "noham", 
+                name: "DAHOUGOU Noham", 
+                notes: [15.25, 18.50, 3, 12, 8.75, 13, 5.75, 18, 14],
+                moyenne: "12.03"
+            },
+            "eda": { 
+                password: "queen", 
+                name: "EDA Queen", 
+                notes: [19, 18.25, 4, 13.75, 14.5, 12, 15.75, 18, 14],
+                moyenne: "14.36"
+            },
+            "houehou": { 
+                password: "méka", 
+                name: "HOUEHOU Méka", 
+                notes: [18.75, 19.5, 9, 15, 14, 14.5, 17.25, 17, 13],
+                moyenne: "15.33"
+            },
+            "padonou": { 
+                password: "faith", 
+                name: "PADONOU Faith", 
+                notes: [19, 15.75, 4, 19, 17.25, 15, 13.75, 18, 13],
+                moyenne: "14.97"
+            },
+            "sovi": { 
+                password: "péniel", 
+                name: "SOVI Péniel", 
+                notes: [12.5, 18.25, 8, 18.5, 16.5, 13, 16.25, 17, 14],
+                moyenne: "14.89"
+            },
+            "tossavi": { 
+                password: "naelle", 
+                name: "TOSSAVI Naelle", 
+                notes: [19, 16.75, 9, 18, 18, 15, 12.25, 17, 14],
+                moyenne: "15.44"
+            }
+        };
+
+        // Ordre CORRIGÉ des matières
+        const subjects = [
+            'Lecture',
+            'Expression Écrite', 
+            'Dictée',
+            'Éducation Sociale (ES)',
+            'Éducation Scientifique (EST)',
+            'Dessin',
+            'Mathématiques',
+            'Éducation Sportive (EPS)',
+            'Orale'
+        ];
+
+        // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initialisation des onglets de classe...');
-            
-            // Ajouter les écouteurs d'événements aux onglets
+            console.log('🚀 Page résultats initialisée');
+            initClassTabs();
+            initLoginForm();
+            initPerformanceCharts();
+        });
+
+        // Gestion des onglets de classe
+        function initClassTabs() {
             const classTabs = document.querySelectorAll('.class-tab');
             classTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
-                    // Retirer la classe active de tous les onglets
                     classTabs.forEach(t => t.classList.remove('active'));
-                    // Ajouter la classe active à l'onglet cliqué
                     this.classList.add('active');
                     
                     const className = this.getAttribute('data-class');
-                    console.log('Onglet cliqué:', className);
                     loadClassResults(className);
                 });
             });
             
-            // Charger les résultats de la classe active par défaut (CE1)
             loadClassResults('ce1');
-        });
+        }
 
         function loadClassResults(className) {
-            console.log('📂 Chargement classe:', className);
-            
             const resultsContainer = document.getElementById('resultsContainer');
             const loginInterface = document.querySelector('.login-interface');
             
             if (className === 'ce1') {
-                // Afficher l'interface de connexion pour CE1
-                if (loginInterface) loginInterface.style.display = 'grid';
+                if (loginInterface) loginInterface.style.display = 'block';
                 if (resultsContainer) {
                     resultsContainer.style.display = 'none';
                     resultsContainer.innerHTML = '';
                 }
             } else {
-                // Afficher "Disponible bientôt" pour les autres classes
                 if (loginInterface) loginInterface.style.display = 'none';
                 showComingSoon(className);
             }
@@ -551,14 +712,276 @@
                     </div>
                 `;
                 resultsContainer.style.display = 'block';
+            }
+        }
+
+        // Gestion du formulaire de connexion
+        function initLoginForm() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', () => {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    togglePassword.querySelector('i').classList.toggle('fa-eye');
+                    togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            if (submitBtn) {
+                submitBtn.addEventListener('click', handleLogin);
+            }
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        handleLogin();
+                    }
+                });
+            }
+        }
+
+        function handleLogin() {
+            const studentSelect = document.getElementById('studentSelect');
+            const passwordInput = document.getElementById('passwordInput');
+            const selectedStudent = studentSelect.value;
+            const enteredPassword = passwordInput.value.trim().toLowerCase();
+            
+            if (!selectedStudent) {
+                showNotification('Veuillez sélectionner un élève', 'warning');
+                return;
+            }
+            
+            if (!enteredPassword) {
+                showNotification('Veuillez entrer le mot de passe', 'warning');
+                return;
+            }
+            
+            const student = studentsData[selectedStudent];
+            
+            if (student && enteredPassword === student.password) {
+                showNotification(`Connexion réussie ! Bienvenue ${student.name.split(' ')[1]} ! 🎉`, 'success');
+                displayStudentResult(selectedStudent);
                 
-                // Animation d'apparition
+                const loginInterface = document.querySelector('.login-interface');
+                if (loginInterface) {
+                    loginInterface.style.display = 'none';
+                }
+                
                 setTimeout(() => {
-                    resultsContainer.style.opacity = '1';
-                    resultsContainer.style.transform = 'translateY(0)';
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    if (resultsContainer) {
+                        resultsContainer.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 1000);
+                
+            } else {
+                showNotification('Mot de passe incorrect. Le mot de passe correspond au prénom en minuscules.', 'error');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Affichage des résultats d'un élève
+        function displayStudentResult(studentId) {
+            const student = studentsData[studentId];
+            if (!student) return;
+
+            const average = parseFloat(student.moyenne);
+            const averageClass = average >= 16 ? 'excellent' : average >= 12 ? 'good' : 'average';
+            
+            let html = `
+                <div class="results-header">
+                    <h3>Résultats CE1 - Octobre 2025</h3>
+                    <div class="smart-actions">
+                        <button class="btn btn-secondary" onclick="printStudentResult('${studentId}')">
+                            <i class="fas fa-print"></i> Imprimer le bulletin
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="student-result-card">
+                    <div class="student-header">
+                        <h4>${student.name}</h4>
+                        <span class="average ${averageClass}">
+                            Moyenne: ${student.moyenne}/20
+                            ${average >= 16 ? '🏆' : average >= 12 ? '✅' : '📈'}
+                        </span>
+                    </div>
+                    <div class="grades-grid">
+            `;
+            
+            student.notes.forEach((note, index) => {
+                const percentage = (note / 20) * 100;
+                const gradeClass = note < 10 ? 'low' : note >= 16 ? 'high' : 'medium';
+                const subjectIcon = getSubjectIcon(subjects[index]);
+                
+                html += `
+                    <div class="subject-grade">
+                        <span class="subject">
+                            <span class="subject-icon">${subjectIcon}</span>
+                            ${subjects[index]}
+                        </span>
+                        <div class="grade-bar">
+                            <div class="grade-fill ${gradeClass}" style="width: 0%"></div>
+                        </div>
+                        <span class="grade-value ${gradeClass}">
+                            ${note}/20
+                            ${note >= 16 ? '🌟' : note < 10 ? '⚠️' : ''}
+                        </span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="student-actions">
+                        <button class="btn btn-outline" onclick="printStudentResult('${studentId}')">
+                            <i class="fas fa-download"></i> Télécharger le bulletin
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPerformanceDetails('${studentId}')">
+                            <i class="fas fa-chart-line"></i> Détails performance
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <h4>📊 Position dans la classe</h4>
+                        <div class="summary-stats">
+                            <div class="summary-stat">
+                                <span class="stat-value">${getClassRank(studentId)}</span>
+                                <span class="stat-label">Rang dans la classe</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="stat-value">${calculateClassAverage()}/20</span>
+                                <span class="stat-label">Moyenne de classe</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="stat-value">${getAppreciation(average)}</span>
+                                <span class="stat-label">Appréciation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                resultsContainer.innerHTML = html;
+                resultsContainer.style.display = 'block';
+                
+                // Animation des barres de progression
+                setTimeout(() => {
+                    animateGradeBars();
                 }, 100);
             }
         }
+
+        // Fonctions utilitaires
+        function getSubjectIcon(subject) {
+            const icons = {
+                'Lecture': '📖',
+                'Expression Écrite': '✍️',
+                'Dictée': '📝',
+                'Éducation Sociale (ES)': '👥',
+                'Éducation Scientifique (EST)': '🔬',
+                'Dessin': '🎨',
+                'Mathématiques': '🔢',
+                'Éducation Sportive (EPS)': '⚽',
+                'Orale': '🎤'
+            };
+            return icons[subject] || '📚';
+        }
+
+        function animateGradeBars() {
+            const gradeBars = document.querySelectorAll('.grade-fill');
+            gradeBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+
+        function calculateClassAverage() {
+            const averages = Object.values(studentsData).map(student => parseFloat(student.moyenne));
+            const total = averages.reduce((sum, avg) => sum + avg, 0);
+            return (total / averages.length).toFixed(2);
+        }
+
+        function getClassRank(studentId) {
+            const studentAverages = Object.entries(studentsData)
+                .map(([id, data]) => ({ id, moyenne: parseFloat(data.moyenne) }))
+                .sort((a, b) => b.moyenne - a.moyenne);
+            
+            const rank = studentAverages.findIndex(student => student.id === studentId) + 1;
+            return `${rank}/${studentAverages.length}`;
+        }
+
+        function getAppreciation(average) {
+            if (average >= 16) return 'Excellent 🏆';
+            if (average >= 14) return 'Très Bien ⭐';
+            if (average >= 12) return 'Bien ✅';
+            if (average >= 10) return 'Assez Bien 📈';
+            return 'À améliorer 💪';
+        }
+
+        function printStudentResult(studentId) {
+            showNotification('Génération du bulletin en cours...', 'success');
+            // Ici vous pouvez ajouter la logique d'impression réelle
+            setTimeout(() => {
+                showNotification('Bulletin généré avec succès!', 'success');
+            }, 2000);
+        }
+
+        function showPerformanceDetails(studentId) {
+            showNotification('Affichage des détails de performance...', 'info');
+            // Ici vous pouvez ajouter une modale ou une page de détails
+        }
+
+        function initPerformanceCharts() {
+            // Initialisation des graphiques circulaires
+            const chartCircles = document.querySelectorAll('.chart-circle');
+            chartCircles.forEach(circle => {
+                const percentage = circle.getAttribute('data-percentage');
+                circle.style.setProperty('--percentage', percentage + '%');
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : type === 'info' ? 'info-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Rendre les fonctions accessibles globalement
+        window.printStudentResult = printStudentResult;
+        window.showPerformanceDetails = showPerformanceDetails;
     </script>
 </body>
 </html>
