@@ -1,11 +1,9 @@
-
-// results-charts.js - Gestion des résultats scolaires
+// results-charts.js - Gestion des résultats scolaires CORRIGÉE
 document.addEventListener('DOMContentLoaded', function() {
     initClassTabs();
     initGradeVisualization();
     initPerformanceCharts();
     initResultsForm();
-    loadCE1Results();
 });
 
 function initClassTabs() {
@@ -23,24 +21,17 @@ function initClassTabs() {
 }
 
 function loadClassResults(className) {
-    // Simulation du chargement des résultats
-    console.log('Chargement des résultats pour:', className);
+    const resultsContainer = document.getElementById('resultsContainer');
+    const loginInterface = document.querySelector('.login-interface');
     
-    // Animation de chargement
-    const previewCard = document.querySelector('.preview-card');
-    if (previewCard) {
-        previewCard.style.opacity = '0.5';
-        
-        setTimeout(() => {
-            previewCard.style.opacity = '1';
-            updatePreviewGrades(className);
-        }, 1000);
-    }
-    
-    // Charger les résultats spécifiques
     if (className === 'ce1') {
-        loadCE1Results();
+        if (loginInterface) loginInterface.style.display = 'grid';
+        if (resultsContainer) {
+            resultsContainer.style.display = 'none';
+            resultsContainer.innerHTML = '';
+        }
     } else {
+        if (loginInterface) loginInterface.style.display = 'none';
         showComingSoon(className);
     }
 }
@@ -55,10 +46,11 @@ function showComingSoon(className) {
                 <p>Les résultats pour la classe ${className.toUpperCase()} seront disponibles prochainement.</p>
             </div>
         `;
+        resultsContainer.style.display = 'block';
     }
 }
 
-function loadCE1Results() {
+function displayStudentResultsAfterLogin() {
     const students = [
         { id: 'agblo', name: 'AGBLO AGONDJIHOSSOU Fifamè', notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12] },
         { id: 'akyoh', name: 'AKYOH Emmanuel', notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13] },
@@ -94,18 +86,27 @@ function loadCE1Results() {
                     <span class="average">Moyenne: ${average}/20</span>
                 </div>
                 <div class="grades-grid">
-                    ${student.notes.map((note, index) => `
-                        <div class="subject-grade">
-                            <span class="subject">${subjects[index]}</span>
-                            <div class="grade-bar">
-                                <div class="grade-fill" style="width: ${(note / 20) * 100}%"></div>
-                                <span class="grade-value ${note < 10 ? 'low' : note >= 16 ? 'high' : ''}">${note}/20</span>
-                            </div>
-                        </div>
-                    `).join('')}
+        `;
+        
+        student.notes.forEach((note, index) => {
+            const percentage = (note / 20) * 100;
+            const gradeClass = note < 10 ? 'low' : note >= 16 ? 'high' : '';
+            
+            html += `
+                <div class="subject-grade">
+                    <span class="subject">${subjects[index]}</span>
+                    <div class="grade-bar">
+                        <div class="grade-fill" style="width: ${percentage}%"></div>
+                    </div>
+                    <span class="grade-value ${gradeClass}">${note}/20</span>
+                </div>
+            `;
+        });
+        
+        html += `
                 </div>
                 <button class="btn btn-outline print-btn" onclick="printStudentResult('${student.id}')">
-                    <i class="fas fa-download"></i> PDF
+                    <i class="fas fa-download"></i> Télécharger le bulletin
                 </button>
             </div>
         `;
@@ -116,28 +117,12 @@ function loadCE1Results() {
     const resultsContainer = document.getElementById('resultsContainer');
     if (resultsContainer) {
         resultsContainer.innerHTML = html;
-        initGradeVisualization();
+        resultsContainer.style.display = 'block';
+        
+        setTimeout(() => {
+            initGradeVisualization();
+        }, 100);
     }
-}
-
-function updatePreviewGrades(className) {
-    const gradeData = {
-        'ci': { math: 14, french: 15, english: 16 },
-        'cp': { math: 15, french: 14, english: 17 },
-        'ce1': { math: 16, french: 14, english: 18 },
-        'ce2': { math: 15, french: 16, english: 17 }
-    };
-    
-    const data = gradeData[className] || gradeData.ce1;
-    
-    // Mettre à jour les barres de progression
-    const mathBar = document.querySelector('[data-grade="math"]');
-    const frenchBar = document.querySelector('[data-grade="french"]');
-    const englishBar = document.querySelector('[data-grade="english"]');
-    
-    if (mathBar) mathBar.style.width = (data.math / 20 * 100) + '%';
-    if (frenchBar) frenchBar.style.width = (data.french / 20 * 100) + '%';
-    if (englishBar) englishBar.style.width = (data.english / 20 * 100) + '%';
 }
 
 function initGradeVisualization() {
@@ -146,86 +131,126 @@ function initGradeVisualization() {
     gradeBars.forEach(bar => {
         const width = bar.style.width;
         bar.style.width = '0';
+        bar.style.transition = 'width 1s ease-in-out';
         
         setTimeout(() => {
             bar.style.width = width;
-        }, 500);
+        }, 100);
     });
 }
 
 function initPerformanceCharts() {
-    // Graphiques circulaires
     const chartCircles = document.querySelectorAll('.chart-circle');
     chartCircles.forEach(circle => {
         const percentage = circle.getAttribute('data-percentage');
         circle.style.setProperty('--percentage', percentage + '%');
     });
     
-    // Barres de performance
     const barSections = document.querySelectorAll('.bar-section');
     barSections.forEach(section => {
         const value = section.getAttribute('data-value');
-        section.style.height = value + '%';
+        setTimeout(() => {
+            section.style.height = value + '%';
+        }, 500);
     });
     
-    // Barres de progression
     const progressFills = document.querySelectorAll('.progress-fill');
     progressFills.forEach(fill => {
         const value = fill.getAttribute('data-value');
-        fill.style.width = value + '%';
+        setTimeout(() => {
+            fill.style.width = value + '%';
+        }, 800);
     });
 }
 
 function initResultsForm() {
-    const resultsForm = document.querySelector('.results-form');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('passwordInput');
+    const submitBtn = document.getElementById('submitBtn');
     
-    if (resultsForm) {
-        resultsForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const studentSelect = this.querySelector('.student-select');
-            const passwordInput = this.querySelector('.password-input');
-            
-            if (studentSelect.value && passwordInput.value) {
-                // Simulation de connexion réussie
-                showStudentResults(studentSelect.value);
-            } else {
-                showNotification('Veuillez remplir tous les champs', 'error');
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.querySelector('i').classList.toggle('fa-eye');
+            togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    }
+    
+    if (submitBtn) {
+        submitBtn.addEventListener('click', handleLogin);
+    }
+    
+    if (passwordInput) {
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleLogin();
             }
         });
     }
 }
 
-function showStudentResults(studentId) {
-    // Simulation de l'affichage des résultats
-    const modal = document.createElement('div');
-    modal.className = 'results-modal';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h3>Résultats de l'élève</h3>
-            <div class="student-grades">
-                <!-- Contenu des résultats -->
-            </div>
-            <button class="btn btn-primary close-modal">Fermer</button>
-        </div>
-    `;
+function handleLogin() {
+    const studentSelect = document.getElementById('studentSelect');
+    const passwordInput = document.getElementById('passwordInput');
+    const selectedStudent = studentSelect.value;
+    const enteredPassword = passwordInput.value.trim().toLowerCase();
     
-    document.body.appendChild(modal);
+    if (!selectedStudent) {
+        showNotification('Veuillez sélectionner un élève', 'warning');
+        return;
+    }
     
-    // Animation d'entrée
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 100);
+    if (!enteredPassword) {
+        showNotification('Veuillez entrer le mot de passe', 'warning');
+        return;
+    }
     
-    // Fermeture du modal
-    modal.querySelector('.close-modal').addEventListener('click', () => {
-        modal.classList.remove('show');
-        setTimeout(() => modal.remove(), 300);
-    });
+    const studentData = {
+        "agblo": { password: "fifamè", name: "AGBLO AGONDJIHOSSOU Fifamè" },
+        "akyoh": { password: "emmanuel", name: "AKYOH Emmanuel" },
+        "amadou": { password: "yinki", name: "AMADOU Yinki" },
+        "bani": { password: "rahama", name: "BANI Rahama" },
+        "dahougou": { password: "noham", name: "DAHOUGOU Noham" },
+        "eda": { password: "queen", name: "EDA Queen" },
+        "houehou": { password: "méka", name: "HOUEHOU Méka" },
+        "padonou": { password: "faith", name: "PADONOU Faith" },
+        "sovi": { password: "péniel", name: "SOVI Péniel" },
+        "tossavi": { password: "naelle", name: "TOSSAVI Naelle" }
+    };
+    
+    const student = studentData[selectedStudent];
+    
+    if (student && enteredPassword === student.password) {
+        showNotification(`Connexion réussie ! Bienvenue ${student.name.split(' ')[1]} ! 🎉`, 'success');
+        
+        displayStudentResultsAfterLogin();
+        
+        const loginInterface = document.querySelector('.login-interface');
+        if (loginInterface) {
+            loginInterface.style.display = 'none';
+        }
+        
+        setTimeout(() => {
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                resultsContainer.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }, 1000);
+        
+    } else {
+        showNotification('Mot de passe incorrect. Le mot de passe correspond au prénom en minuscules.', 'error');
+        passwordInput.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+            passwordInput.style.animation = '';
+        }, 500);
+    }
 }
 
 function printStudentResult(studentId) {
-    // Simulation de génération de PDF
     showNotification('Génération du PDF en cours...', 'success');
     
     setTimeout(() => {
@@ -234,18 +259,33 @@ function printStudentResult(studentId) {
 }
 
 function printAllResults() {
-    showNotification('Génération de tous les PDF en cours...', 'success');
+    showNotification('Génération de tous les bulletins en cours...', 'success');
     
     setTimeout(() => {
-        showNotification('Tous les PDF ont été générés!', 'success');
+        showNotification('Tous les bulletins ont été générés!', 'success');
     }, 3000);
 }
 
 function showNotification(message, type = 'success') {
-    if (window.schoolWebsite) {
+    if (window.schoolWebsite && typeof window.schoolWebsite.showNotification === 'function') {
         window.schoolWebsite.showNotification(message, type);
     } else {
-        // Fallback simple
-        alert(message);
+        const notification = document.createElement('div');
+        notification.className = `notification ${type} show`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
     }
 }
+
+window.displayStudentResultsAfterLogin = displayStudentResultsAfterLogin;
+window.handleLogin = handleLogin;
+window.printStudentResult = printStudentResult;
+window.printAllResults = printAllResults;
