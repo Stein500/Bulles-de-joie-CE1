@@ -790,3 +790,39 @@
         page-break-after: avoid;
     }
 }
+/* Styles pour les messages "Disponible bientôt" */
+.coming-soon-message {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--rose-pale);
+    border-radius: 20px;
+    margin: 2rem 0;
+    animation: slideInUp 0.8s ease;
+}
+
+.coming-soon-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite;
+}
+
+.coming-soon-message h3 {
+    color: var(--rose);
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.coming-soon-message p {
+    color: var(--gris);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.coming-soon-message strong {
+    color: var(--rose-fonce);
+}
+
+.coming-soon-message .btn {
+    margin-top: 1.5rem;
+}
