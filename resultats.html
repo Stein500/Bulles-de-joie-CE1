@@ -212,6 +212,7 @@
                     </div>
                     
                     <div id="resultsContainer" class="results-container">
+                        <!-- Les résultats s'afficheront ici après connexion -->
                     </div>
                 </div>
             </div>
@@ -484,19 +485,5 @@
             }
         }
     </style>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page résultats chargée');
-            
-            const classTabs = document.querySelectorAll('.class-tab');
-            classTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    classTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                });
-            });
-        });
-    </script>
 </body>
 </html>
