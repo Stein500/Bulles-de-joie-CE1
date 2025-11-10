@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="fr-BJ" itemscope itemtype="https://schema.org/EducationalOrganization">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou Bénin</title>
+    <meta name="description" content="Consultez les résultats scolaires des élèves des Bulles de Joie. Suivi pédagogique, bulletins et statistiques de performance pour l'année 2025-2026.">
+    
+    <meta name="keywords" content="résultats scolaires, bulletins école Parakou, performance élèves, suivi pédagogique, évaluation CE1">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou">
+    <meta property="og:description" content="Consultez les résultats et le suivi pédagogique de nos élèves">
+    <meta property="og:url" content="https://lesbullesdejoie.bj/resultats.html">
+    
+    <link rel="canonical" href="https://lesbullesdejoie.bj/resultats.html">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Résultats Scolaires - Les Bulles de Joie",
+      "description": "Page présentant les résultats scolaires des élèves",
+      "url": "https://lesbullesdejoie.bj/resultats.html"
+    }
+    </script>
+
+    <style>
+        /* Variables CSS pour les couleurs */
+        :root {
+            --bleu: #4a90e2;
+            --violet: #9b59b6;
+            --rose: #e84393;
+            --vert: #2ecc71;
+            --orange: #e67e22;
+            --jaune: #f1c40f;
+            --texte-fonce: #2c3e50;
+            --texte: #34495e;
+            --accent: #4a90e2;
+            --bleu-pale: #e3f2fd;
+            --rose-pale: #fce4ec;
+            --gradient-mixte: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-bleu: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-rose: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-vert: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        /* Effets de particules flottantes */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 50px) rotate(90deg); }
+            50% { transform: translate(40px, 0) rotate(180deg); }
+            75% { transform: translate(20px, -50px) rotate(270deg); }
+        }
+
+        /* Animations d'entrée pour les éléments */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: fadeInLeft 0.8s ease forwards;
+        }
+
+        @keyframes fadeInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            animation: fadeInRight 0.8s ease forwards;
+        }
+
+        @keyframes fadeInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animations pour les cartes */
+        .card-animation {
+            animation: cardAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Styles pour les résultats */
+        .results-hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .result-stat {
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .result-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .result-stat .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-stat .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-stat .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Styles pour les cartes de résultats */
+        .student-result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .student-result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .student-result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-mixte);
+        }
+
+        .student-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .student-header h4 {
+            margin: 0;
+            color: var(--texte-fonce);
+            font-size: 1.4rem;
+        }
+
+        .average {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .average:hover {
+            transform: scale(1.05);
+        }
+
+        .average.excellent {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .average.good {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .average.average {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subject-grade {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-grade:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .subject-grade::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .subject-grade:hover::before {
+            transform: scaleY(1);
+        }
+
+        .subject {
+            flex: 1;
+            font-weight: 500;
+            color: var(--texte-fonce);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grade-bar {
+            flex: 2;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .grade-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transform: translateX(-100%);
+        }
+
+        .subject-grade:hover .grade-bar::after {
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .grade-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            position: relative;
+        }
+
+        .grade-fill.high {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+        }
+
+        .grade-fill.medium {
+            background: linear-gradient(90deg, #2196F3, #03A9F4);
+        }
+
+        .grade-fill.low {
+            background: linear-gradient(90deg, #FF9800, #FFC107);
+        }
+
+        .grade-value {
+            font-weight: bold;
+            min-width: 60px;
+            text-align: right;
+            transition: transform 0.3s ease;
+        }
+
+        .subject-grade:hover .grade-value {
+            transform: scale(1.1);
+        }
+
+        .grade-value.high { color: #4CAF50; }
+        .grade-value.medium { color: #2196F3; }
+        .grade-value.low { color: #FF9800; }
+
+        .student-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .results-summary {
+            margin-top: 2rem;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, var(--bleu), var(--violet));
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success { background: #4CAF50; }
+        .notification.warning { background: #FF9800; }
+        .notification.error { background: #f44336; }
+        .notification.info { background: #2196F3; }
+
+        /* Nouveaux styles pour les améliorations */
+        .welcome-message {
+            background: linear-gradient(135deg, var(--rose-pale), var(--bleu-pale));
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+            border-left: 5px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.2)"/></svg>');
+            background-size: cover;
+        }
+
+        .welcome-message h3 {
+            color: var(--texte-fonce);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .welcome-message p {
+            color: var(--texte);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .teacher-message {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--violet);
+            transition: transform 0.3s ease;
+        }
+
+        .teacher-message:hover {
+            transform: translateX(5px);
+        }
+
+        .teacher-message h4 {
+            color: var(--violet);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .teacher-advice {
+            background: linear-gradient(135deg, #e8f5e8, #f0f4c3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--vert);
+            transition: transform 0.3s ease;
+        }
+
+        .teacher-advice:hover {
+            transform: translateX(5px);
+        }
+
+        .teacher-advice h4 {
+            color: var(--vert);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Animation du bouton */
+        .btn-primary.animated {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary.animated:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary.animated:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary.animated::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary.animated:hover::before {
+            left: 100%;
+        }
+
+        /* Modal pour les détails de performance */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: modalAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes modalAppear {
+            to {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--texte-fonce);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--texte);
+            padding: 0.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .performance-chart {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .performance-chart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.5), transparent);
+            transform: translateX(-100%);
+        }
+
+        .performance-chart:hover::before {
+            animation: shimmer 1.5s infinite;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .performance-stat {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .performance-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .performance-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-mixte);
+        }
+
+        /* Améliorations du formulaire */
+        .form-control {
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .password-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-container .form-control {
+            flex: 1;
+            padding-right: 3rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        /* Nouveaux styles pour le formulaire amélioré */
+        .login-interface {
+            perspective: 1000px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-mixte);
+        }
+
+        .card-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--texte-fonce);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--texte-fonce);
+            transition: all 0.3s ease;
+        }
+
+        .form-group.focused label {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .floating-label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 0.5rem;
+            color: #666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-control:focus + .floating-label,
+        .form-control:not(:placeholder-shown) + .floating-label {
+            top: 0;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        .select-container {
+            position: relative;
+        }
+
+        .select-container::after {
+            content: '▼';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .select-container:hover::after {
+            color: var(--accent);
+        }
+
+        .password-hint {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--texte);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Styles pour les onglets de classe */
+        .class-navigation {
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .class-tab {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-weight: 500;
+            color: var(--texte);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
+
+        .class-tab.active {
+            background: var(--gradient-mixte);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .class-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .class-tab:hover::before {
+            opacity: 1;
+        }
+
+        /* Styles pour le message de bienvenue */
+        .coming-soon-message {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coming-soon-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(74, 144, 226, 0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .coming-soon-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Header mobile optimisé */
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0.5rem 0;
+            }
+
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .logo-section {
+                gap: 0.5rem;
+            }
+
+            .logo-image img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+
+            .establishment-type {
+                font-size: 0.8rem;
+            }
+
+            .header-contact {
+                display: none;
+            }
+
+            .main-nav {
+                padding: 0.5rem 0;
+            }
+
+            .nav-container {
+                gap: 0.5rem;
+            }
+
+            .nav-item {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-item i {
+                font-size: 1rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .results-hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .student-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .grades-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subject-grade {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .grade-bar {
+                width: 100%;
+            }
+            
+            .student-actions {
+                flex-direction: column;
+            }
+            
+            .summary-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .performance-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-message {
+                padding: 1.5rem;
+            }
+
+            .student-result-card {
+                padding: 1.5rem;
+            }
+
+            .login-card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Animation des champs de formulaire */
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--texte-fonce);
+            transition: all 0.3s ease;
+        }
+
+        .form-group.focused label {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .floating-label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 0.5rem;
+            color: #666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-control:focus + .floating-label,
+        .form-control:not(:placeholder-shown) + .floating-label {
+            top: 0;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        /* Styles pour les statistiques en direct */
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .live-stat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .live-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .live-stat .stat-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        .live-stat .stat-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+        }
+
+        .live-stat .stat-info p {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Nouveaux styles pour les graphiques de performance */
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .radar-chart {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            position: relative;
+        }
+
+        .subject-performance {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .subject-performance-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .subject-performance-item:hover {
+            transform: translateX(5px);
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .progress-indicator {
+            width: 100px;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Effet de particules pour l'arrière-plan */
+        .floating-stickers {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .sticker {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: floatSticker 20s infinite linear;
+        }
+
+        @keyframes floatSticker {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(100px, 100px) rotate(360deg);
+            }
+        }
+
+        /* Animation de chargement */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-mixte);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Styles pour les boutons améliorés */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-mixte);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--texte-fonce);
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Effet de vague pour les sections */
+        .wave-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23ffffff"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%23ffffff"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ffffff"/></svg>');
+            background-size: cover;
+            z-index: 1;
+        }
+
+        /* Styles pour les cartes de statistiques */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-mixte);
+        }
+
+        .stat-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--texte-fonce);
+        }
+
+        .stat-card .label {
+            color: var(--texte);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Overlay de chargement -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Chargement des résultats...</div>
+        </div>
+    </div>
+
+    <!-- Effet de particules flottantes -->
+    <div class="floating-particles" id="floatingParticles"></div>
+
+    <div class="floating-stickers">
+        <div class="sticker">📊</div>
+        <div class="sticker">🎓</div>
+        <div class="sticker">🏆</div>
+        <div class="sticker">📈</div>
+        <div class="sticker">⭐</div>
+        <div class="sticker">💯</div>
+        <div class="sticker">📚</div>
+        <div class="sticker">🌟</div>
+    </div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-image">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie - École Bilingue Parakou" width="80" height="80">
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p class="establishment-type">Crèche • Garderie • Maternelle • Primaire Bilingue</p>
+                </div>
+            </div>
+            
+            <div class="header-contact">
+                <div class="contact-badge">
+                    <i class="fas fa-phone"></i>
+                    <div class="contact-info">
+                        <span class="contact-label">Secrétariat/Direction</span>
+                        <span class="contact-number">+229 01 58030302</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="apropos.html" class="nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Notre École</span>
+            </a>
+            <a href="pedagogie.html" class="nav-item">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Pédagogie</span>
+            </a>
+            <a href="activites.html" class="nav-item">
+                <i class="fas fa-paint-brush"></i>
+                <span>Activités</span>
+            </a>
+            <a href="resultats.html" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Résultats</span>
+            </a>
+            <a href="contact.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section wave-section" style="background: var(--gradient-mixte);">
+            <div class="hero-content">
+                <h1 class="hero-title fade-in-up">Résultats Scolaires</h1>
+                <p class="hero-subtitle fade-in-up">Suivi pédagogique et excellence académique</p>
+                
+                <div class="results-hero-stats">
+                    <div class="result-stat fade-in-left">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Taux de réussite</div>
+                    </div>
+                    <div class="result-stat fade-in-up">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-number">14.5/20</div>
+                        <div class="stat-label">Moyenne générale</div>
+                    </div>
+                    <div class="result-stat fade-in-right">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Élèves bilingues</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title fade-in-up">Résultats Scolaires - Octobre 2025</h2>
+                <p class="section-subtitle fade-in-up">Consultez les performances académiques de votre enfant</p>
+                
+                <div class="results-system">
+                    <div class="class-navigation fade-in-up">
+                        <div class="nav-tabs">
+                            <button class="class-tab" data-class="ci">CI</button>
+                            <button class="class-tab" data-class="cp">CP</button>
+                            <button class="class-tab active" data-class="ce1">CE1</button>
+                            <button class="class-tab" data-class="ce2">CE2</button>
+                        </div>
+                    </div>
+                    
+                    <div class="login-interface fade-in-up">
+                        <div class="login-card card-animation">
+                            <h2 class="card-title"><i class="fas fa-key"></i> Accès aux résultats</h2>
+                            <p>Pour consulter les résultats de votre enfant, veuillez saisir le mot de passe qui vous a été communiqué.</p>
+                            
+                            <div class="password-form">
+                                <div class="form-group">
+                                    <label for="studentSelect">Sélectionnez l'élève :</label>
+                                    <div class="select-container">
+                                        <select id="studentSelect" class="form-control">
+                                            <option value="">-- Choisir un élève --</option>
+                                            <option value="agblo">AGBLO AGONDJIHOSSOU Fifamè</option>
+                                            <option value="akyoh">AKYOH Emmanuel</option>
+                                            <option value="amadou">AMADOU Yinki</option>
+                                            <option value="bani">BANI Rahama</option>
+                                            <option value="dahougou">DAHOUGOU Noham</option>
+                                            <option value="eda">EDA Queen</option>
+                                            <option value="houehou">HOUEHOU Méka</option>
+                                            <option value="padonou">PADONOU Faith</option>
+                                            <option value="sovi">SOVI Péniel</option>
+                                            <option value="tossavi">TOSSAVI Naelle</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group password-group">
+                                    <label for="passwordInput">Mot de passe :</label>
+                                    <div class="password-input-container">
+                                        <input type="password" id="passwordInput" class="form-control" placeholder=" ">
+                                        <span class="floating-label">Entrez le mot de passe</span>
+                                        <button id="togglePassword" class="toggle-password">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary animated btn-pulse" id="submitBtn">
+                                    <i class="fas fa-unlock"></i> Voir les résultats
+                                </button>
+                                
+                                <p class="password-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    Le mot de passe correspond au prénom de l'élève en minuscules
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="resultsContainer" class="results-container">
+                        <!-- Les résultats s'afficheront ici après connexion -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Informations IMPORTANTES SANS DATE D'ÉVALUATION -->
+        <section class="section wave-section" style="background: var(--gradient-bleu); color: white;">
+            <div class="container">
+                <div class="card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(20px);">
+                    <h2 class="card-title" style="color: white;"><i class="fas fa-info-circle"></i> Informations Importantes</h2>
+                    <div class="live-stats">
+                        <div class="live-stat">
+                            <div class="stat-icon">👨‍🏫</div>
+                            <div class="stat-info">
+                                <h4>Enseignant</h4>
+                                <p>C. J. S. Stein</p>
+                            </div>
+                        </div>
+                        <div class="live-stat">
+                            <div class="stat-icon">🏫</div>
+                            <div class="stat-info">
+                                <h4>Directrice</h4>
+                                <p>SEGBO S. A. D. Carole</p>
+                            </div>
+                        </div>
+                        <div class="live-stat">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-info">
+                                <h4>Année Scolaire</h4>
+                                <p>2025-2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal pour les détails de performance -->
+    <div id="performanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-chart-line"></i> Détails de Performance</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Le contenu sera injecté ici -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" width="60" height="60">
+                    <div>
+                        <h3>Les Bulles de Joie</h3>
+                        <p class="footer-motto">"L'excellence éducative dans la joie d'apprendre"</p>
+                    </div>
+                </div>
+                <div class="badges">
+                    <span class="badge">🏆 École Certifiée</span>
+                    <span class="badge">🌍 Enseignement Bilingue</span>
+                    <span class="badge">👶 2-12 Ans</span>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>📞 Contacts</h3>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Secrétariat/Direction</strong>
+                            <p>+229 01 58030302</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Standard</strong>
+                            <p>+229 01 49777701</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Admissions</strong>
+                            <p>+229 01 40410990</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Urgences</strong>
+                            <p>+229 97 91 94 52</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>🏫 Informations</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Bénin - Parakou - Zongo</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Lun-Ven: 7h30 - 17h30</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>Année Scolaire 2025-2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>🚀 Inscriptions 2025-2026</h3>
+                <p>Rejoignez notre famille éducative</p>
+                <a href="inscription.html" class="footer-cta">
+                    <i class="fas fa-user-plus"></i>
+                    Pré-inscription en ligne
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2018-2025 Les Bulles de Joie - Tous droits réservés</p>
+                <p>Établissement d'enseignement privé - Agrément Ministère de l'Éducation</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://facebook.com/lesbullesdejoie" class="social-link" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://instagram.com/lesbullesdejoie" class="social-link" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com/@lesbullesdejoie" class="social-link" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Données des élèves avec l'ordre CORRIGÉ des matières
+        const studentsData = {
+            "agblo": { 
+                password: "fifamè", 
+                name: "AGBLO AGONDJIHOSSOU Fifamè", 
+                notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12],
+                moyenne: "14.11"
+            },
+            "akyoh": { 
+                password: "emmanuel", 
+                name: "AKYOH Emmanuel", 
+                notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13],
+                moyenne: "10.64"
+            },
+            "amadou": { 
+                password: "yinki", 
+                name: "AMADOU Yinki", 
+                notes: [15.5, 19, 5, 16.25, 7.75, 15, 13.25, 17, 14],
+                moyenne: "13.53"
+            },
+            "bani": { 
+                password: "rahama", 
+                name: "BANI Rahama", 
+                notes: [13.75, 18.25, 12, 20, 17, 14.5, 7.25, 18, 15],
+                moyenne: "15.08"
+            },
+            "dahougou": { 
+                password: "noham", 
+                name: "DAHOUGOU Noham", 
+                notes: [15.25, 18.50, 3, 12, 8.75, 13, 5.75, 18, 14],
+                moyenne: "12.03"
+            },
+            "eda": { 
+                password: "queen", 
+                name: "EDA Queen", 
+                notes: [19, 18.25, 4, 13.75, 14.5, 12, 15.75, 18, 14],
+                moyenne: "14.36"
+            },
+            "houehou": { 
+                password: "méka", 
+                name: "HOUEHOU Méka", 
+                notes: [18.75, 19.5, 9, 15, 14, 14.5, 17.25, 17, 13],
+                moyenne: "15.33"
+            },
+            "padonou": { 
+                password: "faith", 
+                name: "PADONOU Faith", 
+                notes: [19, 15.75, 4, 19, 17.25, 15, 13.75, 18, 13],
+                moyenne: "14.97"
+            },
+            "sovi": { 
+                password: "péniel", 
+                name: "SOVI Péniel", 
+                notes: [12.5, 18.25, 8, 18.5, 16.5, 13, 16.25, 17, 14],
+                moyenne: "14.89"
+            },
+            "tossavi": { 
+                password: "naelle", 
+                name: "TOSSAVI Naelle", 
+                notes: [19, 16.75, 9, 18, 18, 15, 12.25, 17, 14],
+                moyenne: "15.44"
+            }
+        };
+
+        // Ordre CORRIGÉ des matières
+        const subjects = [
+            'Lecture',
+            'Expression Écrite', 
+            'Dictée',
+            'Éducation Sociale (ES)',
+            'Éducation Scientifique (EST)',
+            'Dessin',
+            'Mathématiques',
+            'Éducation Sportive (EPS)',
+            'Orale'
+        ];
+
+        // Messages personnalisés de l'enseignant pour chaque élève
+        const teacherMessages = {
+            "agblo": {
+                felicitation: "Félicitations Fifamè ! Tes excellents résultats en lecture et expression écrite montrent ton amour pour les livres. Continue à nourrir cette passion !",
+                conseil: "Pour progresser en dictée, pratique la lecture à voix haute chaque jour pendant 10 minutes."
+            },
+            "akyoh": {
+                felicitation: "Bravo Emmanuel ! Tes performances en expression écrite et EPS sont remarquables. Ton esprit sportif et créatif est admirable !",
+                conseil: "Concentrez-vous sur les mathématiques en faisant des exercices pratiques avec des objets du quotidien."
+            },
+            "amadou": {
+                felicitation: "Excellent travail Yinki ! Tes notes en expression écrite et éducation sociale montrent ta grande sensibilité et ton intelligence sociale.",
+                conseil: "Pour améliorer vos résultats en sciences, observez le monde autour de vous et posez des questions."
+            },
+            "bani": {
+                felicitation: "Félicitations Rahama ! Ton 20/20 en éducation sociale montre ton esprit d'équipe exceptionnel. Tu es un véritable leader !",
+                conseil: "Continuez à développer vos talents en mathématiques grâce à des jeux éducatifs."
+            },
+            "dahougou": {
+                felicitation: "Bravo Noham ! Tes progrès en EPS et expression écrite sont impressionnants. Ton énergie positive est contagieuse !",
+                conseil: "Pour la dictée, écoutez attentivement les sons et associez-les aux lettres correspondantes."
+            },
+            "eda": {
+                felicitation: "Super travail Queen ! Tes excellents résultats en lecture et sciences montrent ta curiosité intellectuelle. Continue comme ça !",
+                conseil: "En mathématiques, prenez votre temps pour bien comprendre chaque étape avant de passer à la suivante."
+            },
+            "houehou": {
+                felicitation: "Félicitations Méka ! Tes performances exceptionnelles dans presque toutes les matières font de toi un élève modèle !",
+                conseil: "Continuez à partager vos méthodes de travail avec vos camarades, vous êtes une inspiration !"
+            },
+            "padonou": {
+                felicitation: "Bravo Faith ! Tes excellents résultats en sciences et éducation sociale montrent ton esprit analytique développé.",
+                conseil: "Pour progresser en expression orale, participez davantage aux discussions en classe."
+            },
+            "sovi": {
+                felicitation: "Excellent travail Péniel ! Tes progrès constants en sciences et mathématiques sont très encourageants.",
+                conseil: "En lecture, choisissez des livres qui vous passionnent pour développer encore plus votre aisance."
+            },
+            "tossavi": {
+                felicitation: "Félicitations Naelle ! Tes performances remarquables en sciences et EPS montrent ton équilibre parfait entre intellect et sport.",
+                conseil: "Pour l'expression écrite, écrivez un petit journal quotidien pour pratiquer régulièrement."
+            }
+        };
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Page résultats initialisée');
+            createFloatingParticles();
+            initClassTabs();
+            initLoginForm();
+            initPerformanceCharts();
+            initModal();
+            initFormAnimations();
+            
+            // Simulation du chargement
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').style.opacity = '0';
+                document.getElementById('loadingOverlay').style.visibility = 'hidden';
+            }, 1500);
+        });
+
+        // Création des particules flottantes
+        function createFloatingParticles() {
+            const container = document.getElementById('floatingParticles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Taille aléatoire
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Position aléatoire
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                // Animation avec délai aléatoire
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Gestion des onglets de classe
+        function initClassTabs() {
+            const classTabs = document.querySelectorAll('.class-tab');
+            classTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    classTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const className = this.getAttribute('data-class');
+                    loadClassResults(className);
+                });
+            });
+            
+            loadClassResults('ce1');
+        }
+
+        function loadClassResults(className) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const loginInterface = document.querySelector('.login-interface');
+            
+            if (className === 'ce1') {
+                if (loginInterface) loginInterface.style.display = 'block';
+                if (resultsContainer) {
+                    resultsContainer.style.display = 'none';
+                    resultsContainer.innerHTML = '';
+                }
+            } else {
+                if (loginInterface) loginInterface.style.display = 'none';
+                showComingSoon(className);
+            }
+        }
+
+        function showComingSoon(className) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                const classNames = {
+                    'ci': 'Classe d\'Initiation (CI)',
+                    'cp': 'Cours Préparatoire (CP)', 
+                    'ce2': 'Cours Élémentaire 2ème année (CE2)'
+                };
+                
+                resultsContainer.innerHTML = `
+                    <div class="coming-soon-message card-animation">
+                        <div class="coming-soon-icon">⏳</div>
+                        <h3>Disponible Bientôt</h3>
+                        <p>Les résultats pour la <strong>${classNames[className] || className.toUpperCase()}</strong> seront disponibles prochainement.</p>
+                        <p>Actuellement, seuls les résultats du <strong>CE1</strong> sont accessibles.</p>
+                        <a href="contact.html" class="btn btn-primary" style="margin-top: 1rem;">
+                            <i class="fas fa-envelope"></i> Nous contacter pour plus d'informations
+                        </a>
+                    </div>
+                `;
+                resultsContainer.style.display = 'block';
+            }
+        }
+
+        // Gestion du formulaire de connexion
+        function initLoginForm() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', () => {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    togglePassword.querySelector('i').classList.toggle('fa-eye');
+                    togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            if (submitBtn) {
+                submitBtn.addEventListener('click', handleLogin);
+            }
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        handleLogin();
+                    }
+                });
+            }
+        }
+
+        // Animation des champs de formulaire
+        function initFormAnimations() {
+            const formControls = document.querySelectorAll('.form-control');
+            
+            formControls.forEach(control => {
+                const formGroup = control.closest('.form-group');
+                
+                control.addEventListener('focus', () => {
+                    formGroup.classList.add('focused');
+                });
+                
+                control.addEventListener('blur', () => {
+                    if (!control.value) {
+                        formGroup.classList.remove('focused');
+                    }
+                });
+                
+                // Initial state
+                if (control.value) {
+                    formGroup.classList.add('focused');
+                }
+            });
+        }
+
+        function handleLogin() {
+            const studentSelect = document.getElementById('studentSelect');
+            const passwordInput = document.getElementById('passwordInput');
+            const selectedStudent = studentSelect.value;
+            const enteredPassword = passwordInput.value.trim().toLowerCase();
+            
+            if (!selectedStudent) {
+                showNotification('Veuillez sélectionner un élève', 'warning');
+                studentSelect.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    studentSelect.style.animation = '';
+                }, 500);
+                return;
+            }
+            
+            if (!enteredPassword) {
+                showNotification('Veuillez entrer le mot de passe', 'warning');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+                return;
+            }
+            
+            const student = studentsData[selectedStudent];
+            
+            if (student && enteredPassword === student.password) {
+                showNotification(`Connexion réussie ! Bienvenue ${student.name.split(' ')[1]} ! 🎉`, 'success');
+                displayStudentResult(selectedStudent);
+                
+                const loginInterface = document.querySelector('.login-interface');
+                if (loginInterface) {
+                    loginInterface.style.display = 'none';
+                }
+                
+                setTimeout(() => {
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    if (resultsContainer) {
+                        resultsContainer.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 1000);
+                
+            } else {
+                showNotification('Mot de passe incorrect. Le mot de passe correspond au prénom en minuscules.', 'error');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Affichage des résultats d'un élève
+        function displayStudentResult(studentId) {
+            const student = studentsData[studentId];
+            if (!student) return;
+
+            const average = parseFloat(student.moyenne);
+            const averageClass = average >= 16 ? 'excellent' : average >= 12 ? 'good' : 'average';
+            const teacherMessage = teacherMessages[studentId];
+            const studentFirstName = student.name.split(' ')[1];
+            
+            let html = `
+                <div class="welcome-message card-animation">
+                    <h3>👋 Bienvenue chers parents de ${student.name} !</h3>
+                    <p>Nous sommes ravis de vous accueillir sur le portail des résultats de <strong>${studentFirstName}</strong>. Voici le bilan détaillé de sa performance académique pour le mois d'octobre 2025.</p>
+                </div>
+                
+                <div class="student-result-card card-animation">
+                    <div class="student-header">
+                        <h4>${student.name}</h4>
+                        <span class="average ${averageClass}">
+                            Moyenne: ${student.moyenne}/20
+                            ${average >= 16 ? '🏆' : average >= 12 ? '✅' : '📈'}
+                        </span>
+                    </div>
+                    
+                    <div class="teacher-message">
+                        <h4><i class="fas fa-award"></i> Message de l'enseignant</h4>
+                        <p>${teacherMessage.felicitation}</p>
+                    </div>
+                    
+                    <div class="teacher-advice">
+                        <h4><i class="fas fa-lightbulb"></i> Conseil personnalisé</h4>
+                        <p>${teacherMessage.conseil}</p>
+                    </div>
+                    
+                    <div class="grades-grid">
+            `;
+            
+            student.notes.forEach((note, index) => {
+                const percentage = (note / 20) * 100;
+                const gradeClass = note < 10 ? 'low' : note >= 16 ? 'high' : 'medium';
+                const subjectIcon = getSubjectIcon(subjects[index]);
+                
+                html += `
+                    <div class="subject-grade">
+                        <span class="subject">
+                            <span class="subject-icon">${subjectIcon}</span>
+                            ${subjects[index]}
+                        </span>
+                        <div class="grade-bar">
+                            <div class="grade-fill ${gradeClass}" style="width: ${percentage}%"></div>
+                        </div>
+                        <span class="grade-value ${gradeClass}">
+                            ${note}/20
+                            ${note >= 16 ? '🌟' : note < 10 ? '⚠️' : ''}
+                        </span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="student-actions">
+                        <button class="btn btn-secondary" onclick="showPerformanceDetails('${studentId}')">
+                            <i class="fas fa-chart-line"></i> Analyse détaillée
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                resultsContainer.innerHTML = html;
+                resultsContainer.style.display = 'block';
+                
+                // Animation des barres de progression
+                setTimeout(() => {
+                    animateGradeBars();
+                }, 100);
+            }
+        }
+
+        // Initialisation de la modal
+        function initModal() {
+            const modal = document.getElementById('performanceModal');
+            const closeBtn = document.querySelector('.close-modal');
+            
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour afficher les détails de performance
+        function showPerformanceDetails(studentId) {
+            const student = studentsData[studentId];
+            const teacherMessage = teacherMessages[studentId];
+            
+            const bestSubjectIndex = student.notes.indexOf(Math.max(...student.notes));
+            const worstSubjectIndex = student.notes.indexOf(Math.min(...student.notes.filter(note => note > 0)));
+            
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <h4>Analyse détaillée de ${student.name.split(' ')[1]}</h4>
+                
+                <div class="performance-stats">
+                    <div class="performance-stat">
+                        <div class="stat-value">${student.moyenne}/20</div>
+                        <div class="stat-label">Moyenne Générale</div>
+                    </div>
+                    <div class="performance-stat">
+                        <div class="stat-value">${subjects[bestSubjectIndex]}</div>
+                        <div class="stat-label">Matière Forte</div>
+                    </div>
+                    <div class="performance-stat">
+                        <div class="stat-value">${subjects[worstSubjectIndex]}</div>
+                        <div class="stat-label">À Renforcer</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="radar-chart">
+                        <h5>📊 Répartition des notes</h5>
+                        <div class="performance-chart">
+                            <p>Excellent (16-20): ${student.notes.filter(note => note >= 16).length} matière(s)</p>
+                            <p>Bon (12-15.9): ${student.notes.filter(note => note >= 12 && note < 16).length} matière(s)</p>
+                            <p>À améliorer (0-11.9): ${student.notes.filter(note => note < 12).length} matière(s)</p>
+                        </div>
+                    </div>
+                    <div class="subject-performance">
+                        <h5>📈 Performance par matière</h5>
+                        ${student.notes.map((note, index) => {
+                            const percentage = (note / 20) * 100;
+                            const gradeClass = note < 10 ? 'low' : note >= 16 ? 'high' : 'medium';
+                            return `
+                                <div class="subject-performance-item">
+                                    <span>${subjects[index]}</span>
+                                    <div class="progress-indicator">
+                                        <div class="progress-fill ${gradeClass}" style="width: ${percentage}%"></div>
+                                    </div>
+                                    <span class="grade-value ${gradeClass}">${note}/20</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                
+                <div class="teacher-message">
+                    <h4><i class="fas fa-star"></i> Points Forts</h4>
+                    <p>${student.notes.filter(note => note >= 16).length > 0 ? 
+                        `Excellence en ${subjects[bestSubjectIndex]} et dans ${student.notes.filter(note => note >= 16).length} autre(s) matière(s)` : 
+                        'Bon équilibre général dans toutes les matières'}</p>
+                </div>
+                
+                <div class="teacher-advice">
+                    <h4><i class="fas fa-bullseye"></i> Objectifs du Mois</h4>
+                    <p>${teacherMessage.conseil}</p>
+                    <p><strong>Prochain objectif :</strong> Améliorer les résultats en ${subjects[worstSubjectIndex]}</p>
+                </div>
+            `;
+            
+            document.getElementById('performanceModal').style.display = 'block';
+            
+            // Animation des barres de progression dans la modal
+            setTimeout(() => {
+                const progressFills = document.querySelectorAll('.progress-fill');
+                progressFills.forEach(fill => {
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 100);
+                });
+            }, 100);
+        }
+
+        // Fonctions utilitaires
+        function getSubjectIcon(subject) {
+            const icons = {
+                'Lecture': '📖',
+                'Expression Écrite': '✍️',
+                'Dictée': '📝',
+                'Éducation Sociale (ES)': '👥',
+                'Éducation Scientifique (EST)': '🔬',
+                'Dessin': '🎨',
+                'Mathématiques': '🔢',
+                'Éducation Sportive (EPS)': '⚽',
+                'Orale': '🎤'
+            };
+            return icons[subject] || '📚';
+        }
+
+        function animateGradeBars() {
+            const gradeBars = document.querySelectorAll('.grade-fill');
+            gradeBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+
+        function getAppreciation(average) {
+            if (average >= 16) return 'Excellent 🏆';
+            if (average >= 14) return 'Très Bien ⭐';
+            if (average >= 12) return 'Bien ✅';
+            if (average >= 10) return 'Assez Bien 📈';
+            return 'À améliorer 💪';
+        }
+
+        function getNoteAppreciation(note) {
+            if (note >= 16) return 'Excellent';
+            if (note >= 14) return 'Très Bien';
+            if (note >= 12) return 'Bien';
+            if (note >= 10) return 'Assez Bien';
+            return 'À améliorer';
+        }
+
+        function initPerformanceCharts() {
+            // Initialisation des graphiques circulaires
+            const chartCircles = document.querySelectorAll('.chart-circle');
+            chartCircles.forEach(circle => {
+                const percentage = circle.getAttribute('data-percentage');
+                circle.style.setProperty('--percentage', percentage + '%');
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : type === 'info' ? 'info-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Rendre les fonctions accessibles globalement
+        window.showPerformanceDetails = showPerformanceDetails;
+    </script>
+</body>
+</html>
