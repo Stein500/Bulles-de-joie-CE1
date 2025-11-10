@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="fr-BJ" itemscope itemtype="https://schema.org/EducationalOrganization">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou Bénin</title>
+    <meta name="description" content="Consultez les résultats scolaires des élèves des Bulles de Joie. Suivi pédagogique, bulletins et statistiques de performance pour l'année 2025-2026.">
+    
+    <meta name="keywords" content="résultats scolaires, bulletins école Parakou, performance élèves, suivi pédagogique, évaluation CE1">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou">
+    <meta property="og:description" content="Consultez les résultats et le suivi pédagogique de nos élèves">
+    <meta property="og:url" content="https://lesbullesdejoie.bj/resultats.html">
+    
+    <link rel="canonical" href="https://lesbullesdejoie.bj/resultats.html">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bibliothèque pour générer le PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Résultats Scolaires - Les Bulles de Joie",
+      "description": "Page présentant les résultats scolaires des élèves",
+      "url": "https://lesbullesdejoie.bj/resultats.html"
+    }
+    </script>
+
+    <style>
+        /* [Tous les styles précédents restent identiques] */
+        
+        .results-hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .result-stat {
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+        }
+        
+        /* ... [tous les autres styles restent identiques] ... */
+
+        /* Styles pour les boutons PDF */
+        .btn-pdf {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-pdf:active {
+            transform: translateY(0);
+        }
+        
+        .pdf-loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Style corrigé pour le bulletin PDF - PLUS de display: none */
+        .bulletin-pdf {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            padding: 2rem;
+            background: white;
+            color: black;
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 800px;
+            height: auto;
+        }
+
+        .bulletin-header {
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .bulletin-header img {
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .bulletin-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin: 0.5rem 0;
+        }
+
+        .bulletin-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+        .bulletin-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .bulletin-student {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .bulletin-school {
+            background: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .bulletin-grades {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .bulletin-grades th {
+            background: #34495e;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .bulletin-grades td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .bulletin-grades tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .bulletin-footer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #bdc3c7;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .bulletin-signature {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #7f8c8d;
+            width: 200px;
+            margin: 2rem auto 0.5rem;
+        }
+
+        /* ... [le reste des styles reste identique] ... */
+    </style>
+</head>
+<body data-theme="light">
+    <!-- [Le reste du HTML reste identique] -->
+    
+    <div class="floating-stickers">
+        <div class="sticker">📊</div>
+        <div class="sticker">🎓</div>
+        <div class="sticker">🏆</div>
+        <div class="sticker">📈</div>
+        <div class="sticker">⭐</div>
+        <div class="sticker">💯</div>
+        <div class="sticker">📚</div>
+        <div class="sticker">🌟</div>
+    </div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-image">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie - École Bilingue Parakou" width="80" height="80">
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p class="establishment-type">Crèche • Garderie • Maternelle • Primaire Bilingue</p>
+                </div>
+            </div>
+            
+            <div class="header-contact">
+                <div class="contact-badge">
+                    <i class="fas fa-phone"></i>
+                    <div class="contact-info">
+                        <span class="contact-label">Secrétariat/Direction</span>
+                        <span class="contact-number">+229 01 58030302</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="apropos.html" class="nav-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Notre École</span>
+            </a>
+            <a href="pedagogie.html" class="nav-item">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Pédagogie</span>
+            </a>
+            <a href="activites.html" class="nav-item">
+                <i class="fas fa-paint-brush"></i>
+                <span>Activités</span>
+            </a>
+            <a href="resultats.html" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Résultats</span>
+            </a>
+            <a href="contact.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section" style="background: var(--gradient-mixte);">
+            <div class="hero-content">
+                <h1 class="hero-title">Résultats Scolaires</h1>
+                <p class="hero-subtitle">Suivi pédagogique et excellence académique</p>
+                
+                <div class="results-hero-stats">
+                    <div class="result-stat">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Taux de réussite</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-number">14.5/20</div>
+                        <div class="stat-label">Moyenne générale</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Élèves bilingues</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Résultats Scolaires - Octobre 2025</h2>
+                <p class="section-subtitle">Consultez les performances académiques de votre enfant</p>
+                
+                <div class="results-system">
+                    <div class="class-navigation">
+                        <div class="nav-tabs">
+                            <button class="class-tab" data-class="ci">CI</button>
+                            <button class="class-tab" data-class="cp">CP</button>
+                            <button class="class-tab active" data-class="ce1">CE1</button>
+                            <button class="class-tab" data-class="ce2">CE2</button>
+                        </div>
+                    </div>
+                    
+                    <div class="login-interface">
+                        <div class="card">
+                            <h2 class="card-title"><i class="fas fa-key"></i> Accès aux résultats</h2>
+                            <p>Pour consulter les résultats de votre enfant, veuillez saisir le mot de passe qui vous a été communiqué.</p>
+                            
+                            <div class="password-form">
+                                <div class="form-group">
+                                    <label for="studentSelect">Sélectionnez l'élève :</label>
+                                    <div class="select-container">
+                                        <select id="studentSelect" class="form-control">
+                                            <option value="">-- Choisir un élève --</option>
+                                            <option value="agblo">AGBLO AGONDJIHOSSOU Fifamè</option>
+                                            <option value="akyoh">AKYOH Emmanuel</option>
+                                            <option value="amadou">AMADOU Yinki</option>
+                                            <option value="bani">BANI Rahama</option>
+                                            <option value="dahougou">DAHOUGOU Noham</option>
+                                            <option value="eda">EDA Queen</option>
+                                            <option value="houehou">HOUEHOU Méka</option>
+                                            <option value="padonou">PADONOU Faith</option>
+                                            <option value="sovi">SOVI Péniel</option>
+                                            <option value="tossavi">TOSSAVI Naelle</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group password-group">
+                                    <label for="passwordInput">Mot de passe :</label>
+                                    <div class="password-input-container">
+                                        <input type="password" id="passwordInput" class="form-control" placeholder=" ">
+                                        <span class="floating-label">Entrez le mot de passe</span>
+                                        <button id="togglePassword" class="toggle-password">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary animated btn-pulse" id="submitBtn">
+                                    <i class="fas fa-unlock"></i> Voir les résultats
+                                </button>
+                                
+                                <p class="password-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    Le mot de passe correspond au prénom de l'élève en minuscules
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="resultsContainer" class="results-container">
+                        <!-- Les résultats s'afficheront ici après connexion -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Informations IMPORTANTES SANS DATE D'ÉVALUATION -->
+        <section class="section" style="background: var(--gradient-bleu); color: white;">
+            <div class="container">
+                <div class="card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(20px);">
+                    <h2 class="card-title" style="color: white;"><i class="fas fa-info-circle"></i> Informations Importantes</h2>
+                    <div class="live-stats">
+                        <div class="live-stat">
+                            <div class="stat-icon">👨‍🏫</div>
+                            <div class="stat-info">
+                                <h4>Enseignant</h4>
+                                <p>C. J. S. Stein</p>
+                            </div>
+                        </div>
+                        <div class="live-stat">
+                            <div class="stat-icon">🏫</div>
+                            <div class="stat-info">
+                                <h4>Directrice</h4>
+                                <p>SEGBO S. A. D. Carole</p>
+                            </div>
+                        </div>
+                        <div class="live-stat">
+                            <div class="stat-icon">📚</div>
+                            <div class="stat-info">
+                                <h4>Année Scolaire</h4>
+                                <p>2025-2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal pour les détails de performance -->
+    <div id="performanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-chart-line"></i> Détails de Performance</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="modalBody">
+                <!-- Le contenu sera injecté ici -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Template pour le bulletin PDF - CORRIGÉ -->
+    <div id="bulletinTemplate" class="bulletin-pdf">
+        <div class="bulletin-header">
+            <img src="assets/images/logo.png" alt="Les Bulles de Joie">
+            <h1 class="bulletin-title">BULLETIN SCOLAIRE</h1>
+            <p class="bulletin-subtitle">École Bilingue Les Bulles de Joie - Parakou</p>
+            <p class="bulletin-period">Période : Octobre 2025 - CE1</p>
+        </div>
+
+        <div class="bulletin-info">
+            <div class="bulletin-student">
+                <h3>INFORMATIONS ÉLÈVE</h3>
+                <p><strong>Nom :</strong> <span id="pdf-student-name"></span></p>
+                <p><strong>Moyenne Générale :</strong> <span id="pdf-student-average"></span>/20</p>
+                <p><strong>Appréciation :</strong> <span id="pdf-student-appreciation"></span></p>
+            </div>
+            
+            <div class="bulletin-school">
+                <h3>INFORMATIONS ÉCOLE</h3>
+                <p><strong>Enseignant :</strong> C. J. S. Stein</p>
+                <p><strong>Directrice :</strong> SEGBO S. A. D. Carole</p>
+                <p><strong>Année Scolaire :</strong> 2025-2026</p>
+            </div>
+        </div>
+
+        <table class="bulletin-grades">
+            <thead>
+                <tr>
+                    <th>Matière</th>
+                    <th>Note</th>
+                    <th>Appréciation</th>
+                </tr>
+            </thead>
+            <tbody id="pdf-grades-body">
+                <!-- Les notes seront injectées ici -->
+            </tbody>
+        </table>
+
+        <div class="bulletin-footer">
+            <div class="bulletin-comments">
+                <h3>OBSERVATIONS</h3>
+                <p id="pdf-teacher-message"></p>
+                <p><strong>Conseil :</strong> <span id="pdf-teacher-advice"></span></p>
+            </div>
+            
+            <div class="bulletin-signature">
+                <h3>VALIDATION</h3>
+                <p>Fait à Parakou, le <span id="pdf-date"></span></p>
+                <div class="signature-line"></div>
+                <p>Le Directeur</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" width="60" height="60">
+                    <div>
+                        <h3>Les Bulles de Joie</h3>
+                        <p class="footer-motto">"L'excellence éducative dans la joie d'apprendre"</p>
+                    </div>
+                </div>
+                <div class="badges">
+                    <span class="badge">🏆 École Certifiée</span>
+                    <span class="badge">🌍 Enseignement Bilingue</span>
+                    <span class="badge">👶 2-12 Ans</span>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>📞 Contacts</h3>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Secrétariat/Direction</strong>
+                            <p>+229 01 58030302</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Standard</strong>
+                            <p>+229 01 49777701</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Admissions</strong>
+                            <p>+229 01 40410990</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Urgences</strong>
+                            <p>+229 97 91 94 52</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>🏫 Informations</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Bénin - Parakou - Zongo</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Lun-Ven: 7h30 - 17h30</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>Année Scolaire 2025-2026</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>🚀 Inscriptions 2025-2026</h3>
+                <p>Rejoignez notre famille éducative</p>
+                <a href="inscription.html" class="footer-cta">
+                    <i class="fas fa-user-plus"></i>
+                    Pré-inscription en ligne
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2018-2025 Les Bulles de Joie - Tous droits réservés</p>
+                <p>Établissement d'enseignement privé - Agrément Ministère de l'Éducation</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://facebook.com/lesbullesdejoie" class="social-link" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://instagram.com/lesbullesdejoie" class="social-link" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com/@lesbullesdejoie" class="social-link" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Données des élèves avec l'ordre CORRIGÉ des matières
+        const studentsData = {
+            "agblo": { 
+                password: "fifamè", 
+                name: "AGBLO AGONDJIHOSSOU Fifamè", 
+                notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12],
+                moyenne: "14.11"
+            },
+            "akyoh": { 
+                password: "emmanuel", 
+                name: "AKYOH Emmanuel", 
+                notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13],
+                moyenne: "10.64"
+            },
+            "amadou": { 
+                password: "yinki", 
+                name: "AMADOU Yinki", 
+                notes: [15.5, 19, 5, 16.25, 7.75, 15, 13.25, 17, 14],
+                moyenne: "13.53"
+            },
+            "bani": { 
+                password: "rahama", 
+                name: "BANI Rahama", 
+                notes: [13.75, 18.25, 12, 20, 17, 14.5, 7.25, 18, 15],
+                moyenne: "15.08"
+            },
+            "dahougou": { 
+                password: "noham", 
+                name: "DAHOUGOU Noham", 
+                notes: [15.25, 18.50, 3, 12, 8.75, 13, 5.75, 18, 14],
+                moyenne: "12.03"
+            },
+            "eda": { 
+                password: "queen", 
+                name: "EDA Queen", 
+                notes: [19, 18.25, 4, 13.75, 14.5, 12, 15.75, 18, 14],
+                moyenne: "14.36"
+            },
+            "houehou": { 
+                password: "méka", 
+                name: "HOUEHOU Méka", 
+                notes: [18.75, 19.5, 9, 15, 14, 14.5, 17.25, 17, 13],
+                moyenne: "15.33"
+            },
+            "padonou": { 
+                password: "faith", 
+                name: "PADONOU Faith", 
+                notes: [19, 15.75, 4, 19, 17.25, 15, 13.75, 18, 13],
+                moyenne: "14.97"
+            },
+            "sovi": { 
+                password: "péniel", 
+                name: "SOVI Péniel", 
+                notes: [12.5, 18.25, 8, 18.5, 16.5, 13, 16.25, 17, 14],
+                moyenne: "14.89"
+            },
+            "tossavi": { 
+                password: "naelle", 
+                name: "TOSSAVI Naelle", 
+                notes: [19, 16.75, 9, 18, 18, 15, 12.25, 17, 14],
+                moyenne: "15.44"
+            }
+        };
+
+        // Ordre CORRIGÉ des matières
+        const subjects = [
+            'Lecture',
+            'Expression Écrite', 
+            'Dictée',
+            'Éducation Sociale (ES)',
+            'Éducation Scientifique (EST)',
+            'Dessin',
+            'Mathématiques',
+            'Éducation Sportive (EPS)',
+            'Orale'
+        ];
+
+        // Messages personnalisés de l'enseignant pour chaque élève
+        const teacherMessages = {
+            "agblo": {
+                felicitation: "Félicitations Fifamè ! Tes excellents résultats en lecture et expression écrite montrent ton amour pour les livres. Continue à nourrir cette passion !",
+                conseil: "Pour progresser en dictée, pratique la lecture à voix haute chaque jour pendant 10 minutes."
+            },
+            "akyoh": {
+                felicitation: "Bravo Emmanuel ! Tes performances en expression écrite et EPS sont remarquables. Ton esprit sportif et créatif est admirable !",
+                conseil: "Concentrez-vous sur les mathématiques en faisant des exercices pratiques avec des objets du quotidien."
+            },
+            "amadou": {
+                felicitation: "Excellent travail Yinki ! Tes notes en expression écrite et éducation sociale montrent ta grande sensibilité et ton intelligence sociale.",
+                conseil: "Pour améliorer vos résultats en sciences, observez le monde autour de vous et posez des questions."
+            },
+            "bani": {
+                felicitation: "Félicitations Rahama ! Ton 20/20 en éducation sociale montre ton esprit d'équipe exceptionnel. Tu es un véritable leader !",
+                conseil: "Continuez à développer vos talents en mathématiques grâce à des jeux éducatifs."
+            },
+            "dahougou": {
+                felicitation: "Bravo Noham ! Tes progrès en EPS et expression écrite sont impressionnants. Ton énergie positive est contagieuse !",
+                conseil: "Pour la dictée, écoutez attentivement les sons et associez-les aux lettres correspondantes."
+            },
+            "eda": {
+                felicitation: "Super travail Queen ! Tes excellents résultats en lecture et sciences montrent ta curiosité intellectuelle. Continue comme ça !",
+                conseil: "En mathématiques, prenez votre temps pour bien comprendre chaque étape avant de passer à la suivante."
+            },
+            "houehou": {
+                felicitation: "Félicitations Méka ! Tes performances exceptionnelles dans presque toutes les matières font de toi un élève modèle !",
+                conseil: "Continuez à partager vos méthodes de travail avec vos camarades, vous êtes une inspiration !"
+            },
+            "padonou": {
+                felicitation: "Bravo Faith ! Tes excellents résultats en sciences et éducation sociale montrent ton esprit analytique développé.",
+                conseil: "Pour progresser en expression orale, participez davantage aux discussions en classe."
+            },
+            "sovi": {
+                felicitation: "Excellent travail Péniel ! Tes progrès constants en sciences et mathématiques sont très encourageants.",
+                conseil: "En lecture, choisissez des livres qui vous passionnent pour développer encore plus votre aisance."
+            },
+            "tossavi": {
+                felicitation: "Félicitations Naelle ! Tes performances remarquables en sciences et EPS montrent ton équilibre parfait entre intellect et sport.",
+                conseil: "Pour l'expression écrite, écrivez un petit journal quotidien pour pratiquer régulièrement."
+            }
+        };
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Page résultats initialisée');
+            initClassTabs();
+            initLoginForm();
+            initPerformanceCharts();
+            initModal();
+            initFormAnimations();
+        });
+
+        // Gestion des onglets de classe
+        function initClassTabs() {
+            const classTabs = document.querySelectorAll('.class-tab');
+            classTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    classTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const className = this.getAttribute('data-class');
+                    loadClassResults(className);
+                });
+            });
+            
+            loadClassResults('ce1');
+        }
+
+        function loadClassResults(className) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const loginInterface = document.querySelector('.login-interface');
+            
+            if (className === 'ce1') {
+                if (loginInterface) loginInterface.style.display = 'block';
+                if (resultsContainer) {
+                    resultsContainer.style.display = 'none';
+                    resultsContainer.innerHTML = '';
+                }
+            } else {
+                if (loginInterface) loginInterface.style.display = 'none';
+                showComingSoon(className);
+            }
+        }
+
+        function showComingSoon(className) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                const classNames = {
+                    'ci': 'Classe d\'Initiation (CI)',
+                    'cp': 'Cours Préparatoire (CP)', 
+                    'ce2': 'Cours Élémentaire 2ème année (CE2)'
+                };
+                
+                resultsContainer.innerHTML = `
+                    <div class="coming-soon-message">
+                        <div class="coming-soon-icon">⏳</div>
+                        <h3>Disponible Bientôt</h3>
+                        <p>Les résultats pour la <strong>${classNames[className] || className.toUpperCase()}</strong> seront disponibles prochainement.</p>
+                        <p>Actuellement, seuls les résultats du <strong>CE1</strong> sont accessibles.</p>
+                        <a href="contact.html" class="btn btn-primary" style="margin-top: 1rem;">
+                            <i class="fas fa-envelope"></i> Nous contacter pour plus d'informations
+                        </a>
+                    </div>
+                `;
+                resultsContainer.style.display = 'block';
+            }
+        }
+
+        // Gestion du formulaire de connexion
+        function initLoginForm() {
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('passwordInput');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', () => {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    togglePassword.querySelector('i').classList.toggle('fa-eye');
+                    togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            if (submitBtn) {
+                submitBtn.addEventListener('click', handleLogin);
+            }
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        handleLogin();
+                    }
+                });
+            }
+        }
+
+        // Animation des champs de formulaire
+        function initFormAnimations() {
+            const formControls = document.querySelectorAll('.form-control');
+            
+            formControls.forEach(control => {
+                const formGroup = control.closest('.form-group');
+                
+                control.addEventListener('focus', () => {
+                    formGroup.classList.add('focused');
+                });
+                
+                control.addEventListener('blur', () => {
+                    if (!control.value) {
+                        formGroup.classList.remove('focused');
+                    }
+                });
+                
+                // Initial state
+                if (control.value) {
+                    formGroup.classList.add('focused');
+                }
+            });
+        }
+
+        function handleLogin() {
+            const studentSelect = document.getElementById('studentSelect');
+            const passwordInput = document.getElementById('passwordInput');
+            const selectedStudent = studentSelect.value;
+            const enteredPassword = passwordInput.value.trim().toLowerCase();
+            
+            if (!selectedStudent) {
+                showNotification('Veuillez sélectionner un élève', 'warning');
+                studentSelect.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    studentSelect.style.animation = '';
+                }, 500);
+                return;
+            }
+            
+            if (!enteredPassword) {
+                showNotification('Veuillez entrer le mot de passe', 'warning');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+                return;
+            }
+            
+            const student = studentsData[selectedStudent];
+            
+            if (student && enteredPassword === student.password) {
+                showNotification(`Connexion réussie ! Bienvenue ${student.name.split(' ')[1]} ! 🎉`, 'success');
+                displayStudentResult(selectedStudent);
+                
+                const loginInterface = document.querySelector('.login-interface');
+                if (loginInterface) {
+                    loginInterface.style.display = 'none';
+                }
+                
+                setTimeout(() => {
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    if (resultsContainer) {
+                        resultsContainer.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 1000);
+                
+            } else {
+                showNotification('Mot de passe incorrect. Le mot de passe correspond au prénom en minuscules.', 'error');
+                passwordInput.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Affichage des résultats d'un élève
+        function displayStudentResult(studentId) {
+            const student = studentsData[studentId];
+            if (!student) return;
+
+            const average = parseFloat(student.moyenne);
+            const averageClass = average >= 16 ? 'excellent' : average >= 12 ? 'good' : 'average';
+            const teacherMessage = teacherMessages[studentId];
+            const studentFirstName = student.name.split(' ')[1];
+            
+            let html = `
+                <div class="welcome-message">
+                    <h3>👋 Bienvenue chers parents de ${student.name} !</h3>
+                    <p>Nous sommes ravis de vous accueillir sur le portail des résultats de <strong>${studentFirstName}</strong>. Voici le bilan détaillé de sa performance académique pour le mois d'octobre 2025.</p>
+                </div>
+                
+                <div class="results-header">
+                    <h3>Résultats CE1 - Octobre 2025</h3>
+                    <div class="smart-actions">
+                        <button class="btn btn-secondary btn-pdf" onclick="generatePDF('${studentId}')" id="pdfBtn-${studentId}">
+                            <i class="fas fa-file-pdf"></i> Télécharger le bulletin PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="student-result-card">
+                    <div class="student-header">
+                        <h4>${student.name}</h4>
+                        <span class="average ${averageClass}">
+                            Moyenne: ${student.moyenne}/20
+                            ${average >= 16 ? '🏆' : average >= 12 ? '✅' : '📈'}
+                        </span>
+                    </div>
+                    
+                    <div class="teacher-message">
+                        <h4><i class="fas fa-award"></i> Message de l'enseignant</h4>
+                        <p>${teacherMessage.felicitation}</p>
+                    </div>
+                    
+                    <div class="teacher-advice">
+                        <h4><i class="fas fa-lightbulb"></i> Conseil personnalisé</h4>
+                        <p>${teacherMessage.conseil}</p>
+                    </div>
+                    
+                    <div class="grades-grid">
+            `;
+            
+            student.notes.forEach((note, index) => {
+                const percentage = (note / 20) * 100;
+                const gradeClass = note < 10 ? 'low' : note >= 16 ? 'high' : 'medium';
+                const subjectIcon = getSubjectIcon(subjects[index]);
+                
+                html += `
+                    <div class="subject-grade">
+                        <span class="subject">
+                            <span class="subject-icon">${subjectIcon}</span>
+                            ${subjects[index]}
+                        </span>
+                        <div class="grade-bar">
+                            <div class="grade-fill ${gradeClass}" style="width: 0%"></div>
+                        </div>
+                        <span class="grade-value ${gradeClass}">
+                            ${note}/20
+                            ${note >= 16 ? '🌟' : note < 10 ? '⚠️' : ''}
+                        </span>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <div class="student-actions">
+                        <button class="btn btn-outline btn-pdf" onclick="generatePDF('${studentId}')">
+                            <i class="fas fa-download"></i> Télécharger le bulletin PDF
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPerformanceDetails('${studentId}')">
+                            <i class="fas fa-chart-line"></i> Analyse détaillée
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            if (resultsContainer) {
+                resultsContainer.innerHTML = html;
+                resultsContainer.style.display = 'block';
+                
+                // Animation des barres de progression
+                setTimeout(() => {
+                    animateGradeBars();
+                }, 100);
+            }
+        }
+
+        // FONCTION PDF CORRIGÉE - Version simplifiée et fiable
+        function generatePDF(studentId) {
+            const student = studentsData[studentId];
+            const teacherMessage = teacherMessages[studentId];
+            const average = parseFloat(student.moyenne);
+            
+            // Désactiver le bouton pendant la génération
+            setPDFButtonState(studentId, true);
+            
+            // Créer un contenu HTML simple et robuste pour le PDF
+            const content = `
+                <div style="font-family: Arial, sans-serif; padding: 25px; color: #333; max-width: 800px; margin: 0 auto;">
+                    <!-- En-tête -->
+                    <div style="text-align: center; border-bottom: 3px solid #4CAF50; padding-bottom: 20px; margin-bottom: 25px;">
+                        <h1 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 28px;">BULLETIN SCOLAIRE</h1>
+                        <h2 style="color: #7f8c8d; margin: 5px 0; font-size: 18px; font-weight: normal;">École Bilingue Les Bulles de Joie - Parakou</h2>
+                        <p style="margin: 5px 0; font-size: 16px;"><strong>Période : Octobre 2025 - CE1</strong></p>
+                    </div>
+                    
+                    <!-- Informations élève et école -->
+                    <div style="display: flex; gap: 20px; margin-bottom: 25px;">
+                        <div style="flex: 1; background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #4CAF50;">
+                            <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 2px solid #4CAF50; padding-bottom: 8px;">INFORMATIONS ÉLÈVE</h3>
+                            <p style="margin: 8px 0;"><strong>Nom :</strong> ${student.name}</p>
+                            <p style="margin: 8px 0;"><strong>Moyenne Générale :</strong> ${student.moyenne}/20</p>
+                            <p style="margin: 8px 0;"><strong>Appréciation :</strong> ${getAppreciation(average)}</p>
+                        </div>
+                        
+                        <div style="flex: 1; background: #e3f2fd; padding: 20px; border-radius: 10px; border-left: 4px solid #2196F3;">
+                            <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 2px solid #2196F3; padding-bottom: 8px;">INFORMATIONS ÉCOLE</h3>
+                            <p style="margin: 8px 0;"><strong>Enseignant :</strong> C. J. S. Stein</p>
+                            <p style="margin: 8px 0;"><strong>Directrice :</strong> SEGBO S. A. D. Carole</p>
+                            <p style="margin: 8px 0;"><strong>Année Scolaire :</strong> 2025-2026</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tableau des notes -->
+                    <div style="margin: 25px 0;">
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #34495e; padding-bottom: 8px;">RÉSULTATS SCOLAIRES</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                            <thead>
+                                <tr style="background: #34495e; color: white;">
+                                    <th style="padding: 12px; text-align: left; border: 1px solid #2c3e50;">Matière</th>
+                                    <th style="padding: 12px; text-align: center; border: 1px solid #2c3e50;">Note</th>
+                                    <th style="padding: 12px; text-align: center; border: 1px solid #2c3e50;">Appréciation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${student.notes.map((note, index) => `
+                                    <tr style="${index % 2 === 0 ? 'background: #f8f9fa;' : 'background: white;'}">
+                                        <td style="padding: 10px 12px; border: 1px solid #ddd;">${subjects[index]}</td>
+                                        <td style="padding: 10px 12px; text-align: center; border: 1px solid #ddd; font-weight: bold;">${note}/20</td>
+                                        <td style="padding: 10px 12px; text-align: center; border: 1px solid #ddd;">${getNoteAppreciation(note)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Observations et signature -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #bdc3c7;">
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="color: #2c3e50; border-bottom: 2px solid #FF9800; padding-bottom: 8px;">OBSERVATIONS</h3>
+                            <p style="margin: 12px 0; line-height: 1.5;">${teacherMessage.felicitation}</p>
+                            <p style="margin: 12px 0;"><strong>Conseil :</strong> ${teacherMessage.conseil}</p>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 30px;">
+                            <p style="margin: 5px 0;">Fait à Parakou, le ${new Date().toLocaleDateString('fr-FR')}</p>
+                            <div style="border-top: 1px solid #7f8c8d; width: 250px; margin: 25px auto 8px;"></div>
+                            <p style="margin: 5px 0; font-weight: bold;">Le Directeur</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const opt = {
+                margin: 15,
+                filename: `bulletin_${student.name.replace(/\s+/g, '_')}_octobre_2025.pdf`,
+                image: { 
+                    type: 'jpeg', 
+                    quality: 0.98 
+                },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    width: 800
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+
+            showNotification('🔄 Génération du PDF en cours...', 'info');
+
+            // Générer le PDF avec un léger délai pour assurer le rendu
+            setTimeout(() => {
+                html2pdf().set(opt).from(content).save().then(() => {
+                    showNotification('✅ PDF généré avec succès !', 'success');
+                    setPDFButtonState(studentId, false);
+                }).catch(error => {
+                    console.error('Erreur PDF:', error);
+                    showNotification('❌ Erreur lors de la génération du PDF', 'error');
+                    setPDFButtonState(studentId, false);
+                });
+            }, 500);
+        }
+
+        // Gestion de l'état du bouton PDF
+        function setPDFButtonState(studentId, isLoading) {
+            const button = document.getElementById(`pdfBtn-${studentId}`);
+            if (button) {
+                if (isLoading) {
+                    button.classList.add('pdf-loading');
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération...';
+                    button.disabled = true;
+                } else {
+                    button.classList.remove('pdf-loading');
+                    button.innerHTML = '<i class="fas fa-file-pdf"></i> Télécharger le bulletin PDF';
+                    button.disabled = false;
+                }
+            }
+        }
+
+        // Initialisation de la modal
+        function initModal() {
+            const modal = document.getElementById('performanceModal');
+            const closeBtn = document.querySelector('.close-modal');
+            
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour afficher les détails de performance
+        function showPerformanceDetails(studentId) {
+            const student = studentsData[studentId];
+            const teacherMessage = teacherMessages[studentId];
+            
+            const bestSubjectIndex = student.notes.indexOf(Math.max(...student.notes));
+            const worstSubjectIndex = student.notes.indexOf(Math.min(...student.notes.filter(note => note > 0)));
+            
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <h4>Analyse détaillée de ${student.name.split(' ')[1]}</h4>
+                
+                <div class="performance-stats">
+                    <div class="performance-stat">
+                        <div class="stat-value">${student.moyenne}/20</div>
+                        <div class="stat-label">Moyenne Générale</div>
+                    </div>
+                    <div class="performance-stat">
+                        <div class="stat-value">${subjects[bestSubjectIndex]}</div>
+                        <div class="stat-label">Matière Forte</div>
+                    </div>
+                    <div class="performance-stat">
+                        <div class="stat-value">${subjects[worstSubjectIndex]}</div>
+                        <div class="stat-label">À Renforcer</div>
+                    </div>
+                </div>
+                
+                <div class="performance-chart">
+                    <h5>📊 Répartition des notes</h5>
+                    <p>Excellent (16-20): ${student.notes.filter(note => note >= 16).length} matière(s)</p>
+                    <p>Bon (12-15.9): ${student.notes.filter(note => note >= 12 && note < 16).length} matière(s)</p>
+                    <p>À améliorer (0-11.9): ${student.notes.filter(note => note < 12).length} matière(s)</p>
+                </div>
+                
+                <div class="teacher-message">
+                    <h4><i class="fas fa-star"></i> Points Forts</h4>
+                    <p>${student.notes.filter(note => note >= 16).length > 0 ? 
+                        `Excellence en ${subjects[bestSubjectIndex]} et dans ${student.notes.filter(note => note >= 16).length} autre(s) matière(s)` : 
+                        'Bon équilibre général dans toutes les matières'}</p>
+                </div>
+                
+                <div class="teacher-advice">
+                    <h4><i class="fas fa-bullseye"></i> Objectifs du Mois</h4>
+                    <p>${teacherMessage.conseil}</p>
+                    <p><strong>Prochain objectif :</strong> Améliorer les résultats en ${subjects[worstSubjectIndex]}</p>
+                </div>
+            `;
+            
+            document.getElementById('performanceModal').style.display = 'block';
+        }
+
+        // Fonctions utilitaires
+        function getSubjectIcon(subject) {
+            const icons = {
+                'Lecture': '📖',
+                'Expression Écrite': '✍️',
+                'Dictée': '📝',
+                'Éducation Sociale (ES)': '👥',
+                'Éducation Scientifique (EST)': '🔬',
+                'Dessin': '🎨',
+                'Mathématiques': '🔢',
+                'Éducation Sportive (EPS)': '⚽',
+                'Orale': '🎤'
+            };
+            return icons[subject] || '📚';
+        }
+
+        function animateGradeBars() {
+            const gradeBars = document.querySelectorAll('.grade-fill');
+            gradeBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+
+        function getAppreciation(average) {
+            if (average >= 16) return 'Excellent 🏆';
+            if (average >= 14) return 'Très Bien ⭐';
+            if (average >= 12) return 'Bien ✅';
+            if (average >= 10) return 'Assez Bien 📈';
+            return 'À améliorer 💪';
+        }
+
+        function getNoteAppreciation(note) {
+            if (note >= 16) return 'Excellent';
+            if (note >= 14) return 'Très Bien';
+            if (note >= 12) return 'Bien';
+            if (note >= 10) return 'Assez Bien';
+            return 'À améliorer';
+        }
+
+        function initPerformanceCharts() {
+            // Initialisation des graphiques circulaires
+            const chartCircles = document.querySelectorAll('.chart-circle');
+            chartCircles.forEach(circle => {
+                const percentage = circle.getAttribute('data-percentage');
+                circle.style.setProperty('--percentage', percentage + '%');
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : type === 'info' ? 'info-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Rendre les fonctions accessibles globalement
+        window.generatePDF = generatePDF;
+        window.showPerformanceDetails = showPerformanceDetails;
+    </script>
+</body>
+</html>
