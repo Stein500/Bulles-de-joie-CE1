@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr-BJ" itemscope itemtype="https://schema.org/EducationalOrganization">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou Bénin</title>
+    <meta name="description" content="Consultez les résultats scolaires des élèves des Bulles de Joie. Suivi pédagogique, bulletins et statistiques de performance pour l'année 2025-2026.">
+    
+    <meta name="keywords" content="résultats scolaires, bulletins école Parakou, performance élèves, suivi pédagogique, évaluation CE1">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou">
+    <meta property="og:description" content="Consultez les résultats et le suivi pédagogique de nos élèves">
+    <meta property="og:url" content="https://lesbullesdejoie.bj/resultats.html">
+    
+    <link rel="canonical" href="https://lesbullesdejoie.bj/resultats.html">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://lesbullesdejoie.bj/resultats.html",
+      "name": "Résultats Scolaires - Les Bulles de Joie",
+      "description": "Page présentant les résultats scolaires des élèves",
+      "url": "https://lesbullesdejoie.bj/resultats.html"
+    }
+    </script>
+
+    <style>
+        /* Animation stylée du bouton "Voir les résultats" */
+        #submitBtn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        #submitBtn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+        }
+        #submitBtn:active {
+            transform: translateY(2px) scale(0.98);
+        }
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-effect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* Styles pour l'impression PDF */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-bulletin, #printable-bulletin * { visibility: visible; }
+            #printable-bulletin {
+                position: absolute;
+                left: 0; top: 0;
+                width: 210mm;
+                min-height: 297mm;
+                padding: 20mm;
+                background: white;
+                font-size: 12pt;
+                line-height: 1.5;
+            }
+            .print-header img { width: 80px; }
+            .print-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+            .print-table th, .print-table td { border: 1px solid #333; padding: 10px; text-align: left; }
+            .print-table th { background: #f0f0f0; }
+            .print-signatures { display: flex; justify-content: space-between; margin-top: 60px; font-weight: bold; }
+            .print-message { margin: 40px 0; font-style: italic; }
+            .floating-stickers, header, nav, footer, .login-interface, .main-nav { display: none !important; }
+        }
+
+        /* Carte résultat élève */
+        .welcome-message { background: var(--gradient-mixte); color: white; padding: 2rem; border-radius: 20px; text-align: center; margin-bottom: 2rem; animation: fadeIn 1s ease; }
+        .student-result-card { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .performance-details { margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 15px; border-left: 5px solid var(--rose); }
+        .teacher-message { margin: 2rem 0; padding: 1.5rem; background: var(--bleu-pale); border-radius: 15px; color: #333; font-style: italic; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="floating-stickers">
+        <div class="sticker">📊</div>
+        <div class="sticker">🎓</div>
+        <div class="sticker">🏆</div>
+        <div class="sticker">📈</div>
+        <div class="sticker">⭐</div>
+        <div class="sticker">💯</div>
+        <div class="sticker">📚</div>
+        <div class="sticker">🌟</div>
+    </div>
+
+    <!-- Header, Nav identiques (inchangés) -->
+    <header class="main-header">…</header>
+    <nav class="main-nav">…</nav>
+
+    <main class="main-content">
+        <section class="hero-section" style="background: var(--gradient-mixte);">
+            <div class="hero-content">
+                <h1 class="hero-title">Résultats Scolaires</h1>
+                <p class="hero-subtitle">Suivi pédagogique et excellence académique</p>
+                <div class="results-hero-stats">
+                    <div class="result-stat">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Taux de réussite</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-number">14.0/20</div>
+                        <div class="stat-label">Moyenne générale</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Élèves bilingues</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Résultats Scolaires - Octobre 2025</h2>
+                <p class="section-subtitle">Consultez les performances académiques de votre enfant</p>
+                
+                <div class="results-system">
+                    <div class="class-navigation">
+                        <div class="nav-tabs">
+                            <button class="class-tab" data-class="ci">CI</button>
+                            <button class="class-tab" data-class="cp">CP</button>
+                            <button class="class-tab active" data-class="ce1">CE1</button>
+                            <button class="class-tab" data-class="ce2">CE2</button>
+                        </div>
+                    </div>
+                    
+                    <div class="login-interface">
+                        <div class="card">
+                            <h2 class="card-title"><i class="fas fa-key"></i> Accès aux résultats</h2>
+                            <p>Pour consulter les résultats de votre enfant, veuillez saisir le mot de passe qui vous a été communiqué.</p>
+                            
+                            <div class="password-form">
+                                <div class="form-group">
+                                    <label for="studentSelect">Sélectionnez l'élève :</label>
+                                    <select id="studentSelect" class="form-control">
+                                        <option value="">-- Choisir un élève --</option>
+                                        <option value="agblo">AGBLO AGONDJIHOSSOU Fifamè</option>
+                                        <option value="akyoh">AKYOH Emmanuel</option>
+                                        <option value="amadou">AMADOU Yinki</option>
+                                        <option value="bani">BANI Rahama</option>
+                                        <option value="dahougou">DAHOUGOU Noham</option>
+                                        <option value="eda">EDA Queen</option>
+                                        <option value="houehou">HOUEHOU Méka</option>
+                                        <option value="padonou">PADONOU Faith</option>
+                                        <option value="sovi">SOVI Péniel</option>
+                                        <option value="tossavi">TOSSAVI Naelle</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group password-group">
+                                    <label for="passwordInput">Mot de passe :</label>
+                                    <div class="password-input-container">
+                                        <input type="password" id="passwordInput" placeholder="Entrez le mot de passe">
+                                        <button id="togglePassword" class="toggle-password">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary" id="submitBtn">
+                                    <i class="fas fa-unlock"></i> Voir les résultats
+                                </button>
+                                
+                                <p class="password-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    Le mot de passe correspond au prénom de l'élève en minuscules
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="resultsContainer" class="results-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sections Performances Globales, Récompenses, Informations identiques (inchangées) -->
+        … 
+
+        <div id="printable-bulletin" class="printable-bulletin" style="display: none;"></div>
+    </main>
+
+    <footer class="main-footer">…</footer>
+
+    <script>
+        // ====================== DONNÉES ======================
+        const subjects = ['Lecture', 'Expression Écrite', 'Dictée', 'Éducation Sociale', 'Éducation Scientifique', 'Dessin', 'Mathématiques', 'Éducation Sportive', 'Éducation Artistique'];
+        
+        const studentsData = {
+            "agblo": { password: "fifamè", prenom: "Fifamè", name: "AGBLO AGONDJIHOSSOU Fifamè", notes: [19.25, 16.50, 5, 15, 15.25, 14, 15, 17, 12], moyenne: "14.11", message: "Chère Fifamè, bravo pour ta très belle note en lecture (19.25/20) ! Tu es très appliquée. Continue à lire tous les soirs, cela te fera progresser encore plus. Tes efforts sont visibles, je suis fier de toi !" },
+            "akyoh": { password: "emmanuel", prenom: "Emmanuel", name: "AKYOH Emmanuel", notes: [7.50, 18.50, 0, 12, 7, 14.50, 5.25, 18, 13], moyenne: "10.64", message: "Emmanuel, tu as encore du potentiel à révéler. Tes notes en expression écrite et en éducation sportive sont excellentes ! Travaille davantage les mathématiques et la dictée avec papa/maman à la maison. Je crois en toi, tu vas rebondir vite !" },
+            "amadou": { password: "yinki", prenom: "Yinki", name: "AMADOU Yinki", notes: [15.5, 19, 5, 16.25, 7.75, 15, 13.25, 17, 14], moyenne: "13.53", message: "Yinki, très bon travail en expression écrite (19/20) ! Tu es créatif et tu progresses vite en anglais. Pense à relire tes leçons de sciences avant les évaluations. Tu es sur la bonne voie !" },
+            "bani": { password: "rahama", prenom: "Rahama", name: "BANI Rahama", notes: [13.75, 18.25, 12, 20, 17, 14.5, 7.25, 18, 15], moyenne: "15.08", message: "Rahama, quelle belle performance ! Ta note parfaite en éducation sociale (20/20) montre ton excellent comportement. Attention aux mathématiques, on va reprendre ensemble les tables d’addition. Bravo championne !" },
+            "dahougou": { password: "noham", prenom: "Noham", name: "DAHOUGOU Noham", notes: [15.25, 18.50, 3, 12, 8.75, 13, 5.75, 18, 14], moyenne: "12.03", message: "Noham, tu as de très belles notes en lecture et en sport ! Il faut juste un peu plus de concentration pour la dictée et les sciences. Je sais que tu peux faire mieux, on va travailler ensemble !" },
+            "eda": { password: "queen", prenom: "Queen", name: "EDA Queen", notes: [19, 18.25, 4, 13.75, 14.5, 12, 15.75, 18, 14], moyenne: "14.36", message: "Queen, tes notes en lecture et en mathématiques sont superbes ! Tu es une petite championne. Continue à participer autant en classe, c’est un vrai plaisir de t’avoir." },
+            "houehou": { password: "méka", prenom: "Méka", name: "HOUEHOU Méka", notes: [18.75, 19.5, 9, 15, 14, 14.5, 17.25, 17, 13], moyenne: "15.33", message: "Méka, excellent mois ! Ta moyenne dépasse les 15/20 grâce à ton sérieux. Ton expression écrite (19.5/20) est magnifique. Continue à aider tes camarades, tu es un modèle !" },
+            "padonou": { password: "faith", prenom: "Faith", name: "PADONOU Faith", notes: [19, 15.75, 4, 19, 17.25, 15, 13.75, 18, 13], moyenne: "14.97", message: "Faith, très belle performance globale ! Tes notes en lecture, éducation sociale et sport sont remarquables. Un petit effort supplémentaire en dictée et tu seras dans le tableau d’honneur." },
+            "sovi": { password: "péniel", prenom: "Péniel", name: "SOVI Péniel", notes: [12.5, 18.25, 8, 18.5, 16.5, 13, 16.25, 17, 14], moyenne: "14.89", message: "Péniel, bravo pour tes progrès en sciences et en maths ! Tu es très curieux et participatif. Relis bien tes leçons avant les contrôles, tu vas vite atteindre les 16/20." },
+            "tossavi": { password: "naelle", prenom: "Naelle", name: "TOSSAVI Naelle", notes: [19, 16.75, 9, 18, 18, 15, 12.25, 17, 14], moyenne: "15.44", message: "Naelle, quelle étoile ! Tu es dans les meilleurs de la classe. Tes notes en lecture, sciences et sociale sont excellentes. Continue à être aussi souriante et appliquée, tu es formidable !" }
+        };
+
+        // ====================== FONCTIONS UTILITAIRES ======================
+        const subjectIcons = { 'Lecture': '📖', 'Expression Écrite': '✍️', 'Dictée': '📝', 'Éducation Sociale': '👥', 'Éducation Scientifique': '🔬', 'Dessin': '🎨', 'Mathématiques': '🔢', 'Éducation Sportive': '⚽', 'Éducation Artistique': '🎭' };
+        function getSubjectIcon(subject) { return subjectIcons[subject] || '📚'; }
+
+        function getGradeClass(note) {
+            if (note >= 16) return 'high';
+            if (note >= 12) return 'medium';
+            return 'low';
+        }
+
+        function getEmoji(moyenne) {
+            const m = parseFloat(moyenne);
+            if (m >= 16) return '🏆';
+            if (m >= 14) return '⭐';
+            if (m >= 12) return '✅';
+            return '📈';
+        }
+
+        function showNotification(message, type = 'success') {
+            const notif = document.createElement('div');
+            notif.className = `notification ${type} show`;
+            notif.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i> <span>${message}</span>`;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 5000);
+        }
+
+        // ====================== GESTION DES ONGLETS ======================
+        document.addEventListener('DOMContentLoaded', () => {
+            const classTabs = document.querySelectorAll('.class-tab');
+            classTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    classTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    loadClassResults(tab.getAttribute('data-class'));
+                });
+            });
+            loadClassResults('ce1');
+
+            // Toggle mot de passe
+            document.getElementById('togglePassword').addEventListener('click', () => {
+                const input = document.getElementById('passwordInput');
+                const icon = document.querySelector('#togglePassword i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                }
+            });
+        });
+
+        function loadClassResults(className) {
+            const loginInterface = document.querySelector('.login-interface');
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '';
+            resultsContainer.style.display = 'none';
+
+            if (className === 'ce1') {
+                loginInterface.style.display = 'block';
+            } else {
+                loginInterface.style.display = 'none';
+                const classNames = { 'ci': 'Classe d\'Initiation (CI)', 'cp': 'Cours Préparatoire (CP)', 'ce2': 'Cours Élémentaire 2ème année (CE2)' };
+                resultsContainer.innerHTML = `
+                    <div class="coming-soon-message" style="text-align:center; padding:4rem;">
+                        <div class="coming-soon-icon">⏳</div>
+                        <h3>Disponible bientôt</h3>
+                        <p>Les résultats pour la <strong>${classNames[className] || className.toUpperCase()}</strong> seront publiés prochainement.</p>
+                        <a href="contact.html" class="btn btn-primary">Nous contacter</a>
+                    </div>`;
+                resultsContainer.style.display = 'block';
+            }
+        }
+
+        // ====================== CONNEXION ======================
+        document.getElementById('submitBtn').addEventListener('click', handleLogin);
+        document.getElementById('passwordInput').addEventListener('keypress', e => { if (e.key === 'Enter') handleLogin(); });
+
+        function handleLogin() {
+            const studentSelect = document.getElementById('studentSelect').value;
+            const passwordInput = document.getElementById('passwordInput').value.trim().toLowerCase();
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (!studentSelect || !passwordInput) {
+                showNotification('Veuillez sélectionner un élève et saisir le mot de passe', 'warning');
+                return;
+            }
+
+            // Animation bouton + loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Vérification...';
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            submitBtn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+
+            setTimeout(() => {
+                const student = studentsData[studentSelect];
+                if (student && passwordInput === student.password) {
+                    showNotification(`Bienvenue ${student.prenom} ! 🎉`, 'success');
+                    document.querySelector('.login-interface').style.display = 'none';
+                    displayStudentResults(student);
+                    document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    showNotification('Mot de passe incorrect', 'error');
+                    document.getElementById('passwordInput').style.animation = 'shake 0.5s';
+                    setTimeout(() => document.getElementById('passwordInput').style.animation = '', 500);
+                }
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-unlock"></i> Voir les résultats';
+            }, 800);
+        }
+
+        // ====================== AFFICHAGE RÉSULTATS ======================
+        function displayStudentResults(student) {
+            const pointsForts = [];
+            const aAmeliorer = [];
+            student.notes.forEach((note, i) => {
+                if (note >= 16) pointsForts.push(subjects[i]);
+                if (note < 10) aAmeliorer.push(subjects[i]);
+            });
+
+            let html = `
+                <div class="welcome-message">
+                    <h3>Bienvenue chers parents de ${student.prenom} ${student.name.split(' ')[0]} et à notre cher(e) élève ${student.prenom} ! 🎉</h3>
+                    <p>Voici les résultats détaillés du mois d’Octobre 2025. Nous sommes très fiers de votre enfant !</p>
+                </div>
+
+                <div class="student-result-card">
+                    <div class="student-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                        <h4>${student.name}</h4>
+                        <span class="average" style="font-size:1.5rem; font-weight:bold; color:var(--rose);">
+                            Moyenne : ${student.moyenne}/20 ${getEmoji(student.moyenne)}
+                        </span>
+                    </div>
+
+                    <div class="grades-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1rem; margin:2rem 0;">
+                        ${student.notes.map((note, i) => {
+                            const percentage = (note / 20) * 100;
+                            return `
+                            <div class="subject-grade">
+                                <span class="subject"><span class="subject-icon">${getSubjectIcon(subjects[i])}</span> ${subjects[i]}</span>
+                                <div class="grade-bar"><div class="grade-fill ${getGradeClass(note)}" data-percentage="${percentage}" style="width:0%; transition:width 1.8s ease-out;"></div></div>
+                                <span class="grade-value ${getGradeClass(note)}">${note}/20 ${note >= 16 ? '🌟' : note < 10 ? '⚠️' : ''}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+
+                    <div class="teacher-message">
+                        <h4><i class="fas fa-envelope"></i> Message de l’enseignant</h4>
+                        <p>${student.message}</p>
+                    </div>
+
+                    <div class="performance-details" id="detailsSection" style="display:none;">
+                        <h4><i class="fas fa-chart-line"></i> Analyse détaillée</h4>
+                        <p><strong>Points forts :</strong> ${pointsForts.length ? pointsForts.join(', ') + ' 🌟' : 'Toutes les matières sont solides, continuez !'}</p>
+                        <p><strong>Axes à travailler :</strong> ${aAmeliorer.length ? aAmeliorer.join(', ') + ' – on va les renforcer ensemble 🚀' : 'Aucun axe faible, bravo !'}</p>
+                    </div>
+
+                    <div class="student-actions" style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                        <button class="btn btn-primary" id="printBtn"><i class="fas fa-print"></i> Imprimer le bulletin (PDF)</button>
+                        <button class="btn btn-secondary" id="detailsBtn"><i class="fas fa-chart-line"></i> Détails performance</button>
+                    </div>
+                </div>
+            `;
+
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = html;
+            container.style.display = 'block';
+
+            // Animation barres
+            setTimeout(() => {
+                document.querySelectorAll('.grade-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.percentage + '%';
+                });
+            }, 300);
+
+            // Boutons
+            document.getElementById('printBtn').addEventListener('click', () => printStudentBulletin(student, pointsForts, aAmeliorer));
+            document.getElementById('detailsBtn').addEventListener('click', function() {
+                const details = document.getElementById('detailsSection');
+                if (details.style.display === 'none') {
+                    details.style.display = 'block';
+                    this.innerHTML = '<i class="fas fa-eye-slash"></i> Masquer détails';
+                } else {
+                    details.style.display = 'none';
+                    this.innerHTML = '<i class="fas fa-chart-line"></i> Détails performance';
+                }
+            });
+        }
+
+        // ====================== IMPRESSION PDF ======================
+        function printStudentBulletin(student, pointsForts, aAmeliorer) {
+            const printDiv = document.getElementById('printable-bulletin');
+            printDiv.innerHTML = `
+                <div class="print-header" style="text-align:center; margin-bottom:30px;">
+                    <img src="assets/images/logo.png" alt="Logo">
+                    <h1>Les Bulles de Joie</h1>
+                    <h2>École Bilingue Parakou – Bénin</h2>
+                    <h3>Bulletin Scolaire – CE1 – Octobre 2025</h3>
+                </div>
+                <div style="margin-bottom:30px;">
+                    <p><strong>Élève :</strong> ${student.name}</p>
+                    <p><strong>Moyenne générale :</strong> ${student.moyenne}/20</p>
+                </div>
+                <table class="print-table">
+                    <thead>
+                        <tr><th>Matière</th><th>Note /20</th></tr>
+                    </thead>
+                    <tbody>
+                        ${subjects.map((s, i) => `<tr><td>${s}</td><td>${student.notes[i]}</td></tr>`).join('')}
+                    </tbody>
+                </table>
+                <div class="print-message">
+                    <h3>Appréciation de l’enseignant</h3>
+                    <p>${student.message}</p>
+                    <p><strong>Points forts :</strong> ${pointsForts.length ? pointsForts.join(', ') : 'Toutes les matières'}</p>
+                    <p><strong>Axes d’amélioration :</strong> ${aAmeliorer.length ? aAmeliorer.join(', ') : 'Aucun'}</p>
+                </div>
+                <div class="print-signatures">
+                    <div>
+                        <p>La Directrice</p>
+                        <p>SEGBO S. A. D. Carole</p>
+                    </div>
+                    <div>
+                        <p>L’Enseignant</p>
+                        <p>C. J. S. Stein</p>
+                    </div>
+                </div>
+            `;
+            window.print();
+        }
+    </script>
+</body>
+</html>
