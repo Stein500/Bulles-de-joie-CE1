@@ -1,5 +1,4 @@
-// main.js - Fonctionnalités principales du site
-
+// main.js - Fonctionnalités principales du site avec nouvelles couleurs
 class SchoolWebsite {
     constructor() {
         this.init();
@@ -148,7 +147,7 @@ class SchoolWebsite {
     }
 
     getRandomColor() {
-        const colors = ['#FB7185', '#3B82F6', '#FECACA', '#E11D48', '#1E40AF'];
+        const colors = ['#FF00FF', '#E9FF70', '#FB7185', '#3B82F6', '#E11D48'];
         return colors[Math.floor(Math.random() * colors.length)];
     }
 }
