@@ -1,11 +1,11 @@
 {
-  "name": "Les Bulles de Joie - École Bilingue Parakou",
+  "name": "Les Bulles de Joie - École Bilingue",
   "short_name": "Bulles de Joie",
-  "description": "École Les Bulles de Joie - Crèche, Garderie, Maternelle et Primaire Bilingue à Parakou, Bénin",
+  "description": "Crèche, Garderie, Maternelle et Primaire Bilingue à Parakou, Bénin",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
-  "theme_color": "#FB7185",
+  "theme_color": "#FF00FF",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -49,6 +49,6 @@
       "type": "image/png"
     }
   ],
-  "lang": "fr-BJ",
-  "categories": ["education", "school"]
+  "categories": ["education", "school"],
+  "lang": "fr-BJ"
 }
