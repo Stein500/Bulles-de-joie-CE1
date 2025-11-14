@@ -1,4 +1,4 @@
-/* responsive.css - Styles responsives */
+/* ===== RESPONSIVE DESIGN AVANCÉ ===== */
 @media (max-width: 1200px) {
     .hero-title {
         font-size: 3.5rem;
@@ -6,6 +6,10 @@
     
     .section-title {
         font-size: 2.8rem;
+    }
+    
+    .container {
+        max-width: 1140px;
     }
 }
 
@@ -25,10 +29,19 @@
     .header-container {
         flex-direction: column;
         text-align: center;
+        gap: 1.5rem;
     }
     
     .logo-section {
         justify-content: center;
+    }
+    
+    .mission-presentation {
+        grid-template-columns: 1fr;
+    }
+    
+    .login-interface {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -58,6 +71,7 @@
     .hero-actions {
         flex-direction: column;
         align-items: center;
+        gap: 1rem;
     }
     
     .btn {
@@ -73,6 +87,7 @@
     .footer-bottom {
         flex-direction: column;
         text-align: center;
+        gap: 1rem;
     }
     
     .container {
@@ -99,6 +114,53 @@
         width: 70px;
         height: 70px;
         font-size: 1.5rem;
+    }
+    
+    .activities-circles {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .slogan-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .immersion-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .cycles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .download-options {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Navigation mobile avancée */
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .nav-container {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--blanc);
+        box-shadow: var(--shadow-medium);
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+    
+    .nav-container.active {
+        display: flex;
     }
 }
 
@@ -140,18 +202,163 @@
     
     .footer-container {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
     
-    .live-stats {
-        flex-direction: column;
-        gap: 1rem;
+    .activities-circles {
+        grid-template-columns: 1fr;
     }
     
-    .nav-tabs {
-        flex-direction: column;
+    .slogan-grid {
+        grid-template-columns: 1fr;
     }
     
-    .class-tab {
-        width: 100%;
+    .immersion-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .level-contacts {
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .infrastructure-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Optimisation pour les très petits écrans */
+    .hero-section {
+        padding: 4rem 0;
+    }
+    
+    .section {
+        padding: 3rem 0;
+    }
+    
+    .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Orientation paysage sur mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-section {
+        padding: 3rem 0;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .nav-container {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+}
+
+/* Hautes résolutions */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .hero-title {
+        font-size: 5rem;
+    }
+    
+    .section-title {
+        font-size: 4rem;
+    }
+}
+
+/* Mode sombre automatique */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --blanc: #1a1a2e;
+        --noir: #e6e6e6;
+        --gris-light: #2d3047;
+        --gris: #a0a0a0;
+        --rose-pale: #2d1b2e;
+    }
+}
+
+/* Réduction des mouvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .sticker,
+    .particle,
+    .floating-element {
+        animation: none !important;
+    }
+}
+
+/* Haute densité de pixels */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo-image img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Impression */
+@media print {
+    .main-header,
+    .main-nav,
+    .hero-actions,
+    .footer,
+    .language-switcher,
+    .floating-stickers {
+        display: none !important;
+    }
+    
+    .hero-section {
+        background: white !important;
+        color: black !important;
+        padding: 1rem 0 !important;
+    }
+    
+    .hero-title {
+        color: black !important;
+        font-size: 2rem !important;
+    }
+    
+    .card {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    .btn {
+        display: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: underline !important;
     }
 }
