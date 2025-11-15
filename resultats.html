@@ -156,6 +156,31 @@
             }
         }
 
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        /* ===== LOGO STYLES ===== */
+        .logo-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-logo {
+            max-width: 50px;
+            height: auto;
+            margin-right: 10px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .footer-logo {
+            max-width: 70px;
+            height: auto;
+            margin-right: 15px;
+        }
+
         /* ===== HEADER ===== */
         .main-header {
             position: fixed;
@@ -182,28 +207,6 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .bubble-mark {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--white);
-            animation: pulse 2s infinite;
         }
 
         .logo-text h1 {
@@ -279,6 +282,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -1055,9 +1059,8 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-mark">
-                    <div class="bubble-mark"></div>
-                    <span>LBJ</span>
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -1117,7 +1120,7 @@
                 
                 <div class="login-help" style="margin-top: 2rem; font-size: 0.9rem; color: var(--gray);">
                     <p><strong>Information :</strong> Le mot de passe correspond au prénom de l'élève en minuscules (ex: fifamè)</p>
-                    <p>En cas de difficulté, contactez le secrétariat au <strong>+229 01 49 77 77 01</strong></p>
+                    <p>En cas de difficulté, contactez le secrétariat au <strong>+229 01 49 77 77 00</strong></p>
                 </div>
             </div>
         </section>
@@ -1179,7 +1182,7 @@
                         </div>
                         <div>
                             <h3>Commentaire du Professeur</h3>
-                            <p>Enseignant responsable : <strong id="teacherName">M. AGBLO AGONDJIHOSSOU</strong></p>
+                            <p>Enseignant responsable : <strong id="teacherName">CODJO J. S. Stein</strong></p>
                         </div>
                     </div>
                     <p id="teacherComment">Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.</p>
@@ -1247,7 +1250,7 @@
                         <div class="teacher-avatar-large">
                             <i class="fas fa-male"></i>
                         </div>
-                        <h3>AGBLO AGONDJIHOSSOU Fifamè</h3>
+                        <h3>CODJO J. S. Stein</h3>
                         <p>Enseignant du CE1</p>
                         <div class="availability-badge available">
                             Contact: +229 01 49 77 77 08
@@ -1275,9 +1278,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-mark">
-                            <div class="bubble-mark"></div>
-                            <span>LBJ</span>
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1287,7 +1289,7 @@
                     <div class="footer-badges">
                         <span class="badge">🏆 École Certifiée</span>
                         <span class="badge">🌍 Bilingue Français-Anglais</span>
-                        <span class="badge">👶 2 mois - 12 ans</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
                     </div>
                 </div>
                 
@@ -1304,7 +1306,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 49 77 77 00</span>
+                            <span>+229 01 49 77 77 00</span>
                         </div>
                     </div>
                 </div>
@@ -1370,7 +1372,7 @@
                 objective: 12.00,
                 progress: 75,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.',
                 subjects: [
                     { name: 'Lecture', score: 19.25 },
@@ -1392,7 +1394,7 @@
                 objective: 12.00,
                 progress: 45,
                 status: 'non-atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Emmanuel excelle en expression écrite et en éducation sportive. Sa moyenne actuelle (10,69) est en dessous de l\'objectif de 12/20. Un effort important et régulier est désormais indispensable, surtout en dictée, lecture et mathématiques. N\'hésitez pas à revoir les bases avec lui à la maison et à me contacter pour un accompagnement plus rapproché.',
                 subjects: [
                     { name: 'Lecture', score: 7.50 },
@@ -1414,7 +1416,7 @@
                 objective: 12.00,
                 progress: 70,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé par des exercices pratiques à la maison.',
                 subjects: [
                     { name: 'Lecture', score: 15.5 },
@@ -1436,7 +1438,7 @@
                 objective: 12.00,
                 progress: 85,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale ! Son engagement en mathématiques mériterait d\'être soutenu.',
                 subjects: [
                     { name: 'Lecture', score: 13.75 },
@@ -1458,7 +1460,7 @@
                 objective: 12.00,
                 progress: 55,
                 status: 'fragile',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Noham montre de belles capacités en expression écrite et en éducation sportive. Sa moyenne (12,36) est juste au-dessus de l\'objectif de 12/20. Il faut absolument consolider les acquis et fournir un travail régulier supplémentaire en dictée et en mathématiques pour éviter de redescendre.',
                 subjects: [
                     { name: 'Lecture', score: 15.25 },
@@ -1480,7 +1482,7 @@
                 objective: 12.00,
                 progress: 78,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Queen possède d\'excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.',
                 subjects: [
                     { name: 'Lecture', score: 19 },
@@ -1502,7 +1504,7 @@
                 objective: 12.00,
                 progress: 88,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Méka est un élève très appliqué qui obtient d\'excellents résultats dans la plupart des matières. Félicitations pour ce beau travail !',
                 subjects: [
                     { name: 'Lecture', score: 18.75 },
@@ -1524,7 +1526,7 @@
                 objective: 12.00,
                 progress: 82,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Faith excelle en lecture et en éducation sociale. Continuez à l\'encourager dans sa progression en expression écrite.',
                 subjects: [
                     { name: 'Lecture', score: 19 },
@@ -1546,7 +1548,7 @@
                 objective: 12.00,
                 progress: 80,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.',
                 subjects: [
                     { name: 'Lecture', score: 12.5 },
@@ -1568,7 +1570,7 @@
                 objective: 12.00,
                 progress: 87,
                 status: 'atteint',
-                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                teacher: 'CODJO J. S. Stein',
                 comment: 'Naelle a obtenu d\'excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée !',
                 subjects: [
                     { name: 'Lecture', score: 19 },

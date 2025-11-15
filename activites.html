@@ -161,6 +161,79 @@
             text-align: center;
             box-shadow: var(--shadow-lg);
         }
+
+        /* Styles pour le logo */
+        .logo-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-logo {
+            max-width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .footer-logo {
+            max-width: 70px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+        /* Menu mobile */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--black);
+            margin: 3px 0;
+            transition: var(--transition-fast);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--white);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .nav-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .nav-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -175,10 +248,8 @@
                 <div class="bubble b5"></div>
             </div>
             <div class="logo-reveal">
-                <div class="logo-icon">
-                    <i class="fas fa-child"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-heart"></i>
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
                 </div>
                 <h1 class="logo-text">
                     <span class="text-part">Les Bulles</span>
@@ -193,9 +264,8 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-mark">
-                    <div class="bubble-mark"></div>
-                    <span>LBJ</span>
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -421,39 +491,32 @@
         <section class="section" style="background: var(--light-pink);">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Galerie des Activités</h2>
-                    <p class="section-subtitle">Quelques moments de joie et de découverte</p>
+                    <h2 class="section-title">Découvrez nos Activités en Images</h2>
+                    <p class="section-subtitle">Suivez-nous sur les réseaux sociaux pour voir nos activités en temps réel</p>
                     <div class="section-divider"></div>
                 </div>
                 
-                <div class="gallery-grid">
-                    <div class="gallery-item" style="background: var(--gradient-primary);">
-                        <span>🎤</span>
+                <div style="text-align: center; margin: 3rem 0;">
+                    <div style="max-width: 600px; margin: 0 auto; padding: 2rem; background: white; border-radius: var(--border-radius); box-shadow: var(--shadow-sm);">
+                        <h3 style="color: var(--fuchsia); margin-bottom: 1.5rem;">📸 Galerie Vivante</h3>
+                        <p style="margin-bottom: 2rem; color: var(--gray-dark);">
+                            Nos activités prennent vie sur les réseaux sociaux !<br>
+                            Découvrez les moments de joie, de découverte et de créativité de nos élèves.
+                        </p>
+                        
+                        <div class="social-links" style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                            <a href="https://facebook.com/lesbullesdejoie" class="btn btn-primary" target="_blank" style="width: 250px;">
+                                <i class="fab fa-facebook-f"></i> Voir sur Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="btn btn-secondary" target="_blank" style="width: 250px;">
+                                <i class="fab fa-instagram"></i> Suivre sur Instagram
+                            </a>
+                        </div>
+                        
+                        <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--gray);">
+                            💡 <strong>Astuce :</strong> Activez les notifications pour ne rien manquer de nos activités !
+                        </p>
                     </div>
-                    <div class="gallery-item" style="background: var(--gradient-primary);">
-                        <span>🌱</span>
-                    </div>
-                    <div class="gallery-item" style="background: var(--gradient-primary);">
-                        <span>🎵</span>
-                    </div>
-                    <div class="gallery-item" style="background: var(--gradient-primary);">
-                        <span>💃</span>
-                    </div>
-                    <div class="gallery-item" style="background: var(--gradient-primary);">
-                        <span>🇬🇧</span>
-                    </div>
-                    <div class="gallery-item" style="background: var(--gradient-primary);">
-                        <span>🎨</span>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="https://www.facebook.com/lesbullesdejoie" class="btn btn-primary" target="_blank">
-                        <i class="fab fa-facebook-f"></i> Voir plus sur Facebook
-                    </a>
-                    <a href="https://www.instagram.com/lesbullesdejoie" class="btn btn-secondary" target="_blank">
-                        <i class="fab fa-instagram"></i> Suivez-nous sur Instagram
-                    </a>
                 </div>
             </div>
         </section>
@@ -486,9 +549,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-mark">
-                            <div class="bubble-mark"></div>
-                            <span>LBJ</span>
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -498,7 +560,7 @@
                     <div class="footer-badges">
                         <span class="badge">🏆 École Certifiée</span>
                         <span class="badge">🌍 Bilingue Français-Anglais</span>
-                        <span class="badge">👶 2 mois - 12 ans</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
                     </div>
                 </div>
                 
@@ -515,7 +577,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 49 77 77 00</span>
+                            <span>+229 01 58 83 03 03</span>
                         </div>
                     </div>
                 </div>
@@ -571,6 +633,41 @@
     </footer>
 
     <!-- Scripts -->
+    <script>
+        // Menu mobile toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    navToggle.classList.toggle('active');
+                });
+            }
+            
+            // Fermer le menu en cliquant sur un lien
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                });
+            });
+            
+            // Animation d'introduction
+            const introOverlay = document.getElementById('intro-overlay');
+            if (introOverlay) {
+                // Afficher l'intro pendant 3 secondes puis la faire disparaître
+                setTimeout(() => {
+                    introOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        introOverlay.style.display = 'none';
+                    }, 1000);
+                }, 3000);
+            }
+        });
+    </script>
     <script src="js/app.js"></script>
 </body>
 </html>

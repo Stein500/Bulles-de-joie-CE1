@@ -76,6 +76,53 @@
             to { transform: scale(4); opacity: 0; }
         }
 
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(2deg); }
+            50% { transform: translateY(-10px) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(-2deg); }
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes logoWelcome {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            60% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* ===== LOGO ANIMÉ ===== */
+        .logo-img-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid transparent;
+            background: var(--gradient-primary);
+            padding: 2px;
+            animation: logoFloat 3s ease-in-out infinite;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .logo-img:hover {
+            animation: logoSpin 1s ease-in-out;
+        }
+
+        .home-page .logo-img {
+            animation: logoWelcome 2s ease-out;
+        }
+
         /* ===== HEADER ===== */
         .main-header {
             position: fixed;
@@ -102,28 +149,6 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .bubble-mark {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--white);
-            animation: pulse 2s infinite;
         }
 
         .logo-text h1 {
@@ -195,6 +220,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            z-index: 1000;
         }
 
         .nav-toggle span {
@@ -811,6 +837,7 @@
                 padding: 2rem;
                 transition: var(--transition-normal);
                 box-shadow: var(--shadow-lg);
+                z-index: 999;
             }
             
             .nav-menu.active {
@@ -819,6 +846,10 @@
             
             .nav-toggle {
                 display: flex;
+            }
+            
+            .btn-contact {
+                margin-top: 1rem;
             }
             
             .hero-inscription h1 {
@@ -961,9 +992,8 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-mark">
-                    <div class="bubble-mark"></div>
-                    <span>LBJ</span>
+                <div class="logo-img-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -1316,9 +1346,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-mark">
-                            <div class="bubble-mark"></div>
-                            <span>LBJ</span>
+                        <div class="logo-img-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1328,7 +1357,7 @@
                     <div class="footer-badges">
                         <span class="badge">🏆 École Certifiée</span>
                         <span class="badge">🌍 Bilingue Français-Anglais</span>
-                        <span class="badge">👶 2 mois - 12 ans</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
                     </div>
                 </div>
                 
@@ -1345,7 +1374,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 49 77 77 00</span>
+                            <span>+229 01 49 77 77 00</span>
                         </div>
                     </div>
                 </div>
@@ -1369,15 +1398,19 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h4>Réseaux Sociaux</h4>
+                    <h4>Liens Rapides</h4>
                     <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                            Facebook
+                        <a href="index.html" class="social-link">
+                            <i class="fas fa-home"></i>
+                            Accueil
                         </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
+                        <a href="inscription.html" class="social-link">
+                            <i class="fas fa-user-graduate"></i>
+                            Inscription
+                        </a>
+                        <a href="contact.html" class="social-link">
+                            <i class="fas fa-phone"></i>
+                            Contact
                         </a>
                         <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
                             <i class="fas fa-map-marker-alt"></i>
@@ -1423,6 +1456,13 @@
                     navToggle.addEventListener('click', () => {
                         navToggle.classList.toggle('active');
                         navMenu.classList.toggle('active');
+                        
+                        // Empêcher le défilement quand le menu est ouvert
+                        if (navMenu.classList.contains('active')) {
+                            document.body.style.overflow = 'hidden';
+                        } else {
+                            document.body.style.overflow = '';
+                        }
                     });
                 }
 
@@ -1431,6 +1471,7 @@
                     link.addEventListener('click', () => {
                         navToggle.classList.remove('active');
                         navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
                     });
                 });
 

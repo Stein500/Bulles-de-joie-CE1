@@ -87,6 +87,31 @@
             75% { transform: translateY(-20px) translateX(-5px); }
         }
 
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        /* ===== LOGO STYLES ===== */
+        .logo-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-logo {
+            max-width: 50px;
+            height: auto;
+            margin-right: 10px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .footer-logo {
+            max-width: 70px;
+            height: auto;
+            margin-right: 15px;
+        }
+
         /* ===== HEADER ===== */
         .main-header {
             position: fixed;
@@ -113,28 +138,6 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .bubble-mark {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--white);
-            animation: pulse 2s infinite;
         }
 
         .logo-text h1 {
@@ -206,6 +209,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -760,9 +764,8 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-mark">
-                    <div class="bubble-mark"></div>
-                    <span>LBJ</span>
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -950,7 +953,7 @@
                             <i class="fas fa-baby-carriage"></i>
                         </div>
                         <h3>Crèche & Garderie</h3>
-                        <span class="cycle-age">2 mois - 3 ans</span>
+                        <span class="cycle-age">À partir de 2 mois - 3 ans</span>
                         <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement sécurisé et bienveillant.</p>
                         <div class="cycle-features">
                             <span class="feature-tag">Cantine</span>
@@ -978,7 +981,7 @@
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                         <h3>Primaire Bilingue</h3>
-                        <span class="cycle-age">6-12 ans</span>
+                        <span class="cycle-age">À partir de 6 ans</span>
                         <p>Programme bilingue enrichi, technologies éducatives et développement de l'esprit critique.</p>
                         <div class="cycle-features">
                             <span class="feature-tag">Programme enrichi</span>
@@ -997,9 +1000,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-mark">
-                            <div class="bubble-mark"></div>
-                            <span>LBJ</span>
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1009,7 +1011,7 @@
                     <div class="footer-badges">
                         <span class="badge">🏆 École Certifiée</span>
                         <span class="badge">🌍 Bilingue Français-Anglais</span>
-                        <span class="badge">👶 2 mois - 12 ans</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
                     </div>
                 </div>
                 
@@ -1026,7 +1028,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 49 77 77 00</span>
+                            <span>+229 01 58 83 03 03</span>
                         </div>
                     </div>
                 </div>

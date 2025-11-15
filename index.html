@@ -33,10 +33,8 @@
                 <div class="bubble b5"></div>
             </div>
             <div class="logo-reveal">
-                <div class="logo-icon">
-                    <i class="fas fa-child"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-heart"></i>
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
                 </div>
                 <h1 class="logo-text">
                     <span class="text-part">Les Bulles</span>
@@ -51,9 +49,8 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-mark">
-                    <div class="bubble-mark"></div>
-                    <span>LBJ</span>
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -99,7 +96,7 @@
                     <p class="hero-subtitle">Dans un cadre féerique stimulant et sécurisant</p>
                     <p class="hero-description">
                         École bilingue d'excellence à Parakou, offrant un environnement éducatif unique 
-                        pour le développement complet de votre enfant de 2 mois à 12 ans.
+                        pour le développement complet de votre enfant à partir de 2 mois jusqu'à 12 ans.
                     </p>
                     
                     <div class="hero-actions">
@@ -256,7 +253,7 @@
                         </div>
                         <div class="cycle-content">
                             <h3>Crèche & Garderie</h3>
-                            <span class="cycle-age">2 mois - 3 ans</span>
+                            <span class="cycle-age">À partir de 2 mois - 3 ans</span>
                             <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement sécurisé et bienveillant.</p>
                             <div class="cycle-features">
                                 <span class="feature-tag">Cantine</span>
@@ -357,7 +354,7 @@
                         <div class="contact-numbers">
                             <div class="contact-item">
                                 <strong>Direction</strong>
-                                <span>+229 97 91 94 52</span>
+                                <span>+229 01 58 83 03 03</span>
                                 <small>Disponible pour informations</small>
                             </div>
                             <div class="contact-item">
@@ -381,9 +378,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-mark">
-                            <div class="bubble-mark"></div>
-                            <span>LBJ</span>
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -393,7 +389,7 @@
                     <div class="footer-badges">
                         <span class="badge">🏆 École Certifiée</span>
                         <span class="badge">🌍 Bilingue Français-Anglais</span>
-                        <span class="badge">👶 2 mois - 12 ans</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
                     </div>
                 </div>
                 
@@ -410,7 +406,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 97 91 94 52</span>
+                            <span>+229 01 58 83 03 03</span>
                         </div>
                     </div>
                 </div>
@@ -466,6 +462,41 @@
     </footer>
 
     <!-- Scripts -->
+    <script>
+        // Menu mobile toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    navToggle.classList.toggle('active');
+                });
+            }
+            
+            // Fermer le menu en cliquant sur un lien
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                });
+            });
+            
+            // Animation d'introduction
+            const introOverlay = document.getElementById('intro-overlay');
+            if (introOverlay) {
+                // Afficher l'intro pendant 3 secondes puis la faire disparaître
+                setTimeout(() => {
+                    introOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        introOverlay.style.display = 'none';
+                    }, 1000);
+                }, 3000);
+            }
+        });
+    </script>
     <script src="js/app.js"></script>
 </body>
 </html>
