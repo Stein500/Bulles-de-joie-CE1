@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Les Bulles de Joie</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Bulles de Joie - Résultats Scolaires</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Éléments flottants décoratifs -->
+    <div class="floating-elements">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <div class="floating-stickers">
+        <div class="floating-sticker"><i class="fas fa-book"></i></div>
+        <div class="floating-sticker"><i class="fas fa-calculator"></i></div>
+        <div class="floating-sticker"><i class="fas fa-paint-brush"></i></div>
+        <div class="floating-sticker"><i class="fas fa-music"></i></div>
+        <div class="floating-sticker"><i class="fas fa-running"></i></div>
+    </div>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Les Bulles de Joie</span>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item" data-tab="ci">CI <span class="badge">Nouveau</span></div>
+                <div class="nav-item" data-tab="cp">CP <span class="badge">Bientôt</span></div>
+                <div class="nav-item active" data-tab="ce1">CE1</div>
+                <div class="nav-item" data-tab="ce2">CE2 <span class="badge">Bientôt</span></div>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                    </select>
+                </div>
+                <div class="theme-toggle">
+                    <input type="checkbox" id="themeToggle" class="toggle-checkbox">
+                    <label for="themeToggle" class="toggle-label">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <!-- En-tête -->
+        <header>
+            <h1 class="school-name">Les Bulles de Joie</h1>
+            <p class="subtitle" data-translate="subtitle">Résultats du CE1 - Octobre 2025</p>
+            
+            <div class="class-info">
+                <div class="info-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <div>
+                        <div data-translate="teacher">Enseignant</div>
+                        <div><strong>C. J. S. Stein</strong></div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-user-tie"></i>
+                    <div>
+                        <div data-translate="director">Directrice</div>
+                        <div><strong>SEGBO S. A. D. Carole</strong></div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <div>Localisation</div>
+                        <div><strong>Bénin - Parakou - Zongo</strong></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenu des onglets -->
+        <div class="tab-content">
+            <!-- Onglet CI -->
+            <div class="tab-pane" id="ci">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-child"></i> <span data-translate="ci-title">Classe d'Initiation (CI)</span></h2>
+                    <div class="coming-soon">
+                        <i class="fas fa-rocket"></i>
+                        <h3 data-translate="coming-soon">Bientôt Disponible</h3>
+                        <p data-translate="ci-message">Les résultats pour la classe d'Initiation seront disponibles prochainement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet CP -->
+            <div class="tab-pane" id="cp">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-pencil-alt"></i> <span data-translate="cp-title">Cours Préparatoire (CP)</span></h2>
+                    <div class="coming-soon">
+                        <i class="fas fa-clock"></i>
+                        <h3 data-translate="coming-soon">Bientôt Disponible</h3>
+                        <p data-translate="cp-message">Les résultats pour le Cours Préparatoire seront disponibles prochainement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet CE1 -->
+            <div class="tab-pane active" id="ce1">
+                <div class="main-content">
+                    <div class="card">
+                        <h2 class="card-title"><i class="fas fa-key"></i> <span data-translate="access-results">Accès aux résultats</span></h2>
+                        <p data-translate="access-description">Pour consulter les résultats de votre enfant, veuillez saisir le mot de passe qui vous a été communiqué.</p>
+                        
+                        <div class="password-form">
+                            <div class="form-group">
+                                <label for="studentSelect" data-translate="select-student">Sélectionnez l'élève :</label>
+                                <select id="studentSelect" class="form-control">
+                                    <option value="">-- <span data-translate="choose-student">Choisir un élève</span> --</option>
+                                    <option value="agblo">AGBLO AGONDJIHOSSOU Fifamè</option>
+                                    <option value="akyoh">AKYOH Emmanuel</option>
+                                    <option value="amadou">AMADOU Yinki</option>
+                                    <option value="bani">BANI Rahama</option>
+                                    <option value="dahougou">DAHOUGOU Noham</option>
+                                    <option value="eda">EDA Queen</option>
+                                    <option value="houehou">HOUEHOU Méka</option>
+                                    <option value="padonou">PADONOU Faith</option>
+                                    <option value="sovi">SOVI Péniel</option>
+                                    <option value="tossavi">TOSSAVI Naelle</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="passwordInput" data-translate="password">Mot de passe :</label>
+                                <div class="password-input-container">
+                                    <input type="password" id="passwordInput" placeholder="Entrez le mot de passe" data-translate-placeholder="enter-password">
+                                    <button type="button" id="togglePassword" class="password-toggle">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button class="btn" id="submitBtn">
+                                <i class="fas fa-unlock"></i> <span data-translate="view-results">Voir les résultats</span>
+                            </button>
+                            
+                            <p class="password-hint" data-translate="password-hint">Le mot de passe correspond au prénom de l'élève en minuscules</p>
+                        </div>
+                        
+                        <div class="stickers-container">
+                            <div class="sticker">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="sticker">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="sticker">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <div class="sticker">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="sticker">
+                                <i class="fas fa-running"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title"><i class="fas fa-award"></i> <span data-translate="results">Résultats</span></h2>
+                        <p data-translate="results-description">Les résultats de votre enfant apparaîtront ici après authentification.</p>
+                        
+                        <div id="resultsContainer" class="results-container">
+                            <!-- Les résultats seront affichés ici dynamiquement -->
+                        </div>
+                        
+                        <div id="printable-bulletin" class="printable-bulletin">
+                            <!-- Le bulletin imprimable sera affiché ici dynamiquement -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet CE2 -->
+            <div class="tab-pane" id="ce2">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-graduation-cap"></i> <span data-translate="ce2-title">Cours Élémentaire 2 (CE2)</span></h2>
+                    <div class="coming-soon">
+                        <i class="fas fa-star"></i>
+                        <h3 data-translate="coming-soon">Bientôt Disponible</h3>
+                        <p data-translate="ce2-message">Les résultats pour le Cours Élémentaire 2 seront disponibles prochainement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>École "Les Bulles de Joie" - <span data-translate="footer-school">Crèche, Garderie, Maternelle et Primaire Bilingue</span></p>
+            <p>© 2025 - Tous droits réservés | Bénin - Parakou - Zongo 🇧🇯</p>
+        </footer>
+    </div>
+
+    <!-- Décorations -->
+    <div class="decoration decoration-1">
+        <i class="fas fa-graduation-cap"></i>
+    </div>
+    <div class="decoration decoration-2">
+        <i class="fas fa-star"></i>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
