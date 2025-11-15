@@ -1,0 +1,582 @@
+/* ===== OPTIMISATIONS SEO AVANCÉES ===== */
+
+/* Structure sémantique améliorée */
+main {
+    display: block; /* Correction pour IE */
+}
+
+/* Optimisation de la typographie pour le référencement */
+.hero-title {
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+/* Amélioration de la lisibilité */
+.content-text {
+    line-height: 1.7;
+    font-size: 1.1rem;
+    color: var(--noir);
+}
+
+/* Optimisation des images pour le SEO */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo-image img {
+    width: 80px;
+    height: 80px;
+}
+
+/* Schema.org markup visuel */
+[itemscope] {
+    border: none;
+}
+
+[itemprop="name"] {
+    font-weight: 700;
+}
+
+/* Structure heading hiérarchique */
+.hero-title {
+    /* H1 - Un seul par page */
+}
+
+.section-title {
+    /* H2 - Titres de sections principales */
+}
+
+.card h3,
+.activity-card h3 {
+    /* H3 - Sous-sections */
+}
+
+/* Optimisation des liens */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Amélioration de l'accessibilité pour le SEO */
+.btn:focus,
+.nav-item:focus,
+.filter-btn:focus {
+    outline: 3px solid var(--vert-citron);
+    outline-offset: 2px;
+}
+
+/* Masquage propre des éléments pour le SEO */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Optimisation de la vitesse de rendu */
+.hero-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1000px;
+}
+
+.section {
+    content-visibility: auto;
+    contain-intrinsic-size: 800px;
+}
+
+/* Préchargement des ressources critiques */
+.hero-section::before {
+    transform: translateZ(0);
+}
+
+/* Compression des animations pour les bots */
+@media (prefers-reduced-data: reduce) {
+    .floating-stickers,
+    .particle,
+    .floating-element {
+        display: none;
+    }
+    
+    .hero-section::before {
+        animation: none;
+    }
+}
+
+/* Optimisation pour l'indexation mobile */
+.mobile-optimized {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Structure de données enrichie visible */
+.rating-stars {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+}
+
+.rating-stars > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+}
+
+/* Microdata visuel */
+[itemtype="https://schema.org/EducationalOrganization"] {
+    position: relative;
+}
+
+/* Optimisation des temps de chargement */
+.lazy-load {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-load.loaded {
+    opacity: 1;
+}
+
+/* Amélioration du Core Web Vitals */
+.main-content {
+    will-change: transform;
+}
+
+.hero-section {
+    transform: translateZ(0);
+}
+
+/* Optimisation de la mise en page cumulative (CLS) */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Ratio 4:3 */
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Structure sémantique pour les articles de blog */
+.article-body {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.article-body h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--rose-fuchsia);
+}
+
+.article-body h3 {
+    font-size: 1.4rem;
+    margin: 1.5rem 0 0.8rem;
+}
+
+/* Optimisation des listes pour le référencement */
+.feature-list,
+.benefits-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-list li,
+.benefits-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-list li::before,
+.benefits-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--vert-citron);
+    font-weight: bold;
+}
+
+/* Amélioration de la structure des tableaux */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--fond-rose);
+}
+
+.data-table th {
+    background: var(--fond-rose);
+    font-weight: 600;
+    color: var(--rose-fuchsia);
+}
+
+/* Optimisation du fil d'Ariane */
+.breadcrumb {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    color: var(--gris);
+}
+
+.breadcrumb a {
+    color: var(--rose-fuchsia);
+}
+
+.breadcrumb span {
+    margin: 0 0.5rem;
+}
+
+/* Structure de pagination SEO-friendly */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 2rem 0;
+}
+
+.pagination a,
+.pagination span {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--fond-rose);
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    background: var(--rose-fuchsia);
+    color: white;
+}
+
+.pagination .current {
+    background: var(--rose-fuchsia);
+    color: white;
+}
+
+/* Optimisation des formulaires pour le SEO */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--rose-fuchsia);
+    box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.1);
+}
+
+/* Structure des erreurs de formulaire */
+.field-error {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Optimisation des métadonnées visuelles */
+.meta-info {
+    font-size: 0.9rem;
+    color: var(--gris);
+    margin-bottom: 1rem;
+}
+
+.meta-info span {
+    margin-right: 1rem;
+}
+
+/* Amélioration de la structure des citations */
+.blockquote {
+    border-left: 4px solid var(--vert-citron);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--gris);
+}
+
+/* Optimisation des médias sociaux pour le SEO */
+.social-share {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.social-share a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--fond-rose);
+    border-radius: 25px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.social-share a:hover {
+    background: var(--rose-fuchsia);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Structure des données de review */
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.star-rating {
+    color: #ffc107;
+}
+
+/* Optimisation de la recherche interne */
+.search-highlight {
+    background: var(--vert-citron);
+    padding: 0.1rem 0.2rem;
+    border-radius: 3px;
+}
+
+/* Amélioration de la navigation au clavier */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--rose-fuchsia);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 5px;
+    z-index: 10000;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Optimisation des temps d'interaction */
+.btn,
+.nav-item,
+.filter-btn {
+    touch-action: manipulation;
+}
+
+/* Structure des données de contact SEO */
+.contact-structured {
+    display: none; /* Masqué mais présent pour le SEO */
+}
+
+/* Amélioration de la hiérarchie visuelle */
+.content-hierarchy h1 { font-size: 2.5rem; }
+.content-hierarchy h2 { font-size: 2rem; }
+.content-hierarchy h3 { font-size: 1.5rem; }
+.content-hierarchy h4 { font-size: 1.25rem; }
+.content-hierarchy h5 { font-size: 1.1rem; }
+.content-hierarchy h6 { font-size: 1rem; }
+
+/* Optimisation des iframes */
+.iframe-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* Ratio 16:9 */
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Structure des données de prix */
+.price-info {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--rose-fuchsia);
+}
+
+.price-original {
+    text-decoration: line-through;
+    color: var(--gris);
+    margin-right: 0.5rem;
+}
+
+/* Optimisation des listes de produits/services */
+.service-features {
+    display: grid;
+    gap: 1rem;
+}
+
+.service-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.service-feature-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--fond-rose);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rose-fuchsia);
+}
+
+/* Amélioration de la structure des FAQ */
+.faq-item {
+    margin-bottom: 1rem;
+    border: 1px solid var(--fond-rose);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 1rem;
+    background: var(--fond-rose);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-answer {
+    padding: 1rem;
+    background: white;
+}
+
+/* Optimisation des données structurées visuelles */
+.structured-data {
+    border-left: 4px solid var(--vert-citron);
+    padding: 1rem;
+    background: var(--fond-rose);
+    margin: 1rem 0;
+}
+
+/* Amélioration de la performance perçue */
+.skeleton-loader {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Optimisation pour les moteurs de recherche vocaux */
+.speech-optimized {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Structure des données d'événements */
+.event-date {
+    background: var(--rose-fuchsia);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    display: inline-block;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Amélioration de la navigation contextuelle */
+.context-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.context-nav a {
+    padding: 0.5rem 1rem;
+    background: var(--fond-rose);
+    border-radius: 20px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.context-nav a:hover {
+    background: var(--rose-fuchsia);
+    color: white;
+}
+
+/* Optimisation finale pour le SEO technique */
+@media (prefers-contrast: high) {
+    :root {
+        --rose-fuchsia: #b300b3;
+        --vert-citron: #99cc00;
+    }
+}
+
+@media (prefers-contrast: low) {
+    :root {
+        --rose-fuchsia: #ff66ff;
+        --vert-citron: #e6ff99;
+    }
+}
+
+/* Support des navigateurs textuels */
+@media speech {
+    .floating-stickers,
+    .particle {
+        display: none;
+    }
+    
+    .hero-section::before {
+        content: "École Les Bulles de Joie - Page d'accueil";
+    }
+}
+
+/* Optimisation pour l'archivage */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-only {
+        display: block !important;
+    }
+    
+    a[href]::after {
+        content: " (" attr(href) ")";
+    }
+}
