@@ -1,77 +1,1229 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-BJ">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Découvrez les grands cycles d'apprentissage bilingue à Les Bulles de Joie : crèche, garderie, maternelle et primaire.">
-  <title>Les Bulles de Joie - Pédagogie</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="responsive.css">
-  <script src="pedagy-interactive.js" defer></script>
-  <script src="main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pédagogie - Les Bulles de Joie - École Bilingue Parakou</title>
+    <meta name="description" content="Découvrez notre approche pédagogique innovante aux Bulles de Joie. Méthodes actives, apprentissage par le jeu et développement complet de l'enfant.">
+    
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --white: #ffffff;
+            --lemon-green: #c6ff00;
+            --fuchsia: #ff00ff;
+            --black: #000000;
+            --light-pink: #ffccf9;
+            --light-green: #e7ffb3;
+            --dark-purple: #2d1b69;
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
+            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            --transition-fast: all 0.3s ease;
+            --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --border-radius: 20px;
+            --border-radius-lg: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--black);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes rippleEffect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ===== HEADER ===== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
+            z-index: 1000;
+            transition: var(--transition-normal);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-mark {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .bubble-mark {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fuchsia);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--fuchsia);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: var(--transition-fast);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        .btn-contact {
+            background: var(--gradient-primary);
+            color: var(--white) !important;
+            padding: 0.75rem 1.5rem !important;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--black);
+            margin: 3px 0;
+            transition: var(--transition-fast);
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ===== SECTIONS GÉNÉRIQUES ===== */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ===== STYLES SPÉCIFIQUES À LA PAGE PÉDAGOGIE ===== */
+        .hero-pedagogie {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero-pedagogie h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero-pedagogie p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .approche-section {
+            background: var(--white);
+        }
+
+        .approche-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .approche-card {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+            border-top: 4px solid var(--fuchsia);
+        }
+
+        .approche-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .approche-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--fuchsia);
+        }
+
+        .approche-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        .approche-card p {
+            color: var(--gray);
+        }
+
+        .methodes-section {
+            background: var(--gray-light);
+        }
+
+        .methodes-tabs {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tab-btn {
+            background: var(--white);
+            border: 2px solid var(--light-pink);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-primary);
+            color: var(--white);
+            border-color: transparent;
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content h3 {
+            color: var(--fuchsia);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .tab-content ul {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .tab-content li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .tab-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--lemon-green);
+            font-weight: bold;
+        }
+
+        .avantages-section {
+            background: var(--white);
+        }
+
+        .avantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .avantage-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .avantage-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--white);
+            font-size: 2rem;
+        }
+
+        .avantage-item h3 {
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .resultats-section {
+            background: var(--gradient-light);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--fuchsia);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: var(--lemon-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info,
+        .schedule-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-line,
+        .schedule-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-line i {
+            width: 20px;
+            color: var(--lemon-green);
+        }
+
+        .schedule-line {
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-line:last-child {
+            border-bottom: none;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            transition: var(--transition-fast);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .footer-credits p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .approche-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--white);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .hero-pedagogie h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-pedagogie p {
+                font-size: 1.1rem;
+            }
+            
+            .tabs-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .tab-content {
+                padding: 2rem;
+            }
+            
+            .avantages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-pedagogie {
+                padding: 7rem 0 3rem;
+            }
+            
+            .hero-pedagogie h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .approche-card {
+                padding: 2rem 1rem;
+            }
+            
+            .tab-content {
+                padding: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animation d'entrée des éléments */
+        .animate-in {
+            animation: slideInUp 0.8s ease both;
+        }
+
+        /* Effet ripple pour les boutons */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        /* Animations pour le menu mobile */
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Header -->
-  <header class="sticky-header">
-    <div class="header-content">
-      <div class="logo-section">
-        <img src="logo.png" alt="Logo Les Bulles de Joie">
-        <div class="name-slogan">
-          <h1 style="color: #FFFFFF;">Les Bulles de Joie</h1>
-          <p style="color: #A0FF00;">Amour – Travail – Rigueur – Créativité</p>
+    <!-- Navigation principale -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-mark">
+                    <div class="bubble-mark"></div>
+                    <span>LBJ</span>
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p>Amour • Travail • Rigueur • Créativité</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="apropos.html" class="nav-link">Notre École</a></li>
+                    <li><a href="pedagogie.html" class="nav-link active">Pédagogie</a></li>
+                    <li><a href="activites.html" class="nav-link">Activités</a></li>
+                    <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="contact.html" class="nav-link btn-contact">Contact</a></li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
         </div>
-      </div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="apropos.html">Notre école</a></li>
-          <li><a href="pedagogie.html">Pédagogie</a></li>
-          <li><a href="activites.html">Activités</a></li>
-          <li><a href="resultats.html">Résultats</a></li>
-          <li><a href="inscription.html">Inscription</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="header-right">
-        <span class="school-year" style="color: #FF1493;">2025 – 2026</span>
-        <button class="contact-btn" onclick="location.href='contact.html'" style="background-color: #A0FF00; color: #000000;">Nous contacter</button>
-        <div class="menu-toggle">☰</div>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Content -->
-  <main class="pedagogie-main" style="background-color: #A0FF00;">
-    <section class="cycles-section">
-      <h2 style="color: #FF1493;">Grands cycles d’apprentissage</h2>
-      <ul class="cycles-list">
-        <li style="color: #000000;">Crèche – Garderie (2 mois à 3 ans)</li>
-        <li style="color: #000000;">Maternelle bilingue (3 – 5 ans)</li>
-        <li style="color: #000000;">Primaire bilingue (à partir de 6 ans)</li>
-        <li style="color: #000000;">Cantine, garderie disponible et sieste (12h à 15h)</li>
-      </ul>
-    </section>
-  </main>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-pedagogie">
+            <div class="container">
+                <h1>Notre Pédagogie</h1>
+                <p>Une approche innovante qui place l'enfant au cœur des apprentissages</p>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="official-info">
-        <p style="color: #FFFFFF;">École privée agréée – Numéro d’autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
-        <p style="color: #FFFFFF;">Année scolaire : 2025 – 2026</p>
-        <p style="color: #FFFFFF;">Adresse : Parakou – Zongo</p>
-        <p style="color: #FFFFFF;">Horaires : Crèche & Garderie : 07h – 19h | Maternelle : 08h – 11h30 et 15h – 17h | Primaire : 07h30 – 12h et 15h – 17h30</p>
-      </div>
-      <div class="social-links">
-        <a href="https://www.facebook.com/lesbullesdejoie" style="color: #A0FF00;">Facebook</a>
-        <a href="https://www.instagram.com/lesbullesdejoie?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color: #A0FF00;">Instagram</a>
-        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" style="color: #A0FF00;">Maps</a>
-      </div>
-      <p class="mentions" style="color: #FFFFFF;">© Les Bulles de Joie – Tous droits réservés | Établissement certifié – Enseignement bilingue – 2 mois +</p>
-    </div>
-  </footer>
+        <!-- Section Approche -->
+        <section class="section approche-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Notre Approche Pédagogique</h2>
+                    <p class="section-subtitle">Une méthode unique qui allie tradition et innovation</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="approche-grid">
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Centrée sur l'Enfant</h3>
+                        <p>L'enfant est acteur de ses apprentissages. Nous respectons son rythme et valorisons ses talents uniques.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Apprentissage par le Jeu</h3>
+                        <p>Le jeu comme vecteur principal d'apprentissage pour développer curiosité et motivation.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Pédagogie Active</h3>
+                        <p>Manipulation, expérimentation et découverte pour des apprentissages durables et significatifs.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Immersion Bilingue</h3>
+                        <p>Français et anglais intégrés naturellement dans le quotidien pour une maîtrise authentique.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Section Méthodes -->
+        <section class="section methodes-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nos Méthodes d'Enseignement</h2>
+                    <p class="section-subtitle">Des approches variées adaptées à chaque besoin</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="methodes-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="montessori">Montessori</button>
+                        <button class="tab-btn" data-tab="freinet">Freinet</button>
+                        <button class="tab-btn" data-tab="active">Méthodes Actives</button>
+                        <button class="tab-btn" data-tab="bilingue">Immersion Bilingue</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="montessori">
+                        <h3>Inspiration Montessori</h3>
+                        <p>Nous nous inspirons des principes Montessori pour favoriser l'autonomie et le développement sensoriel :</p>
+                        <ul>
+                            <li>Matériel sensoriel adapté à chaque âge</li>
+                            <li>Environnement préparé et ordonné</li>
+                            <li>Liberté de choix dans les activités</li>
+                            <li>Respect du rythme individuel</li>
+                            <li>Apprentissage par l'expérience concrète</li>
+                        </ul>
+                        <p>Ces principes permettent à l'enfant de développer concentration, confiance en soi et goût d'apprendre.</p>
+                    </div>
+                    
+                    <div class="tab-content" id="freinet">
+                        <h3>Techniques Freinet</h3>
+                        <p>Nous intégrons des techniques issues de la pédagogie Freinet pour stimuler l'expression et la coopération :</p>
+                        <ul>
+                            <li>Journal de classe et correspondance</li>
+                            <li>Travail individualisé et plan de travail</li>
+                            <li>Expression libre et créativité</li>
+                            <li>Coopération et travail en groupe</li>
+                            <li>Apprentissage par la recherche</li>
+                        </ul>
+                        <p>Ces techniques développent l'expression personnelle et l'esprit de coopération.</p>
+                    </div>
+                    
+                    <div class="tab-content" id="active">
+                        <h3>Méthodes Actives</h3>
+                        <p>Notre approche privilégie l'action et l'expérimentation pour des apprentissages durables :</p>
+                        <ul>
+                            <li>Apprentissage par projets</li>
+                            <li>Manipulation et expérimentation</li>
+                            <li>Résolution de problèmes</li>
+                            <li>Jeux éducatifs et défis</li>
+                            <li>Sorties pédagogiques</li>
+                        </ul>
+                        <p>L'enfant construit ses connaissances à travers des situations réelles et motivantes.</p>
+                    </div>
+                    
+                    <div class="tab-content" id="bilingue">
+                        <h3>Immersion Bilingue</h3>
+                        <p>Notre programme bilingue intègre naturellement le français et l'anglais :</p>
+                        <ul>
+                            <li>Enseignants natifs et bilingues</li>
+                            <li>Activités quotidiennes en anglais</li>
+                            <li>Chansons, comptines et jeux en anglais</li>
+                            <li>Projets bilingues</li>
+                            <li>Communication authentique</li>
+                        </ul>
+                        <p>L'immersion précoce permet une acquisition naturelle et durable de la langue.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Avantages -->
+        <section class="section avantages-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Les Avantages de Notre Pédagogie</h2>
+                    <p class="section-subtitle">Ce qui fait la différence dans l'épanouissement de votre enfant</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="avantages-grid">
+                    <div class="avantage-item">
+                        <div class="avantage-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Développement Cognitif</h3>
+                        <p>Stimulation des capacités d'analyse, de raisonnement et de créativité</p>
+                    </div>
+                    
+                    <div class="avantage-item">
+                        <div class="avantage-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Épanouissement Émotionnel</h3>
+                        <p>Environnement sécurisant qui favorise la confiance et l'estime de soi</p>
+                    </div>
+                    
+                    <div class="avantage-item">
+                        <div class="avantage-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Compétences Sociales</h3>
+                        <p>Apprentissage de la coopération, de l'empathie et du vivre-ensemble</p>
+                    </div>
+                    
+                    <div class="avantage-item">
+                        <div class="avantage-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h3>Bilinguisme Naturel</h3>
+                        <p>Maîtrise authentique du français et de l'anglais dès le plus jeune âge</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Résultats -->
+        <section class="section resultats-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" style="color: var(--black);">Des Résultats Concrets</h2>
+                    <p class="section-subtitle" style="color: var(--gray-dark);">L'efficacité de notre approche en chiffres</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Taux de Réussite</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Élèves Bilingues</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfaction Parents</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-number">8+</div>
+                        <div class="stat-label">Ans d'Expérience</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem;">
+                    <a href="resultats.html" class="btn btn-primary">
+                        <i class="fas fa-chart-line"></i>
+                        Voir les Résultats Détaillés
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <div class="bubble-mark"></div>
+                            <span>LBJ</span>
+                        </div>
+                        <div class="footer-text">
+                            <h3>Les Bulles de Joie</h3>
+                            <p>École privée agréée - Enseignement bilingue</p>
+                        </div>
+                    </div>
+                    <div class="footer-badges">
+                        <span class="badge">🏆 École Certifiée</span>
+                        <span class="badge">🌍 Bilingue Français-Anglais</span>
+                        <span class="badge">👶 2 mois - 12 ans</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Coordonnées</h4>
+                    <div class="contact-info">
+                        <div class="contact-line">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Parakou - Zongo, Bénin</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-envelope"></i>
+                            <span>lesbullesdejoie@gmail.com</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-phone"></i>
+                            <span>+229 49 77 77 00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horaires</h4>
+                    <div class="schedule-info">
+                        <div class="schedule-line">
+                            <strong>Crèche & Garderie:</strong>
+                            <span>07h - 19h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Maternelle:</strong>
+                            <span>08h - 11h30 & 15h - 17h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Primaire:</strong>
+                            <span>07h30 - 12h & 15h - 17h30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Réseaux Sociaux</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </a>
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                </div>
+                <div class="footer-credits">
+                    <p>Année scolaire 2025-2026</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== GESTIONNAIRE DE LA PAGE PÉDAGOGIE =====
+        class PedagogieManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupTabs();
+                this.setupScrollAnimations();
+                this.setupInteractiveElements();
+            }
+
+            // Configuration de la navigation
+            setupNavigation() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle) {
+                    navToggle.addEventListener('click', () => {
+                        navToggle.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                }
+
+                // Fermer le menu mobile au clic sur un lien
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Gestion du header au scroll
+                let lastScrollY = window.scrollY;
+                const header = document.querySelector('.main-header');
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        header.style.background = 'rgba(255, 255, 255, 0.98)';
+                        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                    } else {
+                        header.style.background = 'rgba(255, 255, 255, 0.95)';
+                        header.style.boxShadow = 'none';
+                    }
+
+                    // Cacher/montrer le header au scroll
+                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
+                        header.style.transform = 'translateY(-100%)';
+                    } else {
+                        header.style.transform = 'translateY(0)';
+                    }
+
+                    lastScrollY = window.scrollY;
+                });
+            }
+
+            // Configuration des onglets
+            setupTabs() {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Retirer la classe active de tous les boutons et contenus
+                        tabBtns.forEach(b => b.classList.remove('active'));
+                        tabContents.forEach(c => c.classList.remove('active'));
+
+                        // Ajouter la classe active au bouton cliqué
+                        btn.classList.add('active');
+
+                        // Afficher le contenu correspondant
+                        const tabId = btn.getAttribute('data-tab');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+            }
+
+            // Animations au scroll
+            setupScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observer les éléments à animer
+                document.querySelectorAll('.approche-card, .avantage-item, .stat-item').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+
+            // Configuration des éléments interactifs
+            setupInteractiveElements() {
+                // Effet ripple pour les boutons
+                document.querySelectorAll('.btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        this.createRippleEffect(e);
+                    }.bind(this));
+                });
+
+                // Animation des cartes au survol
+                const cards = document.querySelectorAll('.approche-card, .avantage-item');
+                
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-10px)';
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                    });
+                });
+            }
+
+            // Effet visuel ripple
+            createRippleEffect(e) {
+                const button = e.currentTarget;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            window.pedagogieManager = new PedagogieManager();
+        });
+    </script>
 </body>
 </html>

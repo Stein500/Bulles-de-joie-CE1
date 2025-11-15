@@ -1,159 +1,1955 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-BJ">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Accédez aux résultats scolaires sécurisés par classe et élève à Les Bulles de Joie, avec téléchargement de bulletins en PDF et image.">
-  <title>Les Bulles de Joie - Résultats</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="responsive.css">
-  <script src="main.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats Scolaires - Les Bulles de Joie - École Bilingue Parakou</title>
+    <meta name="description" content="Accédez aux résultats scolaires de votre enfant. Système sécurisé de consultation des bulletins et progrès académiques.">
+    
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES ET RESET ===== */
+        :root {
+            /* Couleurs principales */
+            --white: #ffffff;
+            --lemon-green: #c6ff00;
+            --fuchsia: #ff00ff;
+            --black: #000000;
+            --light-pink: #ffccf9;
+            --light-green: #e7ffb3;
+            --dark-purple: #2d1b69;
+            
+            /* Couleurs de soutien */
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            
+            /* Dégradés */
+            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
+            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            
+            /* Ombres */
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            
+            /* Transitions */
+            --transition-fast: all 0.3s ease;
+            --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* Bordures */
+            --border-radius: 20px;
+            --border-radius-lg: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--black);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes floatBubble {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px);
+            }
+            75% {
+                transform: translateY(-20px) translateX(-5px);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
+            z-index: 1000;
+            transition: var(--transition-normal);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-mark {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .bubble-mark {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--fuchsia);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: var(--transition-fast);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        .btn-contact {
+            background: var(--gradient-primary);
+            color: var(--white) !important;
+            padding: 0.75rem 1.5rem !important;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--black);
+            margin: 3px 0;
+            transition: var(--transition-fast);
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--fuchsia);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--fuchsia);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--fuchsia);
+        }
+
+        /* ===== SECTIONS GÉNÉRIQUES ===== */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ===== STYLES SPÉCIFIQUES À LA PAGE RÉSULTATS ===== */
+        .login-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-light);
+            padding: 4rem 0;
+        }
+
+        .login-container {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .login-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-pink);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus {
+            border-color: var(--fuchsia);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.1);
+        }
+
+        .results-section {
+            display: none;
+            padding: 4rem 0;
+        }
+
+        .student-header {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .student-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .student-details h2 {
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .student-average {
+            text-align: center;
+        }
+
+        .average-score {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .average-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .subjects-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .subject-item {
+            background: var(--gray-light);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition-fast);
+        }
+
+        .subject-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .subject-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+
+        .subject-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fuchsia);
+        }
+
+        .progress-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+        }
+
+        .progress-chart {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .chart-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--fuchsia) 0% 75%, var(--light-pink) 75% 100%);
+            position: relative;
+        }
+
+        .chart-inner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--fuchsia);
+        }
+
+        .teacher-comment {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--lemon-green);
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .teacher-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .download-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border: 2px solid var(--light-pink);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--black);
+            transition: var(--transition-fast);
+            font-weight: 600;
+        }
+
+        .download-btn:hover {
+            border-color: var(--fuchsia);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .download-btn i {
+            font-size: 1.5rem;
+            color: var(--fuchsia);
+        }
+
+        .teachers-section {
+            background: var(--gray-light);
+            padding: 4rem 0;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .teacher-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-normal);
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .teacher-card.unavailable {
+            opacity: 0.6;
+        }
+
+        .teacher-avatar-large {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .availability-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .available {
+            background: var(--light-green);
+            color: var(--black);
+        }
+
+        .unavailable {
+            background: var(--light-pink);
+            color: var(--black);
+        }
+
+        .logout-section {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .error-message {
+            background: var(--light-pink);
+            color: var(--black);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: var(--lemon-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info,
+        .schedule-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-line,
+        .schedule-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-line i {
+            width: 20px;
+            color: var(--lemon-green);
+        }
+
+        .schedule-line {
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-line:last-child {
+            border-bottom: none;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            transition: var(--transition-fast);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .footer-credits p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .student-info {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .teachers-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--white);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .login-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .student-header {
+                padding: 1.5rem;
+            }
+            
+            .subjects-card,
+            .progress-card,
+            .teacher-comment {
+                padding: 1.5rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-chart {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .chart-inner {
+                top: 15px;
+                left: 15px;
+                right: 15px;
+                bottom: 15px;
+                font-size: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .login-icon {
+                font-size: 3rem;
+            }
+            
+            .student-header {
+                padding: 1rem;
+            }
+            
+            .average-score {
+                font-size: 2rem;
+            }
+            
+            .teacher-avatar-large {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+            
+            .teachers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animation d'entrée des éléments */
+        .animate-in {
+            animation: slideInUp 0.8s ease both;
+        }
+
+        /* Effet ripple pour les boutons */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--fuchsia);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: var(--lemon-green);
+        }
+
+        .notification.warning {
+            border-left-color: #ff9800;
+        }
+
+        .notification.error {
+            border-left-color: #f44336;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i { color: var(--lemon-green); }
+        .notification.warning i { color: #ff9800; }
+        .notification.error i { color: #f44336; }
+
+        /* Animations pour le menu mobile */
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Header -->
-  <header class="sticky-header">
-    <div class="header-content">
-      <div class="logo-section">
-        <img src="logo.png" alt="Logo Les Bulles de Joie">
-        <div class="name-slogan">
-          <h1 style="color: #FFFFFF;">Les Bulles de Joie</h1>
-          <p style="color: #A0FF00;">Amour – Travail – Rigueur – Créativité</p>
+    <!-- Navigation principale -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-mark">
+                    <div class="bubble-mark"></div>
+                    <span>LBJ</span>
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p>Amour • Travail • Rigueur • Créativité</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="apropos.html" class="nav-link">Notre École</a></li>
+                    <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
+                    <li><a href="activites.html" class="nav-link">Activités</a></li>
+                    <li><a href="resultats.html" class="nav-link active">Résultats</a></li>
+                    <li><a href="contact.html" class="nav-link btn-contact">Contact</a></li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
         </div>
-      </div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="apropos.html">Notre école</a></li>
-          <li><a href="pedagogie.html">Pédagogie</a></li>
-          <li><a href="activites.html">Activités</a></li>
-          <li><a href="resultats.html">Résultats</a></li>
-          <li><a href="inscription.html">Inscription</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="header-right">
-        <span class="school-year" style="color: #FF1493;">2025 – 2026</span>
-        <button class="contact-btn" onclick="location.href='contact.html'" style="background-color: #A0FF00; color: #000000;">Nous contacter</button>
-        <div class="menu-toggle">☰</div>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Content -->
-  <main class="resultats-main" style="background-color: #A0FF00;">
-    <section class="resultats-section">
-      <h2 style="color: #FF1493;">Résultats</h2>
-      <p style="color: #000000;">Résultats accessibles par classe et par élève via un système sécurisé. Présentation claire : moyenne, progression, appréciations.</p>
-      <form id="login-form" class="login-form">
-        <label for="identifiant" style="color: #000000;">Identifiant :</label>
-        <input type="text" id="identifiant" required placeholder="Ex: AGBLO">
-        <label for="motdepasse" style="color: #000000;">Mot de passe (prénom en minuscule) :</label>
-        <input type="password" id="motdepasse" required placeholder="Ex: fifamè">
-        <button type="submit" style="background-color: #FF1493; color: #FFFFFF;">Se connecter</button>
-      </form>
-      <div id="bulletin" style="display:none;" class="bulletin-display">
-        <div id="bulletin-content">
-          <h3 id="nom-classe" style="color: #FF1493;"></h3>
-          <p id="moyenne" style="color: #000000;"></p>
-          <p id="matieres-notes" style="color: #000000;"></p>
-          <p id="commentaire" style="color: #000000;"></p>
+    <main>
+        <!-- Section de connexion -->
+        <section class="login-section" id="loginSection">
+            <div class="login-container">
+                <div class="login-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>Accès aux Résultats</h2>
+                <p>Espace sécurisé pour consulter les résultats de votre enfant</p>
+                
+                <div class="error-message" id="errorMessage">
+                    Identifiant ou mot de passe incorrect. Veuillez réessayer.
+                </div>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="studentId" class="form-label">Identifiant de l'élève</label>
+                        <input type="text" id="studentId" class="form-input" placeholder="Ex: CE1-001" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" id="password" class="form-input" placeholder="Prénom en minuscules" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Se connecter
+                    </button>
+                </form>
+                
+                <div class="login-help" style="margin-top: 2rem; font-size: 0.9rem; color: var(--gray);">
+                    <p><strong>Information :</strong> Le mot de passe correspond au prénom de l'élève en minuscules (ex: fifamè)</p>
+                    <p>En cas de difficulté, contactez le secrétariat au <strong>+229 01 49 77 77 01</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section des résultats (masquée initialement) -->
+        <section class="results-section" id="resultsSection">
+            <div class="container">
+                <!-- En-tête de l'élève -->
+                <div class="student-header">
+                    <div class="student-info">
+                        <div class="student-avatar">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="student-details">
+                            <h2 id="studentName">Fifamè AGBLO AGONDJIHOSSOU</h2>
+                            <p>Classe : <span id="studentClass">CE1</span> - École : Les Bulles de Joie</p>
+                            <p>Année scolaire : 2025-2026 - Trimestre 2</p>
+                        </div>
+                        <div class="student-average">
+                            <div class="average-score" id="averageScore">14.33</div>
+                            <div class="average-label">Moyenne Générale /20</div>
+                            <div class="average-status" id="averageStatus" style="margin-top: 0.5rem; font-size: 0.9rem; padding: 0.25rem 0.75rem; border-radius: 15px; background: rgba(255,255,255,0.3);">Objectif atteint ✓</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grille des résultats -->
+                <div class="results-grid">
+                    <!-- Matières et notes -->
+                    <div class="subjects-card">
+                        <h3>Détail des Notes par Matière</h3>
+                        <div class="subjects-grid" id="subjectsGrid">
+                            <!-- Les matières seront injectées par JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Progression -->
+                    <div class="progress-card">
+                        <h3>Progression Scolaire</h3>
+                        <div class="progress-chart">
+                            <div class="chart-circle" id="progressCircle">
+                                <div class="chart-inner">
+                                    <span id="progressPercent">75%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <p><strong id="progressText">Objectif atteint</strong></p>
+                            <p>Progression depuis le dernier trimestre</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commentaire du professeur -->
+                <div class="teacher-comment">
+                    <div class="comment-header">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div>
+                            <h3>Commentaire du Professeur</h3>
+                            <p>Enseignant responsable : <strong id="teacherName">M. AGBLO AGONDJIHOSSOU</strong></p>
+                        </div>
+                    </div>
+                    <p id="teacherComment">Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.</p>
+                </div>
+
+                <!-- Options de téléchargement -->
+                <div class="download-options">
+                    <a href="#" class="download-btn" id="downloadPdf">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Télécharger le bulletin (PDF)</span>
+                    </a>
+                    <a href="#" class="download-btn" id="downloadImage">
+                        <i class="fas fa-file-image"></i>
+                        <span>Télécharger le bulletin (Image)</span>
+                    </a>
+                    <a href="#" class="download-btn" id="printResults">
+                        <i class="fas fa-print"></i>
+                        <span>Imprimer le bulletin</span>
+                    </a>
+                </div>
+
+                <!-- Section déconnexion -->
+                <div class="logout-section">
+                    <button class="btn btn-secondary" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Se déconnecter
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section des enseignants -->
+        <section class="teachers-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Enseignants Responsables</h2>
+                    <p class="section-subtitle">L'équipe pédagogique dévouée à la réussite de votre enfant</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="teachers-grid">
+                    <div class="teacher-card unavailable">
+                        <div class="teacher-avatar-large">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Enseignante du CI</h3>
+                        <p>Classe de Cours d'Initiation</p>
+                        <div class="availability-badge unavailable">
+                            Disponible bientôt
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card unavailable">
+                        <div class="teacher-avatar-large">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Enseignante du CP</h3>
+                        <p>Classe de Cours Préparatoire</p>
+                        <div class="availability-badge unavailable">
+                            Disponible bientôt
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card">
+                        <div class="teacher-avatar-large">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <h3>AGBLO AGONDJIHOSSOU Fifamè</h3>
+                        <p>Enseignant du CE1</p>
+                        <div class="availability-badge available">
+                            Contact: +229 01 49 77 77 08
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card unavailable">
+                        <div class="teacher-avatar-large">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <h3>Enseignant du CE2</h3>
+                        <p>Classe de Cours Élémentaire 2</p>
+                        <div class="availability-badge unavailable">
+                            Disponible bientôt
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <div class="bubble-mark"></div>
+                            <span>LBJ</span>
+                        </div>
+                        <div class="footer-text">
+                            <h3>Les Bulles de Joie</h3>
+                            <p>École privée agréée - Enseignement bilingue</p>
+                        </div>
+                    </div>
+                    <div class="footer-badges">
+                        <span class="badge">🏆 École Certifiée</span>
+                        <span class="badge">🌍 Bilingue Français-Anglais</span>
+                        <span class="badge">👶 2 mois - 12 ans</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Coordonnées</h4>
+                    <div class="contact-info">
+                        <div class="contact-line">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Parakou - Zongo, Bénin</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-envelope"></i>
+                            <span>lesbullesdejoie@gmail.com</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-phone"></i>
+                            <span>+229 49 77 77 00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horaires</h4>
+                    <div class="schedule-info">
+                        <div class="schedule-line">
+                            <strong>Crèche & Garderie:</strong>
+                            <span>07h - 19h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Maternelle:</strong>
+                            <span>08h - 11h30 & 15h - 17h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Primaire:</strong>
+                            <span>07h30 - 12h & 15h - 17h30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Réseaux Sociaux</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </a>
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                </div>
+                <div class="footer-credits">
+                    <p>Année scolaire 2025-2026</p>
+                </div>
+            </div>
         </div>
-        <button onclick="downloadPDF()" style="background-color: #A0FF00; color: #000000;">Téléchargement du bulletin format PDF</button>
-        <button onclick="downloadImage()" style="background-color: #A0FF00; color: #000000;">Téléchargement du bulletin format Image</button>
-      </div>
-      <section class="enseignants-section">
-        <h3 style="color: #FF1493;">Enseignants responsables</h3>
-        <ul>
-          <li style="color: #000000;">Enseignante du CI - Disponible bientôt</li>
-          <li style="color: #000000;">Enseignante du CP - Disponible bientôt</li>
-          <li style="color: #000000;">Enseignant du CE1</li>
-          <ul class="eleves-list">
-            <li style="color: #000000;">1. AGBLO AGONDJIHOSSOU Fifamè<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.33 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19.25 | Expression Écrite : 16.50 | Dictée : 5 | Éducation Sociale : 15 | Éducation Scientifique : 15.25 | Dessin : 14 | Mathématiques : 15 | Éducation Sportive : 17 | Éducation Artistique : 12<br>Commentaire du maître :<br>Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.</li>
-            <li style="color: #000000;">2. AKYOH Emmanuel<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 10.69 / 20 (en dessous de 12.00)<br>Matières et notes :<br>Lecture : 7.50 | Expression Écrite : 18.50 | Dictée : 0 | Éducation Sociale : 12 | Éducation Scientifique : 7 | Dessin : 14.50 | Mathématiques : 5.25 | Éducation Sportive : 18 | Éducation Artistique : 13<br>Commentaire du maître :<br>Emmanuel excelle en expression écrite et en éducation sportive. Sa moyenne actuelle (10,69) est en dessous de l’objectif de 12/20. Un effort important et régulier est désormais indispensable, surtout en dictée, lecture et mathématiques. N’hésitez pas à revoir les bases avec lui à la maison et à me contacter pour un accompagnement plus rapproché.</li>
-            <li style="color: #000000;">3. AMADOU Yinki<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 13.64 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 15.5 | Expression Écrite : 19 | Dictée : 5 | Éducation Sociale : 16.25 | Éducation Scientifique : 7.75 | Dessin : 15 | Mathématiques : 13.25 | Éducation Sportive : 17 | Éducation Artistique : 14<br>Commentaire du maître :<br>Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé par des exercices pratiques à la maison.</li>
-            <li style="color: #000000;">4. BANI Rahama<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 15.11 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 13.75 | Expression Écrite : 18.25 | Dictée : 12 | Éducation Sociale : 20 | Éducation Scientifique : 17 | Dessin : 14.5 | Mathématiques : 7.25 | Éducation Sportive : 18 | Éducation Artistique : 15<br>Commentaire du maître :<br>Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale ! Son engagement en mathématiques mériterait d’être soutenu.</li>
-            <li style="color: #000000;">5. DAHOUGOU Noham<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 12.36 / 20 (légèrement au-dessus, mais reste fragile)<br>Matières et notes :<br>Lecture : 15.25 | Expression Écrite : 18.50 | Dictée : 3 | Éducation Sociale : 12 | Éducation Scientifique : 8.75 | Dessin : 13 | Mathématiques : 5.75 | Éducation Sportive : 18 | Éducation Artistique : 14<br>Commentaire du maître :<br>Noham montre de belles capacités en expression écrite et en éducation sportive. Sa moyenne (12,36) est juste au-dessus de l’objectif de 12/20. Il faut absolument consolider les acquis et fournir un travail régulier supplémentaire en dictée et en mathématiques pour éviter de redescendre.</li>
-            <li style="color: #000000;">6. EDA Queen<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.36 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19 | Expression Écrite : 18.25 | Dictée : 4 | Éducation Sociale : 13.75 | Éducation Scientifique : 14.5 | Dessin : 12 | Mathématiques : 15.75 | Éducation Sportive : 18 | Éducation Artistique : 14<br>Commentaire du maître :<br>Queen possède d’excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.</li>
-            <li style="color: #000000;">7. HOUEHOU Méka<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 15.44 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 18.75 | Expression Écrite : 19.5 | Dictée : 9 | Éducation Sociale : 15 | Éducation Scientifique : 14 | Dessin : 14.5 | Mathématiques : 17.25 | Éducation Sportive : 17 | Éducation Artistique : 13<br>Commentaire du maître :<br>Méka est un élève très appliqué qui obtient d’excellents résultats dans la plupart des matières. Félicitations pour ce beau travail !</li>
-            <li style="color: #000000;">8. PADONOU Faith<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.97 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19 | Expression Écrite : 15.75 | Dictée : 4 | Éducation Sociale : 19 | Éducation Scientifique : 17.25 | Dessin : 15 | Mathématiques : 13.75 | Éducation Sportive : 18 | Éducation Artistique : 13<br>Commentaire du maître :<br>Faith excelle en lecture et en éducation sociale. Continuez à l’encourager dans sa progression en expression écrite.</li>
-            <li style="color: #000000;">9. SOVI Péniel<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.89 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 12.5 | Expression Écrite : 18.25 | Dictée : 8 | Éducation Sociale : 18.5 | Éducation Scientifique : 16.5 | Dessin : 13 | Mathématiques : 16.25 | Éducation Sportive : 17 | Éducation Artistique : 14<br>Commentaire du maître :<br>Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.</li>
-            <li style="color: #000000;">10. TOSSAVI Naelle<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 15.44 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19 | Expression Écrite : 16.75 | Dictée : 9 | Éducation Sociale : 18 | Éducation Scientifique : 18 | Dessin : 15 | Mathématiques : 12.25 | Éducation Sportive : 17 | Éducation Artistique : 14<br>Commentaire du maître :<br>Naelle a obtenu d’excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée !</li>
-          </ul>
-          <li style="color: #000000;">Enseignant du CE2 - Disponible bientôt</li>
-        </ul>
-      </section>
-    </section>
-  </main>
+    </footer>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="official-info">
-        <p style="color: #FFFFFF;">École privée agréée – Numéro d’autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
-        <p style="color: #FFFFFF;">Année scolaire : 2025 – 2026</p>
-        <p style="color: #FFFFFF;">Adresse : Parakou – Zongo</p>
-        <p style="color: #FFFFFF;">Horaires : Crèche & Garderie : 07h – 19h | Maternelle : 08h – 11h30 et 15h – 17h | Primaire : 07h30 – 12h et 15h – 17h30</p>
-      </div>
-      <div class="social-links">
-        <a href="https://www.facebook.com/lesbullesdejoie" style="color: #A0FF00;">Facebook</a>
-        <a href="https://www.instagram.com/lesbullesdejoie?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color: #A0FF00;">Instagram</a>
-        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" style="color: #A0FF00;">Maps</a>
-      </div>
-      <p class="mentions" style="color: #FFFFFF;">© Les Bulles de Joie – Tous droits réservés | Établissement certifié – Enseignement bilingue – 2 mois +</p>
-    </div>
-  </footer>
+    <script>
+        // ===== DONNÉES COMPLÈTES DES ÉLÈVES =====
+        const studentsData = {
+            'CE1-001': {
+                name: 'AGBLO AGONDJIHOSSOU Fifamè',
+                class: 'CE1',
+                password: 'fifamè',
+                average: 14.33,
+                objective: 12.00,
+                progress: 75,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.',
+                subjects: [
+                    { name: 'Lecture', score: 19.25 },
+                    { name: 'Expression Écrite', score: 16.50 },
+                    { name: 'Dictée', score: 5 },
+                    { name: 'Éducation Sociale', score: 15 },
+                    { name: 'Éducation Scientifique', score: 15.25 },
+                    { name: 'Dessin', score: 14 },
+                    { name: 'Mathématiques', score: 15 },
+                    { name: 'Éducation Sportive', score: 17 },
+                    { name: 'Éducation Artistique', score: 12 }
+                ]
+            },
+            'CE1-002': {
+                name: 'AKYOH Emmanuel',
+                class: 'CE1',
+                password: 'emmanuel',
+                average: 10.69,
+                objective: 12.00,
+                progress: 45,
+                status: 'non-atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Emmanuel excelle en expression écrite et en éducation sportive. Sa moyenne actuelle (10,69) est en dessous de l\'objectif de 12/20. Un effort important et régulier est désormais indispensable, surtout en dictée, lecture et mathématiques. N\'hésitez pas à revoir les bases avec lui à la maison et à me contacter pour un accompagnement plus rapproché.',
+                subjects: [
+                    { name: 'Lecture', score: 7.50 },
+                    { name: 'Expression Écrite', score: 18.50 },
+                    { name: 'Dictée', score: 0 },
+                    { name: 'Éducation Sociale', score: 12 },
+                    { name: 'Éducation Scientifique', score: 7 },
+                    { name: 'Dessin', score: 14.50 },
+                    { name: 'Mathématiques', score: 5.25 },
+                    { name: 'Éducation Sportive', score: 18 },
+                    { name: 'Éducation Artistique', score: 13 }
+                ]
+            },
+            'CE1-003': {
+                name: 'AMADOU Yinki',
+                class: 'CE1',
+                password: 'yinki',
+                average: 13.64,
+                objective: 12.00,
+                progress: 70,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé par des exercices pratiques à la maison.',
+                subjects: [
+                    { name: 'Lecture', score: 15.5 },
+                    { name: 'Expression Écrite', score: 19 },
+                    { name: 'Dictée', score: 5 },
+                    { name: 'Éducation Sociale', score: 16.25 },
+                    { name: 'Éducation Scientifique', score: 7.75 },
+                    { name: 'Dessin', score: 15 },
+                    { name: 'Mathématiques', score: 13.25 },
+                    { name: 'Éducation Sportive', score: 17 },
+                    { name: 'Éducation Artistique', score: 14 }
+                ]
+            },
+            'CE1-004': {
+                name: 'BANI Rahama',
+                class: 'CE1',
+                password: 'rahama',
+                average: 15.11,
+                objective: 12.00,
+                progress: 85,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale ! Son engagement en mathématiques mériterait d\'être soutenu.',
+                subjects: [
+                    { name: 'Lecture', score: 13.75 },
+                    { name: 'Expression Écrite', score: 18.25 },
+                    { name: 'Dictée', score: 12 },
+                    { name: 'Éducation Sociale', score: 20 },
+                    { name: 'Éducation Scientifique', score: 17 },
+                    { name: 'Dessin', score: 14.5 },
+                    { name: 'Mathématiques', score: 7.25 },
+                    { name: 'Éducation Sportive', score: 18 },
+                    { name: 'Éducation Artistique', score: 15 }
+                ]
+            },
+            'CE1-005': {
+                name: 'DAHOUGOU Noham',
+                class: 'CE1',
+                password: 'noham',
+                average: 12.36,
+                objective: 12.00,
+                progress: 55,
+                status: 'fragile',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Noham montre de belles capacités en expression écrite et en éducation sportive. Sa moyenne (12,36) est juste au-dessus de l\'objectif de 12/20. Il faut absolument consolider les acquis et fournir un travail régulier supplémentaire en dictée et en mathématiques pour éviter de redescendre.',
+                subjects: [
+                    { name: 'Lecture', score: 15.25 },
+                    { name: 'Expression Écrite', score: 18.50 },
+                    { name: 'Dictée', score: 3 },
+                    { name: 'Éducation Sociale', score: 12 },
+                    { name: 'Éducation Scientifique', score: 8.75 },
+                    { name: 'Dessin', score: 13 },
+                    { name: 'Mathématiques', score: 5.75 },
+                    { name: 'Éducation Sportive', score: 18 },
+                    { name: 'Éducation Artistique', score: 14 }
+                ]
+            },
+            'CE1-006': {
+                name: 'EDA Queen',
+                class: 'CE1',
+                password: 'queen',
+                average: 14.36,
+                objective: 12.00,
+                progress: 78,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Queen possède d\'excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.',
+                subjects: [
+                    { name: 'Lecture', score: 19 },
+                    { name: 'Expression Écrite', score: 18.25 },
+                    { name: 'Dictée', score: 4 },
+                    { name: 'Éducation Sociale', score: 13.75 },
+                    { name: 'Éducation Scientifique', score: 14.5 },
+                    { name: 'Dessin', score: 12 },
+                    { name: 'Mathématiques', score: 15.75 },
+                    { name: 'Éducation Sportive', score: 18 },
+                    { name: 'Éducation Artistique', score: 14 }
+                ]
+            },
+            'CE1-007': {
+                name: 'HOUEHOU Méka',
+                class: 'CE1',
+                password: 'méka',
+                average: 15.44,
+                objective: 12.00,
+                progress: 88,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Méka est un élève très appliqué qui obtient d\'excellents résultats dans la plupart des matières. Félicitations pour ce beau travail !',
+                subjects: [
+                    { name: 'Lecture', score: 18.75 },
+                    { name: 'Expression Écrite', score: 19.5 },
+                    { name: 'Dictée', score: 9 },
+                    { name: 'Éducation Sociale', score: 15 },
+                    { name: 'Éducation Scientifique', score: 14 },
+                    { name: 'Dessin', score: 14.5 },
+                    { name: 'Mathématiques', score: 17.25 },
+                    { name: 'Éducation Sportive', score: 17 },
+                    { name: 'Éducation Artistique', score: 13 }
+                ]
+            },
+            'CE1-008': {
+                name: 'PADONOU Faith',
+                class: 'CE1',
+                password: 'faith',
+                average: 14.97,
+                objective: 12.00,
+                progress: 82,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Faith excelle en lecture et en éducation sociale. Continuez à l\'encourager dans sa progression en expression écrite.',
+                subjects: [
+                    { name: 'Lecture', score: 19 },
+                    { name: 'Expression Écrite', score: 15.75 },
+                    { name: 'Dictée', score: 4 },
+                    { name: 'Éducation Sociale', score: 19 },
+                    { name: 'Éducation Scientifique', score: 17.25 },
+                    { name: 'Dessin', score: 15 },
+                    { name: 'Mathématiques', score: 13.75 },
+                    { name: 'Éducation Sportive', score: 18 },
+                    { name: 'Éducation Artistique', score: 13 }
+                ]
+            },
+            'CE1-009': {
+                name: 'SOVI Péniel',
+                class: 'CE1',
+                password: 'péniel',
+                average: 14.89,
+                objective: 12.00,
+                progress: 80,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.',
+                subjects: [
+                    { name: 'Lecture', score: 12.5 },
+                    { name: 'Expression Écrite', score: 18.25 },
+                    { name: 'Dictée', score: 8 },
+                    { name: 'Éducation Sociale', score: 18.5 },
+                    { name: 'Éducation Scientifique', score: 16.5 },
+                    { name: 'Dessin', score: 13 },
+                    { name: 'Mathématiques', score: 16.25 },
+                    { name: 'Éducation Sportive', score: 17 },
+                    { name: 'Éducation Artistique', score: 14 }
+                ]
+            },
+            'CE1-010': {
+                name: 'TOSSAVI Naelle',
+                class: 'CE1',
+                password: 'naelle',
+                average: 15.44,
+                objective: 12.00,
+                progress: 87,
+                status: 'atteint',
+                teacher: 'M. AGBLO AGONDJIHOSSOU',
+                comment: 'Naelle a obtenu d\'excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée !',
+                subjects: [
+                    { name: 'Lecture', score: 19 },
+                    { name: 'Expression Écrite', score: 16.75 },
+                    { name: 'Dictée', score: 9 },
+                    { name: 'Éducation Sociale', score: 18 },
+                    { name: 'Éducation Scientifique', score: 18 },
+                    { name: 'Dessin', score: 15 },
+                    { name: 'Mathématiques', score: 12.25 },
+                    { name: 'Éducation Sportive', score: 17 },
+                    { name: 'Éducation Artistique', score: 14 }
+                ]
+            }
+        };
 
-  <script>
-    const eleves = {
-      'AGBLO': {prenom: 'fifamè', nom: 'AGBLO AGONDJIHOSSOU Fifamè', classe: 'CE1', moyenne: '14.33 / 20 (atteinte ✓)', notes: 'Lecture : 19.25 | Expression Écrite : 16.50 | Dictée : 5 | Éducation Sociale : 15 | Éducation Scientifique : 15.25 | Dessin : 14 | Mathématiques : 15 | Éducation Sportive : 17 | Éducation Artistique : 12', commentaire: 'Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.'},
-      'AKYOH': {prenom: 'emmanuel', nom: 'AKYOH Emmanuel', classe: 'CE1', moyenne: '10.69 / 20 (en dessous de 12.00)', notes: 'Lecture : 7.50 | Expression Écrite : 18.50 | Dictée : 0 | Éducation Sociale : 12 | Éducation Scientifique : 7 | Dessin : 14.50 | Mathématiques : 5.25 | Éducation Sportive : 18 | Éducation Artistique : 13', commentaire: 'Emmanuel excelle en expression écrite et en éducation sportive. Sa moyenne actuelle (10,69) est en dessous de l’objectif de 12/20. Un effort important et régulier est désormais indispensable, surtout en dictée, lecture et mathématiques. N’hésitez pas à revoir les bases avec lui à la maison et à me contacter pour un accompagnement plus rapproché.'},
-      'AMADOU': {prenom: 'yinki', nom: 'AMADOU Yinki', classe: 'CE1', moyenne: '13.64 / 20 (atteinte ✓)', notes: 'Lecture : 15.5 | Expression Écrite : 19 | Dictée : 5 | Éducation Sociale : 16.25 | Éducation Scientifique : 7.75 | Dessin : 15 | Mathématiques : 13.25 | Éducation Sportive : 17 | Éducation Artistique : 14', commentaire: 'Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé par des exercices pratiques à la maison.'},
-      'BANI': {prenom: 'rahama', nom: 'BANI Rahama', classe: 'CE1', moyenne: '15.11 / 20 (atteinte ✓)', notes: 'Lecture : 13.75 | Expression Écrite : 18.25 | Dictée : 12 | Éducation Sociale : 20 | Éducation Scientifique : 17 | Dessin : 14.5 | Mathématiques : 7.25 | Éducation Sportive : 18 | Éducation Artistique : 15', commentaire: 'Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale ! Son engagement en mathématiques mériterait d’être soutenu.'},
-      'DAHOUGOU': {prenom: 'noham', nom: 'DAHOUGOU Noham', classe: 'CE1', moyenne: '12.36 / 20 (légèrement au-dessus, mais reste fragile)', notes: 'Lecture : 15.25 | Expression Écrite : 18.50 | Dictée : 3 | Éducation Sociale : 12 | Éducation Scientifique : 8.75 | Dessin : 13 | Mathématiques : 5.75 | Éducation Sportive : 18 | Éducation Artistique : 14', commentaire: 'Noham montre de belles capacités en expression écrite et en éducation sportive. Sa moyenne (12,36) est juste au-dessus de l’objectif de 12/20. Il faut absolument consolider les acquis et fournir un travail régulier supplémentaire en dictée et en mathématiques pour éviter de redescendre.'},
-      'EDA': {prenom: 'queen', nom: 'EDA Queen', classe: 'CE1', moyenne: '14.36 / 20 (atteinte ✓)', notes: 'Lecture : 19 | Expression Écrite : 18.25 | Dictée : 4 | Éducation Sociale : 13.75 | Éducation Scientifique : 14.5 | Dessin : 12 | Mathématiques : 15.75 | Éducation Sportive : 18 | Éducation Artistique : 14', commentaire: 'Queen possède d’excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.'},
-      'HOUEHOU': {prenom: 'méka', nom: 'HOUEHOU Méka', classe: 'CE1', moyenne: '15.44 / 20 (atteinte ✓)', notes: 'Lecture : 18.75 | Expression Écrite : 19.5 | Dictée : 9 | Éducation Sociale : 15 | Éducation Scientifique : 14 | Dessin : 14.5 | Mathématiques : 17.25 | Éducation Sportive : 17 | Éducation Artistique : 13', commentaire: 'Méka est un élève très appliqué qui obtient d’excellents résultats dans la plupart des matières. Félicitations pour ce beau travail !'},
-      'PADONOU': {prenom: 'faith', nom: 'PADONOU Faith', classe: 'CE1', moyenne: '14.97 / 20 (atteinte ✓)', notes: 'Lecture : 19 | Expression Écrite : 15.75 | Dictée : 4 | Éducation Sociale : 19 | Éducation Scientifique : 17.25 | Dessin : 15 | Mathématiques : 13.75 | Éducation Sportive : 18 | Éducation Artistique : 13', commentaire: 'Faith excelle en lecture et en éducation sociale. Continuez à l’encourager dans sa progression en expression écrite.'},
-      'SOVI': {prenom: 'péniel', nom: 'SOVI Péniel', classe: 'CE1', moyenne: '14.89 / 20 (atteinte ✓)', notes: 'Lecture : 12.5 | Expression Écrite : 18.25 | Dictée : 8 | Éducation Sociale : 18.5 | Éducation Scientifique : 16.5 | Dessin : 13 | Mathématiques : 16.25 | Éducation Sportive : 17 | Éducation Artistique : 14', commentaire: 'Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.'},
-      'TOSSAVI': {prenom: 'naelle', nom: 'TOSSAVI Naelle', classe: 'CE1', moyenne: '15.44 / 20 (atteinte ✓)', notes: 'Lecture : 19 | Expression Écrite : 16.75 | Dictée : 9 | Éducation Sociale : 18 | Éducation Scientifique : 18 | Dessin : 15 | Mathématiques : 12.25 | Éducation Sportive : 17 | Éducation Artistique : 14', commentaire: 'Naelle a obtenu d’excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée !'}
-    };
+        // ===== GESTIONNAIRE DE LA PAGE RÉSULTATS =====
+        class ResultsManager {
+            constructor() {
+                this.currentStudent = null;
+                this.init();
+            }
 
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const id = document.getElementById('identifiant').value.trim().toUpperCase();
-      const pwd = document.getElementById('motdepasse').value.trim().toLowerCase();
-      if (eleves[id] && eleves[id].prenom === pwd) {
-        const eleve = eleves[id];
-        document.getElementById('nom-classe').textContent = eleve.nom + ' - ' + eleve.classe + ' – École : Les Bulles de Joie';
-        document.getElementById('moyenne').innerHTML = '<strong>Moyenne :</strong> ' + eleve.moyenne;
-        document.getElementById('matieres-notes').innerHTML = '<strong>Matières et notes :</strong><br>' + eleve.notes;
-        document.getElementById('commentaire').innerHTML = '<strong>Commentaire du maître :</strong><br>' + eleve.commentaire;
-        document.getElementById('bulletin').style.display = 'block';
-      } else {
-        alert('Identifiant ou mot de passe incorrect.');
-      }
-    });
+            init() {
+                this.setupNavigation();
+                this.setupLoginForm();
+                this.setupEventListeners();
+                this.setupAutoLogout();
+            }
 
-    function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const content = document.getElementById('bulletin-content').innerText;
-      doc.text(content, 10, 10);
-      doc.save('bulletin.pdf');
-    }
+            // Configuration de la navigation
+            setupNavigation() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle) {
+                    navToggle.addEventListener('click', () => {
+                        navToggle.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                }
 
-    function downloadImage() {
-      html2canvas(document.getElementById('bulletin-content')).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'bulletin.png';
-        link.href = canvas.toDataURL();
-        link.click();
-      });
-    }
-  </script>
+                // Fermer le menu mobile au clic sur un lien
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+            }
 
+            // Configuration du formulaire de connexion
+            setupLoginForm() {
+                const loginForm = document.getElementById('loginForm');
+                if (loginForm) {
+                    loginForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleLogin();
+                    });
+                }
+            }
+
+            // Gestionnaires d'événements
+            setupEventListeners() {
+                // Déconnexion
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => {
+                        this.handleLogout();
+                    });
+                }
+
+                // Téléchargement PDF
+                const downloadPdf = document.getElementById('downloadPdf');
+                if (downloadPdf) {
+                    downloadPdf.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.downloadAsPdf();
+                    });
+                }
+
+                // Téléchargement Image
+                const downloadImage = document.getElementById('downloadImage');
+                if (downloadImage) {
+                    downloadImage.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.downloadAsImage();
+                    });
+                }
+
+                // Impression
+                const printResults = document.getElementById('printResults');
+                if (printResults) {
+                    printResults.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.printResults();
+                    });
+                }
+
+                // Effet ripple pour les boutons
+                document.querySelectorAll('.btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        this.createRippleEffect(e);
+                    }.bind(this));
+                });
+            }
+
+            // Effet visuel ripple
+            createRippleEffect(e) {
+                const button = e.currentTarget;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+
+            // Gestion de la connexion
+            handleLogin() {
+                const studentId = document.getElementById('studentId').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const errorMessage = document.getElementById('errorMessage');
+                
+                // Vérification des identifiants
+                if (studentsData[studentId] && studentsData[studentId].password === password.toLowerCase()) {
+                    // Connexion réussie
+                    errorMessage.style.display = 'none';
+                    this.currentStudent = studentsData[studentId];
+                    this.displayStudentResults(studentId);
+                    this.showNotification('Connexion réussie! Bienvenue ' + this.currentStudent.name, 'success');
+                } else {
+                    // Échec de connexion
+                    errorMessage.style.display = 'block';
+                    this.showNotification('Identifiant ou mot de passe incorrect', 'error');
+                }
+            }
+
+            // Affichage des résultats de l'élève
+            displayStudentResults(studentId) {
+                const student = studentsData[studentId];
+                
+                // Masquer la section de connexion, afficher les résultats
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('resultsSection').style.display = 'block';
+                
+                // Mettre à jour les informations de l'élève
+                document.getElementById('studentName').textContent = student.name;
+                document.getElementById('studentClass').textContent = student.class;
+                document.getElementById('averageScore').textContent = student.average.toFixed(2);
+                document.getElementById('progressPercent').textContent = student.progress + '%';
+                document.getElementById('teacherName').textContent = student.teacher;
+                document.getElementById('teacherComment').textContent = student.comment;
+                
+                // Mettre à jour le statut de la moyenne
+                const statusElement = document.getElementById('averageStatus');
+                statusElement.textContent = this.getStatusText(student.status);
+                statusElement.style.background = this.getStatusColor(student.status);
+                
+                // Mettre à jour le texte de progression
+                document.getElementById('progressText').textContent = this.getProgressText(student.status);
+                
+                // Mettre à jour le cercle de progression
+                this.updateProgressCircle(student.progress);
+                
+                // Mettre à jour les matières
+                const subjectsGrid = document.getElementById('subjectsGrid');
+                subjectsGrid.innerHTML = '';
+                
+                student.subjects.forEach(subject => {
+                    const subjectItem = document.createElement('div');
+                    subjectItem.className = 'subject-item';
+                    subjectItem.innerHTML = `
+                        <div class="subject-name">${subject.name}</div>
+                        <div class="subject-score">${subject.score}/20</div>
+                    `;
+                    subjectsGrid.appendChild(subjectItem);
+                });
+                
+                // Faire défiler jusqu'aux résultats
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Mettre à jour le cercle de progression
+            updateProgressCircle(progress) {
+                const circle = document.getElementById('progressCircle');
+                const percent = progress > 100 ? 100 : progress;
+                circle.style.background = `conic-gradient(var(--fuchsia) 0% ${percent}%, var(--light-pink) ${percent}% 100%)`;
+            }
+
+            // Obtenir le texte du statut
+            getStatusText(status) {
+                const statusTexts = {
+                    'atteint': 'Objectif atteint ✓',
+                    'non-atteint': 'Objectif non atteint ✗',
+                    'fragile': 'Résultats fragiles ⚠'
+                };
+                return statusTexts[status] || 'En évaluation';
+            }
+
+            // Obtenir la couleur du statut
+            getStatusColor(status) {
+                const statusColors = {
+                    'atteint': 'rgba(198, 255, 0, 0.3)',
+                    'non-atteint': 'rgba(255, 0, 0, 0.3)',
+                    'fragile': 'rgba(255, 165, 0, 0.3)'
+                };
+                return statusColors[status] || 'rgba(255, 255, 255, 0.3)';
+            }
+
+            // Obtenir le texte de progression
+            getProgressText(status) {
+                const progressTexts = {
+                    'atteint': 'Objectif atteint',
+                    'non-atteint': 'Objectif non atteint',
+                    'fragile': 'Résultats à consolider'
+                };
+                return progressTexts[status] || 'En progression';
+            }
+
+            // Gestion de la déconnexion
+            handleLogout() {
+                document.getElementById('resultsSection').style.display = 'none';
+                document.getElementById('loginSection').style.display = 'flex';
+                document.getElementById('loginForm').reset();
+                this.currentStudent = null;
+                
+                // Faire défiler jusqu'au formulaire de connexion
+                document.getElementById('loginSection').scrollIntoView({ behavior: 'smooth' });
+                
+                this.showNotification('Vous avez été déconnecté avec succès', 'info');
+            }
+
+            // Téléchargement en PDF (simulation)
+            downloadAsPdf() {
+                this.showNotification('Génération du PDF en cours...', 'info');
+                
+                // Simulation - dans une vraie implémentation, on générerait un PDF
+                setTimeout(() => {
+                    this.showNotification('PDF généré avec succès!', 'success');
+                    
+                    // Créer un lien de téléchargement simulé
+                    const studentName = this.currentStudent ? this.currentStudent.name : 'eleve';
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.download = `bulletin-${studentName}.pdf`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, 2000);
+            }
+
+            // Téléchargement en image (simulation)
+            downloadAsImage() {
+                this.showNotification('Génération de l\'image en cours...', 'info');
+                
+                // Simulation - dans une vraie implémentation, on convertirait en image
+                setTimeout(() => {
+                    this.showNotification('Image générée avec succès!', 'success');
+                    
+                    // Créer un lien de téléchargement simulé
+                    const studentName = this.currentStudent ? this.currentStudent.name : 'eleve';
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.download = `bulletin-${studentName}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, 2000);
+            }
+
+            // Impression des résultats
+            printResults() {
+                const resultsSection = document.getElementById('resultsSection');
+                if (resultsSection) {
+                    const originalDisplay = resultsSection.style.display;
+                    resultsSection.style.display = 'block';
+                    
+                    window.print();
+                    
+                    resultsSection.style.display = originalDisplay;
+                }
+            }
+
+            // Déconnexion automatique après 30 minutes
+            setupAutoLogout() {
+                let timeout;
+                
+                const resetTimer = () => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        this.autoLogout();
+                    }, 30 * 60 * 1000); // 30 minutes
+                };
+                
+                // Réinitialiser le timer sur les interactions utilisateur
+                ['click', 'mousemove', 'keypress'].forEach(event => {
+                    document.addEventListener(event, resetTimer);
+                });
+                
+                resetTimer();
+            }
+
+            // Déconnexion automatique
+            autoLogout() {
+                const loginSection = document.getElementById('loginSection');
+                const resultsSection = document.getElementById('resultsSection');
+                
+                if (resultsSection && resultsSection.style.display !== 'none') {
+                    this.showNotification('Déconnexion automatique pour raison de sécurité', 'warning');
+                    
+                    resultsSection.style.display = 'none';
+                    if (loginSection) {
+                        loginSection.style.display = 'flex';
+                    }
+                    
+                    // Réinitialiser le formulaire
+                    const loginForm = document.getElementById('loginForm');
+                    if (loginForm) {
+                        loginForm.reset();
+                    }
+                    
+                    this.currentStudent = null;
+                }
+            }
+
+            // Système de notifications
+            showNotification(message, type = 'info') {
+                // Créer la notification
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${this.getNotificationIcon(type)}"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Animation d'entrée
+                setTimeout(() => notification.classList.add('show'), 100);
+                
+                // Supprimer après 4 secondes
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    'info': 'info-circle',
+                    'success': 'check-circle',
+                    'warning': 'exclamation-triangle',
+                    'error': 'times-circle'
+                };
+                return icons[type] || 'info-circle';
+            }
+        }
+
+        // ===== INITIALISATION DE L'APPLICATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            window.resultsManager = new ResultsManager();
+            
+            // Message de bienvenue
+            setTimeout(() => {
+                if (window.resultsManager.showNotification) {
+                    window.resultsManager.showNotification('Bienvenue sur l\'espace résultats des Bulles de Joie!', 'info');
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

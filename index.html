@@ -1,101 +1,471 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-BJ">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Les Bulles de Joie - École bilingue à Parakou. Crèche, maternelle et primaire dès 2 mois. Amour, Travail, Rigueur, Créativité.">
-  <meta name="keywords" content="école bilingue, Parakou, crèche, maternelle, primaire, anglais, musique, danse">
-  <meta property="og:title" content="Les Bulles de Joie - Accueil">
-  <meta property="og:description" content="Dans un cadre féerique stimulant et sécurisant.">
-  <meta property="og:image" content="logo.png">
-  <title>Les Bulles de Joie - Accueil</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="responsive.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon.ico">
-  <script src="home-animation.js" defer></script>
-  <script src="main.js" defer></script>
-  <script src="particles.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Bulles de Joie - École Bilingue d'Excellence à Parakou</title>
+    <meta name="description" content="École Les Bulles de Joie à Parakou : Crèche, Garderie, Maternelle et Primaire Bilingue. Pédagogie innovante depuis 2017. Cadre féerique stimulant et sécurisant.">
+    
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/app.js" as="script">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Polices optimisées -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    
+    <!-- Icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-  <!-- Splash Animation with Vibrant Logo Intro -->
-  <div id="splash-screen">
-    <div class="logo-container">
-      <img src="logo.png" alt="Les Bulles de Joie Logo" class="vibrant-logo">
+    <!-- Animation d'introduction immersive -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <div class="floating-bubbles">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+                <div class="bubble b5"></div>
+            </div>
+            <div class="logo-reveal">
+                <div class="logo-icon">
+                    <i class="fas fa-child"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h1 class="logo-text">
+                    <span class="text-part">Les Bulles</span>
+                    <span class="text-part">de Joie</span>
+                </h1>
+                <p class="logo-subtitle">École Bilingue d'Excellence</p>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Header -->
-  <header class="sticky-header">
-    <div class="header-content">
-      <div class="logo-section">
-        <img src="logo.png" alt="Logo Les Bulles de Joie">
-        <div class="name-slogan">
-          <h1 style="color: #FFFFFF;">Les Bulles de Joie</h1>
-          <p style="color: #A0FF00;">Amour – Travail – Rigueur – Créativité</p>
+    <!-- Navigation principale -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-mark">
+                    <div class="bubble-mark"></div>
+                    <span>LBJ</span>
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p>Amour • Travail • Rigueur • Créativité</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link active">Accueil</a></li>
+                    <li><a href="apropos.html" class="nav-link">Notre École</a></li>
+                    <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
+                    <li><a href="activites.html" class="nav-link">Activités</a></li>
+                    <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="contact.html" class="nav-link btn-contact">Contact</a></li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
         </div>
-      </div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="apropos.html">Notre école</a></li>
-          <li><a href="pedagogie.html">Pédagogie</a></li>
-          <li><a href="activites.html">Activités</a></li>
-          <li><a href="resultats.html">Résultats</a></li>
-          <li><a href="inscription.html">Inscription</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="header-right">
-        <span class="school-year" style="color: #FF1493;">2025 – 2026</span>
-        <button class="contact-btn" onclick="location.href='contact.html'" style="background-color: #A0FF00; color: #000000;">Nous contacter</button>
-        <div class="menu-toggle">☰</div>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Content with Modern Design -->
-  <main class="home-main" style="background: linear-gradient(135deg, #FF1493, #A0FF00); position: relative; overflow: hidden;">
-    <section class="welcome-section">
-      <h2 style="color: #FFFFFF;">Bienvenue aux Les Bulles de Joie</h2>
-      <p style="color: #000000;">« Dans un cadre féerique stimulant et sécurisant »</p>
-      <div class="activity-circles">
-        <div class="circle" style="background: #FFFFFF; transform-style: preserve-3d;">
-          <img src="art-oratoire-motif.png" alt="Motif Art oratoire" title="Art oratoire">
-        </div>
-        <div class="circle" style="background: #FFFFFF; transform-style: preserve-3d;">
-          <img src="jardinage-motif.png" alt="Motif Jardinage" title="Jardinage">
-        </div>
-        <div class="circle" style="background: #FFFFFF; transform-style: preserve-3d;">
-          <img src="musique-motif.png" alt="Motif Musique" title="Musique">
-        </div>
-        <div class="circle" style="background: #FFFFFF; transform-style: preserve-3d;">
-          <img src="danse-motif.png" alt="Motif Danse" title="Danse">
-        </div>
-      </div>
-    </section>
-    <div id="particles-container"></div> <!-- For flying 3D stickers -->
-  </main>
+    <!-- Contenu principal -->
+    <main>
+        <!-- Hero Section avec effet parallaxe -->
+        <section class="hero" id="hero">
+            <div class="hero-background">
+                <div class="parallax-layer layer-1"></div>
+                <div class="parallax-layer layer-2"></div>
+                <div class="parallax-layer layer-3"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="hero-title">
+                        <span class="title-line">Bienvenue aux</span>
+                        <span class="title-highlight">Bulles de Joie</span>
+                    </h2>
+                    <p class="hero-subtitle">Dans un cadre féerique stimulant et sécurisant</p>
+                    <p class="hero-description">
+                        École bilingue d'excellence à Parakou, offrant un environnement éducatif unique 
+                        pour le développement complet de votre enfant de 2 mois à 12 ans.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <a href="inscription.html" class="btn btn-primary">
+                            <i class="fas fa-edit"></i>
+                            Inscription 2025-2026
+                        </a>
+                        <a href="#decouvrir" class="btn btn-secondary">
+                            <i class="fas fa-play-circle"></i>
+                            Découvrir
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="floating-elements">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-baby"></i>
+                            <span>Crèche</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-palette"></i>
+                            <span>Maternelle</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Primaire</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="official-info">
-        <p style="color: #FFFFFF;">École privée agréée – Numéro d’autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
-        <p style="color: #FFFFFF;">Année scolaire : 2025 – 2026</p>
-        <p style="color: #FFFFFF;">Adresse : Parakou – Zongo</p>
-        <p style="color: #FFFFFF;">Horaires : Crèche & Garderie : 07h – 19h | Maternelle : 08h – 11h30 et 15h – 17h | Primaire : 07h30 – 12h et 15h – 17h30</p>
-      </div>
-      <div class="social-links">
-        <a href="https://www.facebook.com/lesbullesdejoie" style="color: #A0FF00;">Facebook</a>
-        <a href="https://www.instagram.com/lesbullesdejoie?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color: #A0FF00;">Instagram</a>
-        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" style="color: #A0FF00;">Maps</a>
-      </div>
-      <p class="mentions" style="color: #FFFFFF;">© Les Bulles de Joie – Tous droits réservés | Établissement certifié – Enseignement bilingue – 2 mois +</p>
-    </div>
-  </footer>
+        <!-- Section Domaines d'Immersion -->
+        <section class="section immersion-section" id="decouvrir">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Domaines d'Immersion</h2>
+                    <p class="section-subtitle">Un cadre adapté pour l'épanouissement complet de l'enfant</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="immersion-grid">
+                    <div class="immersion-card" data-category="art-oratoire">
+                        <div class="card-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>Art Oratoire</h3>
+                        <p>Développer la prise de parole, la confiance et l'écoute</p>
+                        <div class="card-hover">
+                            <ul>
+                                <li>Expression verbale</li>
+                                <li>Confiance en soi</li>
+                                <li>Improvisation créative</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="immersion-card" data-category="jardinage">
+                        <div class="card-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Jardinage</h3>
+                        <p>Éveiller à la nature, à la patience et à la responsabilité</p>
+                        <div class="card-hover">
+                            <ul>
+                                <li>Connexion à la nature</li>
+                                <li>Patience et observation</li>
+                                <li>Responsabilité écologique</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="immersion-card" data-category="musique">
+                        <div class="card-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>Musique</h3>
+                        <p>Explorer les sons, les rythmes et les instruments</p>
+                        <div class="card-hover">
+                            <ul>
+                                <li>Développement auditif</li>
+                                <li>Sens du rythme</li>
+                                <li>Culture musicale</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="immersion-card" data-category="danse">
+                        <div class="card-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Danse</h3>
+                        <p>Expression corporelle, coordination et plaisir du mouvement</p>
+                        <div class="card-hover">
+                            <ul>
+                                <li>Conscience corporelle</li>
+                                <li>Coordination motrice</li>
+                                <li>Expression émotionnelle</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="immersion-card" data-category="anglais">
+                        <div class="card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Anglais</h3>
+                        <p>Immersion ludique et quotidienne dans la langue</p>
+                        <div class="card-hover">
+                            <ul>
+                                <li>Immersion naturelle</li>
+                                <li>Apprentissage par le jeu</li>
+                                <li>Ouverture culturelle</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="immersion-card" data-category="creativite">
+                        <div class="card-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3>Créativité</h3>
+                        <p>Peinture, collage, modelage et expression artistique</p>
+                        <div class="card-hover">
+                            <ul>
+                                <li>Imagination et créativité</li>
+                                <li>Motricité fine</li>
+                                <li>Expression personnelle</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Section Cycles d'Apprentissage -->
+        <section class="section cycles-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Grands Cycles d'Apprentissage</h2>
+                    <p class="section-subtitle">Un parcours adapté à chaque étape du développement</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="cycles-timeline">
+                    <div class="cycle-item">
+                        <div class="cycle-icon">
+                            <i class="fas fa-baby-carriage"></i>
+                        </div>
+                        <div class="cycle-content">
+                            <h3>Crèche & Garderie</h3>
+                            <span class="cycle-age">2 mois - 3 ans</span>
+                            <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement sécurisé et bienveillant.</p>
+                            <div class="cycle-features">
+                                <span class="feature-tag">Cantine</span>
+                                <span class="feature-tag">Sieste (12h-15h)</span>
+                                <span class="feature-tag">Garderie</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cycle-item">
+                        <div class="cycle-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="cycle-content">
+                            <h3>Maternelle Bilingue</h3>
+                            <span class="cycle-age">3-5 ans</span>
+                            <p>Apprentissage fondamental par le jeu, pré-lecture, pré-mathématiques et initiation à l'anglais par immersion.</p>
+                            <div class="cycle-schedule">
+                                <strong>Horaires :</strong> 8h - 11h30 & 15h - 17h
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cycle-item">
+                        <div class="cycle-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="cycle-content">
+                            <h3>Primaire Bilingue</h3>
+                            <span class="cycle-age">6-12 ans</span>
+                            <p>Programme bilingue enrichi, technologies éducatives et développement de l'esprit critique.</p>
+                            <div class="cycle-schedule">
+                                <strong>Horaires :</strong> 7h30 - 12h & 15h - 17h30
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Notre Histoire -->
+        <section class="section history-section">
+            <div class="container">
+                <div class="history-content">
+                    <div class="history-text">
+                        <h2>Notre Histoire</h2>
+                        <div class="founding-badge">
+                            <span class="founding-year">2017</span>
+                            <span>Année de Fondation</span>
+                        </div>
+                        <p>Les Bulles de Joie est née en 2017 de la passion pour l'éducation et du désir de créer un environnement d'apprentissage unique où chaque enfant peut s'épanouir pleinement.</p>
+                        <p>Notre établissement a été conçu comme un espace féerique où la curiosité naturelle des enfants est nourrie, où leurs talents sont révélés et où leur confiance en soi est renforcée.</p>
+                        
+                        <div class="values-showcase">
+                            <div class="value-item">
+                                <div class="value-icon">🎯</div>
+                                <h4>Rigueur</h4>
+                                <p>Excellence académique et suivi personnalisé</p>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">✨</div>
+                                <h4>Créativité</h4>
+                                <p>Expression personnelle et innovation</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-visual">
+                        <div class="achievement-stats">
+                            <div class="stat">
+                                <div class="stat-number">8+</div>
+                                <div class="stat-label">Années d'expérience</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">95%</div>
+                                <div class="stat-label">Taux de réussite</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Élèves bilingues</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact Urgent -->
+        <section class="section urgent-section">
+            <div class="container">
+                <div class="urgent-alert">
+                    <div class="alert-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h3>Contacts & Urgences</h3>
+                        <p>Pour toute urgence concernant votre enfant</p>
+                        <div class="contact-numbers">
+                            <div class="contact-item">
+                                <strong>Direction</strong>
+                                <span>+229 49 77 77 00</span>
+                                <small>WhatsApp: 01 97 91 94 52</small>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Secrétariat</strong>
+                                <span>+229 01 49 77 77 01</span>
+                                <small>WhatsApp: 01 58 83 03 03</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-action">
+                        <a href="contact.html" class="btn btn-outline">Voir tous les contacts</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <div class="bubble-mark"></div>
+                            <span>LBJ</span>
+                        </div>
+                        <div class="footer-text">
+                            <h3>Les Bulles de Joie</h3>
+                            <p>École privée agréée - Enseignement bilingue</p>
+                        </div>
+                    </div>
+                    <div class="footer-badges">
+                        <span class="badge">🏆 École Certifiée</span>
+                        <span class="badge">🌍 Bilingue Français-Anglais</span>
+                        <span class="badge">👶 2 mois - 12 ans</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Coordonnées</h4>
+                    <div class="contact-info">
+                        <div class="contact-line">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Parakou - Zongo, Bénin</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-envelope"></i>
+                            <span>lesbullesdejoie@gmail.com</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-phone"></i>
+                            <span>+229 49 77 77 00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horaires</h4>
+                    <div class="schedule-info">
+                        <div class="schedule-line">
+                            <strong>Crèche & Garderie:</strong>
+                            <span>07h - 19h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Maternelle:</strong>
+                            <span>08h - 11h30 & 15h - 17h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Primaire:</strong>
+                            <span>07h30 - 12h & 15h - 17h30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Réseaux Sociaux</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </a>
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                    <p>Numéro d'autorisation : N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                </div>
+                <div class="footer-credits">
+                    <p>Année scolaire 2025-2026</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,101 +1,1649 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-BJ">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Inscrivez votre enfant à Les Bulles de Joie pour l'année scolaire 2025-2026. Formulaire simple et sécurisé.">
-  <title>Les Bulles de Joie - Inscription</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="responsive.css">
-  <script src="main.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Les Bulles de Joie - École Bilingue Parakou</title>
+    <meta name="description" content="Inscrivez votre enfant aux Bulles de Joie pour l'année scolaire 2025-2026. Crèche, garderie, maternelle et primaire bilingue.">
+    
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --white: #ffffff;
+            --lemon-green: #c6ff00;
+            --fuchsia: #ff00ff;
+            --black: #000000;
+            --light-pink: #ffccf9;
+            --light-green: #e7ffb3;
+            --dark-purple: #2d1b69;
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
+            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            --transition-fast: all 0.3s ease;
+            --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --border-radius: 20px;
+            --border-radius-lg: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--black);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes rippleEffect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ===== HEADER ===== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
+            z-index: 1000;
+            transition: var(--transition-normal);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-mark {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .bubble-mark {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            animation: pulse 2s infinite;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fuchsia);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--fuchsia);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: var(--transition-fast);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        .btn-contact {
+            background: var(--gradient-primary);
+            color: var(--white) !important;
+            padding: 0.75rem 1.5rem !important;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--black);
+            margin: 3px 0;
+            transition: var(--transition-fast);
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--fuchsia);
+            transform: translateY(-3px);
+        }
+
+        /* ===== SECTIONS GÉNÉRIQUES ===== */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ===== STYLES SPÉCIFIQUES À LA PAGE INSCRIPTION ===== */
+        .hero-inscription {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero-inscription h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero-inscription p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .year-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .process-section {
+            background: var(--white);
+        }
+
+        .process-steps {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-primary);
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .process-step:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border: 4px solid var(--fuchsia);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fuchsia);
+            z-index: 2;
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-content {
+            flex: 1;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin: 0 3rem;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .form-section {
+            background: var(--gray-light);
+        }
+
+        .form-container {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-pink);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition-fast);
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--fuchsia);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-checkbox input {
+            margin-top: 0.25rem;
+        }
+
+        .form-checkbox label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .form-submit {
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .documents-section {
+            background: var(--white);
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .document-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--lemon-green);
+            transition: var(--transition-normal);
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .document-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--lemon-green);
+        }
+
+        .document-card h3 {
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        .document-card ul {
+            list-style: none;
+        }
+
+        .document-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .document-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--fuchsia);
+            font-weight: bold;
+        }
+
+        .tarifs-section {
+            background: var(--gradient-light);
+        }
+
+        .tarifs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tarif-card {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tarif-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+
+        .tarif-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tarif-card.popular {
+            border: 2px solid var(--fuchsia);
+            transform: scale(1.05);
+        }
+
+        .tarif-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tarif-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--fuchsia);
+        }
+
+        .tarif-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .tarif-period {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .tarif-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .tarif-features li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tarif-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--lemon-green);
+            font-weight: bold;
+        }
+
+        .contact-section {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: var(--gray-light);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .contact-item h3 {
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: var(--lemon-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info-footer,
+        .schedule-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-line,
+        .schedule-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-line i {
+            width: 20px;
+            color: var(--lemon-green);
+        }
+
+        .schedule-line {
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-line:last-child {
+            border-bottom: none;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            transition: var(--transition-fast);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .footer-credits p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .process-steps::before {
+                left: 30px;
+            }
+            
+            .process-step {
+                flex-direction: row !important;
+            }
+            
+            .step-content {
+                margin-left: 4rem;
+                margin-right: 0;
+            }
+            
+            .documents-grid,
+            .tarifs-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--white);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .hero-inscription h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-inscription p {
+                font-size: 1.1rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .tarif-card.popular {
+                transform: scale(1);
+            }
+            
+            .tarif-card.popular:hover {
+                transform: translateY(-10px);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-inscription {
+                padding: 7rem 0 3rem;
+            }
+            
+            .hero-inscription h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .step-content {
+                padding: 1.5rem;
+                margin-left: 2rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .tarif-card {
+                padding: 2rem 1rem;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animation d'entrée des éléments */
+        .animate-in {
+            animation: slideInUp 0.8s ease both;
+        }
+
+        /* Effet ripple pour les boutons */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--fuchsia);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: var(--lemon-green);
+        }
+
+        .notification.error {
+            border-left-color: #f44336;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i { color: var(--lemon-green); }
+        .notification.error i { color: #f44336; }
+
+        /* Animations pour le menu mobile */
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Header -->
-  <header class="sticky-header">
-    <div class="header-content">
-      <div class="logo-section">
-        <img src="logo.png" alt="Logo Les Bulles de Joie">
-        <div class="name-slogan">
-          <h1 style="color: #FFFFFF;">Les Bulles de Joie</h1>
-          <p style="color: #A0FF00;">Amour – Travail – Rigueur – Créativité</p>
+    <!-- Navigation principale -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-mark">
+                    <div class="bubble-mark"></div>
+                    <span>LBJ</span>
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p>Amour • Travail • Rigueur • Créativité</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="apropos.html" class="nav-link">Notre École</a></li>
+                    <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
+                    <li><a href="activites.html" class="nav-link">Activités</a></li>
+                    <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="inscription.html" class="nav-link active btn-contact">Inscription</a></li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
         </div>
-      </div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="apropos.html">Notre école</a></li>
-          <li><a href="pedagogie.html">Pédagogie</a></li>
-          <li><a href="activites.html">Activités</a></li>
-          <li><a href="resultats.html">Résultats</a></li>
-          <li><a href="inscription.html">Inscription</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="header-right">
-        <span class="school-year" style="color: #FF1493;">2025 – 2026</span>
-        <button class="contact-btn" onclick="location.href='contact.html'" style="background-color: #A0FF00; color: #000000;">Nous contacter</button>
-        <div class="menu-toggle">☰</div>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Content -->
-  <main class="inscription-main" style="background-color: #FF1493;">
-    <section class="inscription-section">
-      <h2 style="color: #A0FF00;">Formulaire d'inscription pour 2025-2026</h2>
-      <form action="https://formsubmit.co/lesbullesdejoie@gmail.com" method="POST" class="inscription-form">
-        <input type="hidden" name="_subject" value="Nouvelle inscription - Les Bulles de Joie">
-        <input type="hidden" name="_next" value="https://your-site.com/merci.html">
-        <label for="nom-enfant" style="color: #FFFFFF;">Nom complet de l’enfant :</label>
-        <input type="text" id="nom-enfant" name="Nom_enfant" required>
-        <label for="date-naissance" style="color: #FFFFFF;">Date de naissance :</label>
-        <input type="date" id="date-naissance" name="Date_naissance" required>
-        <label for="genre" style="color: #FFFFFF;">Genre :</label>
-        <select id="genre" name="Genre">
-          <option value="Garçon">Garçon</option>
-          <option value="Fille">Fille</option>
-        </select>
-        <label for="niveau" style="color: #FFFFFF;">Niveau souhaité :</label>
-        <select id="niveau" name="Niveau" required>
-          <option value="">Sélectionnez</option>
-          <option value="Crèche – Garderie (2 mois à 3 ans)">Crèche – Garderie (2 mois à 3 ans)</option>
-          <option value="Maternelle bilingue (3 – 5 ans)">Maternelle bilingue (3 – 5 ans)</option>
-          <option value="Primaire bilingue (à partir de 6 ans)">Primaire bilingue (à partir de 6 ans)</option>
-        </select>
-        <label for="nom-parent" style="color: #FFFFFF;">Nom du parent/tuteur :</label>
-        <input type="text" id="nom-parent" name="Nom_parent" required>
-        <label for="telephone" style="color: #FFFFFF;">Téléphone (WhatsApp de préférence) :</label>
-        <input type="tel" id="telephone" name="Telephone" required>
-        <label for="email" style="color: #FFFFFF;">Email :</label>
-        <input type="email" id="email" name="Email" required>
-        <label for="adresse" style="color: #FFFFFF;">Adresse à Parakou :</label>
-        <input type="text" id="adresse" name="Adresse">
-        <label for="message" style="color: #FFFFFF;">Message ou précisions (allergies, besoins spécifiques) :</label>
-        <textarea id="message" name="Message" rows="4"></textarea>
-        <button type="submit" style="background-color: #A0FF00; color: #000000;">Envoyer l'inscription</button>
-      </form>
-    </section>
-  </main>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-inscription">
+            <div class="container">
+                <h1>Inscriptions 2025-2026</h1>
+                <p>Rejoignez la famille des Bulles de Joie pour une année scolaire exceptionnelle</p>
+                <div class="year-badge">Année Scolaire 2025-2026</div>
+            </div>
+        </section>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="official-info">
-        <p style="color: #FFFFFF;">École privée agréée – Numéro d’autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
-        <p style="color: #FFFFFF;">Année scolaire : 2025 – 2026</p>
-        <p style="color: #FFFFFF;">Adresse : Parakou – Zongo</p>
-        <p style="color: #FFFFFF;">Horaires : Crèche & Garderie : 07h – 19h | Maternelle : 08h – 11h30 et 15h – 17h | Primaire : 07h30 – 12h et 15h – 17h30</p>
-      </div>
-      <div class="social-links">
-        <a href="https://www.facebook.com/lesbullesdejoie" style="color: #A0FF00;">Facebook</a>
-        <a href="https://www.instagram.com/lesbullesdejoie?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color: #A0FF00;">Instagram</a>
-        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" style="color: #A0FF00;">Maps</a>
-      </div>
-      <p class="mentions" style="color: #FFFFFF;">© Les Bulles de Joie – Tous droits réservés | Établissement certifié – Enseignement bilingue – 2 mois +</p>
-    </div>
-  </footer>
+        <!-- Section Processus -->
+        <section class="section process-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Processus d'Inscription</h2>
+                    <p class="section-subtitle">4 étapes simples pour inscrire votre enfant</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Pré-inscription en Ligne</h3>
+                            <p>Remplissez notre formulaire de pré-inscription en ligne. Vous recevrez une confirmation par email sous 24 heures.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Entretien de Motivation</h3>
+                            <p>Nous vous contactons pour planifier un entretien avec la direction et une visite de l'établissement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Dépôt du Dossier</h3>
+                            <p>Déposez le dossier complet d'inscription avec tous les documents requis au secrétariat.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Confirmation</h3>
+                            <p>Recevez la confirmation définitive d'inscription et les informations pour la rentrée.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Section Formulaire -->
+        <section class="section form-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Pré-inscription en Ligne</h2>
+                    <p class="section-subtitle">Remplissez ce formulaire pour initier le processus d'inscription</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="form-container">
+                    <form id="inscriptionForm">
+                        <h3 style="margin-bottom: 2rem; color: var(--fuchsia);">Informations de l'Enfant</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="enfantPrenom" class="form-label">Prénom de l'enfant *</label>
+                                <input type="text" id="enfantPrenom" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="enfantNom" class="form-label">Nom de l'enfant *</label>
+                                <input type="text" id="enfantNom" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="enfantDateNaissance" class="form-label">Date de naissance *</label>
+                                <input type="date" id="enfantDateNaissance" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="enfantNiveau" class="form-label">Niveau souhaité *</label>
+                                <select id="enfantNiveau" class="form-select" required>
+                                    <option value="">Sélectionnez un niveau</option>
+                                    <option value="creche">Crèche (2 mois - 3 ans)</option>
+                                    <option value="maternelle1">Maternelle 1 (3-4 ans)</option>
+                                    <option value="maternelle2">Maternelle 2 (4-5 ans)</option>
+                                    <option value="ci">Cours d'Initiation - CI (5-6 ans)</option>
+                                    <option value="cp">Cours Préparatoire - CP (6-7 ans)</option>
+                                    <option value="ce1">Cours Élémentaire 1 - CE1 (7-8 ans)</option>
+                                    <option value="ce2">Cours Élémentaire 2 - CE2 (8-9 ans)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <h3 style="margin: 3rem 0 2rem; color: var(--fuchsia);">Informations des Parents</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="parentPrenom" class="form-label">Prénom du parent *</label>
+                                <input type="text" id="parentPrenom" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentNom" class="form-label">Nom du parent *</label>
+                                <input type="text" id="parentNom" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="parentEmail" class="form-label">Email *</label>
+                                <input type="email" id="parentEmail" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentTelephone" class="form-label">Téléphone *</label>
+                                <input type="tel" id="parentTelephone" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="parentAdresse" class="form-label">Adresse</label>
+                            <textarea id="parentAdresse" class="form-textarea"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message complémentaire</label>
+                            <textarea id="message" class="form-textarea" placeholder="Informations supplémentaires, questions particulières..."></textarea>
+                        </div>
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="consentement" required>
+                            <label for="consentement">J'accepte que mes données personnelles soient traitées dans le cadre de la pré-inscription et je confirme avoir pris connaissance de la politique de confidentialité.</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary form-submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Envoyer la Pré-inscription
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Documents -->
+        <section class="section documents-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Documents Requis</h2>
+                    <p class="section-subtitle">Liste des documents à fournir pour compléter l'inscription</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="documents-grid">
+                    <div class="document-card">
+                        <div class="document-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3>Documents d'Identité</h3>
+                        <ul>
+                            <li>Photocopie de l'acte de naissance</li>
+                            <li>Photocopie du carnet de vaccination</li>
+                            <li>4 photos d'identité récentes</li>
+                            <li>Photocopie CNI des parents</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="document-card">
+                        <div class="document-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <h3>Documents Médicaux</h3>
+                        <ul>
+                            <li>Certificat médical de non contre-indication</li>
+                            <li>Carnet de santé à jour</li>
+                            <li>Fiche sanitaire complétée</li>
+                            <li>Allergies ou traitements particuliers</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="document-card">
+                        <div class="document-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Documents Scolaires</h3>
+                        <ul>
+                            <li>Bulletins de l'année précédente</li>
+                            <li>Certificat de radiation (si changement)</li>
+                            <li>Dossier d'évaluation précédente</li>
+                            <li>Livret scolaire (primaire)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Tarifs -->
+        <section class="section tarifs-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" style="color: var(--black);">Nos Tarifs</h2>
+                    <p class="section-subtitle" style="color: var(--gray-dark);">Des tarifs adaptés à chaque niveau</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="tarifs-grid">
+                    <div class="tarif-card">
+                        <div class="tarif-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3>Crèche & Garderie</h3>
+                        <div class="tarif-price">35,000 FCFA</div>
+                        <div class="tarif-period">par mois</div>
+                        <ul class="tarif-features">
+                            <li>Accueil 2 mois - 3 ans</li>
+                            <li>Horaires : 7h - 19h</li>
+                            <li>Repas et goûters inclus</li>
+                            <li>Sieste et soins</li>
+                            <li>Activités d'éveil</li>
+                        </ul>
+                        <a href="#form-section" class="btn btn-primary">Choisir ce forfait</a>
+                    </div>
+                    
+                    <div class="tarif-card popular">
+                        <div class="popular-badge">Le Plus Populaire</div>
+                        <div class="tarif-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Maternelle Bilingue</h3>
+                        <div class="tarif-price">45,000 FCFA</div>
+                        <div class="tarif-period">par mois</div>
+                        <ul class="tarif-features">
+                            <li>3-5 ans</li>
+                            <li>Programme bilingue</li>
+                            <li>Activités artistiques</li>
+                            <li>Éveil musical</li>
+                            <li>Sorties pédagogiques</li>
+                        </ul>
+                        <a href="#form-section" class="btn btn-primary">Choisir ce forfait</a>
+                    </div>
+                    
+                    <div class="tarif-card">
+                        <div class="tarif-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Primaire Bilingue</h3>
+                        <div class="tarif-price">55,000 FCFA</div>
+                        <div class="tarif-period">par mois</div>
+                        <ul class="tarif-features">
+                            <li>6-12 ans</li>
+                            <li>Enseignement bilingue</li>
+                            <li>Technologies éducatives</li>
+                            <li>Activités parascolaires</li>
+                            <li>Suivi personnalisé</li>
+                        </ul>
+                        <a href="#form-section" class="btn btn-primary">Choisir ce forfait</a>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <p><strong>Frais d'inscription :</strong> 25,000 FCFA (uniquement pour la première inscription)</p>
+                    <p><strong>Frais de tenue :</strong> 15,000 FCFA (par an, uniforme non inclus)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contact -->
+        <section class="section contact-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Besoin d'Aide ?</h2>
+                    <p class="section-subtitle">Notre équipe est à votre disposition pour vous accompagner</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>Par Téléphone</h3>
+                        <p>Appelez-nous pour un renseignement immédiat</p>
+                        <p><strong>+229 01 49 77 77 01</strong></p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3>Sur WhatsApp</h3>
+                        <p>Échangez avec notre équipe en message</p>
+                        <p><strong>+229 01 58 83 03 03</strong></p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Par Email</h3>
+                        <p>Envoyez-nous vos questions par email</p>
+                        <p><strong>lesbullesdejoie@gmail.com</strong></p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Sur Place</h3>
+                        <p>Venez nous rencontrer pour une visite</p>
+                        <p><strong>Parakou - Zongo</strong></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <div class="bubble-mark"></div>
+                            <span>LBJ</span>
+                        </div>
+                        <div class="footer-text">
+                            <h3>Les Bulles de Joie</h3>
+                            <p>École privée agréée - Enseignement bilingue</p>
+                        </div>
+                    </div>
+                    <div class="footer-badges">
+                        <span class="badge">🏆 École Certifiée</span>
+                        <span class="badge">🌍 Bilingue Français-Anglais</span>
+                        <span class="badge">👶 2 mois - 12 ans</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Coordonnées</h4>
+                    <div class="contact-info-footer">
+                        <div class="contact-line">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Parakou - Zongo, Bénin</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-envelope"></i>
+                            <span>lesbullesdejoie@gmail.com</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-phone"></i>
+                            <span>+229 49 77 77 00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horaires</h4>
+                    <div class="schedule-info">
+                        <div class="schedule-line">
+                            <strong>Crèche & Garderie:</strong>
+                            <span>07h - 19h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Maternelle:</strong>
+                            <span>08h - 11h30 & 15h - 17h</span>
+                        </div>
+                        <div class="schedule-line">
+                            <strong>Primaire:</strong>
+                            <span>07h30 - 12h & 15h - 17h30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Réseaux Sociaux</h4>
+                    <div class="social-links">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </a>
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                </div>
+                <div class="footer-credits">
+                    <p>Année scolaire 2025-2026</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== GESTIONNAIRE DE LA PAGE INSCRIPTION =====
+        class InscriptionManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupInscriptionForm();
+                this.setupScrollAnimations();
+                this.setupInteractiveElements();
+            }
+
+            // Configuration de la navigation
+            setupNavigation() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle) {
+                    navToggle.addEventListener('click', () => {
+                        navToggle.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                }
+
+                // Fermer le menu mobile au clic sur un lien
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Gestion du header au scroll
+                let lastScrollY = window.scrollY;
+                const header = document.querySelector('.main-header');
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        header.style.background = 'rgba(255, 255, 255, 0.98)';
+                        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                    } else {
+                        header.style.background = 'rgba(255, 255, 255, 0.95)';
+                        header.style.boxShadow = 'none';
+                    }
+
+                    // Cacher/montrer le header au scroll
+                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
+                        header.style.transform = 'translateY(-100%)';
+                    } else {
+                        header.style.transform = 'translateY(0)';
+                    }
+
+                    lastScrollY = window.scrollY;
+                });
+            }
+
+            // Configuration du formulaire d'inscription
+            setupInscriptionForm() {
+                const inscriptionForm = document.getElementById('inscriptionForm');
+                if (inscriptionForm) {
+                    inscriptionForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        this.handleFormSubmission();
+                    });
+                }
+            }
+
+            // Animations au scroll
+            setupScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observer les éléments à animer
+                document.querySelectorAll('.process-step, .document-card, .tarif-card, .contact-item').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+
+            // Configuration des éléments interactifs
+            setupInteractiveElements() {
+                // Effet ripple pour les boutons
+                document.querySelectorAll('.btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        this.createRippleEffect(e);
+                    }.bind(this));
+                });
+
+                // Animation des cartes au survol
+                const cards = document.querySelectorAll('.document-card, .tarif-card, .contact-item');
+                
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-10px)';
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                    });
+                });
+
+                // Sélection automatique du niveau dans le formulaire
+                const tarifButtons = document.querySelectorAll('.tarif-card .btn');
+                const niveauSelect = document.getElementById('enfantNiveau');
+                
+                tarifButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const tarifCard = button.closest('.tarif-card');
+                        const titre = tarifCard.querySelector('h3').textContent;
+                        
+                        let niveauValue = '';
+                        if (titre.includes('Crèche')) niveauValue = 'creche';
+                        else if (titre.includes('Maternelle')) niveauValue = 'maternelle1';
+                        else if (titre.includes('Primaire')) niveauValue = 'cp';
+                        
+                        if (niveauValue && niveauSelect) {
+                            niveauSelect.value = niveauValue;
+                        }
+                        
+                        // Faire défiler jusqu'au formulaire
+                        document.getElementById('inscriptionForm').scrollIntoView({ behavior: 'smooth' });
+                        
+                        this.showNotification('Niveau sélectionné ! Remplissez maintenant le formulaire.', 'success');
+                    });
+                });
+            }
+
+            // Gestion de la soumission du formulaire
+            handleFormSubmission() {
+                const form = document.getElementById('inscriptionForm');
+                const formData = new FormData(form);
+                
+                // Validation basique
+                const requiredFields = ['enfantPrenom', 'enfantNom', 'enfantDateNaissance', 'enfantNiveau', 'parentPrenom', 'parentNom', 'parentEmail', 'parentTelephone'];
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field);
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.style.borderColor = '#f44336';
+                    } else {
+                        input.style.borderColor = '';
+                    }
+                });
+                
+                const consentement = document.getElementById('consentement');
+                if (!consentement.checked) {
+                    isValid = false;
+                    this.showNotification('Veuillez accepter les conditions de traitement des données', 'error');
+                    return;
+                }
+                
+                if (!isValid) {
+                    this.showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+                    return;
+                }
+                
+                // Simulation d'envoi
+                this.showNotification('Envoi de la pré-inscription en cours...', 'info');
+                
+                setTimeout(() => {
+                    this.showNotification('Pré-inscription envoyée avec succès ! Nous vous contacterons dans les 24 heures.', 'success');
+                    form.reset();
+                    
+                    // Redirection simulée vers une page de confirmation
+                    setTimeout(() => {
+                        // Dans une vraie implémentation, on redirigerait vers une page de confirmation
+                        console.log('Redirection vers la page de confirmation...');
+                    }, 2000);
+                }, 2000);
+            }
+
+            // Effet visuel ripple
+            createRippleEffect(e) {
+                const button = e.currentTarget;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            }
+
+            // Système de notifications
+            showNotification(message, type = 'info') {
+                // Créer la notification
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${this.getNotificationIcon(type)}"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Animation d'entrée
+                setTimeout(() => notification.classList.add('show'), 100);
+                
+                // Supprimer après 4 secondes
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    'info': 'info-circle',
+                    'success': 'check-circle',
+                    'error': 'times-circle'
+                };
+                return icons[type] || 'info-circle';
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            window.inscriptionManager = new InscriptionManager();
+        });
+    </script>
 </body>
 </html>
