@@ -3,341 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activités - Les Bulles de Joie - École Bilingue Parakou</title>
-    <meta name="description" content="Découvrez les activités stimulantes des Bulles de Joie : art oratoire, jardinage, musique, danse, anglais et créativité pour l'épanouissement des enfants.">
+    <title>Activités Parascolaires - Les Bulles de Joie - École Bilingue Parakou</title>
+    <meta name="description" content="Découvrez nos activités extrascolaires : art oratoire, jardinage, musique, danse, anglais et créativité aux Bulles de Joie, Parakou.">
     
-    <!-- Polices -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* ===== VARIABLES ===== */
-        :root {
-            --white: #ffffff;
-            --lemon-green: #c6ff00;
-            --fuchsia: #ff00ff;
-            --black: #000000;
-            --light-pink: #ffccf9;
-            --light-green: #e7ffb3;
-            --dark-purple: #2d1b69;
-            --gray-light: #f8f9fa;
-            --gray: #6c757d;
-            --gray-dark: #343a40;
-            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
-            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
-            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
-            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
-            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
-            --transition-fast: all 0.3s ease;
-            --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --border-radius: 20px;
-            --border-radius-lg: 30px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.7;
-            color: var(--black);
-            background: var(--white);
-            overflow-x: hidden;
-        }
-
-        /* ===== ANIMATIONS ===== */
-        @keyframes slideInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-
-        @keyframes rippleEffect {
-            to { transform: scale(4); opacity: 0; }
-        }
-
-        @keyframes floatBubble {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-20px) translateX(10px); }
-            50% { transform: translateY(-40px) translateX(-10px); }
-            75% { transform: translateY(-20px) translateX(-5px); }
-        }
-
-        /* ===== HEADER ===== */
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
-            z-index: 1000;
-            transition: var(--transition-normal);
-        }
-
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            font-weight: 700;
-            color: var(--white);
-        }
-
-        .bubble-mark {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--white);
-            animation: pulse 2s infinite;
-        }
-
-        .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--fuchsia);
-        }
-
-        .logo-text p {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        .main-nav {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--black);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            transition: var(--transition-fast);
-            position: relative;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--fuchsia);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: var(--transition-fast);
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 80%;
-        }
-
-        .btn-contact {
-            background: var(--gradient-primary);
-            color: var(--white) !important;
-            padding: 0.75rem 1.5rem !important;
-        }
-
-        .btn-contact:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .nav-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .nav-toggle span {
-            width: 25px;
-            height: 3px;
-            background: var(--black);
-            margin: 3px 0;
-            transition: var(--transition-fast);
-        }
-
-        /* ===== BOUTONS ===== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-normal);
-            cursor: pointer;
-            font-size: 1rem;
+        /* Styles spécifiques à la page activités */
+        .activity-hero {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 8rem 0 4rem;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .btn::before {
+        .activity-hero::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.8s ease;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="150" fill="%23ffffff" opacity="0.1"/><circle cx="800" cy="300" r="100" fill="%23ffffff" opacity="0.1"/><circle cx="400" cy="600" r="120" fill="%23ffffff" opacity="0.1"/></svg>');
+            animation: floatBackground 20s infinite linear;
         }
 
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--white);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-secondary:hover {
-            background: var(--white);
-            color: var(--fuchsia);
-            transform: translateY(-3px);
-        }
-
-        /* ===== SECTIONS GÉNÉRIQUES ===== */
-        .section {
-            padding: 6rem 0;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--fuchsia);
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-
-        .section-divider {
-            width: 80px;
-            height: 4px;
-            background: var(--gradient-primary);
-            margin: 0 auto;
-            border-radius: 2px;
-        }
-
-        /* ===== STYLES SPÉCIFIQUES À LA PAGE ACTIVITÉS ===== */
-        .hero-activites {
-            background: var(--gradient-primary);
-            color: var(--white);
-            padding: 8rem 0 4rem;
-            text-align: center;
-        }
-
-        .hero-activites h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-        }
-
-        .hero-activites p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .activites-section {
-            background: var(--white);
-        }
-
-        .activites-grid {
+        .activity-categories {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            margin: 3rem 0;
         }
 
-        .activite-card {
-            background: var(--white);
+        .category-card {
+            background: white;
             border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--shadow-sm);
@@ -345,396 +51,144 @@
             position: relative;
         }
 
-        .activite-card:hover {
+        .category-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-lg);
         }
 
-        .activite-header {
-            background: var(--gradient-primary);
-            color: var(--white);
+        .category-header {
             padding: 2rem;
+            background: var(--gradient-primary);
+            color: white;
             text-align: center;
         }
 
-        .activite-icon {
+        .category-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
 
-        .activite-header h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .activite-content {
+        .category-content {
             padding: 2rem;
         }
 
-        .activite-content ul {
+        .benefits-list {
             list-style: none;
-            margin-bottom: 1.5rem;
+            padding: 0;
+            margin: 1rem 0;
         }
 
-        .activite-content li {
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
+        .benefits-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-light);
             position: relative;
+            padding-left: 1.5rem;
         }
 
-        .activite-content li::before {
+        .benefits-list li:before {
             content: '✓';
             position: absolute;
             left: 0;
-            color: var(--lemon-green);
+            color: var(--fuchsia);
             font-weight: bold;
         }
 
-        .objectifs-list {
-            background: var(--gray-light);
+        .activity-schedule {
+            background: var(--light-pink);
             padding: 1.5rem;
-            border-radius: var(--border-radius);
-            margin-top: 1.5rem;
-        }
-
-        .objectifs-list h4 {
-            color: var(--fuchsia);
-            margin-bottom: 1rem;
-        }
-
-        .objectifs-list ul {
-            margin-bottom: 0;
-        }
-
-        .gallery-section {
-            background: var(--gray-light);
+            border-radius: 10px;
+            margin-top: 1rem;
         }
 
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
-            margin-top: 2rem;
+            margin: 2rem 0;
         }
 
         .gallery-item {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 2rem;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: var(--light-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .activity-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
             text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             transition: var(--transition-normal);
         }
 
-        .gallery-item:hover {
+        .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-md);
         }
 
-        .gallery-icon {
+        .stat-number {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-weight: 900;
             color: var(--fuchsia);
-        }
-
-        .social-section {
-            background: var(--white);
-            text-align: center;
-        }
-
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .social-card {
-            background: var(--white);
-            padding: 3rem 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-normal);
-            border: 2px solid var(--light-pink);
-        }
-
-        .social-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--fuchsia);
-        }
-
-        .social-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: var(--fuchsia);
-        }
-
-        .social-card h3 {
-            margin-bottom: 1rem;
-            color: var(--black);
-        }
-
-        .social-card p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-        }
-
-        /* ===== FOOTER ===== */
-        .main-footer {
-            background: var(--black);
-            color: var(--white);
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h4 {
-            color: var(--lemon-green);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-text h3 {
-            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .footer-badges {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .contact-info,
-        .schedule-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .contact-line,
-        .schedule-line {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-line i {
-            width: 20px;
-            color: var(--lemon-green);
-        }
-
-        .schedule-line {
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .schedule-line:last-child {
-            border-bottom: none;
-        }
-
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--white);
-            text-decoration: none;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            transition: var(--transition-fast);
-            backdrop-filter: blur(10px);
-        }
-
-        .social-link:hover {
+        .emergency-card {
             background: var(--gradient-primary);
-            transform: translateX(5px);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .footer-legal p {
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .footer-credits p {
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 1024px) {
-            .activites-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 1rem;
-            }
-            
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 80px);
-                background: var(--white);
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 2rem;
-                transition: var(--transition-normal);
-                box-shadow: var(--shadow-lg);
-            }
-            
-            .nav-menu.active {
-                left: 0;
-            }
-            
-            .nav-toggle {
-                display: flex;
-            }
-            
-            .hero-activites h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-activites p {
-                font-size: 1.1rem;
-            }
-            
-            .activites-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-            
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-activites {
-                padding: 7rem 0 3rem;
-            }
-            
-            .hero-activites h1 {
-                font-size: 2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .activite-header {
-                padding: 1.5rem;
-            }
-            
-            .activite-content {
-                padding: 1.5rem;
-            }
-            
-            .social-card {
-                padding: 2rem 1rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        /* Animation d'entrée des éléments */
-        .animate-in {
-            animation: slideInUp 0.8s ease both;
-        }
-
-        /* Effet ripple pour les boutons */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
-        }
-
-        /* Animations pour le menu mobile */
-        .nav-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .nav-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .nav-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
         }
     </style>
 </head>
 <body>
+    <!-- Animation d'introduction immersive -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <div class="floating-bubbles">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+                <div class="bubble b5"></div>
+            </div>
+            <div class="logo-reveal">
+                <div class="logo-icon">
+                    <i class="fas fa-child"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h1 class="logo-text">
+                    <span class="text-part">Les Bulles</span>
+                    <span class="text-part">de Joie</span>
+                </h1>
+                <p class="logo-subtitle">École Bilingue d'Excellence</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation principale -->
     <header class="main-header">
         <div class="header-container">
@@ -768,201 +222,194 @@
         </div>
     </header>
 
+    <!-- Contenu principal -->
     <main>
-        <!-- Hero Section -->
-        <section class="hero-activites">
+        <!-- Hero Section Activités -->
+        <section class="activity-hero">
             <div class="container">
-                <h1>Nos Activités</h1>
-                <p>Des activités conçues pour stimuler la curiosité, la créativité et l'expression des enfants</p>
+                <h1 class="hero-title">Nos Activités Parascolaires</h1>
+                <p class="hero-subtitle">Découvrir, créer, s'épanouir au-delà des cours</p>
+                <p class="hero-description">
+                    Un programme complet d'activités conçues pour stimuler la curiosité, la créativité et l'expression des enfants
+                </p>
+                
+                <div class="activity-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Domaines d'activités</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Enfants participants</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Ateliers hebdomadaires</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">🎯</div>
+                        <div class="stat-label">Stimulation complète</div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Section Activités -->
-        <section class="section activites-section">
+        <!-- Section Catégories d'Activités -->
+        <section class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Activités Par Axes</h2>
-                    <p class="section-subtitle">Des activités variées pour un développement complet et harmonieux</p>
+                    <h2 class="section-title">Domaines d'Excellence</h2>
+                    <p class="section-subtitle">Des activités conçues pour stimuler la curiosité, la créativité et l'expression</p>
                     <div class="section-divider"></div>
                 </div>
                 
-                <div class="activites-grid">
+                <div class="activity-categories">
                     <!-- Art Oratoire -->
-                    <div class="activite-card">
-                        <div class="activite-header">
-                            <div class="activite-icon">
-                                <i class="fas fa-microphone"></i>
-                            </div>
+                    <div class="category-card">
+                        <div class="category-header">
+                            <div class="category-icon">🎤</div>
                             <h3>Art Oratoire</h3>
-                            <p>Développer la prise de parole, la confiance et l'écoute</p>
                         </div>
-                        <div class="activite-content">
-                            <p>L'art oratoire permet aux enfants de s'exprimer avec aisance et confiance devant un public.</p>
-                            <ul>
-                                <li>Expression verbale et corporelle</li>
-                                <li>Improvisation créative</li>
-                                <li>Techniques de respiration</li>
-                                <li>Gestion du trac</li>
-                                <li>Élocution et articulation</li>
+                        <div class="category-content">
+                            <p>Développer la prise de parole, la confiance et l'écoute dans un environnement bienveillant.</p>
+                            
+                            <ul class="benefits-list">
+                                <li>Expression verbale et non-verbale</li>
+                                <li>Confiance en soi</li>
+                                <li>Écoute active</li>
+                                <li>Improvisation et créativité</li>
+                                <li>Présentation en public</li>
                             </ul>
-                            <div class="objectifs-list">
-                                <h4>Objectifs Pédagogiques</h4>
-                                <ul>
-                                    <li>Développer la confiance en soi</li>
-                                    <li>Améliorer l'expression orale</li>
-                                    <li>Stimuler la pensée critique</li>
-                                    <li>Renforcer l'écoute active</li>
-                                </ul>
+                            
+                            <div class="activity-schedule">
+                                <strong>📅 Horaires :</strong>
+                                <p>Mercredi 14h-16h • Vendredi 15h-17h</p>
+                                <small>À partir de 4 ans</small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Jardinage -->
-                    <div class="activite-card">
-                        <div class="activite-header">
-                            <div class="activite-icon">
-                                <i class="fas fa-seedling"></i>
-                            </div>
-                            <h3>Jardinage</h3>
-                            <p>Éveiller à la nature, à la patience et à la responsabilité</p>
+                    <div class="category-card">
+                        <div class="category-header">
+                            <div class="category-icon">🌱</div>
+                            <h3>Jardinage Pédagogique</h3>
                         </div>
-                        <div class="activite-content">
-                            <p>Le jardinage éducatif connecte les enfants à la nature et développe leur sens des responsabilités.</p>
-                            <ul>
-                                <li>Plantation de légumes et fleurs</li>
-                                <li>Observation du cycle des plantes</li>
-                                <li>Compostage et écologie</li>
-                                <li>Soins quotidiens aux plantes</li>
-                                <li>Découverte des insectes utiles</li>
+                        <div class="category-content">
+                            <p>Éveiller à la nature, à la patience et à la responsabilité environnementale.</p>
+                            
+                            <ul class="benefits-list">
+                                <li>Connexion à la nature</li>
+                                <li>Patience et observation</li>
+                                <li>Responsabilité écologique</li>
+                                <li>Cycle des plantes</li>
+                                <li>Alimentation saine</li>
                             </ul>
-                            <div class="objectifs-list">
-                                <h4>Objectifs Pédagogiques</h4>
-                                <ul>
-                                    <li>Développer la patience</li>
-                                    <li>Sensibiliser à l'écologie</li>
-                                    <li>Apprendre la responsabilité</li>
-                                    <li>Comprendre les cycles naturels</li>
-                                </ul>
+                            
+                            <div class="activity-schedule">
+                                <strong>📅 Horaires :</strong>
+                                <p>Lundi 14h-16h • Jeudi 15h-16h</p>
+                                <small>À partir de 3 ans</small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Musique -->
-                    <div class="activite-card">
-                        <div class="activite-header">
-                            <div class="activite-icon">
-                                <i class="fas fa-music"></i>
-                            </div>
-                            <h3>Musique</h3>
-                            <p>Explorer les sons, les rythmes et les instruments</p>
+                    <div class="category-card">
+                        <div class="category-header">
+                            <div class="category-icon">🎵</div>
+                            <h3>Éveil Musical</h3>
                         </div>
-                        <div class="activite-content">
-                            <p>L'éveil musical développe l'oreille, le sens du rythme et la sensibilité artistique des enfants.</p>
-                            <ul>
-                                <li>Découverte des instruments</li>
-                                <li>Chants et comptines</li>
-                                <li>Rythmes et percussions</li>
-                                <li>Expression corporelle musicale</li>
-                                <li>Création musicale collective</li>
+                        <div class="category-content">
+                            <p>Explorer les sons, les rythmes et les instruments dans une approche sensorielle.</p>
+                            
+                            <ul class="benefits-list">
+                                <li>Développement auditif</li>
+                                <li>Sens du rythme</li>
+                                <li>Coordination motrice</li>
+                                <li>Expression émotionnelle</li>
+                                <li>Culture musicale</li>
                             </ul>
-                            <div class="objectifs-list">
-                                <h4>Objectifs Pédagogiques</h4>
-                                <ul>
-                                    <li>Développer l'oreille musicale</li>
-                                    <li>Stimuler la mémoire auditive</li>
-                                    <li>Améliorer la coordination</li>
-                                    <li>Exprimer les émotions par la musique</li>
-                                </ul>
+                            
+                            <div class="activity-schedule">
+                                <strong>📅 Horaires :</strong>
+                                <p>Mardi 15h-16h30 • Jeudi 14h-15h30</p>
+                                <small>À partir de 2 ans</small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Danse -->
-                    <div class="activite-card">
-                        <div class="activite-header">
-                            <div class="activite-icon">
-                                <i class="fas fa-child"></i>
-                            </div>
-                            <h3>Danse</h3>
-                            <p>Expression corporelle, coordination et plaisir du mouvement</p>
+                    <div class="category-card">
+                        <div class="category-header">
+                            <div class="category-icon">💃</div>
+                            <h3>Expression Corporelle</h3>
                         </div>
-                        <div class="activite-content">
-                            <p>La danse permet aux enfants de découvrir leur corps, de s'exprimer et de se coordonner en rythme.</p>
-                            <ul>
-                                <li>Éveil corporel et sensoriel</li>
-                                <li>Expression libre et créative</li>
-                                <li>Coordination motrice</li>
-                                <li>Danses traditionnelles et modernes</li>
-                                <li>Création de chorégraphies</li>
+                        <div class="category-content">
+                            <p>Favoriser l'expression corporelle, la coordination et le plaisir du mouvement.</p>
+                            
+                            <ul class="benefits-list">
+                                <li>Conscience corporelle</li>
+                                <li>Coordination et équilibre</li>
+                                <li>Créativité motrice</li>
+                                <li>Expression des émotions</li>
+                                <li>Travail d'équipe</li>
                             </ul>
-                            <div class="objectifs-list">
-                                <h4>Objectifs Pédagogiques</h4>
-                                <ul>
-                                    <li>Développer la conscience corporelle</li>
-                                    <li>Améliorer la coordination</li>
-                                    <li>Exprimer les émotions par le mouvement</li>
-                                    <li>Renforcer la confiance en soi</li>
-                                </ul>
+                            
+                            <div class="activity-schedule">
+                                <strong>📅 Horaires :</strong>
+                                <p>Lundi 15h-16h • Mercredi 16h-17h30</p>
+                                <small>À partir de 3 ans</small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Anglais -->
-                    <div class="activite-card">
-                        <div class="activite-header">
-                            <div class="activite-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <h3>Anglais</h3>
-                            <p>Immersion ludique et quotidienne dans la langue</p>
+                    <div class="category-card">
+                        <div class="category-header">
+                            <div class="category-icon">🇬🇧</div>
+                            <h3>Immersion Anglaise</h3>
                         </div>
-                        <div class="activite-content">
-                            <p>L'immersion anglaise précoce permet une acquisition naturelle et durable de la langue.</p>
-                            <ul>
-                                <li>Conversation quotidienne</li>
-                                <li>Jeux et activités en anglais</li>
-                                <li>Chansons et comptines</li>
-                                <li>Histoires et contes</li>
-                                <li>Projets bilingues</li>
+                        <div class="category-content">
+                            <p>Apprentissage naturel de l'anglais par le jeu et les activités ludiques.</p>
+                            
+                            <ul class="benefits-list">
+                                <li>Immersion naturelle</li>
+                                <li>Apprentissage par le jeu</li>
+                                <li>Prononciation authentique</li>
+                                <li>Vocabulaire contextuel</li>
+                                <li>Ouverture culturelle</li>
                             </ul>
-                            <div class="objectifs-list">
-                                <h4>Objectifs Pédagogiques</h4>
-                                <ul>
-                                    <li>Acquérir une prononciation authentique</li>
-                                    <li>Développer la compréhension orale</li>
-                                    <li>Stimuler l'expression spontanée</li>
-                                    <li>Ouvrir sur les cultures anglophones</li>
-                                </ul>
+                            
+                            <div class="activity-schedule">
+                                <strong>📅 Horaires :</strong>
+                                <p>Du lundi au vendredi - Activités intégrées</p>
+                                <small>Dès la crèche</small>
                             </div>
                         </div>
                     </div>
 
                     <!-- Créativité -->
-                    <div class="activite-card">
-                        <div class="activite-header">
-                            <div class="activite-icon">
-                                <i class="fas fa-paint-brush"></i>
-                            </div>
-                            <h3>Créativité</h3>
-                            <p>Peinture, collage, modelage et expression artistique</p>
+                    <div class="category-card">
+                        <div class="category-header">
+                            <div class="category-icon">🎨</div>
+                            <h3>Ateliers Créatifs</h3>
                         </div>
-                        <div class="activite-content">
-                            <p>Les activités créatives développent l'imagination, la motricité fine et l'expression personnelle.</p>
-                            <ul>
-                                <li>Peinture et dessin libre</li>
-                                <li>Modelage et sculpture</li>
-                                <li>Collage et assemblages</li>
-                                <li>Arts plastiques variés</li>
-                                <li>Création d'œuvres collectives</li>
+                        <div class="category-content">
+                            <p>Peinture, collage, modelage, couture et expression artistique libre.</p>
+                            
+                            <ul class="benefits-list">
+                                <li>Imagination et créativité</li>
+                                <li>Motricité fine</li>
+                                <li>Expression personnelle</li>
+                                <li>Résolution de problèmes</li>
+                                <li>Confiance créative</li>
                             </ul>
-                            <div class="objectifs-list">
-                                <h4>Objectifs Pédagogiques</h4>
-                                <ul>
-                                    <li>Stimuler l'imagination</li>
-                                    <li>Développer la motricité fine</li>
-                                    <li>Exprimer la créativité personnelle</li>
-                                    <li>Apprendre à coopérer</li>
-                                </ul>
+                            
+                            <div class="activity-schedule">
+                                <strong>📅 Horaires :</strong>
+                                <p>Mardi 14h-15h30 • Vendredi 14h-16h</p>
+                                <small>À partir de 2 ans</small>
                             </div>
                         </div>
                     </div>
@@ -970,110 +417,62 @@
             </div>
         </section>
 
-        <!-- Section Galerie -->
-        <section class="section gallery-section">
+        <!-- Section Galerie Interactive -->
+        <section class="section" style="background: var(--light-pink);">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Galerie d'Activités</h2>
-                    <p class="section-subtitle">Quelques-unes de nos activités en images</p>
+                    <h2 class="section-title">Galerie des Activités</h2>
+                    <p class="section-subtitle">Quelques moments de joie et de découverte</p>
                     <div class="section-divider"></div>
                 </div>
                 
                 <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <div class="gallery-icon">
-                            <i class="fas fa-theater-masks"></i>
-                        </div>
-                        <h4>Théâtre</h4>
-                        <p>Expression dramatique et jeux de rôle</p>
+                    <div class="gallery-item" style="background: var(--gradient-primary);">
+                        <span>🎤</span>
                     </div>
-                    
-                    <div class="gallery-item">
-                        <div class="gallery-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h4>Robotique</h4>
-                        <p>Initiation à la programmation créative</p>
+                    <div class="gallery-item" style="background: var(--gradient-primary);">
+                        <span>🌱</span>
                     </div>
-                    
-                    <div class="gallery-item">
-                        <div class="gallery-icon">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                        <h4>Cuisine</h4>
-                        <p>Ateliers culinaires éducatifs</p>
+                    <div class="gallery-item" style="background: var(--gradient-primary);">
+                        <span>🎵</span>
                     </div>
-                    
-                    <div class="gallery-item">
-                        <div class="gallery-icon">
-                            <i class="fas fa-chess"></i>
-                        </div>
-                        <h4>Jeux de Société</h4>
-                        <p>Stratégie, logique et coopération</p>
+                    <div class="gallery-item" style="background: var(--gradient-primary);">
+                        <span>💃</span>
                     </div>
-                    
-                    <div class="gallery-item">
-                        <div class="gallery-icon">
-                            <i class="fas fa-hiking"></i>
-                        </div>
-                        <h4>Sorties Nature</h4>
-                        <p>Découverte de l'environnement</p>
+                    <div class="gallery-item" style="background: var(--gradient-primary);">
+                        <span>🇬🇧</span>
                     </div>
-                    
-                    <div class="gallery-item">
-                        <div class="gallery-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <h4>Bibliothèque</h4>
-                        <p>Club de lecture et contes</p>
+                    <div class="gallery-item" style="background: var(--gradient-primary);">
+                        <span>🎨</span>
                     </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="https://www.facebook.com/lesbullesdejoie" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-facebook-f"></i> Voir plus sur Facebook
+                    </a>
+                    <a href="https://www.instagram.com/lesbullesdejoie" class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-instagram"></i> Suivez-nous sur Instagram
+                    </a>
                 </div>
             </div>
         </section>
 
-        <!-- Section Réseaux Sociaux -->
-        <section class="section social-section">
+        <!-- Section Inscription aux Activités -->
+        <section class="section">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Suivez Nos Activités</h2>
-                    <p class="section-subtitle">Restez connectés pour découvrir nos dernières activités en temps réel</p>
-                    <div class="section-divider"></div>
-                </div>
-                
-                <div class="social-grid">
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fab fa-facebook"></i>
-                        </div>
-                        <h3>Facebook</h3>
-                        <p>Photos, vidéos et actualités de nos activités quotidiennes</p>
-                        <a href="https://facebook.com/lesbullesdejoie" class="btn btn-primary" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                            Nous Suivre
+                <div class="emergency-card">
+                    <h3 style="color: white; margin-bottom: 1rem;">Inscription aux Activités</h3>
+                    <p style="color: white; opacity: 0.9; margin-bottom: 2rem;">
+                        Les inscriptions aux activités parascolaires sont ouvertes pour l'année 2025-2026.<br>
+                        Contactez-nous pour plus d'informations et les modalités d'inscription.
+                    </p>
+                    <div class="hero-actions" style="justify-content: center;">
+                        <a href="contact.html" class="btn btn-outline" style="color: white; border-color: white;">
+                            <i class="fas fa-phone"></i> Nous contacter
                         </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <h3>Instagram</h3>
-                        <p>Moments de vie et créations de nos petits artistes</p>
-                        <a href="https://instagram.com/lesbullesdejoie" class="btn btn-primary" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                            Nous Suivre
-                        </a>
-                    </div>
-                    
-                    <div class="social-card">
-                        <div class="social-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <h3>Google Maps</h3>
-                        <p>Découvrez notre établissement et laissez un avis</p>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="btn btn-primary" target="_blank">
-                            <i class="fas fa-external-link-alt"></i>
-                            Voir sur Maps
+                        <a href="inscription.html" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Formulaire d'inscription
                         </a>
                     </div>
                 </div>
@@ -1142,15 +541,15 @@
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
                     <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                             Facebook
                         </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link" target="_blank">
                             <i class="fab fa-instagram"></i>
                             Instagram
                         </a>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link" target="_blank">
                             <i class="fas fa-map-marker-alt"></i>
                             Google Maps
                         </a>
@@ -1162,7 +561,7 @@
                 <div class="footer-legal">
                     <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                     <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <p>Numéro d'autorisation : N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1171,146 +570,7 @@
         </div>
     </footer>
 
-    <script>
-        // ===== GESTIONNAIRE DE LA PAGE ACTIVITÉS =====
-        class ActivitesManager {
-            constructor() {
-                this.init();
-            }
-
-            init() {
-                this.setupNavigation();
-                this.setupScrollAnimations();
-                this.setupInteractiveElements();
-            }
-
-            // Configuration de la navigation
-            setupNavigation() {
-                const navToggle = document.querySelector('.nav-toggle');
-                const navMenu = document.querySelector('.nav-menu');
-                
-                if (navToggle) {
-                    navToggle.addEventListener('click', () => {
-                        navToggle.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                    });
-                }
-
-                // Fermer le menu mobile au clic sur un lien
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', () => {
-                        navToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    });
-                });
-
-                // Gestion du header au scroll
-                let lastScrollY = window.scrollY;
-                const header = document.querySelector('.main-header');
-
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 100) {
-                        header.style.background = 'rgba(255, 255, 255, 0.98)';
-                        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
-                    } else {
-                        header.style.background = 'rgba(255, 255, 255, 0.95)';
-                        header.style.boxShadow = 'none';
-                    }
-
-                    // Cacher/montrer le header au scroll
-                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
-                        header.style.transform = 'translateY(-100%)';
-                    } else {
-                        header.style.transform = 'translateY(0)';
-                    }
-
-                    lastScrollY = window.scrollY;
-                });
-            }
-
-            // Animations au scroll
-            setupScrollAnimations() {
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('animate-in');
-                        }
-                    });
-                }, observerOptions);
-
-                // Observer les éléments à animer
-                document.querySelectorAll('.activite-card, .gallery-item, .social-card').forEach(el => {
-                    observer.observe(el);
-                });
-            }
-
-            // Configuration des éléments interactifs
-            setupInteractiveElements() {
-                // Effet ripple pour les boutons
-                document.querySelectorAll('.btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        this.createRippleEffect(e);
-                    }.bind(this));
-                });
-
-                // Animation des cartes au survol
-                const cards = document.querySelectorAll('.activite-card, .social-card');
-                
-                cards.forEach(card => {
-                    card.addEventListener('mouseenter', () => {
-                        card.style.transform = 'translateY(-10px)';
-                    });
-                    
-                    card.addEventListener('mouseleave', () => {
-                        card.style.transform = 'translateY(0)';
-                    });
-                });
-
-                // Animation des éléments de galerie
-                const galleryItems = document.querySelectorAll('.gallery-item');
-                
-                galleryItems.forEach(item => {
-                    item.addEventListener('mouseenter', () => {
-                        item.style.transform = 'translateY(-5px)';
-                    });
-                    
-                    item.addEventListener('mouseleave', () => {
-                        item.style.transform = 'translateY(0)';
-                    });
-                });
-            }
-
-            // Effet visuel ripple
-            createRippleEffect(e) {
-                const button = e.currentTarget;
-                const ripple = document.createElement('span');
-                const rect = button.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                button.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            }
-        }
-
-        // ===== INITIALISATION =====
-        document.addEventListener('DOMContentLoaded', () => {
-            window.activitesManager = new ActivitesManager();
-        });
-    </script>
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
 </body>
 </html>
