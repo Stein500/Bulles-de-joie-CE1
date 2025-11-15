@@ -1,4 +1,4 @@
-// JS pour activités - Hover descriptions
+// JS pour activités - Interactif si besoin (ex: hover descriptions)
 const activities = document.querySelectorAll('.activities-list li');
 activities.forEach(li => {
   li.addEventListener('mouseover', () => {
