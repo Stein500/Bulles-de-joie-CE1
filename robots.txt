@@ -1,0 +1,224 @@
+User-agent: *
+Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /assets/images/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /tmp/
+Disallow: /backup/
+Disallow: /*.pdf$
+Disallow: /*.doc$
+Disallow: /*.docx$
+
+# Sitemaps
+Sitemap: https://lesbullesdejoie.bj/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Googlebot Image
+User-agent: Googlebot-Image
+Allow: /assets/images/
+Allow: /assets/icons/
+
+# Ads
+User-agent: AdsBot-Google
+Allow: /
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 5
+
+# Slurp
+User-agent: Slurp
+Allow: /
+Crawl-delay: 3
+
+# Facebook
+User-agent: facebookexternalhit/1.1
+Allow: /
+Crawl-delay: 1
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+# Pinterest
+User-agent: Pinterest
+Allow: /
+Crawl-delay: 1
+
+# GPTBot
+User-agent: GPTBot
+Allow: /
+
+# CCBot
+User-agent: CCBot
+Allow: /
+
+# Applebot
+User-agent: Applebot
+Allow: /
+
+# Performance optimizations
+User-agent: *
+Allow: /?amp
+Allow: /?mobile
+Allow: /?print
+
+# Language variants
+Allow: /?lang=fr
+Allow: /?lang=en
+
+# Pagination
+Allow: /?page=
+Allow: /?p=
+
+# Search parameters
+Allow: /?s=
+Allow: /?search=
+
+# Security - Block suspicious bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MegaIndex.ru
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Block scrapers
+User-agent: WebDataStats
+Disallow: /
+
+User-agent: WebMechanic
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: EmailWolf
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+User-agent: CherryPicker
+Disallow: /
+
+User-agent: Crescent
+Disallow: /
+
+User-agent: SiteSnagger
+Disallow: /
+
+User-agent: ProWebWalker
+Disallow: /
+
+User-agent: CheeseBot
+Disallow: /
+
+User-agent: LNSpiderguy
+Disallow: /
+
+User-agent: Xenu
+Disallow: /
+
+# Special directives for important pages
+User-agent: *
+Allow: /contact.html
+Allow: /inscription.html
+Allow: /apropos.html
+Allow: /pedagogie.html
+Allow: /activites.html
+Allow: /resultats.html
+
+# Priority directives
+User-agent: *
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /favicon.ico
+Allow: /apple-touch-icon.png
+Allow: /manifest.json
+
+# Mobile-specific
+User-agent: *
+Allow: /mobile/
+Allow: /amp/
+
+# API endpoints (if any)
+User-agent: *
+Allow: /api/search
+Allow: /api/contact
+Disallow: /api/admin
+Disallow: /api/private
+
+# Cache directives
+User-agent: *
+Allow: /cache/
+Allow: /static/
+
+# Media files
+User-agent: *
+Allow: /assets/videos/
+Allow: /assets/audio/
+Allow: /assets/documents/
+
+# Security - Hide sensitive files
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-json/
+Disallow: /xmlrpc.php
+Disallow: /readme.html
+Disallow: /license.txt
+Disallow: /wp-config.php
+Disallow: /error_log
+Disallow: /debug.log
+Disallow: /.htaccess
+Disallow: /.env
+Disallow: /config.php
+Disallow: /database.sql
+
+# Commentaires pour les développeurs
+# Ce fichier robots.txt est optimisé pour le référencement
+# et la sécurité du site Les Bulles de Joie
+# Dernière mise à jour: Décembre 2025
