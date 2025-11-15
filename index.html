@@ -6,13 +6,14 @@
     <title>Les Bulles de Joie - École Bilingue d'Excellence à Parakou</title>
     <meta name="description" content="École Les Bulles de Joie à Parakou : Crèche, Garderie, Maternelle et Primaire Bilingue. Pédagogie innovante depuis 2017. Cadre féerique stimulant et sécurisant.">
     
-    <!-- Styles -->
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* ===== VARIABLES ===== */
+        /* ===== VARIABLES ET RESET ===== */
         :root {
+            /* Couleurs principales */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -20,19 +21,29 @@
             --light-pink: #ffccf9;
             --light-green: #e7ffb3;
             --dark-purple: #2d1b69;
+            
+            /* Couleurs de soutien */
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
+            
+            /* Dégradés */
             --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
             --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
             --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            
+            /* Ombres */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
             --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            
+            /* Transitions */
             --transition-fast: all 0.3s ease;
             --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* Bordures */
             --border-radius: 20px;
             --border-radius-lg: 30px;
         }
@@ -57,23 +68,92 @@
         }
 
         /* ===== ANIMATIONS ===== */
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes floatBubble {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px);
+            }
+            75% {
+                transform: translateY(-20px) translateX(-5px);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         @keyframes slideInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
         }
 
         @keyframes rippleEffect {
-            to { transform: scale(4); opacity: 0; }
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
 
         @keyframes logoFloat {
@@ -168,6 +248,26 @@
             animation: fadeIn 1s ease 1.5s forwards;
         }
 
+        /* ===== LOGO STYLES ===== */
+        .logo-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-logo {
+            max-width: 50px;
+            height: auto;
+            margin-right: 10px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .footer-logo {
+            max-width: 70px;
+            height: auto;
+            margin-right: 15px;
+        }
+
         /* ===== HEADER ===== */
         .main-header {
             position: fixed;
@@ -196,23 +296,13 @@
             gap: 1rem;
         }
 
-        .logo-image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .header-logo {
-            max-width: 50px;
-            height: auto;
-            margin-right: 10px;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--fuchsia);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .logo-text p {
@@ -220,6 +310,7 @@
             color: var(--gray);
         }
 
+        /* Navigation */
         .main-nav {
             display: flex;
             align-items: center;
@@ -333,15 +424,15 @@
         }
 
         .btn-secondary {
-            background: var(--white);
-            color: var(--fuchsia);
-            border: 2px solid var(--fuchsia);
-            box-shadow: var(--shadow-sm);
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
         }
 
         .btn-secondary:hover {
+            background: var(--white);
+            color: var(--fuchsia);
             transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
         }
 
         .btn-outline {
@@ -375,7 +466,10 @@
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--fuchsia);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .section-subtitle {
@@ -434,6 +528,7 @@
             font-weight: 800;
             margin-bottom: 1.5rem;
             line-height: 1.2;
+            color: white;
         }
 
         .title-line {
@@ -1126,6 +1221,52 @@
             pointer-events: none;
         }
 
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--fuchsia);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: var(--lemon-green);
+        }
+
+        .notification.warning {
+            border-left-color: #ff9800;
+        }
+
+        .notification.error {
+            border-left-color: #f44336;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i { color: var(--lemon-green); }
+        .notification.warning i { color: #ff9800; }
+        .notification.error i { color: #f44336; }
+
         /* Animations pour le menu mobile */
         .nav-toggle.active span:nth-child(1) {
             transform: rotate(45deg) translate(5px, 5px);
@@ -1574,7 +1715,6 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
         // ===== GESTIONNAIRE DE LA PAGE D'ACCUEIL =====
         class HomeManager {
@@ -1711,11 +1851,52 @@
                     ripple.remove();
                 }, 600);
             }
+
+            // Système de notifications
+            showNotification(message, type = 'info') {
+                // Créer la notification
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${this.getNotificationIcon(type)}"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Animation d'entrée
+                setTimeout(() => notification.classList.add('show'), 100);
+                
+                // Supprimer après 4 secondes
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    'info': 'info-circle',
+                    'success': 'check-circle',
+                    'warning': 'exclamation-triangle',
+                    'error': 'times-circle'
+                };
+                return icons[type] || 'info-circle';
+            }
         }
 
         // ===== INITIALISATION =====
         document.addEventListener('DOMContentLoaded', () => {
             window.homeManager = new HomeManager();
+            
+            // Message de bienvenue
+            setTimeout(() => {
+                if (window.homeManager.showNotification) {
+                    window.homeManager.showNotification('Bienvenue aux Bulles de Joie!', 'success');
+                }
+            }, 3500);
         });
     </script>
 </body>
