@@ -1,0 +1,112 @@
+/* Responsive - Ultra responsive pour smartphone, tablette, desktop avec effets 3D et modernisations */
+@media (max-width: 600px) {
+  .header-content {
+    flex-direction: column;
+    padding: 10px 15px;
+  }
+
+  .logo-section {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .main-nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #000000;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px 0;
+  }
+
+  .main-nav ul.active {
+    display: flex;
+  }
+
+  .main-nav li a {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #333333;
+  }
+
+  .header-right {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .sticky-header.hide {
+    transform: translateY(-100%);
+  }
+
+  .welcome-section h2 {
+    font-size: 2.5rem;
+  }
+
+  .activity-circles {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .values {
+    grid-template-columns: 1fr;
+  }
+
+  .cycles-list li, .activities-list li, .contacts-list li {
+    font-size: 1.1rem;
+  }
+
+  .login-form, .inscription-form {
+    max-width: 90%;
+  }
+
+  .bulletin-display {
+    padding: 20px;
+  }
+
+  footer {
+    padding: 30px 15px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .header-content {
+    padding: 15px 25px;
+  }
+
+  .activity-circles {
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .values {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .header-content {
+    padding: 20px 50px;
+  }
+
+  .circle:hover {
+    transform: rotateY(15deg) rotateX(15deg) scale(1.05);
+  }
+}

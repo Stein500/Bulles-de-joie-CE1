@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Accédez aux résultats scolaires sécurisés par classe et élève à Les Bulles de Joie, avec téléchargement de bulletins en PDF et image.">
+  <title>Les Bulles de Joie - Résultats</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="responsive.css">
+  <script src="main.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sticky-header">
+    <div class="header-content">
+      <div class="logo-section">
+        <img src="logo.png" alt="Logo Les Bulles de Joie">
+        <div class="name-slogan">
+          <h1 style="color: #FFFFFF;">Les Bulles de Joie</h1>
+          <p style="color: #A0FF00;">Amour – Travail – Rigueur – Créativité</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="apropos.html">Notre école</a></li>
+          <li><a href="pedagogie.html">Pédagogie</a></li>
+          <li><a href="activites.html">Activités</a></li>
+          <li><a href="resultats.html">Résultats</a></li>
+          <li><a href="inscription.html">Inscription</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-right">
+        <span class="school-year" style="color: #FF1493;">2025 – 2026</span>
+        <button class="contact-btn" onclick="location.href='contact.html'" style="background-color: #A0FF00; color: #000000;">Nous contacter</button>
+        <div class="menu-toggle">☰</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="resultats-main" style="background-color: #A0FF00;">
+    <section class="resultats-section">
+      <h2 style="color: #FF1493;">Résultats</h2>
+      <p style="color: #000000;">Résultats accessibles par classe et par élève via un système sécurisé. Présentation claire : moyenne, progression, appréciations.</p>
+      <form id="login-form" class="login-form">
+        <label for="identifiant" style="color: #000000;">Identifiant :</label>
+        <input type="text" id="identifiant" required placeholder="Ex: AGBLO">
+        <label for="motdepasse" style="color: #000000;">Mot de passe (prénom en minuscule) :</label>
+        <input type="password" id="motdepasse" required placeholder="Ex: fifamè">
+        <button type="submit" style="background-color: #FF1493; color: #FFFFFF;">Se connecter</button>
+      </form>
+      <div id="bulletin" style="display:none;" class="bulletin-display">
+        <div id="bulletin-content">
+          <h3 id="nom-classe" style="color: #FF1493;"></h3>
+          <p id="moyenne" style="color: #000000;"></p>
+          <p id="matieres-notes" style="color: #000000;"></p>
+          <p id="commentaire" style="color: #000000;"></p>
+        </div>
+        <button onclick="downloadPDF()" style="background-color: #A0FF00; color: #000000;">Téléchargement du bulletin format PDF</button>
+        <button onclick="downloadImage()" style="background-color: #A0FF00; color: #000000;">Téléchargement du bulletin format Image</button>
+      </div>
+      <section class="enseignants-section">
+        <h3 style="color: #FF1493;">Enseignants responsables</h3>
+        <ul>
+          <li style="color: #000000;">Enseignante du CI - Disponible bientôt</li>
+          <li style="color: #000000;">Enseignante du CP - Disponible bientôt</li>
+          <li style="color: #000000;">Enseignant du CE1</li>
+          <ul class="eleves-list">
+            <li style="color: #000000;">1. AGBLO AGONDJIHOSSOU Fifamè<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.33 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19.25 | Expression Écrite : 16.50 | Dictée : 5 | Éducation Sociale : 15 | Éducation Scientifique : 15.25 | Dessin : 14 | Mathématiques : 15 | Éducation Sportive : 17 | Éducation Artistique : 12<br>Commentaire du maître :<br>Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.</li>
+            <li style="color: #000000;">2. AKYOH Emmanuel<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 10.69 / 20 (en dessous de 12.00)<br>Matières et notes :<br>Lecture : 7.50 | Expression Écrite : 18.50 | Dictée : 0 | Éducation Sociale : 12 | Éducation Scientifique : 7 | Dessin : 14.50 | Mathématiques : 5.25 | Éducation Sportive : 18 | Éducation Artistique : 13<br>Commentaire du maître :<br>Emmanuel excelle en expression écrite et en éducation sportive. Sa moyenne actuelle (10,69) est en dessous de l’objectif de 12/20. Un effort important et régulier est désormais indispensable, surtout en dictée, lecture et mathématiques. N’hésitez pas à revoir les bases avec lui à la maison et à me contacter pour un accompagnement plus rapproché.</li>
+            <li style="color: #000000;">3. AMADOU Yinki<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 13.64 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 15.5 | Expression Écrite : 19 | Dictée : 5 | Éducation Sociale : 16.25 | Éducation Scientifique : 7.75 | Dessin : 15 | Mathématiques : 13.25 | Éducation Sportive : 17 | Éducation Artistique : 14<br>Commentaire du maître :<br>Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé par des exercices pratiques à la maison.</li>
+            <li style="color: #000000;">4. BANI Rahama<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 15.11 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 13.75 | Expression Écrite : 18.25 | Dictée : 12 | Éducation Sociale : 20 | Éducation Scientifique : 17 | Dessin : 14.5 | Mathématiques : 7.25 | Éducation Sportive : 18 | Éducation Artistique : 15<br>Commentaire du maître :<br>Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale ! Son engagement en mathématiques mériterait d’être soutenu.</li>
+            <li style="color: #000000;">5. DAHOUGOU Noham<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 12.36 / 20 (légèrement au-dessus, mais reste fragile)<br>Matières et notes :<br>Lecture : 15.25 | Expression Écrite : 18.50 | Dictée : 3 | Éducation Sociale : 12 | Éducation Scientifique : 8.75 | Dessin : 13 | Mathématiques : 5.75 | Éducation Sportive : 18 | Éducation Artistique : 14<br>Commentaire du maître :<br>Noham montre de belles capacités en expression écrite et en éducation sportive. Sa moyenne (12,36) est juste au-dessus de l’objectif de 12/20. Il faut absolument consolider les acquis et fournir un travail régulier supplémentaire en dictée et en mathématiques pour éviter de redescendre.</li>
+            <li style="color: #000000;">6. EDA Queen<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.36 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19 | Expression Écrite : 18.25 | Dictée : 4 | Éducation Sociale : 13.75 | Éducation Scientifique : 14.5 | Dessin : 12 | Mathématiques : 15.75 | Éducation Sportive : 18 | Éducation Artistique : 14<br>Commentaire du maître :<br>Queen possède d’excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.</li>
+            <li style="color: #000000;">7. HOUEHOU Méka<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 15.44 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 18.75 | Expression Écrite : 19.5 | Dictée : 9 | Éducation Sociale : 15 | Éducation Scientifique : 14 | Dessin : 14.5 | Mathématiques : 17.25 | Éducation Sportive : 17 | Éducation Artistique : 13<br>Commentaire du maître :<br>Méka est un élève très appliqué qui obtient d’excellents résultats dans la plupart des matières. Félicitations pour ce beau travail !</li>
+            <li style="color: #000000;">8. PADONOU Faith<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.97 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19 | Expression Écrite : 15.75 | Dictée : 4 | Éducation Sociale : 19 | Éducation Scientifique : 17.25 | Dessin : 15 | Mathématiques : 13.75 | Éducation Sportive : 18 | Éducation Artistique : 13<br>Commentaire du maître :<br>Faith excelle en lecture et en éducation sociale. Continuez à l’encourager dans sa progression en expression écrite.</li>
+            <li style="color: #000000;">9. SOVI Péniel<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 14.89 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 12.5 | Expression Écrite : 18.25 | Dictée : 8 | Éducation Sociale : 18.5 | Éducation Scientifique : 16.5 | Dessin : 13 | Mathématiques : 16.25 | Éducation Sportive : 17 | Éducation Artistique : 14<br>Commentaire du maître :<br>Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.</li>
+            <li style="color: #000000;">10. TOSSAVI Naelle<br>Classe : CE1 – École : Les Bulles de Joie<br>Moyenne : 15.44 / 20 (atteinte ✓)<br>Matières et notes :<br>Lecture : 19 | Expression Écrite : 16.75 | Dictée : 9 | Éducation Sociale : 18 | Éducation Scientifique : 18 | Dessin : 15 | Mathématiques : 12.25 | Éducation Sportive : 17 | Éducation Artistique : 14<br>Commentaire du maître :<br>Naelle a obtenu d’excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée !</li>
+          </ul>
+          <li style="color: #000000;">Enseignant du CE2 - Disponible bientôt</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="official-info">
+        <p style="color: #FFFFFF;">École privée agréée – Numéro d’autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+        <p style="color: #FFFFFF;">Année scolaire : 2025 – 2026</p>
+        <p style="color: #FFFFFF;">Adresse : Parakou – Zongo</p>
+        <p style="color: #FFFFFF;">Horaires : Crèche & Garderie : 07h – 19h | Maternelle : 08h – 11h30 et 15h – 17h | Primaire : 07h30 – 12h et 15h – 17h30</p>
+      </div>
+      <div class="social-links">
+        <a href="https://www.facebook.com/lesbullesdejoie" style="color: #A0FF00;">Facebook</a>
+        <a href="https://www.instagram.com/lesbullesdejoie?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" style="color: #A0FF00;">Instagram</a>
+        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" style="color: #A0FF00;">Maps</a>
+      </div>
+      <p class="mentions" style="color: #FFFFFF;">© Les Bulles de Joie – Tous droits réservés | Établissement certifié – Enseignement bilingue – 2 mois +</p>
+    </div>
+  </footer>
+
+  <script>
+    const eleves = {
+      'AGBLO': {prenom: 'fifamè', nom: 'AGBLO AGONDJIHOSSOU Fifamè', classe: 'CE1', moyenne: '14.33 / 20 (atteinte ✓)', notes: 'Lecture : 19.25 | Expression Écrite : 16.50 | Dictée : 5 | Éducation Sociale : 15 | Éducation Scientifique : 15.25 | Dessin : 14 | Mathématiques : 15 | Éducation Sportive : 17 | Éducation Artistique : 12', commentaire: 'Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.'},
+      'AKYOH': {prenom: 'emmanuel', nom: 'AKYOH Emmanuel', classe: 'CE1', moyenne: '10.69 / 20 (en dessous de 12.00)', notes: 'Lecture : 7.50 | Expression Écrite : 18.50 | Dictée : 0 | Éducation Sociale : 12 | Éducation Scientifique : 7 | Dessin : 14.50 | Mathématiques : 5.25 | Éducation Sportive : 18 | Éducation Artistique : 13', commentaire: 'Emmanuel excelle en expression écrite et en éducation sportive. Sa moyenne actuelle (10,69) est en dessous de l’objectif de 12/20. Un effort important et régulier est désormais indispensable, surtout en dictée, lecture et mathématiques. N’hésitez pas à revoir les bases avec lui à la maison et à me contacter pour un accompagnement plus rapproché.'},
+      'AMADOU': {prenom: 'yinki', nom: 'AMADOU Yinki', classe: 'CE1', moyenne: '13.64 / 20 (atteinte ✓)', notes: 'Lecture : 15.5 | Expression Écrite : 19 | Dictée : 5 | Éducation Sociale : 16.25 | Éducation Scientifique : 7.75 | Dessin : 15 | Mathématiques : 13.25 | Éducation Sportive : 17 | Éducation Artistique : 14', commentaire: 'Yinki a des talents certains en expression écrite. Son travail en éducation scientifique pourrait être renforcé par des exercices pratiques à la maison.'},
+      'BANI': {prenom: 'rahama', nom: 'BANI Rahama', classe: 'CE1', moyenne: '15.11 / 20 (atteinte ✓)', notes: 'Lecture : 13.75 | Expression Écrite : 18.25 | Dictée : 12 | Éducation Sociale : 20 | Éducation Scientifique : 17 | Dessin : 14.5 | Mathématiques : 7.25 | Éducation Sportive : 18 | Éducation Artistique : 15', commentaire: 'Rahama brille particulièrement en éducation sociale où elle a obtenu la note maximale ! Son engagement en mathématiques mériterait d’être soutenu.'},
+      'DAHOUGOU': {prenom: 'noham', nom: 'DAHOUGOU Noham', classe: 'CE1', moyenne: '12.36 / 20 (légèrement au-dessus, mais reste fragile)', notes: 'Lecture : 15.25 | Expression Écrite : 18.50 | Dictée : 3 | Éducation Sociale : 12 | Éducation Scientifique : 8.75 | Dessin : 13 | Mathématiques : 5.75 | Éducation Sportive : 18 | Éducation Artistique : 14', commentaire: 'Noham montre de belles capacités en expression écrite et en éducation sportive. Sa moyenne (12,36) est juste au-dessus de l’objectif de 12/20. Il faut absolument consolider les acquis et fournir un travail régulier supplémentaire en dictée et en mathématiques pour éviter de redescendre.'},
+      'EDA': {prenom: 'queen', nom: 'EDA Queen', classe: 'CE1', moyenne: '14.36 / 20 (atteinte ✓)', notes: 'Lecture : 19 | Expression Écrite : 18.25 | Dictée : 4 | Éducation Sociale : 13.75 | Éducation Scientifique : 14.5 | Dessin : 12 | Mathématiques : 15.75 | Éducation Sportive : 18 | Éducation Artistique : 14', commentaire: 'Queen possède d’excellentes compétences en lecture. Nous devons travailler ensemble sur la dictée pour améliorer son orthographe.'},
+      'HOUEHOU': {prenom: 'méka', nom: 'HOUEHOU Méka', classe: 'CE1', moyenne: '15.44 / 20 (atteinte ✓)', notes: 'Lecture : 18.75 | Expression Écrite : 19.5 | Dictée : 9 | Éducation Sociale : 15 | Éducation Scientifique : 14 | Dessin : 14.5 | Mathématiques : 17.25 | Éducation Sportive : 17 | Éducation Artistique : 13', commentaire: 'Méka est un élève très appliqué qui obtient d’excellents résultats dans la plupart des matières. Félicitations pour ce beau travail !'},
+      'PADONOU': {prenom: 'faith', nom: 'PADONOU Faith', classe: 'CE1', moyenne: '14.97 / 20 (atteinte ✓)', notes: 'Lecture : 19 | Expression Écrite : 15.75 | Dictée : 4 | Éducation Sociale : 19 | Éducation Scientifique : 17.25 | Dessin : 15 | Mathématiques : 13.75 | Éducation Sportive : 18 | Éducation Artistique : 13', commentaire: 'Faith excelle en lecture et en éducation sociale. Continuez à l’encourager dans sa progression en expression écrite.'},
+      'SOVI': {prenom: 'péniel', nom: 'SOVI Péniel', classe: 'CE1', moyenne: '14.89 / 20 (atteinte ✓)', notes: 'Lecture : 12.5 | Expression Écrite : 18.25 | Dictée : 8 | Éducation Sociale : 18.5 | Éducation Scientifique : 16.5 | Dessin : 13 | Mathématiques : 16.25 | Éducation Sportive : 17 | Éducation Artistique : 14', commentaire: 'Péniel montre de très bonnes aptitudes en éducation sociale et scientifique. Un petit effort en lecture serait bénéfique.'},
+      'TOSSAVI': {prenom: 'naelle', nom: 'TOSSAVI Naelle', classe: 'CE1', moyenne: '15.44 / 20 (atteinte ✓)', notes: 'Lecture : 19 | Expression Écrite : 16.75 | Dictée : 9 | Éducation Sociale : 18 | Éducation Scientifique : 18 | Dessin : 15 | Mathématiques : 12.25 | Éducation Sportive : 17 | Éducation Artistique : 14', commentaire: 'Naelle a obtenu d’excellents résultats en lecture, éducation sociale et scientifique. Continuez sur cette belle lancée !'}
+    };
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('identifiant').value.trim().toUpperCase();
+      const pwd = document.getElementById('motdepasse').value.trim().toLowerCase();
+      if (eleves[id] && eleves[id].prenom === pwd) {
+        const eleve = eleves[id];
+        document.getElementById('nom-classe').textContent = eleve.nom + ' - ' + eleve.classe + ' – École : Les Bulles de Joie';
+        document.getElementById('moyenne').innerHTML = '<strong>Moyenne :</strong> ' + eleve.moyenne;
+        document.getElementById('matieres-notes').innerHTML = '<strong>Matières et notes :</strong><br>' + eleve.notes;
+        document.getElementById('commentaire').innerHTML = '<strong>Commentaire du maître :</strong><br>' + eleve.commentaire;
+        document.getElementById('bulletin').style.display = 'block';
+      } else {
+        alert('Identifiant ou mot de passe incorrect.');
+      }
+    });
+
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const content = document.getElementById('bulletin-content').innerText;
+      doc.text(content, 10, 10);
+      doc.save('bulletin.pdf');
+    }
+
+    function downloadImage() {
+      html2canvas(document.getElementById('bulletin-content')).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'bulletin.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+
+</body>
+</html>
