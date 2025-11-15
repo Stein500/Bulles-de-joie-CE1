@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr-BJ" itemscope itemtype="https://schema.org/EducationalOrganization">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats - Les Bulles de Joie - Excellence Académique</title>
+    <meta name="description" content="Consultez les résultats exceptionnels de nos élèves. Bulletins, progressions et témoignages de réussite.">
+    
+    <!-- SEO Excellence -->
+    <meta name="keywords" content="résultats scolaires, bulletins élèves, progression académique, excellence éducative">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body data-theme="light">
+    <!-- Header et Navigation identiques -->
+
+    <main class="main-content">
+        <!-- Hero des Résultats -->
+        <section class="hero-section" style="background: var(--rose-fuchsia);">
+            <div class="hero-content">
+                <h1 class="hero-title">L'Excellence en Chiffres</h1>
+                <p class="hero-subtitle">Des résultats qui parlent d'eux-mêmes</p>
+                
+                <div class="results-stats-preview">
+                    <div class="stat-preview">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Taux de Réussite</div>
+                    </div>
+                    <div class="stat-preview">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Élèves Bilingues</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Accès Sécurisé -->
+        <section class="section access-section">
+            <div class="container">
+                <div class="access-container">
+                    <h2 class="section-title">Accès aux Résultats</h2>
+                    <p class="section-subtitle">Espace sécurisé pour les parents</p>
+                    
+                    <div class="login-interface">
+                        <div class="login-visual">
+                            <div class="security-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Accès Sécurisé</span>
+                            </div>
+                        </div>
+                        
+                        <div class="login-form">
+                            <form id="resultsLoginForm">
+                                <div class="form-group">
+                                    <label for="studentCode">Code Élève</label>
+                                    <input type="text" id="studentCode" placeholder="Ex: BDJ2025-001" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="parentPassword">Mot de passe Parent</label>
+                                    <input type="password" id="parentPassword" placeholder="Votre mot de passe" required>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-large">
+                                    <i class="fas fa-lock-open"></i>
+                                    Accéder aux résultats
+                                </button>
+                            </form>
+                            
+                            <div class="login-help">
+                                <p>Problème d'accès ? <a href="contact.html">Contactez-nous</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Statistiques Globales -->
+        <section class="section stats-section" style="background: var(--fond-vert);">
+            <div class="container">
+                <h2 class="section-title">Performance Globale 2024</h2>
+                
+                <div class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-chart">
+                            <div class="chart-circle" data-percentage="95">
+                                <span>95%</span>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Réussite Académique</h3>
+                            <p>Taux de réussite aux évaluations nationales</p>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-chart">
+                            <div class="chart-circle" data-percentage="100">
+                                <span>100%</span>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Maîtrise Bilingue</h3>
+                            <p>Élèves totalement bilingues en fin de cycle</p>
+                        </div>
+                    </div>
+                    
+                    <div class="performance-card">
+                        <div class="performance-chart">
+                            <div class="chart-circle" data-percentage="98">
+                                <span>98%</span>
+                            </div>
+                        </div>
+                        <div class="performance-info">
+                            <h3>Satisfaction Parents</h3>
+                            <p>Taux de recommandation et satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Résultats par Classe -->
+        <section class="section class-results-section">
+            <div class="container">
+                <h2 class="section-title">Résultats par Niveau</h2>
+                
+                <div class="class-selector">
+                    <button class="class-btn active" data-class="ci">CI</button>
+                    <button class="class-btn" data-class="cp">CP</button>
+                    <button class="class-btn" data-class="ce1">CE1</button>
+                    <button class="class-btn" data-class="ce2">CE2</button>
+                </div>
+                
+                <div class="class-results-container">
+                    <!-- CI -->
+                    <div class="class-results active" id="class-ci">
+                        <div class="class-header">
+                            <h3>Cours d'Initiation (CI)</h3>
+                            <div class="class-teacher">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>Enseignante responsable</span>
+                            </div>
+                        </div>
+                        
+                        <div class="results-overview">
+                            <div class="overview-stats">
+                                <div class="overview-stat">
+                                    <div class="stat-value">92%</div>
+                                    <div class="stat-label">Moyenne Générale</div>
+                                </div>
+                                <div class="overview-stat">
+                                    <div class="stat-value">15.2/20</div>
+                                    <div class="stat-label">Moyenne Français</div>
+                                </div>
+                                <div class="overview-stat">
+                                    <div class="stat-value">16.8/20</div>
+                                    <div class="stat-label">Moyenne Mathématiques</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="download-options">
+                            <h4>Télécharger les bulletins</h4>
+                            <div class="download-buttons">
+                                <button class="btn-download" data-format="pdf">
+                                    <i class="fas fa-file-pdf"></i>
+                                    Format PDF
+                                </button>
+                                <button class="btn-download" data-format="image">
+                                    <i class="fas fa-image"></i>
+                                    Format Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Autres classes -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Témoignages de Réussite -->
+        <section class="section testimonials-section" style="background: var(--fond-rose);">
+            <div class="container">
+                <h2 class="section-title">Ils Témoignent de leur Réussite</h2>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"Notre fille a développé une confiance extraordinaire grâce à l'art oratoire. Ses résultats en français ont bondi !"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">👨‍👩‍👧</div>
+                            <div class="author-info">
+                                <strong>Famille K.</strong>
+                                <span>Parents de Sophia (CE1)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p>"Le bilinguisme naturel acquis aux Bulles de Joie a ouvert des portes incroyables à notre fils."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">👩‍👦</div>
+                            <div class="author-info">
+                                <strong>Maman de Lucas</strong>
+                                <span>Ancien élève</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/results-system.js"></script>
+    
+    <style>
+        /* Styles spécifiques aux résultats */
+        .results-stats-preview {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-preview {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-preview .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .stat-preview .stat-label {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        
+        .access-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .login-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .security-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 3rem;
+            background: var(--fond-rose);
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .security-badge i {
+            font-size: 4rem;
+            color: var(--rose-fuchsia);
+        }
+        
+        .security-badge span {
+            font-weight: 700;
+            color: var(--rose-fuchsia);
+            font-size: 1.2rem;
+        }
+        
+        .login-form {
+            padding: 2rem 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--noir);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--fond-rose);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .form-group input:focus {
+            border-color: var(--rose-fuchsia);
+            outline: none;
+        }
+        
+        .login-help {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gris);
+        }
+        
+        .login-help a {
+            color: var(--rose-fuchsia);
+            font-weight: 600;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .performance-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .performance-chart {
+            margin-bottom: 1.5rem;
+        }
+        
+        .chart-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--rose-fuchsia) 0%,
+                var(--fond-rose) 0%
+            );
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .chart-circle::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .chart-circle span {
+            position: relative;
+            z-index: 2;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--rose-fuchsia);
+        }
+        
+        .performance-info h3 {
+            color: var(--rose-fuchsia);
+            margin-bottom: 0.5rem;
+        }
+        
+        .class-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .class-btn {
+            padding: 1rem 2rem;
+            background: var(--fond-rose);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+            color: var(--noir);
+        }
+        
+        .class-btn.active {
+            background: var(--gradient-accueil);
+            color: white;
+        }
+        
+        .class-results {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .class-results.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .class-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--fond-rose);
+        }
+        
+        .class-header h3 {
+            color: var(--rose-fuchsia);
+            margin: 0;
+        }
+        
+        .class-teacher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gris);
+        }
+        
+        .results-overview {
+            margin-bottom: 2rem;
+        }
+        
+        .overview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .overview-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--fond-rose);
+            border-radius: 15px;
+        }
+        
+        .overview-stat .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--rose-fuchsia);
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-options {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 2px solid var(--fond-rose);
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-download {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--rose-fuchsia);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+        }
+        
+        .btn-download:hover {
+            background: var(--vert-citron);
+            color: var(--noir);
+            transform: translateY(-2px);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            color: var(--gris);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-avatar {
+            font-size: 2rem;
+        }
+        
+        .author-info strong {
+            display: block;
+            color: var(--rose-fuchsia);
+        }
+        
+        .author-info span {
+            font-size: 0.9rem;
+            color: var(--gris);
+        }
+        
+        @media (max-width: 768px) {
+            .login-interface {
+                grid-template-columns: 1fr;
+            }
+            
+            .class-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .overview-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-download {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html>
