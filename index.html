@@ -13,7 +13,7 @@
     <style>
         /* ===== VARIABLES ET RESET ===== */
         :root {
-            /* Couleurs principales */
+            /* Couleurs principales renforcées */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -21,22 +21,28 @@
             --light-pink: #ffccf9;
             --light-green: #e7ffb3;
             --dark-purple: #2d1b69;
+            --lemon-green-light: #e7ffb3;
+            --fuchsia-light: #ffccf9;
+            --lemon-green-dark: #a3d900;
+            --fuchsia-dark: #cc00cc;
             
             /* Couleurs de soutien */
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
             
-            /* Dégradés */
+            /* Dégradés améliorés */
             --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--fuchsia-dark) 0%, var(--lemon-green-dark) 100%);
             --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            --gradient-hero: linear-gradient(135deg, var(--fuchsia-dark) 0%, var(--lemon-green-dark) 100%);
             
             /* Ombres */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
             --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            --shadow-glow-green: 0 0 30px rgba(198, 255, 0, 0.3);
             
             /* Transitions */
             --transition-fast: all 0.3s ease;
@@ -173,27 +179,96 @@
             100% { transform: translateY(0) translateX(0); opacity: 0.7; }
         }
 
-        /* ===== INTRODUCTION ANIMATION ===== */
+        /* ===== NOUVELLES ANIMATIONS INTRO ===== */
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 20px rgba(255,255,255,0.5)); }
+            100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.8)); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-20px) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        @keyframes introExit {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
+                visibility: hidden;
+            }
+        }
+
+        /* ===== INTRODUCTION AMÉLIORÉE ===== */
         .intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--gradient-dark);
+            background: var(--gradient-hero);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 1s ease;
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         .intro-container {
             text-align: center;
             color: white;
             position: relative;
+            perspective: 1000px;
         }
 
+        /* Bulles améliorées */
         .floating-bubbles {
             position: absolute;
             top: 0;
@@ -206,8 +281,9 @@
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
             animation: bubbleFloat 8s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
         }
 
         .b1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
@@ -215,37 +291,129 @@
         .b3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
         .b4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
         .b5 { width: 70px; height: 70px; top: 10%; left: 50%; animation-delay: 4s; }
+        .b6 { width: 25px; height: 25px; top: 30%; left: 90%; animation-delay: 5s; }
+        .b7 { width: 45px; height: 45px; top: 70%; left: 5%; animation-delay: 6s; }
+        .b8 { width: 35px; height: 35px; top: 85%; left: 60%; animation-delay: 7s; }
 
-        .logo-reveal {
-            animation: fadeIn 1.5s ease;
+        /* Container du logo avec effets */
+        .logo-glow-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .logo-orbital-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180px;
+            height: 180px;
+            margin: -90px 0 0 -90px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: orbit 4s linear infinite;
+        }
+
+        .logo-pulse-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 160px;
+            height: 160px;
+            margin: -80px 0 0 -80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulseGlow 2s ease-in-out infinite;
         }
 
         .intro-logo {
-            max-width: 120px;
+            max-width: 140px;
             height: auto;
-            margin-bottom: 2rem;
-            animation: logoFloat 3s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+            animation: logoFloat 3s ease-in-out infinite, logoGlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+        }
+
+        /* Texte magique */
+        .magic-text {
+            background: linear-gradient(45deg, var(--lemon-green), var(--fuchsia), var(--white));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
         }
 
         .logo-text {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 30px rgba(255,255,255,0.5);
         }
 
         .text-part {
             display: block;
             opacity: 0;
-            animation: slideInUp 0.8s ease forwards;
+            transform: translateY(30px) rotateX(45deg);
+            animation: textReveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        .text-part:nth-child(1) { animation-delay: 0.5s; }
-        .text-part:nth-child(2) { animation-delay: 1s; }
+        .text-part:nth-child(1) { animation-delay: 0.8s; }
+        .text-part:nth-child(2) { animation-delay: 1.3s; }
+
+        /* Sous-titre avec particules */
+        .subtitle-container {
+            position: relative;
+            display: inline-block;
+        }
 
         .logo-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             opacity: 0;
-            animation: fadeIn 1s ease 1.5s forwards;
+            animation: fadeInUp 1s ease 1.8s forwards;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sparkle-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .s1 { top: -10px; left: 20%; animation: sparkleFloat 2s ease 2s infinite; }
+        .s2 { top: 50%; right: 10%; animation: sparkleFloat 2s ease 2.2s infinite; }
+        .s3 { bottom: -10px; left: 60%; animation: sparkleFloat 2s ease 2.4s infinite; }
+
+        /* Barre de chargement */
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 2rem auto 0;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 2s forwards;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--lemon-green), var(--fuchsia));
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease-in-out;
+            transform-origin: left;
         }
 
         /* ===== LOGO STYLES ===== */
@@ -420,7 +588,7 @@
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
         }
 
         .btn-secondary {
@@ -489,7 +657,7 @@
 
         /* ===== HERO SECTION ===== */
         .hero {
-            background: var(--gradient-dark);
+            background: var(--gradient-hero);
             color: white;
             padding: 8rem 0 4rem;
             text-align: center;
@@ -1282,7 +1450,7 @@
     </style>
 </head>
 <body>
-    <!-- Animation d'introduction immersive -->
+    <!-- Nouvelle Animation d'introduction immersive améliorée -->
     <div id="intro-overlay" class="intro-overlay">
         <div class="intro-container">
             <div class="floating-bubbles">
@@ -1291,16 +1459,35 @@
                 <div class="bubble b3"></div>
                 <div class="bubble b4"></div>
                 <div class="bubble b5"></div>
+                <div class="bubble b6"></div>
+                <div class="bubble b7"></div>
+                <div class="bubble b8"></div>
             </div>
+            
             <div class="logo-reveal">
-                <div class="logo-image-container">
+                <div class="logo-glow-container">
+                    <div class="logo-orbital-ring"></div>
+                    <div class="logo-pulse-effect"></div>
                     <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
                 </div>
+                
                 <h1 class="logo-text">
-                    <span class="text-part">Les Bulles</span>
-                    <span class="text-part">de Joie</span>
+                    <span class="text-part magic-text">Les Bulles</span>
+                    <span class="text-part magic-text">de Joie</span>
                 </h1>
-                <p class="logo-subtitle">École Bilingue d'Excellence</p>
+                
+                <div class="subtitle-container">
+                    <p class="logo-subtitle">École Bilingue d'Excellence</p>
+                    <div class="sparkle-particles">
+                        <div class="sparkle s1"></div>
+                        <div class="sparkle s2"></div>
+                        <div class="sparkle s3"></div>
+                    </div>
+                </div>
+                
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -1537,7 +1724,7 @@
                         </div>
                         <div class="cycle-content">
                             <h3>Primaire Bilingue</h3>
-                            <span class="cycle-age">6-11 ans</span>
+                            <span class="cycle-age">À partir de 6 ans (6 ans +)</span>
                             <p>Programme bilingue enrichi, technologies éducatives et développement de l'esprit critique.</p>
                             <div class="cycle-schedule">
                                 <strong>Horaires :</strong> 7h30 - 12h & 15h - 17h30
@@ -1817,17 +2004,23 @@
                 });
             }
 
-            // Gestion de l'animation d'introduction
+            // Gestion améliorée de l'animation d'introduction
             handleIntroAnimation() {
                 const introOverlay = document.getElementById('intro-overlay');
                 if (introOverlay) {
-                    // Afficher l'intro pendant 3 secondes puis la faire disparaître
+                    // Animation de sortie après 4 secondes
                     setTimeout(() => {
-                        introOverlay.style.opacity = '0';
+                        introOverlay.style.animation = 'introExit 1s ease forwards';
                         setTimeout(() => {
                             introOverlay.style.display = 'none';
+                            
+                            // Notification de bienvenue améliorée
+                            this.showNotification(
+                                '🌟 Bienvenue aux Bulles de Joie - Votre école bilingue d\'excellence à Parakou !', 
+                                'success'
+                            );
                         }, 1000);
-                    }, 3000);
+                    }, 4000);
                 }
             }
 
@@ -1890,13 +2083,6 @@
         // ===== INITIALISATION =====
         document.addEventListener('DOMContentLoaded', () => {
             window.homeManager = new HomeManager();
-            
-            // Message de bienvenue
-            setTimeout(() => {
-                if (window.homeManager.showNotification) {
-                    window.homeManager.showNotification('Bienvenue aux Bulles de Joie!', 'success');
-                }
-            }, 3500);
         });
     </script>
 </body>
