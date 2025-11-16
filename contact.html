@@ -601,24 +601,29 @@
 
         .levels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
         .level-contact {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: var(--gray-light);
+            background: var(--white);
             border-radius: var(--border-radius);
-            transition: var(--transition-fast);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            transition: var(--transition-normal);
         }
 
         .level-contact:hover {
-            background: var(--light-pink);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .level-icon {
@@ -636,11 +641,19 @@
         .level-info h4 {
             margin-bottom: 0.25rem;
             color: var(--fuchsia);
+            font-size: 1.2rem;
         }
 
         .level-info p {
             font-weight: 700;
             font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .level-action {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         /* Formulaire de contact */
@@ -689,6 +702,23 @@
         .form-submit {
             width: 100%;
             margin-top: 1rem;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--fuchsia);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Section horaires */
@@ -1018,6 +1048,10 @@
                 flex-direction: column;
             }
             
+            .level-action {
+                flex-direction: column;
+            }
+            
             .levels-grid {
                 grid-template-columns: 1fr;
             }
@@ -1061,6 +1095,10 @@
             }
             
             .level-contact {
+                padding: 1.5rem;
+            }
+            
+            .level-header {
                 flex-direction: column;
                 text-align: center;
             }
@@ -1195,9 +1233,11 @@
                                 <textarea id="message" class="form-textarea" required></textarea>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary form-submit">
-                                <i class="fas fa-paper-plane"></i>
-                                Envoyer le message
+                            <div class="loading-spinner" id="loadingSpinner"></div>
+                            
+                            <button type="submit" class="btn btn-primary form-submit" id="submitButton">
+                                <i class="fab fa-whatsapp"></i>
+                                Envoyer via WhatsApp
                             </button>
                         </form>
                     </div>
@@ -1336,62 +1376,134 @@
                 
                 <div class="levels-grid">
                     <div class="level-contact">
-                        <div class="level-icon">
-                            <i class="fas fa-child"></i>
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Maternelle 1</h4>
+                                <p>+229 01 49 77 77 02</p>
+                            </div>
                         </div>
-                        <div class="level-info">
-                            <h4>Maternelle 1</h4>
-                            <p>+229 01 49 77 77 02</p>
-                        </div>
-                    </div>
-                    
-                    <div class="level-contact">
-                        <div class="level-icon">
-                            <i class="fas fa-child"></i>
-                        </div>
-                        <div class="level-info">
-                            <h4>Maternelle 2</h4>
-                            <p>+229 01 49 77 77 03</p>
-                        </div>
-                    </div>
-                    
-                    <div class="level-contact">
-                        <div class="level-icon">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                        <div class="level-info">
-                            <h4>Cours d'Initiation (CI)</h4>
-                            <p>+229 01 49 77 77 06</p>
+                        <div class="level-action">
+                            <a href="tel:+2290149777702" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777702" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
                         </div>
                     </div>
                     
                     <div class="level-contact">
-                        <div class="level-icon">
-                            <i class="fas fa-user-graduate"></i>
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Maternelle 2</h4>
+                                <p>+229 01 49 77 77 03</p>
+                            </div>
                         </div>
-                        <div class="level-info">
-                            <h4>Cours Préparatoire (CP)</h4>
-                            <p>+229 01 49 77 77 07</p>
+                        <div class="level-action">
+                            <a href="tel:+2290149777703" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777703" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
                         </div>
                     </div>
                     
                     <div class="level-contact">
-                        <div class="level-icon">
-                            <i class="fas fa-user-graduate"></i>
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Cours d'Initiation (CI)</h4>
+                                <p>+229 01 49 77 77 06</p>
+                            </div>
                         </div>
-                        <div class="level-info">
-                            <h4>Cours Élémentaire 1 (CE1)</h4>
-                            <p>+229 01 49 77 77 08</p>
+                        <div class="level-action">
+                            <a href="tel:+2290149777706" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777706" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
                         </div>
                     </div>
                     
                     <div class="level-contact">
-                        <div class="level-icon">
-                            <i class="fas fa-user-graduate"></i>
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Cours Préparatoire (CP)</h4>
+                                <p>+229 01 49 77 77 07</p>
+                            </div>
                         </div>
-                        <div class="level-info">
-                            <h4>Cours Élémentaire 2 (CE2)</h4>
-                            <p>+229 01 49 77 77 09</p>
+                        <div class="level-action">
+                            <a href="tel:+2290149777707" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777707" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="level-contact">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Cours Élémentaire 1 (CE1)</h4>
+                                <p>+229 01 49 77 77 08</p>
+                            </div>
+                        </div>
+                        <div class="level-action">
+                            <a href="tel:+2290149777708" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777708" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="level-contact">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Cours Élémentaire 2 (CE2)</h4>
+                                <p>+229 01 49 77 77 09</p>
+                            </div>
+                        </div>
+                        <div class="level-action">
+                            <a href="tel:+2290149777709" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777709" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1747,14 +1859,16 @@
             }
 
             // Gestion de la soumission du formulaire
-            handleFormSubmission() {
+            async handleFormSubmission() {
                 const form = document.getElementById('contactForm');
-                const formData = new FormData(form);
+                const submitButton = document.getElementById('submitButton');
+                const loadingSpinner = document.getElementById('loadingSpinner');
                 
                 // Validation basique
                 const firstName = document.getElementById('firstName').value;
                 const lastName = document.getElementById('lastName').value;
                 const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
                 const subject = document.getElementById('subject').value;
                 const message = document.getElementById('message').value;
                 
@@ -1763,13 +1877,50 @@
                     return;
                 }
                 
-                // Simulation d'envoi
-                this.showNotification('Envoi du message en cours...', 'info');
+                // Afficher le loading
+                submitButton.style.display = 'none';
+                loadingSpinner.style.display = 'block';
                 
-                setTimeout(() => {
-                    this.showNotification('Message envoyé avec succès! Nous vous répondrons dans les plus brefs délais.', 'success');
+                try {
+                    // Envoi par WhatsApp
+                    this.sendWhatsApp(form);
+                    
+                    this.showNotification('Message envoyé avec succès!', 'success');
                     form.reset();
-                }, 2000);
+                    
+                } catch (error) {
+                    this.showNotification('Erreur lors de l\'envoi. Veuillez réessayer.', 'error');
+                } finally {
+                    // Cacher le loading
+                    submitButton.style.display = 'flex';
+                    loadingSpinner.style.display = 'none';
+                }
+            }
+
+            // Envoi par WhatsApp
+            sendWhatsApp(form) {
+                const data = {
+                    firstName: form.querySelector('#firstName').value,
+                    lastName: form.querySelector('#lastName').value,
+                    email: form.querySelector('#email').value,
+                    phone: form.querySelector('#phone').value,
+                    subject: form.querySelector('#subject').value,
+                    message: form.querySelector('#message').value
+                };
+
+                const whatsappMessage = `Nouveau message de contact - Les Bulles de Joie%0A%0A` +
+                    `*INFORMATIONS PERSONNELLES*%0A` +
+                    `👤 ${data.firstName} ${data.lastName}%0A` +
+                    `📧 ${data.email}%0A` +
+                    `📞 ${data.phone || 'Non renseigné'}%0A%0A` +
+                    `*SUJET:* ${data.subject}%0A%0A` +
+                    `*MESSAGE:*%0A${data.message}%0A%0A` +
+                    `Date: ${new Date().toLocaleString('fr-FR')}`;
+
+                const whatsappUrl = `https://wa.me/2290197919452?text=${whatsappMessage}`;
+                
+                // Ouvrir WhatsApp dans un nouvel onglet
+                window.open(whatsappUrl, '_blank');
             }
 
             // Copier dans le presse-papier
