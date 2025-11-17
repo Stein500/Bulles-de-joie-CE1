@@ -6,14 +6,27 @@
     <title>Les Bulles de Joie - École Bilingue d'Excellence à Parakou</title>
     <meta name="description" content="École Les Bulles de Joie à Parakou : Crèche, Garderie, Maternelle et Primaire Bilingue. Pédagogie innovante depuis 2017. Cadre féerique stimulant et sécurisant.">
     
-    <!-- Polices -->
+    <!-- SEO Optimizations -->
+    <meta name="keywords" content="école bilingue Parakou, crèche Parakou, maternelle bilingue, primaire bilingue, éducation Bénin, Les Bulles de Joie">
+    <meta name="author" content="Les Bulles de Joie">
+    <link rel="canonical" href="https://lesbullesdejoie.bj">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Les Bulles de Joie - École Bilingue d'Excellence à Parakou">
+    <meta property="og:description" content="Crèche, Garderie, Maternelle et Primaire Bilingue. Pédagogie innovante depuis 2017">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lesbullesdejoie.bj">
+    
+    <!-- Polices optimisées -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== VARIABLES ET RESET ===== */
+        /* ===== VARIABLES ET RESET OPTIMISÉS ===== */
         :root {
-            /* Couleurs principales renforcées */
+            /* Couleurs solides comme demandé */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -21,33 +34,21 @@
             --light-pink: #ffccf9;
             --light-green: #e7ffb3;
             --dark-purple: #2d1b69;
-            --lemon-green-light: #e7ffb3;
-            --fuchsia-light: #ffccf9;
-            --lemon-green-dark: #a3d900;
-            --fuchsia-dark: #cc00cc;
             
             /* Couleurs de soutien */
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
             
-            /* Dégradés améliorés */
-            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--fuchsia-dark) 0%, var(--lemon-green-dark) 100%);
-            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
-            --gradient-hero: linear-gradient(135deg, var(--fuchsia-dark) 0%, var(--lemon-green-dark) 100%);
-            
-            /* Ombres */
+            /* Ombres optimisées */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
             --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
-            --shadow-glow-green: 0 0 30px rgba(198, 255, 0, 0.3);
             
-            /* Transitions */
+            /* Transitions performantes */
             --transition-fast: all 0.3s ease;
             --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             
             /* Bordures */
             --border-radius: 20px;
@@ -73,93 +74,31 @@
             overflow-x: hidden;
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+            to { opacity: 0; visibility: hidden; }
         }
 
         @keyframes floatBubble {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px);
-            }
-            50% {
-                transform: translateY(-40px) translateX(-10px);
-            }
-            75% {
-                transform: translateY(-20px) translateX(-5px);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-40px) translateX(-10px); }
+            75% { transform: translateY(-20px) translateX(-5px); }
         }
 
         @keyframes slideInUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
 
         @keyframes logoFloat {
@@ -167,93 +106,20 @@
             50% { transform: translateY(-10px) scale(1.05); }
         }
 
-        @keyframes floatBackground {
-            0% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-20px) translateX(10px); }
-            100% { transform: translateY(0) translateX(0); }
-        }
-
-        @keyframes bubbleFloat {
-            0% { transform: translateY(0) translateX(0); opacity: 0.7; }
-            50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
-            100% { transform: translateY(0) translateX(0); opacity: 0.7; }
-        }
-
-        /* ===== NOUVELLES ANIMATIONS INTRO ===== */
-        @keyframes orbit {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        @keyframes logoGlow {
-            0% { filter: drop-shadow(0 0 20px rgba(255,255,255,0.5)); }
-            100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.8)); }
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes textReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0) rotateX(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes sparkleFloat {
-            0%, 100% {
-                transform: translateY(0) scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: translateY(-20px) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes loadingProgress {
-            0% { transform: scaleX(0); }
-            100% { transform: scaleX(1); }
-        }
-
         @keyframes introExit {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.1);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.8);
-                visibility: hidden;
-            }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
         }
 
-        /* ===== INTRODUCTION AMÉLIORÉE ===== */
+        /* ===== INTRODUCTION OPTIMISÉE ===== */
         .intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--gradient-hero);
+            background: var(--fuchsia);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -265,10 +131,8 @@
             text-align: center;
             color: white;
             position: relative;
-            perspective: 1000px;
         }
 
-        /* Bulles améliorées */
         .floating-bubbles {
             position: absolute;
             top: 0;
@@ -282,171 +146,88 @@
             position: absolute;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
-            animation: bubbleFloat 8s infinite ease-in-out;
-            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            animation: floatBubble 8s infinite ease-in-out;
         }
 
         .b1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
         .b2 { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 1s; }
         .b3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
         .b4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
-        .b5 { width: 70px; height: 70px; top: 10%; left: 50%; animation-delay: 4s; }
-        .b6 { width: 25px; height: 25px; top: 30%; left: 90%; animation-delay: 5s; }
-        .b7 { width: 45px; height: 45px; top: 70%; left: 5%; animation-delay: 6s; }
-        .b8 { width: 35px; height: 35px; top: 85%; left: 60%; animation-delay: 7s; }
 
-        /* Container du logo avec effets */
         .logo-glow-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 3rem;
-        }
-
-        .logo-orbital-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 180px;
-            height: 180px;
-            margin: -90px 0 0 -90px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            animation: orbit 4s linear infinite;
-        }
-
-        .logo-pulse-effect {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 160px;
-            height: 160px;
-            margin: -80px 0 0 -80px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulseGlow 2s ease-in-out infinite;
+            margin-bottom: 2rem;
         }
 
         .intro-logo {
-            max-width: 140px;
-            height: auto;
-            position: relative;
-            z-index: 2;
-            animation: logoFloat 3s ease-in-out infinite, logoGlow 2s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
-        }
-
-        /* Texte magique */
-        .magic-text {
-            background: linear-gradient(45deg, var(--lemon-green), var(--fuchsia), var(--white));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease infinite;
+            width: 140px;
+            height: 140px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 20px;
+            animation: logoFloat 3s ease-in-out infinite;
+            box-shadow: var(--shadow-lg);
         }
 
         .logo-text {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 30px rgba(255,255,255,0.5);
+            margin-bottom: 1rem;
+            color: var(--white);
         }
 
         .text-part {
             display: block;
             opacity: 0;
-            transform: translateY(30px) rotateX(45deg);
-            animation: textReveal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            transform: translateY(30px);
+            animation: slideInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        .text-part:nth-child(1) { animation-delay: 0.8s; }
-        .text-part:nth-child(2) { animation-delay: 1.3s; }
-
-        /* Sous-titre avec particules */
-        .subtitle-container {
-            position: relative;
-            display: inline-block;
-        }
+        .text-part:nth-child(1) { animation-delay: 0.5s; }
+        .text-part:nth-child(2) { animation-delay: 1s; }
 
         .logo-subtitle {
             font-size: 1.4rem;
             opacity: 0;
-            animation: fadeInUp 1s ease 1.8s forwards;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease 1.5s forwards;
+            margin-bottom: 2rem;
         }
 
-        .sparkle-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-        }
-
-        .s1 { top: -10px; left: 20%; animation: sparkleFloat 2s ease 2s infinite; }
-        .s2 { top: 50%; right: 10%; animation: sparkleFloat 2s ease 2.2s infinite; }
-        .s3 { bottom: -10px; left: 60%; animation: sparkleFloat 2s ease 2.4s infinite; }
-
-        /* Barre de chargement */
         .loading-bar {
             width: 200px;
             height: 4px;
             background: rgba(255,255,255,0.3);
             border-radius: 2px;
-            margin: 2rem auto 0;
+            margin: 0 auto;
             overflow: hidden;
-            opacity: 0;
-            animation: fadeIn 0.5s ease 2s forwards;
         }
 
         .loading-progress {
             height: 100%;
-            background: linear-gradient(90deg, var(--lemon-green), var(--fuchsia));
+            background: var(--lemon-green);
             border-radius: 2px;
             animation: loadingProgress 2.5s ease-in-out;
             transform-origin: left;
         }
 
-        /* ===== LOGO STYLES ===== */
-        .logo-image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
         }
 
-        .header-logo {
-            max-width: 50px;
-            height: auto;
-            margin-right: 10px;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        .footer-logo {
-            max-width: 70px;
-            height: auto;
-            margin-right: 15px;
-        }
-
-        /* ===== HEADER ===== */
+        /* ===== HEADER OPTIMISÉ ===== */
         .main-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 0, 255, 0.1);
             z-index: 1000;
             transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
         }
 
         .header-container {
@@ -464,13 +245,19 @@
             gap: 1rem;
         }
 
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--fuchsia);
         }
 
         .logo-text p {
@@ -478,7 +265,7 @@
             color: var(--gray);
         }
 
-        /* Navigation */
+        /* Navigation optimisée */
         .main-nav {
             display: flex;
             align-items: center;
@@ -487,7 +274,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-link {
@@ -512,7 +299,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transition: var(--transition-fast);
             transform: translateX(-50%);
         }
@@ -523,14 +310,16 @@
         }
 
         .btn-contact {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white) !important;
             padding: 0.75rem 1.5rem !important;
+            border-radius: 25px;
         }
 
         .btn-contact:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+            background: var(--fuchsia);
         }
 
         .nav-toggle {
@@ -548,7 +337,7 @@
             transition: var(--transition-fast);
         }
 
-        /* ===== BOUTONS ===== */
+        /* ===== BOUTONS OPTIMISÉS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -561,27 +350,10 @@
             transition: var(--transition-normal);
             cursor: pointer;
             font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.8s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn-primary {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white);
             box-shadow: var(--shadow-md);
         }
@@ -589,6 +361,7 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
+            background: var(--fuchsia);
         }
 
         .btn-secondary {
@@ -603,20 +376,9 @@
             transform: translateY(-3px);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-outline:hover {
-            background: var(--white);
-            color: var(--fuchsia);
-        }
-
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
-            padding: 6rem 0;
+            padding: 5rem 0;
         }
 
         .container {
@@ -627,21 +389,18 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--fuchsia);
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto 2rem;
@@ -650,30 +409,19 @@
         .section-divider {
             width: 80px;
             height: 4px;
-            background: var(--gradient-primary);
+            background: var(--lemon-green);
             margin: 0 auto;
             border-radius: 2px;
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO SECTION OPTIMISÉE ===== */
         .hero {
-            background: var(--gradient-hero);
+            background: var(--fuchsia);
             color: white;
             padding: 8rem 0 4rem;
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="150" fill="%23ffffff" opacity="0.1"/><circle cx="800" cy="300" r="100" fill="%23ffffff" opacity="0.1"/><circle cx="400" cy="600" r="120" fill="%23ffffff" opacity="0.1"/></svg>');
-            animation: floatBackground 20s infinite linear;
         }
 
         .hero-content {
@@ -692,7 +440,7 @@
         }
 
         .hero-title {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
             line-height: 1.2;
@@ -708,13 +456,13 @@
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
             opacity: 0.9;
         }
 
         .hero-description {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 2.5rem;
             opacity: 0.8;
             line-height: 1.6;
@@ -783,11 +531,6 @@
             animation-delay: 4s;
         }
 
-        .floating-card:hover {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
@@ -822,7 +565,7 @@
             60% { transform: translateX(-50%) translateY(5px); }
         }
 
-        /* ===== IMMERSION SECTION ===== */
+        /* ===== IMMERSION SECTION OPTIMISÉE ===== */
         .immersion-section {
             background: var(--white);
         }
@@ -867,49 +610,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .card-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition-normal);
-            border-radius: var(--border-radius);
-        }
-
-        .immersion-card:hover .card-hover {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card-hover ul {
-            list-style: none;
-            text-align: left;
-        }
-
-        .card-hover li {
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .card-hover li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        /* ===== CYCLES SECTION ===== */
+        /* ===== CYCLES SECTION CORRIGÉE ===== */
         .cycles-section {
             background: var(--gray-light);
         }
@@ -939,7 +640,7 @@
         .cycle-icon {
             width: 80px;
             height: 80px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1008,7 +709,7 @@
         .founding-badge {
             display: inline-flex;
             align-items: center;
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: white;
             padding: 0.5rem 1.5rem;
             border-radius: 30px;
@@ -1060,7 +761,7 @@
         .stat {
             text-align: center;
             padding: 2rem;
-            background: var(--gradient-light);
+            background: var(--light-pink);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
         }
@@ -1079,7 +780,7 @@
 
         /* ===== URGENT SECTION ===== */
         .urgent-section {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: white;
         }
 
@@ -1145,7 +846,7 @@
             opacity: 0.8;
         }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
@@ -1170,6 +871,14 @@
             align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-img {
+            width: 70px;
+            height: 70px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px;
         }
 
         .footer-text h3 {
@@ -1241,7 +950,7 @@
         }
 
         .social-link:hover {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transform: translateX(5px);
         }
 
@@ -1266,7 +975,7 @@
             opacity: 0.7;
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
         @media (max-width: 1024px) {
             .hero-content {
                 grid-template-columns: 1fr;
@@ -1325,11 +1034,11 @@
             }
             
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .hero-subtitle {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .section-title {
@@ -1356,7 +1065,7 @@
 
         @media (max-width: 480px) {
             .hero-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .hero-actions {
@@ -1370,23 +1079,17 @@
             }
             
             .section {
-                padding: 4rem 0;
+                padding: 3rem 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
             }
         }
 
         /* Animation d'entrée des éléments */
         .animate-in {
             animation: slideInUp 0.8s ease both;
-        }
-
-        /* Effet ripple pour les boutons */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
         }
 
         /* Notifications */
@@ -1450,7 +1153,7 @@
     </style>
 </head>
 <body>
-    <!-- Nouvelle Animation d'introduction immersive améliorée -->
+    <!-- Animation d'introduction -->
     <div id="intro-overlay" class="intro-overlay">
         <div class="intro-container">
             <div class="floating-bubbles">
@@ -1458,36 +1161,21 @@
                 <div class="bubble b2"></div>
                 <div class="bubble b3"></div>
                 <div class="bubble b4"></div>
-                <div class="bubble b5"></div>
-                <div class="bubble b6"></div>
-                <div class="bubble b7"></div>
-                <div class="bubble b8"></div>
             </div>
             
-            <div class="logo-reveal">
-                <div class="logo-glow-container">
-                    <div class="logo-orbital-ring"></div>
-                    <div class="logo-pulse-effect"></div>
-                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
-                </div>
-                
-                <h1 class="logo-text">
-                    <span class="text-part magic-text">Les Bulles</span>
-                    <span class="text-part magic-text">de Joie</span>
-                </h1>
-                
-                <div class="subtitle-container">
-                    <p class="logo-subtitle">École Bilingue d'Excellence</p>
-                    <div class="sparkle-particles">
-                        <div class="sparkle s1"></div>
-                        <div class="sparkle s2"></div>
-                        <div class="sparkle s3"></div>
-                    </div>
-                </div>
-                
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
+            <div class="logo-glow-container">
+                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            </div>
+            
+            <h1 class="logo-text">
+                <span class="text-part">Les Bulles</span>
+                <span class="text-part">de Joie</span>
+            </h1>
+            
+            <p class="logo-subtitle">École Bilingue d'Excellence</p>
+            
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
             </div>
         </div>
     </div>
@@ -1592,13 +1280,6 @@
                         </div>
                         <h3>Art Oratoire</h3>
                         <p>Développer la prise de parole, la confiance et l'écoute</p>
-                        <div class="card-hover">
-                            <ul>
-                                <li>Expression verbale</li>
-                                <li>Confiance en soi</li>
-                                <li>Improvisation créative</li>
-                            </ul>
-                        </div>
                     </div>
                     
                     <div class="immersion-card" data-category="jardinage">
@@ -1607,13 +1288,6 @@
                         </div>
                         <h3>Jardinage</h3>
                         <p>Éveiller à la nature, à la patience et à la responsabilité</p>
-                        <div class="card-hover">
-                            <ul>
-                                <li>Connexion à la nature</li>
-                                <li>Patience et observation</li>
-                                <li>Responsabilité écologique</li>
-                            </ul>
-                        </div>
                     </div>
                     
                     <div class="immersion-card" data-category="musique">
@@ -1622,13 +1296,6 @@
                         </div>
                         <h3>Musique</h3>
                         <p>Explorer les sons, les rythmes et les instruments</p>
-                        <div class="card-hover">
-                            <ul>
-                                <li>Développement auditif</li>
-                                <li>Sens du rythme</li>
-                                <li>Culture musicale</li>
-                            </ul>
-                        </div>
                     </div>
                     
                     <div class="immersion-card" data-category="danse">
@@ -1637,13 +1304,6 @@
                         </div>
                         <h3>Danse</h3>
                         <p>Expression corporelle, coordination et plaisir du mouvement</p>
-                        <div class="card-hover">
-                            <ul>
-                                <li>Conscience corporelle</li>
-                                <li>Coordination motrice</li>
-                                <li>Expression émotionnelle</li>
-                            </ul>
-                        </div>
                     </div>
                     
                     <div class="immersion-card" data-category="anglais">
@@ -1652,13 +1312,6 @@
                         </div>
                         <h3>Anglais</h3>
                         <p>Immersion ludique et quotidienne dans la langue</p>
-                        <div class="card-hover">
-                            <ul>
-                                <li>Immersion naturelle</li>
-                                <li>Apprentissage par le jeu</li>
-                                <li>Ouverture culturelle</li>
-                            </ul>
-                        </div>
                     </div>
                     
                     <div class="immersion-card" data-category="creativite">
@@ -1667,19 +1320,12 @@
                         </div>
                         <h3>Créativité</h3>
                         <p>Peinture, collage, modelage et expression artistique</p>
-                        <div class="card-hover">
-                            <ul>
-                                <li>Imagination et créativité</li>
-                                <li>Motricité fine</li>
-                                <li>Expression personnelle</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section Cycles d'Apprentissage -->
+        <!-- Section Cycles d'Apprentissage CORRIGÉE -->
         <section class="section cycles-section">
             <div class="container">
                 <div class="section-header">
@@ -1696,11 +1342,10 @@
                         <div class="cycle-content">
                             <h3>Crèche & Garderie</h3>
                             <span class="cycle-age">À partir de 2 mois</span>
-                            <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement sécurisé et bienveillant.</p>
+                            <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement féerique, sécurisé et bienveillant.</p>
                             <div class="cycle-features">
-                                <span class="feature-tag">Cantine</span>
-                                <span class="feature-tag">Sieste (12h-15h)</span>
-                                <span class="feature-tag">Garderie</span>
+                                <span class="feature-tag">Activités ludiques</span>
+                                <span class="feature-tag">Cadre féerique</span>
                             </div>
                         </div>
                     </div>
@@ -1797,31 +1442,31 @@
                             <div class="contact-item">
                                 <strong>Direction</strong>
                                 <span>+229 01 97 91 94 52</span>
-                                <small>Disponible pour informations</small>
+                                <small>WhatsApp disponible</small>
                             </div>
                             <div class="contact-item">
                                 <strong>Secrétariat</strong>
                                 <span>+229 01 58 03 03 02</span>
-                                <small>WhatsApp disponible</small>
+                                <small>Informations générales</small>
                             </div>
                         </div>
                     </div>
                     <div class="alert-action">
-                        <a href="contact.html" class="btn btn-outline">Voir tous les contacts</a>
+                        <a href="contact.html" class="btn btn-secondary">Voir tous les contacts</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
                         <div class="logo-image-container">
-                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1848,7 +1493,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 01 58 03 03 02</span>
+                            <span>+229 01 97 91 94 52</span>
                         </div>
                     </div>
                 </div>
@@ -1882,6 +1527,10 @@
                             <i class="fab fa-instagram"></i>
                             Instagram
                         </a>
+                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                            TikTok
+                        </a>
                         <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
                             <i class="fas fa-map-marker-alt"></i>
                             Google Maps
@@ -1894,17 +1543,17 @@
                 <div class="footer-legal">
                     <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                     <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>Numéro d'autorisation : N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
                 </div>
                 <div class="footer-credits">
-                    <p>Année scolaire 2025-2026<p>
+                    <p>Année scolaire 2025-2026</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // ===== GESTIONNAIRE DE LA PAGE D'ACCUEIL =====
+        // ===== GESTIONNAIRE DE LA PAGE D'ACCUEIL OPTIMISÉ =====
         class HomeManager {
             constructor() {
                 this.init();
@@ -1915,6 +1564,7 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
+                this.setupPerformanceOptimizations();
             }
 
             // Configuration de la navigation
@@ -1950,18 +1600,11 @@
                         header.style.boxShadow = 'none';
                     }
 
-                    // Cacher/montrer le header au scroll
-                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
-                        header.style.transform = 'translateY(-100%)';
-                    } else {
-                        header.style.transform = 'translateY(0)';
-                    }
-
                     lastScrollY = window.scrollY;
-                });
+                }, { passive: true });
             }
 
-            // Animations au scroll
+            // Animations au scroll optimisées
             setupScrollAnimations() {
                 const observerOptions = {
                     threshold: 0.1,
@@ -1984,13 +1627,6 @@
 
             // Configuration des éléments interactifs
             setupInteractiveElements() {
-                // Effet ripple pour les boutons
-                document.querySelectorAll('.btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        this.createRippleEffect(e);
-                    }.bind(this));
-                });
-
                 // Animation des cartes au survol
                 const cards = document.querySelectorAll('.immersion-card, .cycle-item');
                 
@@ -2005,50 +1641,46 @@
                 });
             }
 
-            // Gestion améliorée de l'animation d'introduction
+            // Gestion de l'animation d'introduction
             handleIntroAnimation() {
                 const introOverlay = document.getElementById('intro-overlay');
                 if (introOverlay) {
-                    // Animation de sortie après 4 secondes
+                    // Animation de sortie après 3 secondes
                     setTimeout(() => {
                         introOverlay.style.animation = 'introExit 1s ease forwards';
                         setTimeout(() => {
                             introOverlay.style.display = 'none';
                             
-                            // Notification de bienvenue améliorée
+                            // Notification de bienvenue
                             this.showNotification(
-                                '🌟 Bienvenue aux Bulles de Joie - Votre école bilingue d\'excellence à Parakou !', 
+                                '🌟 Bienvenue aux Bulles de Joie !', 
                                 'success'
                             );
                         }, 1000);
-                    }, 4000);
+                    }, 3000);
                 }
             }
 
-            // Effet visuel ripple
-            createRippleEffect(e) {
-                const button = e.currentTarget;
-                const ripple = document.createElement('span');
-                const rect = button.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                button.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+            // Optimisations de performance
+            setupPerformanceOptimizations() {
+                // Lazy loading pour les images
+                if ('loading' in HTMLImageElement.prototype) {
+                    const images = document.querySelectorAll('img[loading="lazy"]');
+                    images.forEach(img => {
+                        img.loading = 'lazy';
+                    });
+                }
+
+                // Préchargement des polices critiques
+                const fontLink = document.createElement('link');
+                fontLink.rel = 'preload';
+                fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap';
+                fontLink.as = 'style';
+                document.head.appendChild(fontLink);
             }
 
             // Système de notifications
             showNotification(message, type = 'info') {
-                // Créer la notification
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
                 notification.innerHTML = `
@@ -2060,10 +1692,8 @@
                 
                 document.body.appendChild(notification);
                 
-                // Animation d'entrée
                 setTimeout(() => notification.classList.add('show'), 100);
                 
-                // Supprimer après 4 secondes
                 setTimeout(() => {
                     notification.classList.remove('show');
                     setTimeout(() => notification.remove(), 300);
@@ -2081,10 +1711,22 @@
             }
         }
 
-        // ===== INITIALISATION =====
+        // ===== INITIALISATION OPTIMISÉE =====
         document.addEventListener('DOMContentLoaded', () => {
-            window.homeManager = new HomeManager();
+            // Chargement différé du manager pour meilleure performance
+            setTimeout(() => {
+                window.homeManager = new HomeManager();
+            }, 100);
         });
+
+        // Service Worker pour PWA (optionnel)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(() => console.log('Service Worker enregistré'))
+                    .catch(() => console.log('Service Worker non supporté'));
+            });
+        }
     </script>
 </body>
 </html>
