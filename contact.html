@@ -6,14 +6,20 @@
     <title>Contact - Les Bulles de Joie - École Bilingue Parakou</title>
     <meta name="description" content="Contactez Les Bulles de Joie à Parakou. École bilingue, crèche, garderie, maternelle et primaire. Inscriptions 2025-2026 ouvertes.">
     
-    <!-- Polices -->
+    <!-- SEO Optimizations -->
+    <meta name="keywords" content="contact école Parakou, téléphone Les Bulles de Joie, inscription école bilingue, adresse école Parakou">
+    <meta name="author" content="Les Bulles de Joie">
+    
+    <!-- Polices optimisées -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== VARIABLES ET RESET ===== */
+        /* ===== VARIABLES ET RESET OPTIMISÉS ===== */
         :root {
-            /* Couleurs principales - SANS DÉGRADÉ */
+            /* Couleurs solides comme demandé */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -27,16 +33,15 @@
             --gray: #6c757d;
             --gray-dark: #343a40;
             
-            /* Ombres */
+            /* Ombres optimisées */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
             --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
             
-            /* Transitions */
+            /* Transitions performantes */
             --transition-fast: all 0.3s ease;
             --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             
             /* Bordures */
             --border-radius: 20px;
@@ -62,152 +67,126 @@
             overflow-x: hidden;
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+            to { opacity: 0; visibility: hidden; }
         }
 
         @keyframes floatBubble {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px);
-            }
-            50% {
-                transform: translateY(-40px) translateX(-10px);
-            }
-            75% {
-                transform: translateY(-20px) translateX(-5px);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-40px) translateX(-10px); }
+            75% { transform: translateY(-20px) translateX(-5px); }
         }
 
         @keyframes slideInUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.8;
-            }
-        }
-
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-5px) rotate(2deg); }
-            50% { transform: translateY(-10px) rotate(0deg); }
-            75% { transform: translateY(-5px) rotate(-2deg); }
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
         }
 
-        @keyframes logoSpin {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
-        }
-
-        @keyframes logoWelcome {
-            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-            60% { transform: scale(1.2) rotate(10deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        /* ===== LOGO ANIMÉ ===== */
-        .logo-img-container {
+        /* ===== INTRODUCTION UNIQUE POUR CONTACT ===== */
+        .contact-intro {
             position: relative;
-            width: 60px;
-            height: 60px;
-            margin-right: 1rem;
-            background: var(--white); /* Fond blanc pour le logo */
-            border-radius: 50%;
-            padding: 3px;
+            background: var(--fuchsia);
+            color: white;
+            padding: 8rem 0 4rem;
+            text-align: center;
+            overflow: hidden;
         }
 
-        .logo-img {
+        .contact-intro-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .floating-contact-bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            overflow: hidden;
+        }
+
+        .contact-bubble {
+            position: absolute;
             border-radius: 50%;
-            object-fit: cover;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+            animation: floatBubble 8s infinite ease-in-out;
+        }
+
+        .cb1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
+        .cb2 { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 1s; }
+        .cb3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
+        .cb4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
+
+        .contact-logo-container {
+            margin-bottom: 2rem;
+        }
+
+        .contact-intro-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 15px;
             animation: logoFloat 3s ease-in-out infinite;
+            box-shadow: var(--shadow-lg);
+            margin: 0 auto;
         }
 
-        .logo-img:hover {
-            animation: logoSpin 1s ease-in-out;
+        .contact-intro-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: white;
         }
 
-        .home-page .logo-img {
-            animation: logoWelcome 2s ease-out;
+        .contact-intro-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* ===== HEADER ===== */
+        .contact-intro-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== HEADER OPTIMISÉ ===== */
         .main-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 0, 255, 0.1);
             z-index: 1000;
             transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
         }
 
         .header-container {
@@ -225,10 +204,26 @@
             gap: 1rem;
         }
 
+        .logo-image-container {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-logo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--fuchsia); /* Couleur unie au lieu du dégradé */
+            color: var(--fuchsia);
         }
 
         .logo-text p {
@@ -236,7 +231,7 @@
             color: var(--gray);
         }
 
-        /* Navigation */
+        /* Navigation optimisée */
         .main-nav {
             display: flex;
             align-items: center;
@@ -245,7 +240,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-link {
@@ -270,7 +265,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             transition: var(--transition-fast);
             transform: translateX(-50%);
         }
@@ -281,21 +276,23 @@
         }
 
         .btn-contact {
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             color: var(--white) !important;
             padding: 0.75rem 1.5rem !important;
+            border-radius: 25px;
         }
 
         .btn-contact:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+            background: var(--fuchsia);
         }
 
         .nav-toggle {
             display: none;
             flex-direction: column;
             cursor: pointer;
-            z-index: 1000;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -306,7 +303,7 @@
             transition: var(--transition-fast);
         }
 
-        /* ===== BOUTONS ===== */
+        /* ===== BOUTONS OPTIMISÉS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -319,27 +316,10 @@
             transition: var(--transition-normal);
             cursor: pointer;
             font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.8s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn-primary {
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             color: var(--white);
             box-shadow: var(--shadow-md);
         }
@@ -347,6 +327,7 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
+            background: var(--fuchsia);
         }
 
         .btn-secondary {
@@ -361,20 +342,9 @@
             transform: translateY(-3px);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-outline:hover {
-            background: var(--white);
-            color: var(--fuchsia);
-        }
-
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
-            padding: 6rem 0;
+            padding: 5rem 0;
         }
 
         .container {
@@ -385,18 +355,18 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--fuchsia); /* Couleur unie */
+            color: var(--fuchsia);
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto 2rem;
@@ -405,37 +375,17 @@
         .section-divider {
             width: 80px;
             height: 4px;
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--lemon-green);
             margin: 0 auto;
             border-radius: 2px;
         }
 
         /* ===== STYLES SPÉCIFIQUES À LA PAGE CONTACT ===== */
-        .contact-hero {
-            background: var(--fuchsia); /* Couleur unie */
-            color: var(--white);
-            padding: 8rem 0 4rem;
-            text-align: center;
-        }
-
-        .contact-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-        }
-
-        .contact-hero p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            margin-top: 4rem;
+            margin-top: 2rem;
         }
 
         .contact-form-container {
@@ -483,7 +433,7 @@
         .contact-icon {
             width: 60px;
             height: 60px;
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -573,7 +523,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: var(--border-radius);
@@ -617,7 +567,7 @@
         .level-icon {
             width: 50px;
             height: 50px;
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -739,7 +689,7 @@
         .schedule-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-            color: var(--fuchsia); /* Couleur unie */
+            color: var(--fuchsia);
         }
 
         .schedule-card h3 {
@@ -779,7 +729,7 @@
 
         .map-placeholder {
             height: 100%;
-            background: var(--light-pink); /* Couleur unie */
+            background: var(--light-pink);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -846,7 +796,7 @@
         .notification.warning i { color: #ff9800; }
         .notification.error i { color: #f44336; }
 
-        /* ===== FOOTER AMÉLIORÉ ===== */
+        /* ===== FOOTER OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
@@ -871,6 +821,14 @@
             align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-img {
+            width: 70px;
+            height: 70px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px;
         }
 
         .footer-text h3 {
@@ -942,7 +900,7 @@
         }
 
         .social-link:hover {
-            background: var(--fuchsia); /* Couleur unie */
+            background: var(--fuchsia);
             transform: translateX(5px);
         }
 
@@ -967,7 +925,7 @@
             opacity: 0.7;
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
         @media (max-width: 1024px) {
             .contact-grid {
                 grid-template-columns: 1fr;
@@ -998,7 +956,6 @@
                 padding: 2rem;
                 transition: var(--transition-normal);
                 box-shadow: var(--shadow-lg);
-                z-index: 999;
             }
             
             .nav-menu.active {
@@ -1009,15 +966,15 @@
                 display: flex;
             }
             
-            .btn-contact {
-                margin-top: 1rem;
+            .contact-intro {
+                padding: 7rem 0 3rem;
             }
             
-            .contact-hero h1 {
+            .contact-intro-title {
                 font-size: 2.5rem;
             }
             
-            .contact-hero p {
+            .contact-intro-subtitle {
                 font-size: 1.1rem;
             }
             
@@ -1051,12 +1008,17 @@
         }
 
         @media (max-width: 480px) {
-            .contact-hero {
+            .contact-intro {
                 padding: 7rem 0 3rem;
             }
             
-            .contact-hero h1 {
+            .contact-intro-title {
                 font-size: 2rem;
+            }
+            
+            .contact-intro-actions {
+                flex-direction: column;
+                align-items: center;
             }
             
             .contact-card {
@@ -1099,16 +1061,6 @@
             animation: slideInUp 0.8s ease both;
         }
 
-        /* Effet ripple pour les boutons */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
-        }
-
         /* Animations pour le menu mobile */
         .nav-toggle.active span:nth-child(1) {
             transform: rotate(45deg) translate(5px, 5px);
@@ -1128,8 +1080,8 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-img-container">
-                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -1157,20 +1109,39 @@
         </div>
     </header>
 
-    <main>
-        <!-- Section Hero Contact -->
-        <section class="contact-hero">
-            <div class="container">
-                <div class="logo-img-container" style="margin: 0 auto 2rem; width: 100px; height: 100px;">
-                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
-                </div>
-                <h1>Contactez-Nous</h1>
-                <p>Nous sommes à votre écoute pour répondre à toutes vos questions et vous accompagner dans l'inscription de votre enfant</p>
+    <!-- Introduction unique pour la page Contact -->
+    <section class="contact-intro">
+        <div class="floating-contact-bubbles">
+            <div class="contact-bubble cb1"></div>
+            <div class="contact-bubble cb2"></div>
+            <div class="contact-bubble cb3"></div>
+            <div class="contact-bubble cb4"></div>
+        </div>
+        
+        <div class="contact-intro-container">
+            <div class="contact-logo-container">
+                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="contact-intro-logo">
             </div>
-        </section>
+            
+            <h1 class="contact-intro-title">Contactez-Nous</h1>
+            <p class="contact-intro-subtitle">Nous sommes à votre écoute pour répondre à toutes vos questions et vous accompagner dans l'inscription de votre enfant</p>
+            
+            <div class="contact-intro-actions">
+                <a href="#contacts" class="btn btn-primary">
+                    <i class="fas fa-phone-alt"></i>
+                    Contacts directs
+                </a>
+                <a href="inscription.html" class="btn btn-secondary">
+                    <i class="fas fa-user-graduate"></i>
+                    Inscription
+                </a>
+            </div>
+        </div>
+    </section>
 
+    <main>
         <!-- Section Contacts Principaux -->
-        <section class="section">
+        <section class="section" id="contacts">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Contacts Prioritaires</h2>
@@ -1646,14 +1617,14 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-img-container">
-                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1730,7 +1701,7 @@
                 <div class="footer-legal">
                     <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                     <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1740,7 +1711,7 @@
     </footer>
 
     <script>
-        // ===== GESTIONNAIRE DE LA PAGE CONTACT =====
+        // ===== GESTIONNAIRE DE LA PAGE CONTACT OPTIMISÉ =====
         class ContactManager {
             constructor() {
                 this.init();
@@ -1751,6 +1722,7 @@
                 this.setupContactForm();
                 this.setupEventListeners();
                 this.setupInteractiveElements();
+                this.setupPerformanceOptimizations();
             }
 
             // Configuration de la navigation
@@ -1762,13 +1734,6 @@
                     navToggle.addEventListener('click', () => {
                         navToggle.classList.toggle('active');
                         navMenu.classList.toggle('active');
-                        
-                        // Empêcher le défilement quand le menu est ouvert
-                        if (navMenu.classList.contains('active')) {
-                            document.body.style.overflow = 'hidden';
-                        } else {
-                            document.body.style.overflow = '';
-                        }
                     });
                 }
 
@@ -1777,7 +1742,6 @@
                     link.addEventListener('click', () => {
                         navToggle.classList.remove('active');
                         navMenu.classList.remove('active');
-                        document.body.style.overflow = '';
                     });
                 });
 
@@ -1794,15 +1758,8 @@
                         header.style.boxShadow = 'none';
                     }
 
-                    // Cacher/montrer le header au scroll
-                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
-                        header.style.transform = 'translateY(-100%)';
-                    } else {
-                        header.style.transform = 'translateY(0)';
-                    }
-
                     lastScrollY = window.scrollY;
-                });
+                }, { passive: true });
             }
 
             // Configuration du formulaire de contact
@@ -1818,13 +1775,6 @@
 
             // Gestionnaires d'événements
             setupEventListeners() {
-                // Effet ripple pour les boutons
-                document.querySelectorAll('.btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        this.createRippleEffect(e);
-                    }.bind(this));
-                });
-
                 // Animation des éléments au scroll
                 this.setupScrollAnimations();
             }
@@ -1856,28 +1806,7 @@
                 });
             }
 
-            // Effet visuel ripple
-            createRippleEffect(e) {
-                const button = e.currentTarget;
-                const ripple = document.createElement('span');
-                const rect = button.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                button.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            }
-
-            // Animations au scroll
+            // Animations au scroll optimisées
             setupScrollAnimations() {
                 const observerOptions = {
                     threshold: 0.1,
@@ -1974,7 +1903,6 @@
 
             // Système de notifications
             showNotification(message, type = 'info') {
-                // Créer la notification
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
                 notification.innerHTML = `
@@ -1986,10 +1914,8 @@
                 
                 document.body.appendChild(notification);
                 
-                // Animation d'entrée
                 setTimeout(() => notification.classList.add('show'), 100);
                 
-                // Supprimer après 4 secondes
                 setTimeout(() => {
                     notification.classList.remove('show');
                     setTimeout(() => notification.remove(), 300);
@@ -2005,18 +1931,39 @@
                 };
                 return icons[type] || 'info-circle';
             }
+
+            // Optimisations de performance
+            setupPerformanceOptimizations() {
+                // Lazy loading pour les images
+                if ('loading' in HTMLImageElement.prototype) {
+                    const images = document.querySelectorAll('img[loading="lazy"]');
+                    images.forEach(img => {
+                        img.loading = 'lazy';
+                    });
+                }
+
+                // Préchargement des polices critiques
+                const fontLink = document.createElement('link');
+                fontLink.rel = 'preload';
+                fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap';
+                fontLink.as = 'style';
+                document.head.appendChild(fontLink);
+            }
         }
 
-        // ===== INITIALISATION DE L'APPLICATION =====
+        // ===== INITIALISATION OPTIMISÉE =====
         document.addEventListener('DOMContentLoaded', () => {
-            window.contactManager = new ContactManager();
-            
-            // Message de bienvenue
+            // Chargement différé du manager pour meilleure performance
             setTimeout(() => {
-                if (window.contactManager.showNotification) {
-                    window.contactManager.showNotification('Bienvenue sur notre page contact! Comment pouvons-nous vous aider?', 'info');
-                }
-            }, 1000);
+                window.contactManager = new ContactManager();
+                
+                // Message de bienvenue
+                setTimeout(() => {
+                    if (window.contactManager.showNotification) {
+                        window.contactManager.showNotification('Bienvenue sur notre page contact! Comment pouvons-nous vous aider?', 'info');
+                    }
+                }, 1000);
+            }, 100);
         });
     </script>
 </body>
