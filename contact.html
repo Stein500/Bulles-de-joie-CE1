@@ -13,7 +13,7 @@
     <style>
         /* ===== VARIABLES ET RESET ===== */
         :root {
-            /* Couleurs principales */
+            /* Couleurs principales - SANS DÉGRADÉ */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -26,11 +26,6 @@
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
-            
-            /* Dégradés */
-            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
-            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
             
             /* Ombres */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
@@ -181,6 +176,9 @@
             width: 60px;
             height: 60px;
             margin-right: 1rem;
+            background: var(--white); /* Fond blanc pour le logo */
+            border-radius: 50%;
+            padding: 3px;
         }
 
         .logo-img {
@@ -188,11 +186,7 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid transparent;
-            background: var(--gradient-primary);
-            padding: 2px;
             animation: logoFloat 3s ease-in-out infinite;
-            box-shadow: var(--shadow-glow);
         }
 
         .logo-img:hover {
@@ -234,10 +228,7 @@
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--fuchsia); /* Couleur unie au lieu du dégradé */
         }
 
         .logo-text p {
@@ -279,7 +270,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             transition: var(--transition-fast);
             transform: translateX(-50%);
         }
@@ -290,7 +281,7 @@
         }
 
         .btn-contact {
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             color: var(--white) !important;
             padding: 0.75rem 1.5rem !important;
         }
@@ -348,7 +339,7 @@
         }
 
         .btn-primary {
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             color: var(--white);
             box-shadow: var(--shadow-md);
         }
@@ -401,10 +392,7 @@
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--fuchsia); /* Couleur unie */
         }
 
         .section-subtitle {
@@ -417,14 +405,14 @@
         .section-divider {
             width: 80px;
             height: 4px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             margin: 0 auto;
             border-radius: 2px;
         }
 
         /* ===== STYLES SPÉCIFIQUES À LA PAGE CONTACT ===== */
         .contact-hero {
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             color: var(--white);
             padding: 8rem 0 4rem;
             text-align: center;
@@ -495,7 +483,7 @@
         .contact-icon {
             width: 60px;
             height: 60px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -585,7 +573,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: var(--border-radius);
@@ -629,7 +617,7 @@
         .level-icon {
             width: 50px;
             height: 50px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -751,10 +739,7 @@
         .schedule-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--fuchsia); /* Couleur unie */
         }
 
         .schedule-card h3 {
@@ -794,7 +779,7 @@
 
         .map-placeholder {
             height: 100%;
-            background: var(--gradient-light);
+            background: var(--light-pink); /* Couleur unie */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -861,7 +846,7 @@
         .notification.warning i { color: #ff9800; }
         .notification.error i { color: #f44336; }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER AMÉLIORÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
@@ -957,7 +942,7 @@
         }
 
         .social-link:hover {
-            background: var(--gradient-primary);
+            background: var(--fuchsia); /* Couleur unie */
             transform: translateX(5px);
         }
 
@@ -1176,6 +1161,9 @@
         <!-- Section Hero Contact -->
         <section class="contact-hero">
             <div class="container">
+                <div class="logo-img-container" style="margin: 0 auto 2rem; width: 100px; height: 100px;">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
+                </div>
                 <h1>Contactez-Nous</h1>
                 <p>Nous sommes à votre écoute pour répondre à toutes vos questions et vous accompagner dans l'inscription de votre enfant</p>
             </div>
@@ -1261,7 +1249,7 @@
                                     <i class="fas fa-phone"></i>
                                     <div class="contact-number-content">
                                         <span class="contact-number-label">Appel direct</span>
-                                        <span class="contact-number-value">+229 01 49 77 77 00</span>
+                                        <span class="contact-number-value">+229 01 97 91 94 52</span>
                                     </div>
                                 </div>
                                 
@@ -1280,7 +1268,7 @@
                                     <i class="fab fa-whatsapp"></i>
                                     WhatsApp
                                 </a>
-                                <a href="tel:+2290149777700" class="call-btn">
+                                <a href="tel:+2290197919452" class="call-btn">
                                     <i class="fas fa-phone"></i>
                                     Appeler
                                 </a>
@@ -1375,13 +1363,14 @@
                 </div>
                 
                 <div class="levels-grid">
+                    <!-- Crèche & Garderie -->
                     <div class="level-contact">
                         <div class="level-header">
                             <div class="level-icon">
-                                <i class="fas fa-child"></i>
+                                <i class="fas fa-baby"></i>
                             </div>
                             <div class="level-info">
-                                <h4>Maternelle 1</h4>
+                                <h4>Crèche & Garderie</h4>
                                 <p>+229 01 49 77 77 02</p>
                             </div>
                         </div>
@@ -1397,13 +1386,14 @@
                         </div>
                     </div>
                     
+                    <!-- Pré-Maternelle -->
                     <div class="level-contact">
                         <div class="level-header">
                             <div class="level-icon">
                                 <i class="fas fa-child"></i>
                             </div>
                             <div class="level-info">
-                                <h4>Maternelle 2</h4>
+                                <h4>Pré-Maternelle</h4>
                                 <p>+229 01 49 77 77 03</p>
                             </div>
                         </div>
@@ -1419,6 +1409,53 @@
                         </div>
                     </div>
                     
+                    <!-- Maternelle 1 -->
+                    <div class="level-contact">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Maternelle 1</h4>
+                                <p>+229 01 49 77 77 04</p>
+                            </div>
+                        </div>
+                        <div class="level-action">
+                            <a href="tel:+2290149777704" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777704" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Maternelle 2 -->
+                    <div class="level-contact">
+                        <div class="level-header">
+                            <div class="level-icon">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <div class="level-info">
+                                <h4>Maternelle 2</h4>
+                                <p>+229 01 49 77 77 05</p>
+                            </div>
+                        </div>
+                        <div class="level-action">
+                            <a href="tel:+2290149777705" class="call-btn">
+                                <i class="fas fa-phone"></i>
+                                Appel Direct
+                            </a>
+                            <a href="https://wa.me/2290149777705" class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Cours d'Initiation (CI) -->
                     <div class="level-contact">
                         <div class="level-header">
                             <div class="level-icon">
@@ -1441,6 +1478,7 @@
                         </div>
                     </div>
                     
+                    <!-- Cours Préparatoire (CP) -->
                     <div class="level-contact">
                         <div class="level-header">
                             <div class="level-icon">
@@ -1463,6 +1501,7 @@
                         </div>
                     </div>
                     
+                    <!-- Cours Élémentaire 1 (CE1) -->
                     <div class="level-contact">
                         <div class="level-header">
                             <div class="level-icon">
@@ -1485,6 +1524,7 @@
                         </div>
                     </div>
                     
+                    <!-- Cours Élémentaire 2 (CE2) -->
                     <div class="level-contact">
                         <div class="level-header">
                             <div class="level-icon">
@@ -1640,7 +1680,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 01 49 77 77 00</span>
+                            <span>+229 01 97 91 94 52</span>
                         </div>
                     </div>
                 </div>
@@ -1664,19 +1704,19 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h4>Liens Rapides</h4>
+                    <h4>Réseaux Sociaux</h4>
                     <div class="social-links">
-                        <a href="index.html" class="social-link">
-                            <i class="fas fa-home"></i>
-                            Accueil
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
                         </a>
-                        <a href="inscription.html" class="social-link">
-                            <i class="fas fa-user-graduate"></i>
-                            Inscription
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
                         </a>
-                        <a href="contact.html" class="social-link">
-                            <i class="fas fa-phone"></i>
-                            Contact
+                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                            TikTok
                         </a>
                         <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
                             <i class="fas fa-map-marker-alt"></i>
@@ -1690,7 +1730,7 @@
                 <div class="footer-legal">
                     <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                     <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
