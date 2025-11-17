@@ -6,13 +6,27 @@
     <title>Notre École - Les Bulles de Joie - École Bilingue Parakou</title>
     <meta name="description" content="Découvrez Les Bulles de Joie : école bilingue d'excellence à Parakou depuis 2017. Crèche, garderie, maternelle et primaire bilingue.">
     
-    <!-- Polices -->
+    <!-- SEO Optimizations -->
+    <meta name="keywords" content="école bilingue Parakou, histoire école, valeurs éducatives, pédagogie, Les Bulles de Joie">
+    <meta name="author" content="Les Bulles de Joie">
+    <link rel="canonical" href="https://lesbullesdejoie.bj/apropos">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Notre École - Les Bulles de Joie - École Bilingue Parakou">
+    <meta property="og:description" content="Découvrez notre histoire, nos valeurs et notre approche éducative unique depuis 2017">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lesbullesdejoie.bj/apropos">
+    
+    <!-- Polices optimisées -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== VARIABLES ===== */
+        /* ===== VARIABLES OPTIMISÉES ===== */
         :root {
+            /* Couleurs solides comme demandé */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -23,16 +37,18 @@
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
-            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
-            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            
+            /* Ombres optimisées */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
             --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            
+            /* Transitions performantes */
             --transition-fast: all 0.3s ease;
             --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* Bordures */
             --border-radius: 20px;
             --border-radius-lg: 30px;
         }
@@ -56,7 +72,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
         }
@@ -76,53 +92,107 @@
             50% { transform: scale(1.05); opacity: 0.8; }
         }
 
-        @keyframes rippleEffect {
-            to { transform: scale(4); opacity: 0; }
-        }
-
-        @keyframes floatBubble {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            25% { transform: translateY(-20px) translateX(10px); }
-            50% { transform: translateY(-40px) translateX(-10px); }
-            75% { transform: translateY(-20px) translateX(-5px); }
-        }
-
         @keyframes logoFloat {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-10px) scale(1.05); }
         }
 
-        /* ===== LOGO STYLES ===== */
-        .logo-image-container {
+        @keyframes introExit {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
+        }
+
+        /* ===== INTRODUCTION SPÉCIFIQUE À PROPOS ===== */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--fuchsia);
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, transform 1s ease;
         }
 
-        .header-logo {
-            max-width: 50px;
-            height: auto;
-            margin-right: 10px;
+        .intro-container {
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .intro-logo {
+            width: 140px;
+            height: 140px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 20px;
+            margin: 0 auto 2rem;
             animation: logoFloat 3s ease-in-out infinite;
+            box-shadow: var(--shadow-lg);
         }
 
-        .footer-logo {
-            max-width: 70px;
-            height: auto;
-            margin-right: 15px;
+        .logo-text {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--white);
         }
 
-        /* ===== HEADER ===== */
+        .text-part {
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .text-part:nth-child(1) { animation-delay: 0.5s; }
+        .text-part:nth-child(2) { animation-delay: 1s; }
+
+        .logo-subtitle {
+            font-size: 1.4rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards;
+            margin-bottom: 2rem;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--lemon-green);
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease-in-out;
+            transform-origin: left;
+        }
+
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        /* ===== HEADER OPTIMISÉ ===== */
         .main-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 0, 255, 0.1);
             z-index: 1000;
             transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
         }
 
         .header-container {
@@ -140,6 +210,15 @@
             gap: 1rem;
         }
 
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -151,6 +230,7 @@
             color: var(--gray);
         }
 
+        /* Navigation optimisée */
         .main-nav {
             display: flex;
             align-items: center;
@@ -159,7 +239,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-link {
@@ -184,7 +264,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transition: var(--transition-fast);
             transform: translateX(-50%);
         }
@@ -195,14 +275,16 @@
         }
 
         .btn-contact {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white) !important;
             padding: 0.75rem 1.5rem !important;
+            border-radius: 25px;
         }
 
         .btn-contact:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+            background: var(--fuchsia);
         }
 
         .nav-toggle {
@@ -220,7 +302,7 @@
             transition: var(--transition-fast);
         }
 
-        /* ===== BOUTONS ===== */
+        /* ===== BOUTONS OPTIMISÉS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -233,27 +315,10 @@
             transition: var(--transition-normal);
             cursor: pointer;
             font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.8s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn-primary {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white);
             box-shadow: var(--shadow-md);
         }
@@ -261,23 +326,12 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-secondary:hover {
-            background: var(--white);
-            color: var(--fuchsia);
-            transform: translateY(-3px);
+            background: var(--fuchsia);
         }
 
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
-            padding: 6rem 0;
+            padding: 5rem 0;
         }
 
         .container {
@@ -288,18 +342,18 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
             color: var(--fuchsia);
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto 2rem;
@@ -308,27 +362,27 @@
         .section-divider {
             width: 80px;
             height: 4px;
-            background: var(--gradient-primary);
+            background: var(--lemon-green);
             margin: 0 auto;
             border-radius: 2px;
         }
 
         /* ===== STYLES SPÉCIFIQUES À LA PAGE APROPOS ===== */
         .hero-about {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white);
             padding: 8rem 0 4rem;
             text-align: center;
         }
 
         .hero-about h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             font-weight: 800;
         }
 
         .hero-about p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
@@ -362,7 +416,7 @@
         }
 
         .history-text h2 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 2rem;
             color: var(--fuchsia);
         }
@@ -463,7 +517,7 @@
         }
 
         .cycles-section {
-            background: var(--gradient-light);
+            background: var(--light-green);
         }
 
         .cycles-grid {
@@ -516,7 +570,7 @@
             margin: 0.25rem;
         }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
@@ -541,6 +595,14 @@
             align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-img {
+            width: 70px;
+            height: 70px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px;
         }
 
         .footer-text h3 {
@@ -612,7 +674,7 @@
         }
 
         .social-link:hover {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transform: translateX(5px);
         }
 
@@ -637,7 +699,7 @@
             opacity: 0.7;
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
         @media (max-width: 1024px) {
             .history-content {
                 grid-template-columns: 1fr;
@@ -679,7 +741,7 @@
             }
             
             .hero-about h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .hero-about p {
@@ -692,7 +754,7 @@
             }
             
             .history-text h2 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .values-grid,
@@ -712,11 +774,11 @@
             }
             
             .hero-about h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .value-card,
@@ -735,16 +797,6 @@
             animation: slideInUp 0.8s ease both;
         }
 
-        /* Effet ripple pour les boutons */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
-        }
-
         /* Animations pour le menu mobile */
         .nav-toggle.active span:nth-child(1) {
             transform: rotate(45deg) translate(5px, 5px);
@@ -760,6 +812,24 @@
     </style>
 </head>
 <body>
+    <!-- Introduction spécifique à la page À Propos -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            
+            <h1 class="logo-text">
+                <span class="text-part">Notre</span>
+                <span class="text-part">École</span>
+            </h1>
+            
+            <p class="logo-subtitle">Découvrez notre univers éducatif</p>
+            
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation principale -->
     <header class="main-header">
         <div class="header-container">
@@ -780,7 +850,8 @@
                     <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
                     <li><a href="activites.html" class="nav-link">Activités</a></li>
                     <li><a href="resultats.html" class="nav-link">Résultats</a></li>
-                    <li><a href="contact.html" class="nav-link btn-contact">Contact</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="inscription.html" class="nav-link btn-contact">Inscription</a></li>
                 </ul>
                 
                 <div class="nav-toggle">
@@ -938,7 +1009,7 @@
             </div>
         </section>
 
-        <!-- Section Cycles -->
+        <!-- Section Cycles CORRIGÉE -->
         <section class="section cycles-section">
             <div class="container">
                 <div class="section-header">
@@ -954,11 +1025,10 @@
                         </div>
                         <h3>Crèche & Garderie</h3>
                         <span class="cycle-age">À partir de 2 mois - 3 ans</span>
-                        <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement sécurisé et bienveillant.</p>
+                        <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement féerique, sécurisé et bienveillant.</p>
                         <div class="cycle-features">
-                            <span class="feature-tag">Cantine</span>
-                            <span class="feature-tag">Sieste (12h-15h)</span>
-                            <span class="feature-tag">Garderie</span>
+                            <span class="feature-tag">Activités ludiques</span>
+                            <span class="feature-tag">Cadre féerique</span>
                         </div>
                     </div>
                     
@@ -970,9 +1040,8 @@
                         <span class="cycle-age">3-5 ans</span>
                         <p>Apprentissage fondamental par le jeu, pré-lecture, pré-mathématiques et initiation à l'anglais par immersion.</p>
                         <div class="cycle-features">
-                            <span class="feature-tag">Bilingue</span>
                             <span class="feature-tag">Jeux éducatifs</span>
-                            <span class="feature-tag">Éveil musical</span>
+                            <span class="feature-tag">Musique</span>
                         </div>
                     </div>
                     
@@ -994,14 +1063,14 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
                         <div class="logo-image-container">
-                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1028,7 +1097,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 01 58 03 03 02</span>
+                            <span>+229 01 97 91 94 52</span>
                         </div>
                     </div>
                 </div>
@@ -1062,6 +1131,10 @@
                             <i class="fab fa-instagram"></i>
                             Instagram
                         </a>
+                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                            TikTok
+                        </a>
                         <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
                             <i class="fas fa-map-marker-alt"></i>
                             Google Maps
@@ -1074,7 +1147,7 @@
                 <div class="footer-legal">
                     <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                     <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1084,7 +1157,7 @@
     </footer>
 
     <script>
-        // ===== GESTIONNAIRE DE LA PAGE APROPOS =====
+        // ===== GESTIONNAIRE DE LA PAGE APROPOS OPTIMISÉ =====
         class AboutManager {
             constructor() {
                 this.init();
@@ -1094,6 +1167,8 @@
                 this.setupNavigation();
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
+                this.handleIntroAnimation();
+                this.setupPerformanceOptimizations();
             }
 
             // Configuration de la navigation
@@ -1129,18 +1204,11 @@
                         header.style.boxShadow = 'none';
                     }
 
-                    // Cacher/montrer le header au scroll
-                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
-                        header.style.transform = 'translateY(-100%)';
-                    } else {
-                        header.style.transform = 'translateY(0)';
-                    }
-
                     lastScrollY = window.scrollY;
-                });
+                }, { passive: true });
             }
 
-            // Animations au scroll
+            // Animations au scroll optimisées
             setupScrollAnimations() {
                 const observerOptions = {
                     threshold: 0.1,
@@ -1163,13 +1231,6 @@
 
             // Configuration des éléments interactifs
             setupInteractiveElements() {
-                // Effet ripple pour les boutons
-                document.querySelectorAll('.btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        this.createRippleEffect(e);
-                    }.bind(this));
-                });
-
                 // Animation des cartes au survol
                 const cards = document.querySelectorAll('.value-card, .immersion-item, .cycle-card');
                 
@@ -1184,31 +1245,38 @@
                 });
             }
 
-            // Effet visuel ripple
-            createRippleEffect(e) {
-                const button = e.currentTarget;
-                const ripple = document.createElement('span');
-                const rect = button.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                button.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+            // Gestion de l'animation d'introduction
+            handleIntroAnimation() {
+                const introOverlay = document.getElementById('intro-overlay');
+                if (introOverlay) {
+                    // Animation de sortie après 3 secondes
+                    setTimeout(() => {
+                        introOverlay.style.animation = 'introExit 1s ease forwards';
+                        setTimeout(() => {
+                            introOverlay.style.display = 'none';
+                        }, 1000);
+                    }, 3000);
+                }
+            }
+
+            // Optimisations de performance
+            setupPerformanceOptimizations() {
+                // Lazy loading pour les images
+                if ('loading' in HTMLImageElement.prototype) {
+                    const images = document.querySelectorAll('img[loading="lazy"]');
+                    images.forEach(img => {
+                        img.loading = 'lazy';
+                    });
+                }
             }
         }
 
-        // ===== INITIALISATION =====
+        // ===== INITIALISATION OPTIMISÉE =====
         document.addEventListener('DOMContentLoaded', () => {
-            window.aboutManager = new AboutManager();
+            // Chargement différé du manager pour meilleure performance
+            setTimeout(() => {
+                window.aboutManager = new AboutManager();
+            }, 100);
         });
     </script>
 </body>
