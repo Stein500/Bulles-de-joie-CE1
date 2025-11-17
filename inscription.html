@@ -3,16 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - Les Bulles de Joie - École Bilingue Parakou</title>
-    <meta name="description" content="Inscrivez votre enfant aux Bulles de Joie pour l'année scolaire 2025-2026. Crèche, garderie, maternelle et primaire bilingue.">
+    <title>Inscription 2025-2026 - Les Bulles de Joie - École Bilingue Parakou</title>
+    <meta name="description" content="Inscrivez votre enfant aux Bulles de Joie pour l'année scolaire 2025-2026. Crèche, garderie, maternelle et primaire bilingue à Parakou.">
     
-    <!-- Polices -->
+    <!-- SEO Optimizations -->
+    <meta name="keywords" content="inscription école Parakou, école bilingue Bénin, crèche Parakou, maternelle bilingue, primaire bilingue, Les Bulles de Joie">
+    <meta name="author" content="Les Bulles de Joie">
+    <link rel="canonical" href="https://lesbullesdejoie.bj/inscription">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Inscription 2025-2026 - Les Bulles de Joie - École Bilingue Parakou">
+    <meta property="og:description" content="Inscrivez votre enfant pour une éducation d'excellence bilingue de la crèche au primaire">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lesbullesdejoie.bj/inscription">
+    
+    <!-- Polices optimisées -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== VARIABLES ===== */
+        /* ===== VARIABLES OPTIMISÉES ===== */
         :root {
+            /* Couleurs solides comme demandé */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
@@ -23,16 +37,18 @@
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
-            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
-            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            
+            /* Ombres optimisées */
             --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
             --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
             --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
             --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            
+            /* Transitions performantes */
             --transition-fast: all 0.3s ease;
             --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            /* Bordures */
             --border-radius: 20px;
             --border-radius-lg: 30px;
         }
@@ -56,7 +72,11 @@
             overflow-x: hidden;
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== ANIMATIONS PERFORMANTES ===== */
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
         @keyframes slideInUp {
             from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -72,68 +92,107 @@
             50% { transform: scale(1.05); opacity: 0.8; }
         }
 
-        @keyframes rippleEffect {
-            to { transform: scale(4); opacity: 0; }
-        }
-
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-5px) rotate(2deg); }
-            50% { transform: translateY(-10px) rotate(0deg); }
-            75% { transform: translateY(-5px) rotate(-2deg); }
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
         }
 
-        @keyframes logoSpin {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
+        @keyframes introExit {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
         }
 
-        @keyframes logoWelcome {
-            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-            60% { transform: scale(1.2) rotate(10deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); }
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
         }
 
-        /* ===== LOGO ANIMÉ ===== */
-        .logo-img-container {
-            position: relative;
-            width: 60px;
-            height: 60px;
-            margin-right: 1rem;
-        }
-
-        .logo-img {
+        /* ===== INTRODUCTION SPÉCIFIQUE À INSCRIPTION ===== */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background: var(--fuchsia);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .intro-container {
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .intro-logo {
+            width: 140px;
+            height: 140px;
+            background: var(--white);
             border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid transparent;
-            background: var(--gradient-primary);
-            padding: 2px;
+            padding: 20px;
+            margin: 0 auto 2rem;
             animation: logoFloat 3s ease-in-out infinite;
-            box-shadow: var(--shadow-glow);
+            box-shadow: var(--shadow-lg);
         }
 
-        .logo-img:hover {
-            animation: logoSpin 1s ease-in-out;
+        .logo-text {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--white);
         }
 
-        .home-page .logo-img {
-            animation: logoWelcome 2s ease-out;
+        .text-part {
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        /* ===== HEADER ===== */
+        .text-part:nth-child(1) { animation-delay: 0.5s; }
+        .text-part:nth-child(2) { animation-delay: 1s; }
+
+        .logo-subtitle {
+            font-size: 1.4rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards;
+            margin-bottom: 2rem;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--lemon-green);
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease-in-out;
+            transform-origin: left;
+        }
+
+        /* ===== HEADER OPTIMISÉ ===== */
         .main-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 0, 255, 0.1);
             z-index: 1000;
             transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
         }
 
         .header-container {
@@ -151,6 +210,15 @@
             gap: 1rem;
         }
 
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
         .logo-text h1 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -162,6 +230,7 @@
             color: var(--gray);
         }
 
+        /* Navigation optimisée */
         .main-nav {
             display: flex;
             align-items: center;
@@ -170,7 +239,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-link {
@@ -195,7 +264,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transition: var(--transition-fast);
             transform: translateX(-50%);
         }
@@ -206,21 +275,23 @@
         }
 
         .btn-contact {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white) !important;
             padding: 0.75rem 1.5rem !important;
+            border-radius: 25px;
         }
 
         .btn-contact:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
+            background: var(--fuchsia);
         }
 
         .nav-toggle {
             display: none;
             flex-direction: column;
             cursor: pointer;
-            z-index: 1000;
+            padding: 5px;
         }
 
         .nav-toggle span {
@@ -231,7 +302,7 @@
             transition: var(--transition-fast);
         }
 
-        /* ===== BOUTONS ===== */
+        /* ===== BOUTONS OPTIMISÉS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -244,27 +315,10 @@
             transition: var(--transition-normal);
             cursor: pointer;
             font-size: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.8s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn-primary {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white);
             box-shadow: var(--shadow-md);
         }
@@ -272,23 +326,12 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
-        }
-
-        .btn-secondary:hover {
-            background: var(--white);
-            color: var(--fuchsia);
-            transform: translateY(-3px);
+            background: var(--fuchsia);
         }
 
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
-            padding: 6rem 0;
+            padding: 5rem 0;
         }
 
         .container {
@@ -299,18 +342,18 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
             color: var(--fuchsia);
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gray);
             max-width: 600px;
             margin: 0 auto 2rem;
@@ -319,27 +362,27 @@
         .section-divider {
             width: 80px;
             height: 4px;
-            background: var(--gradient-primary);
+            background: var(--lemon-green);
             margin: 0 auto;
             border-radius: 2px;
         }
 
         /* ===== STYLES SPÉCIFIQUES À LA PAGE INSCRIPTION ===== */
         .hero-inscription {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             color: var(--white);
             padding: 8rem 0 4rem;
             text-align: center;
         }
 
         .hero-inscription h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             font-weight: 800;
         }
 
         .hero-inscription p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
@@ -373,7 +416,7 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transform: translateX(-50%);
         }
 
@@ -419,6 +462,147 @@
             color: var(--fuchsia);
         }
 
+        /* Section Tarifs */
+        .tarifs-section {
+            background: var(--gray-light);
+        }
+
+        .tarifs-container {
+            overflow-x: auto;
+            margin: 0 auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            background: var(--white);
+        }
+
+        .tarifs-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .tarifs-table th {
+            background: var(--fuchsia);
+            color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .tarifs-table td {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .tarifs-table tr:nth-child(even) {
+            background: rgba(255, 0, 255, 0.03);
+        }
+
+        .tarifs-table .highlight {
+            background: var(--light-pink);
+            font-weight: 600;
+        }
+
+        .tarifs-table .total-row {
+            background: var(--light-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Section Modalités */
+        .modalites-section {
+            background: var(--white);
+        }
+
+        .modalites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .modalite-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--fuchsia);
+            transition: var(--transition-normal);
+        }
+
+        .modalite-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .modalite-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .modalite-card h3 {
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        .modalite-card ul {
+            list-style: none;
+        }
+
+        .modalite-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .modalite-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--fuchsia);
+            font-weight: bold;
+        }
+
+        /* Section Services */
+        .services-section {
+            background: var(--light-pink);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .service-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: var(--fuchsia);
+        }
+
+        /* Section Formulaire */
         .form-section {
             background: var(--gray-light);
         }
@@ -495,6 +679,23 @@
             margin-top: 2rem;
         }
 
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--fuchsia);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Section Documents */
         .documents-section {
             background: var(--white);
         }
@@ -548,98 +749,7 @@
             font-weight: bold;
         }
 
-        .niveaux-section {
-            background: var(--gradient-light);
-        }
-
-        .niveaux-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .niveau-card {
-            background: var(--white);
-            padding: 3rem 2rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .niveau-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient-primary);
-        }
-
-        .niveau-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .niveau-card.popular {
-            border: 2px solid var(--fuchsia);
-            transform: scale(1.05);
-        }
-
-        .niveau-card.popular:hover {
-            transform: scale(1.05) translateY(-10px);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--gradient-primary);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .niveau-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            color: var(--fuchsia);
-        }
-
-        .niveau-contact {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin: 1.5rem 0;
-            color: var(--fuchsia);
-            padding: 1rem;
-            background: var(--light-pink);
-            border-radius: var(--border-radius);
-        }
-
-        .niveau-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .niveau-features li {
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .niveau-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--lemon-green);
-            font-weight: bold;
-        }
-
+        /* Section Contact */
         .contact-section {
             background: var(--white);
             text-align: center;
@@ -670,7 +780,7 @@
             color: var(--black);
         }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
@@ -697,6 +807,14 @@
             margin-bottom: 1.5rem;
         }
 
+        .footer-logo-img {
+            width: 70px;
+            height: 70px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 10px;
+        }
+
         .footer-text h3 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
@@ -717,7 +835,7 @@
             backdrop-filter: blur(10px);
         }
 
-        .contact-info-footer,
+        .contact-info,
         .schedule-info {
             display: flex;
             flex-direction: column;
@@ -766,7 +884,7 @@
         }
 
         .social-link:hover {
-            background: var(--gradient-primary);
+            background: var(--fuchsia);
             transform: translateX(5px);
         }
 
@@ -791,7 +909,7 @@
             opacity: 0.7;
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
         @media (max-width: 1024px) {
             .process-steps::before {
                 left: 30px;
@@ -804,11 +922,6 @@
             .step-content {
                 margin-left: 4rem;
                 margin-right: 0;
-            }
-            
-            .documents-grid,
-            .niveaux-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
             
             .footer-content {
@@ -835,7 +948,6 @@
                 padding: 2rem;
                 transition: var(--transition-normal);
                 box-shadow: var(--shadow-lg);
-                z-index: 999;
             }
             
             .nav-menu.active {
@@ -846,12 +958,8 @@
                 display: flex;
             }
             
-            .btn-contact {
-                margin-top: 1rem;
-            }
-            
             .hero-inscription h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .hero-inscription p {
@@ -866,12 +974,10 @@
                 grid-template-columns: 1fr;
             }
             
-            .niveau-card.popular {
-                transform: scale(1);
-            }
-            
-            .niveau-card.popular:hover {
-                transform: translateY(-10px);
+            .documents-grid,
+            .modalites-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
             }
             
             .footer-content {
@@ -885,11 +991,11 @@
             }
             
             .hero-inscription h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .step-content {
@@ -899,10 +1005,6 @@
             
             .form-container {
                 padding: 1.5rem;
-            }
-            
-            .niveau-card {
-                padding: 2rem 1rem;
             }
             
             .contact-info {
@@ -918,16 +1020,6 @@
         /* Animation d'entrée des éléments */
         .animate-in {
             animation: slideInUp 0.8s ease both;
-        }
-
-        /* Effet ripple pour les boutons */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
         }
 
         /* Notifications */
@@ -983,32 +1075,33 @@
         .nav-toggle.active span:nth-child(3) {
             transform: rotate(-45deg) translate(7px, -6px);
         }
-
-        /* Loading spinner */
-        .loading-spinner {
-            display: none;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--fuchsia);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
+    <!-- Introduction spécifique à la page Inscription -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            
+            <h1 class="logo-text">
+                <span class="text-part">Inscription</span>
+                <span class="text-part">2025-2026</span>
+            </h1>
+            
+            <p class="logo-subtitle">Rejoignez notre famille éducative</p>
+            
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation principale -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-img-container">
-                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -1091,8 +1184,220 @@
             </div>
         </section>
 
+        <!-- Section Tarifs -->
+        <section class="section tarifs-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nos Tarifs 2025-2026</h2>
+                    <p class="section-subtitle">Des frais transparents et adaptés à chaque niveau</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="tarifs-container">
+                    <table class="tarifs-table">
+                        <thead>
+                            <tr>
+                                <th>Poste de frais</th>
+                                <th>Prématernelle</th>
+                                <th>Maternelle 1 & 2</th>
+                                <th>CI - CP</th>
+                                <th>CE1 - CE2</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Frais d'inscription (nouveau)</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                            </tr>
+                            <tr>
+                                <td>Frais de réinscription (ancien)</td>
+                                <td>10.000 F</td>
+                                <td>10.000 F</td>
+                                <td>10.000 F</td>
+                                <td>10.000 F</td>
+                            </tr>
+                            <tr>
+                                <td>Activités parascolaires</td>
+                                <td>4.000 F</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                                <td>17.000 F</td>
+                            </tr>
+                            <tr>
+                                <td>Fêtes</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                                <td>12.000 F</td>
+                            </tr>
+                            <tr>
+                                <td>Assurance</td>
+                                <td>2.000 F</td>
+                                <td>2.000 F</td>
+                                <td>2.000 F</td>
+                                <td>2.000 F</td>
+                            </tr>
+                            <tr>
+                                <td>APE</td>
+                                <td>2.500 F</td>
+                                <td>2.500 F</td>
+                                <td>2.500 F</td>
+                                <td>2.500 F</td>
+                            </tr>
+                            <tr class="highlight">
+                                <td><strong>Total Frais Généraux</strong></td>
+                                <td><strong>32.500 F</strong></td>
+                                <td><strong>40.500 F</strong></td>
+                                <td><strong>40.500 F</strong></td>
+                                <td><strong>45.500 F</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Scolarité annuelle</td>
+                                <td>90.000 F</td>
+                                <td>85.000 F</td>
+                                <td>85.000 F</td>
+                                <td>85.000 F</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td><strong>TOTAL NOUVEAU</strong></td>
+                                <td><strong>122.500 F</strong></td>
+                                <td><strong>125.500 F</strong></td>
+                                <td><strong>125.500 F</strong></td>
+                                <td><strong>130.500 F</strong></td>
+                            </tr>
+                            <tr class="total-row">
+                                <td><strong>TOTAL ANCIEN</strong></td>
+                                <td><strong>120.500 F</strong></td>
+                                <td><strong>123.500 F</strong></td>
+                                <td><strong>123.500 F</strong></td>
+                                <td><strong>128.500 F</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Modalités de Paiement -->
+        <section class="section modalites-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Modalités de Paiement</h2>
+                    <p class="section-subtitle">Un échéancier adapté pour faciliter vos paiements</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="modalites-grid">
+                    <div class="modalite-card">
+                        <div class="modalite-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <h3>À l'inscription</h3>
+                        <ul>
+                            <li>Paiement des <strong>Frais Généraux</strong></li>
+                            <li>Prématernelle: 32.500 F</li>
+                            <li>Maternelle: 40.500 F</li>
+                            <li>CI-CP: 40.500 F</li>
+                            <li>CE1-CE2: 45.500 F</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modalite-card">
+                        <div class="modalite-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>1ère Tranche</h3>
+                        <ul>
+                            <li>Au plus tard le <strong>20 Octobre</strong></li>
+                            <li>Prématernelle: 30.000 F</li>
+                            <li>Autres niveaux: 35.000 F</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modalite-card">
+                        <div class="modalite-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3>2ème Tranche</h3>
+                        <ul>
+                            <li>Au plus tard le <strong>08 Décembre</strong></li>
+                            <li>Tous niveaux: 30.000 F</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modalite-card">
+                        <div class="modalite-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <h3>3ème Tranche</h3>
+                        <ul>
+                            <li>Au plus tard le <strong>09 Février</strong></li>
+                            <li>Solde restant dû</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Services Facultatifs -->
+        <section class="section services-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Services Facultatifs</h2>
+                    <p class="section-subtitle">Des options pour faciliter votre quotidien</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3>Déjeuner</h3>
+                        <div class="service-price">9.000 F</div>
+                        <p>Repas équilibré préparé sur place</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                        <h3>Petit-déjeuner</h3>
+                        <div class="service-price">5.000 F</div>
+                        <p>Pour bien commencer la journée</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Garderie</h3>
+                        <div class="service-price">3.000 F</div>
+                        <p>Accueil avant et après l'école</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cookie-bite"></i>
+                        </div>
+                        <h3>Goûté (Maternelle)</h3>
+                        <div class="service-price">3.000 F</div>
+                        <p>Collation saine de l'après-midi</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem; background: var(--white); padding: 2rem; border-radius: var(--border-radius);">
+                    <h3 style="color: var(--fuchsia); margin-bottom: 1rem;">Rappel Important</h3>
+                    <p>Les frais de cantine sont payables <strong>au plus tard le 5</strong> de chaque mois</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Section Formulaire -->
-        <section class="section form-section">
+        <section class="section form-section" id="form-section">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Pré-inscription en Ligne</h2>
@@ -1124,13 +1429,13 @@
                                 <label for="enfantNiveau" class="form-label">Niveau souhaité *</label>
                                 <select id="enfantNiveau" class="form-select" required>
                                     <option value="">Sélectionnez un niveau</option>
-                                    <option value="creche">Crèche (2 mois - 3 ans)</option>
-                                    <option value="maternelle1">Maternelle 1 (3-4 ans)</option>
-                                    <option value="maternelle2">Maternelle 2 (4-5 ans)</option>
-                                    <option value="ci">Cours d'Initiation - CI (5-6 ans+)</option>
-                                    <option value="cp">Cours Préparatoire - CP (6-7 ans+)</option>
-                                    <option value="ce1">Cours Élémentaire 1 - CE1 (7-8 ans+)</option>
-                                    <option value="ce2">Cours Élémentaire 2 - CE2 (8-9 ans+)</option>
+                                    <option value="prematernelle">Prématernelle</option>
+                                    <option value="maternelle1">Maternelle 1</option>
+                                    <option value="maternelle2">Maternelle 2</option>
+                                    <option value="ci">Cours d'Initiation - CI</option>
+                                    <option value="cp">Cours Préparatoire - CP</option>
+                                    <option value="ce1">Cours Élémentaire 1 - CE1</option>
+                                    <option value="ce2">Cours Élémentaire 2 - CE2</option>
                                 </select>
                             </div>
                         </div>
@@ -1201,10 +1506,10 @@
                         </div>
                         <h3>Documents d'Identité</h3>
                         <ul>
-                            <li>Photocopie de l'acte de naissance</li>
-                            <li>Photocopie du carnet de vaccination</li>
-                            <li>4 photos d'identité récentes</li>
-                            <li>Photocopie CNI des parents</li>
+                            <li>Une fiche d'inscription (disponible à l'administration)</li>
+                            <li>Un extrait d'acte de naissance sécurisé</li>
+                            <li>Deux photos d'identité</li>
+                            <li>Une photocopie du carnet de vaccination</li>
                         </ul>
                     </div>
                     
@@ -1212,94 +1517,24 @@
                         <div class="document-icon">
                             <i class="fas fa-file-medical"></i>
                         </div>
-                        <h3>Documents Médicaux</h3>
+                        <h3>Documents Scolaires</h3>
                         <ul>
-                            <li>Certificat médical de non contre-indication</li>
-                            <li>Carnet de santé à jour</li>
-                            <li>Fiche sanitaire complétée</li>
-                            <li>Allergies ou traitements particuliers</li>
+                            <li>Certificat de scolarité (pour les enfants venant d'ailleurs)</li>
+                            <li>Bulletins de l'année précédente</li>
+                            <li>Certificat de radiation (si changement d'école)</li>
                         </ul>
                     </div>
                     
                     <div class="document-card">
                         <div class="document-icon">
-                            <i class="fas fa-graduation-cap"></i>
+                            <i class="fas fa-tshirt"></i>
                         </div>
-                        <h3>Documents Scolaires</h3>
+                        <h3>Uniforme et Fournitures</h3>
                         <ul>
-                            <li>Bulletins de l'année précédente</li>
-                            <li>Certificat de radiation (si changement)</li>
-                            <li>Dossier d'évaluation précédente</li>
-                            <li>Livret scolaire (primaire)</li>
+                            <li>Les uniformes sont disponibles au secrétariat</li>
+                            <li>Tenue de sport disponible</li>
+                            <li>Liste des fournitures fournie après inscription</li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Niveaux -->
-        <section class="section niveaux-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title" style="color: var(--black);">Nos Niveaux</h2>
-                    <p class="section-subtitle" style="color: var(--gray-dark);">Des programmes adaptés à chaque âge</p>
-                    <div class="section-divider"></div>
-                </div>
-                
-                <div class="niveaux-grid">
-                    <div class="niveau-card">
-                        <div class="niveau-icon">
-                            <i class="fas fa-baby"></i>
-                        </div>
-                        <h3>Crèche & Garderie</h3>
-                        <div class="niveau-contact">
-                            Contactez la Direction
-                        </div>
-                        <ul class="niveau-features">
-                            <li>Accueil 2 mois - 3 ans</li>
-                            <li>Horaires : 7h - 19h</li>
-                            <li>Repas et goûters inclus</li>
-                            <li>Sieste et soins</li>
-                            <li>Activités d'éveil</li>
-                        </ul>
-                        <a href="#form-section" class="btn btn-primary">Pré-inscription</a>
-                    </div>
-                    
-                    <div class="niveau-card popular">
-                        <div class="popular-badge">Le Plus Populaire</div>
-                        <div class="niveau-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h3>Maternelle Bilingue</h3>
-                        <div class="niveau-contact">
-                            Contactez le Secrétariat
-                        </div>
-                        <ul class="niveau-features">
-                            <li>3-5 ans</li>
-                            <li>Programme bilingue</li>
-                            <li>Activités artistiques</li>
-                            <li>Éveil musical</li>
-                            <li>Sorties pédagogiques</li>
-                        </ul>
-                        <a href="#form-section" class="btn btn-primary">Pré-inscription</a>
-                    </div>
-                    
-                    <div class="niveau-card">
-                        <div class="niveau-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3>Primaire Bilingue</h3>
-                        <div class="niveau-contact">
-                            Contactez la Direction
-                        </div>
-                        <ul class="niveau-features">
-                            <li>6 ans+</li>
-                            <li>Enseignement bilingue</li>
-                            <li>Technologies éducatives</li>
-                            <li>Activités parascolaires</li>
-                            <li>Suivi personnalisé</li>
-                        </ul>
-                        <a href="#form-section" class="btn btn-primary">Pré-inscription</a>
                     </div>
                 </div>
             </div>
@@ -1321,7 +1556,7 @@
                         </div>
                         <h3>Par Téléphone</h3>
                         <p>Appelez-nous pour un renseignement immédiat</p>
-                        <p><strong>+229 01 58 03 03 02</strong></p>
+                        <p><strong>+229 01 97 91 94 52</strong></p>
                     </div>
                     
                     <div class="contact-item">
@@ -1330,7 +1565,7 @@
                         </div>
                         <h3>Sur WhatsApp</h3>
                         <p>Échangez avec notre équipe en message</p>
-                        <p><strong>+229 01 58 03 03 02</strong></p>
+                        <p><strong>+229 01 97 91 94 52</strong></p>
                     </div>
                     
                     <div class="contact-item">
@@ -1355,14 +1590,14 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <div class="logo-img-container">
-                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="logo-img">
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -1378,7 +1613,7 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="contact-info-footer">
+                    <div class="contact-info">
                         <div class="contact-line">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>Parakou - Zongo, Bénin</span>
@@ -1389,7 +1624,7 @@
                         </div>
                         <div class="contact-line">
                             <i class="fas fa-phone"></i>
-                            <span>+229 01 58 03 03 02</span>
+                            <span>+229 01 97 91 94 52</span>
                         </div>
                     </div>
                 </div>
@@ -1413,19 +1648,19 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h4>Liens Rapides</h4>
+                    <h4>Réseaux Sociaux</h4>
                     <div class="social-links">
-                        <a href="index.html" class="social-link">
-                            <i class="fas fa-home"></i>
-                            Accueil
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
                         </a>
-                        <a href="inscription.html" class="social-link">
-                            <i class="fas fa-user-graduate"></i>
-                            Inscription
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
                         </a>
-                        <a href="contact.html" class="social-link">
-                            <i class="fas fa-phone"></i>
-                            Contact
+                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                            TikTok
                         </a>
                         <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
                             <i class="fas fa-map-marker-alt"></i>
@@ -1439,7 +1674,7 @@
                 <div class="footer-legal">
                     <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                     <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>Numéro d'autorisation : 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1449,7 +1684,7 @@
     </footer>
 
     <script>
-        // ===== GESTIONNAIRE DE LA PAGE INSCRIPTION =====
+        // ===== GESTIONNAIRE DE LA PAGE INSCRIPTION OPTIMISÉ =====
         class InscriptionManager {
             constructor() {
                 this.init();
@@ -1460,6 +1695,8 @@
                 this.setupInscriptionForm();
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
+                this.handleIntroAnimation();
+                this.setupPerformanceOptimizations();
             }
 
             // Configuration de la navigation
@@ -1471,13 +1708,6 @@
                     navToggle.addEventListener('click', () => {
                         navToggle.classList.toggle('active');
                         navMenu.classList.toggle('active');
-                        
-                        // Empêcher le défilement quand le menu est ouvert
-                        if (navMenu.classList.contains('active')) {
-                            document.body.style.overflow = 'hidden';
-                        } else {
-                            document.body.style.overflow = '';
-                        }
                     });
                 }
 
@@ -1486,7 +1716,6 @@
                     link.addEventListener('click', () => {
                         navToggle.classList.remove('active');
                         navMenu.classList.remove('active');
-                        document.body.style.overflow = '';
                     });
                 });
 
@@ -1503,15 +1732,8 @@
                         header.style.boxShadow = 'none';
                     }
 
-                    // Cacher/montrer le header au scroll
-                    if (window.scrollY > lastScrollY && window.scrollY > 200) {
-                        header.style.transform = 'translateY(-100%)';
-                    } else {
-                        header.style.transform = 'translateY(0)';
-                    }
-
                     lastScrollY = window.scrollY;
-                });
+                }, { passive: true });
             }
 
             // Configuration du formulaire d'inscription
@@ -1525,7 +1747,7 @@
                 }
             }
 
-            // Animations au scroll
+            // Animations au scroll optimisées
             setupScrollAnimations() {
                 const observerOptions = {
                     threshold: 0.1,
@@ -1541,58 +1763,39 @@
                 }, observerOptions);
 
                 // Observer les éléments à animer
-                document.querySelectorAll('.process-step, .document-card, .niveau-card, .contact-item').forEach(el => {
+                document.querySelectorAll('.process-step, .modalite-card, .service-card, .document-card, .contact-item').forEach(el => {
                     observer.observe(el);
                 });
             }
 
             // Configuration des éléments interactifs
             setupInteractiveElements() {
-                // Effet ripple pour les boutons
-                document.querySelectorAll('.btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        this.createRippleEffect(e);
-                    }.bind(this));
-                });
-
                 // Animation des cartes au survol
-                const cards = document.querySelectorAll('.document-card, .niveau-card, .contact-item');
+                const cards = document.querySelectorAll('.modalite-card, .service-card, .document-card, .contact-item');
                 
                 cards.forEach(card => {
                     card.addEventListener('mouseenter', () => {
-                        card.style.transform = 'translateY(-10px)';
+                        card.style.transform = 'translateY(-5px)';
                     });
                     
                     card.addEventListener('mouseleave', () => {
                         card.style.transform = 'translateY(0)';
                     });
                 });
+            }
 
-                // Sélection automatique du niveau dans le formulaire
-                const niveauButtons = document.querySelectorAll('.niveau-card .btn');
-                const niveauSelect = document.getElementById('enfantNiveau');
-                
-                niveauButtons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const niveauCard = button.closest('.niveau-card');
-                        const titre = niveauCard.querySelector('h3').textContent;
-                        
-                        let niveauValue = '';
-                        if (titre.includes('Crèche')) niveauValue = 'creche';
-                        else if (titre.includes('Maternelle')) niveauValue = 'maternelle1';
-                        else if (titre.includes('Primaire')) niveauValue = 'cp';
-                        
-                        if (niveauValue && niveauSelect) {
-                            niveauSelect.value = niveauValue;
-                        }
-                        
-                        // Faire défiler jusqu'au formulaire
-                        document.getElementById('inscriptionForm').scrollIntoView({ behavior: 'smooth' });
-                        
-                        this.showNotification('Niveau sélectionné ! Remplissez maintenant le formulaire.', 'success');
-                    });
-                });
+            // Gestion de l'animation d'introduction
+            handleIntroAnimation() {
+                const introOverlay = document.getElementById('intro-overlay');
+                if (introOverlay) {
+                    // Animation de sortie après 3 secondes
+                    setTimeout(() => {
+                        introOverlay.style.animation = 'introExit 1s ease forwards';
+                        setTimeout(() => {
+                            introOverlay.style.display = 'none';
+                        }, 1000);
+                    }, 3000);
+                }
             }
 
             // Gestion de la soumission du formulaire
@@ -1725,31 +1928,10 @@ Date de soumission: ${new Date().toLocaleString('fr-FR')}
                     `🏠 ${data.parentAdresse || 'Non renseignée'}%0A%0A` +
                     `*MESSAGE:*%0A${data.message || 'Aucun message'}`;
 
-                const whatsappUrl = `https://wa.me/2290158030302?text=${whatsappMessage}`;
+                const whatsappUrl = `https://wa.me/2290197919452?text=${whatsappMessage}`;
                 
                 // Ouvrir WhatsApp dans un nouvel onglet
                 window.open(whatsappUrl, '_blank');
-            }
-
-            // Effet visuel ripple
-            createRippleEffect(e) {
-                const button = e.currentTarget;
-                const ripple = document.createElement('span');
-                const rect = button.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
-                
-                button.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
             }
 
             // Système de notifications
@@ -1784,11 +1966,25 @@ Date de soumission: ${new Date().toLocaleString('fr-FR')}
                 };
                 return icons[type] || 'info-circle';
             }
+
+            // Optimisations de performance
+            setupPerformanceOptimizations() {
+                // Lazy loading pour les images
+                if ('loading' in HTMLImageElement.prototype) {
+                    const images = document.querySelectorAll('img[loading="lazy"]');
+                    images.forEach(img => {
+                        img.loading = 'lazy';
+                    });
+                }
+            }
         }
 
-        // ===== INITIALISATION =====
+        // ===== INITIALISATION OPTIMISÉE =====
         document.addEventListener('DOMContentLoaded', () => {
-            window.inscriptionManager = new InscriptionManager();
+            // Chargement différé du manager pour meilleure performance
+            setTimeout(() => {
+                window.inscriptionManager = new InscriptionManager();
+            }, 100);
         });
     </script>
 </body>
