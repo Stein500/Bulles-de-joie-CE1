@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notre École - Les Bulles de Joie - École Bilingue Parakou</title>
+    <title>Notre École - Les Bulles de Joie - École Bilingue d'Excellence à Parakou</title>
     <meta name="description" content="Découvrez Les Bulles de Joie : école bilingue d'excellence à Parakou depuis 2017. Crèche, garderie, maternelle et primaire bilingue.">
     
     <!-- SEO Optimizations -->
@@ -12,7 +12,7 @@
     <link rel="canonical" href="https://lesbullesdejoie.bj/apropos">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="Notre École - Les Bulles de Joie - École Bilingue Parakou">
+    <meta property="og:title" content="Notre École - Les Bulles de Joie - École Bilingue d'Excellence à Parakou">
     <meta property="og:description" content="Découvrez notre histoire, nos valeurs et notre approche éducative unique depuis 2017">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lesbullesdejoie.bj/apropos">
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== VARIABLES OPTIMISÉES ===== */
+        /* ===== VARIABLES ET RESET OPTIMISÉS ===== */
         :root {
             /* Couleurs solides comme demandé */
             --white: #ffffff;
@@ -34,6 +34,8 @@
             --light-pink: #ffccf9;
             --light-green: #e7ffb3;
             --dark-purple: #2d1b69;
+            
+            /* Couleurs de soutien */
             --gray-light: #f8f9fa;
             --gray: #6c757d;
             --gray-dark: #343a40;
@@ -124,13 +126,39 @@
             position: relative;
         }
 
+        .floating-bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+            animation: floatBubble 8s infinite ease-in-out;
+        }
+
+        .b1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
+        .b2 { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 1s; }
+        .b3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
+        .b4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
+
+        .logo-glow-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
         .intro-logo {
             width: 140px;
             height: 140px;
             background: var(--white);
             border-radius: 50%;
             padding: 20px;
-            margin: 0 auto 2rem;
             animation: logoFloat 3s ease-in-out infinite;
             box-shadow: var(--shadow-lg);
         }
@@ -329,6 +357,18 @@
             background: var(--fuchsia);
         }
 
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--fuchsia);
+            transform: translateY(-3px);
+        }
+
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
             padding: 5rem 0;
@@ -367,30 +407,36 @@
             border-radius: 2px;
         }
 
-        /* ===== STYLES SPÉCIFIQUES À LA PAGE APROPOS ===== */
+        /* ===== HERO SECTION POUR APROPOS ===== */
         .hero-about {
             background: var(--fuchsia);
-            color: var(--white);
+            color: white;
             padding: 8rem 0 4rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero-about h1 {
             font-size: 3rem;
-            margin-bottom: 1rem;
             font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: white;
         }
 
         .hero-about p {
             font-size: 1.2rem;
+            margin-bottom: 1.5rem;
             opacity: 0.9;
             max-width: 600px;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .slogan-badge {
-            display: inline-flex;
-            gap: 2rem;
+            display: flex;
+            gap: 1.5rem;
             margin-top: 2rem;
             flex-wrap: wrap;
             justify-content: center;
@@ -402,8 +448,15 @@
             border-radius: var(--border-radius);
             backdrop-filter: blur(10px);
             font-weight: 600;
+            transition: var(--transition-normal);
         }
 
+        .slogan-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== SECTION HISTOIRE ===== */
         .history-section {
             background: var(--white);
         }
@@ -429,6 +482,13 @@
             padding: 1.5rem;
             border-radius: var(--border-radius);
             margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+        }
+
+        .founding-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
         }
 
         .founding-year {
@@ -445,6 +505,33 @@
             color: var(--gray-dark);
         }
 
+        .history-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .history-card {
+            background: var(--light-pink);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .history-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .history-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        /* ===== SECTION VALEURS ===== */
         .values-section {
             background: var(--gray-light);
         }
@@ -462,6 +549,7 @@
             text-align: center;
             box-shadow: var(--shadow-sm);
             transition: var(--transition-normal);
+            border-top: 4px solid var(--fuchsia);
         }
 
         .value-card:hover {
@@ -485,6 +573,7 @@
             color: var(--gray);
         }
 
+        /* ===== SECTION IMMERSION ===== */
         .immersion-section {
             background: var(--white);
         }
@@ -516,6 +605,7 @@
             color: var(--fuchsia);
         }
 
+        /* ===== SECTION CYCLES ===== */
         .cycles-section {
             background: var(--light-green);
         }
@@ -533,6 +623,7 @@
             text-align: center;
             box-shadow: var(--shadow-md);
             transition: var(--transition-normal);
+            border-top: 4px solid var(--fuchsia);
         }
 
         .cycle-card:hover {
@@ -570,43 +661,67 @@
             margin: 0.25rem;
         }
 
-        /* ===== FOOTER OPTIMISÉ ===== */
+        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 1rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-section h4 {
             color: var(--lemon-green);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-section h4::after {
+            content: '+';
             font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-section.active h4::after {
+            content: '-';
+        }
+
+        .footer-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .footer-section.active .footer-details {
+            max-height: 500px;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .footer-logo-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--white);
             border-radius: 50%;
-            padding: 10px;
+            padding: 8px;
         }
 
         .footer-text h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
@@ -614,6 +729,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .badge {
@@ -621,22 +737,28 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
             border-radius: 15px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             backdrop-filter: blur(10px);
+            transition: var(--transition-normal);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .contact-info,
         .schedule-info {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line,
         .schedule-line {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line i {
@@ -657,16 +779,16 @@
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             color: var(--white);
             text-decoration: none;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
             transition: var(--transition-fast);
@@ -680,7 +802,7 @@
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
+            padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -688,15 +810,51 @@
             gap: 1rem;
         }
 
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .legal-toggle:hover {
+            background: var(--fuchsia);
+        }
+
+        .legal-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .legal-content.active {
+            max-height: 200px;
+        }
+
         .footer-legal p {
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            line-height: 1.4;
         }
 
         .footer-credits p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            text-align: right;
         }
 
         /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
@@ -740,6 +898,10 @@
                 display: flex;
             }
             
+            .hero-about {
+                padding: 7rem 0 3rem;
+            }
+            
             .hero-about h1 {
                 font-size: 2.2rem;
             }
@@ -765,14 +927,26 @@
             
             .footer-content {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .footer-section h4 {
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-credits {
+                text-align: center;
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
-            .hero-about {
-                padding: 7rem 0 3rem;
-            }
-            
             .hero-about h1 {
                 font-size: 1.8rem;
             }
@@ -812,10 +986,19 @@
     </style>
 </head>
 <body>
-    <!-- Introduction spécifique à la page À Propos -->
+    <!-- Animation d'introduction -->
     <div id="intro-overlay" class="intro-overlay">
         <div class="intro-container">
-            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            <div class="floating-bubbles">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+            </div>
+            
+            <div class="logo-glow-container">
+                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            </div>
             
             <h1 class="logo-text">
                 <span class="text-part">Notre</span>
@@ -850,6 +1033,7 @@
                     <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
                     <li><a href="activites.html" class="nav-link">Activités</a></li>
                     <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="tarifs.html" class="nav-link">Nos Tarifs</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
                     <li><a href="inscription.html" class="nav-link btn-contact">Inscription</a></li>
                 </ul>
@@ -893,9 +1077,11 @@
                         <p>Depuis notre création, nous avons accueilli des centaines d'enfants dans un cadre bienveillant qui allie excellence académique et développement personnel.</p>
                     </div>
                     <div class="history-visual">
-                        <div style="background: var(--light-pink); padding: 2rem; border-radius: var(--border-radius); text-align: center;">
-                            <i class="fas fa-school" style="font-size: 4rem; color: var(--fuchsia); margin-bottom: 1rem;"></i>
-                            <h3 style="color: var(--fuchsia); margin-bottom: 1rem;">8 Ans d'Expérience</h3>
+                        <div class="history-card">
+                            <div class="history-icon">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <h3>8 Ans d'Expérience</h3>
                             <p>Depuis 2017, nous cultivons l'excellence éducative</p>
                         </div>
                     </div>
@@ -979,7 +1165,7 @@
                             <i class="fas fa-music"></i>
                         </div>
                         <h3>Musique</h3>
-                        <p>Exploration des sons, rythmes et instruments</p>
+                        <p>Exploration des rythmes traditionnels et modernes</p>
                     </div>
                     
                     <div class="immersion-item">
@@ -987,7 +1173,7 @@
                             <i class="fas fa-child"></i>
                         </div>
                         <h3>Danse</h3>
-                        <p>Expression corporelle et coordination</p>
+                        <p>Expression corporelle à travers danses traditionnelles et modernes</p>
                     </div>
                     
                     <div class="immersion-item">
@@ -1009,7 +1195,7 @@
             </div>
         </section>
 
-        <!-- Section Cycles CORRIGÉE -->
+        <!-- Section Cycles -->
         <section class="section cycles-section">
             <div class="container">
                 <div class="section-header">
@@ -1063,7 +1249,7 @@
         </section>
     </main>
 
-    <!-- Footer OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1086,68 +1272,81 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="contact-info">
-                        <div class="contact-line">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Parakou - Zongo, Bénin</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-envelope"></i>
-                            <span>lesbullesdejoie@gmail.com</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-phone"></i>
-                            <span>+229 01 97 91 94 52</span>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 97 91 94 52</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Horaires</h4>
-                    <div class="schedule-info">
-                        <div class="schedule-line">
-                            <strong>Crèche & Garderie:</strong>
-                            <span>07h - 19h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Maternelle:</strong>
-                            <span>08h - 11h30 & 15h - 17h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Primaire:</strong>
-                            <span>07h30 - 12h & 15h - 17h30</span>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Crèche & Garderie:</strong>
+                                <span>07h - 19h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Maternelle:</strong>
+                                <span>08h - 11h30 & 15h - 17h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Primaire:</strong>
+                                <span>07h30 - 12h & 15h - 17h30</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
-                    <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                            Facebook
-                        </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
-                        </a>
-                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
-                            <i class="fab fa-tiktok"></i>
-                            TikTok
-                        </a>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Google Maps
-                        </a>
+                    <div class="footer-details">
+                        <div class="social-links">
+                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                                <i class="fab fa-tiktok"></i>
+                                TikTok
+                            </a>
+                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
-                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <button class="legal-toggle">
+                        <span>Autorisations et Certifications</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1168,6 +1367,7 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
+                this.setupFooterInteractions();
                 this.setupPerformanceOptimizations();
             }
 
@@ -1224,7 +1424,7 @@
                 }, observerOptions);
 
                 // Observer les éléments à animer
-                document.querySelectorAll('.value-card, .immersion-item, .cycle-card').forEach(el => {
+                document.querySelectorAll('.value-card, .immersion-item, .cycle-card, .history-card').forEach(el => {
                     observer.observe(el);
                 });
             }
@@ -1232,7 +1432,7 @@
             // Configuration des éléments interactifs
             setupInteractiveElements() {
                 // Animation des cartes au survol
-                const cards = document.querySelectorAll('.value-card, .immersion-item, .cycle-card');
+                const cards = document.querySelectorAll('.value-card, .immersion-item, .cycle-card, .history-card, .slogan-item');
                 
                 cards.forEach(card => {
                     card.addEventListener('mouseenter', () => {
@@ -1259,6 +1459,36 @@
                 }
             }
 
+            // Interactions du footer
+            setupFooterInteractions() {
+                // Sections pliables du footer
+                const footerSections = document.querySelectorAll('.footer-section');
+                const legalToggle = document.querySelector('.legal-toggle');
+                const legalContent = document.querySelector('.legal-content');
+
+                footerSections.forEach(section => {
+                    const heading = section.querySelector('h4');
+                    if (heading) {
+                        heading.addEventListener('click', () => {
+                            section.classList.toggle('active');
+                        });
+                    }
+                });
+
+                // Toggle des autorisations
+                if (legalToggle && legalContent) {
+                    legalToggle.addEventListener('click', () => {
+                        legalContent.classList.toggle('active');
+                        const icon = legalToggle.querySelector('i');
+                        if (legalContent.classList.contains('active')) {
+                            icon.className = 'fas fa-chevron-up';
+                        } else {
+                            icon.className = 'fas fa-chevron-down';
+                        }
+                    });
+                }
+            }
+
             // Optimisations de performance
             setupPerformanceOptimizations() {
                 // Lazy loading pour les images
@@ -1268,6 +1498,13 @@
                         img.loading = 'lazy';
                     });
                 }
+
+                // Préchargement des polices critiques
+                const fontLink = document.createElement('link');
+                fontLink.rel = 'preload';
+                fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap';
+                fontLink.as = 'style';
+                document.head.appendChild(fontLink);
             }
         }
 
@@ -1278,6 +1515,15 @@
                 window.aboutManager = new AboutManager();
             }, 100);
         });
+
+        // Service Worker pour PWA (optionnel)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(() => console.log('Service Worker enregistré'))
+                    .catch(() => console.log('Service Worker non supporté'));
+            });
+        }
     </script>
 </body>
 </html>
