@@ -112,6 +112,57 @@
             100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
         }
 
+        /* ===== NOUVELLES ANIMATIONS POUR LES CARTES ===== */
+        @keyframes cardFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg); 
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+            25% { 
+                transform: translateY(-15px) rotate(2deg); 
+                box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            }
+            50% { 
+                transform: translateY(-25px) rotate(0deg); 
+                box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            }
+            75% { 
+                transform: translateY(-15px) rotate(-2deg); 
+                box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            }
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { 
+                box-shadow: 0 10px 20px rgba(255, 0, 255, 0.1),
+                           inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2),
+                           inset 0 0 30px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes cardEntry {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.8); 
+            }
+            70% { 
+                opacity: 0.8; 
+                transform: translateY(-10px) scale(1.05); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
         /* ===== INTRODUCTION OPTIMISÉE ===== */
         .intro-overlay {
             position: fixed;
@@ -482,8 +533,9 @@
 
         .floating-elements {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
         }
 
         .floating-card {
@@ -500,35 +552,123 @@
             box-shadow: var(--shadow-md);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: var(--transition-normal);
-            animation: logoFloat 6s ease-in-out infinite;
+            animation: cardFloat 6s ease-in-out infinite, cardGlow 4s ease-in-out infinite;
+            animation-fill-mode: both;
+        }
+
+        /* Animation d'entrée séquentielle pour les cartes */
+        .floating-card:nth-child(1) {
+            animation-delay: 0s, 0s;
+            animation: cardEntry 1s ease-out, cardFloat 6s ease-in-out 1s infinite, cardGlow 4s ease-in-out 1s infinite;
+        }
+
+        .floating-card:nth-child(2) {
+            animation-delay: 0.3s, 0.3s;
+            animation: cardEntry 1s ease-out 0.3s both, cardFloat 6s ease-in-out 1.3s infinite, cardGlow 4s ease-in-out 1.3s infinite;
+        }
+
+        .floating-card:nth-child(3) {
+            animation-delay: 0.6s, 0.6s;
+            animation: cardEntry 1s ease-out 0.6s both, cardFloat 6s ease-in-out 1.6s infinite, cardGlow 4s ease-in-out 1.6s infinite;
+        }
+
+        .floating-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            animation-play-state: paused;
+            box-shadow: 0 25px 50px rgba(255, 0, 255, 0.3),
+                       inset 0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        .floating-card:hover i {
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .floating-card i {
             font-size: 2rem;
             margin-bottom: 0.5rem;
             color: var(--lemon-green);
+            transition: var(--transition-normal);
         }
 
         .floating-card span {
             font-weight: 600;
+            transition: var(--transition-normal);
         }
 
+        .floating-card:hover span {
+            color: var(--lemon-green);
+            transform: translateY(-2px);
+        }
+
+        /* CORRECTION DU POSITIONNEMENT DES CARTES FLOTTANTES */
         .card-1 {
             top: 10%;
-            left: 10%;
-            animation-delay: 0s;
+            left: 5%;
         }
 
         .card-2 {
-            top: 50%;
-            right: 10%;
-            animation-delay: 2s;
+            top: 60%;
+            right: 5%;
         }
 
         .card-3 {
             bottom: 10%;
             left: 30%;
-            animation-delay: 4s;
+        }
+
+        /* Version mobile simplifiée */
+        .mobile-cards {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .mobile-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
+        }
+
+        .mobile-card:nth-child(1) { animation-delay: 0.1s; }
+        .mobile-card:nth-child(2) { animation-delay: 0.2s; }
+        .mobile-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .mobile-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .mobile-card i {
+            font-size: 1.5rem;
+            color: var(--lemon-green);
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: var(--transition-normal);
+        }
+
+        .mobile-card:hover i {
+            transform: scale(1.2);
+            animation: iconPulse 1s ease-in-out infinite;
+        }
+
+        .mobile-card span {
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition-normal);
+        }
+
+        .mobile-card:hover span {
+            color: var(--lemon-green);
+        }
+
+        .desktop-only {
+            display: block;
         }
 
         .scroll-indicator {
@@ -586,28 +726,278 @@
             padding: 2.5rem 2rem;
             text-align: center;
             border-top: 4px solid var(--fuchsia);
+            animation: cardEntry 0.8s ease-out both;
         }
 
+        .immersion-card:nth-child(1) { animation-delay: 0.1s; }
+        .immersion-card:nth-child(2) { animation-delay: 0.2s; }
+        .immersion-card:nth-child(3) { animation-delay: 0.3s; }
+        .immersion-card:nth-child(4) { animation-delay: 0.4s; }
+        .immersion-card:nth-child(5) { animation-delay: 0.5s; }
+        .immersion-card:nth-child(6) { animation-delay: 0.6s; }
+
         .immersion-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: var(--shadow-lg);
+        }
+
+        .immersion-card:hover .card-icon {
+            transform: scale(1.2);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .card-icon {
             font-size: 3rem;
             margin-bottom: 1.5rem;
             color: var(--fuchsia);
+            transition: var(--transition-normal);
         }
 
         .immersion-card h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--black);
+            transition: var(--transition-normal);
+        }
+
+        .immersion-card:hover h3 {
+            color: var(--fuchsia);
         }
 
         .immersion-card p {
             color: var(--gray);
             margin-bottom: 1.5rem;
+        }
+
+        /* ===== SECTION SLOGAN OPTIMISÉE ===== */
+        .slogan-section {
+            background: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slogan-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><circle cx="20" cy="20" r="2" fill="%23ff00ff" opacity="0.1"/><circle cx="80" cy="40" r="3" fill="%23c6ff00" opacity="0.1"/><circle cx="40" cy="80" r="2" fill="%23ff00ff" opacity="0.1"/><circle cx="70" cy="70" r="1" fill="%23c6ff00" opacity="0.1"/></svg>');
+            z-index: 1;
+        }
+
+        .slogan-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .slogan-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .slogan-circle {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            animation: logoFloat 8s ease-in-out infinite;
+        }
+
+        .slogan-item {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            cursor: pointer;
+            border: 3px solid transparent;
+            animation: cardEntry 0.8s ease-out both;
+        }
+
+        .slogan-item:nth-child(1) { animation-delay: 0.1s; }
+        .slogan-item:nth-child(2) { animation-delay: 0.2s; }
+        .slogan-item:nth-child(3) { animation-delay: 0.3s; }
+        .slogan-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .slogan-item:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+            animation: cardFloat 3s ease-in-out infinite, cardGlow 2s ease-in-out infinite;
+        }
+
+        .slogan-item.active {
+            border-color: var(--fuchsia);
+            transform: scale(1.1);
+            animation: cardFloat 3s ease-in-out infinite, cardGlow 2s ease-in-out infinite;
+        }
+
+        .slogan-item[data-slogan="amour"] {
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ffccf9 0%, #ff99f0 100%);
+        }
+
+        .slogan-item[data-slogan="travail"] {
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #e7ffb3 0%, #d4ff66 100%);
+        }
+
+        .slogan-item[data-slogan="rigueur"] {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #d9ccff 0%, #b399ff 100%);
+        }
+
+        .slogan-item[data-slogan="creativite"] {
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #ffd9cc 0%, #ffb399 100%);
+        }
+
+        .slogan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-normal);
+        }
+
+        .slogan-item:hover .slogan-icon,
+        .slogan-item.active .slogan-icon {
+            animation: iconPulse 1s ease-in-out infinite;
+        }
+
+        .slogan-item[data-slogan="amour"] .slogan-icon {
+            color: var(--fuchsia);
+        }
+
+        .slogan-item[data-slogan="travail"] .slogan-icon {
+            color: #8bc34a;
+        }
+
+        .slogan-item[data-slogan="rigueur"] .slogan-icon {
+            color: #673ab7;
+        }
+
+        .slogan-item[data-slogan="creativite"] .slogan-icon {
+            color: #ff5722;
+        }
+
+        .slogan-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            transition: var(--transition-normal);
+        }
+
+        .slogan-item:hover h3,
+        .slogan-item.active h3 {
+            transform: translateY(-2px);
+        }
+
+        .slogan-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            height: 400px;
+            overflow-y: auto;
+            animation: cardEntry 0.8s ease-out 0.5s both;
+        }
+
+        .slogan-text {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .slogan-text.active {
+            display: block;
+        }
+
+        .slogan-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--fuchsia);
+        }
+
+        .slogan-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .slogan-text ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .slogan-text li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .slogan-text li::before {
+            content: '•';
+            color: var(--fuchsia);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+
+        .slogan-quote {
+            font-style: italic;
+            background: var(--gray-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--lemon-green);
+            margin-top: 1.5rem;
+        }
+
+        .slogan-conclusion {
+            position: relative;
+            z-index: 2;
+        }
+
+        .conclusion-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--fuchsia);
+            animation: cardEntry 0.8s ease-out 0.7s both;
+        }
+
+        .conclusion-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--fuchsia);
+        }
+
+        .conclusion-card p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
         }
 
         /* ===== CYCLES SECTION CORRIGÉE ===== */
@@ -630,7 +1020,12 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
         }
+
+        .cycle-item:nth-child(1) { animation-delay: 0.1s; }
+        .cycle-item:nth-child(2) { animation-delay: 0.2s; }
+        .cycle-item:nth-child(3) { animation-delay: 0.3s; }
 
         .cycle-item:hover {
             transform: translateY(-5px);
@@ -647,6 +1042,12 @@
             justify-content: center;
             color: white;
             font-size: 2rem;
+            transition: var(--transition-normal);
+        }
+
+        .cycle-item:hover .cycle-icon {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .cycle-content h3 {
@@ -671,6 +1072,7 @@
             flex-wrap: wrap;
             gap: 0.5rem;
             margin-top: 1rem;
+            justify-content: center; /* Centrage des étiquettes */
         }
 
         .feature-tag {
@@ -679,6 +1081,12 @@
             padding: 0.3rem 0.8rem;
             border-radius: 15px;
             font-size: 0.8rem;
+            transition: var(--transition-normal);
+        }
+
+        .cycle-item:hover .feature-tag {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
 
         .cycle-schedule {
@@ -686,96 +1094,24 @@
             padding: 1rem;
             background: var(--gray-light);
             border-radius: 10px;
+            text-align: center; /* Centrage du texte */
         }
 
-        /* ===== HISTORY SECTION ===== */
-        .history-section {
-            background: var(--white);
-        }
-
-        .history-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .history-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--fuchsia);
-        }
-
-        .founding-badge {
-            display: inline-flex;
-            align-items: center;
-            background: var(--fuchsia);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 30px;
-            margin-bottom: 2rem;
-        }
-
-        .founding-year {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-right: 0.5rem;
-        }
-
-        .history-text p {
-            margin-bottom: 1.5rem;
-            color: var(--gray-dark);
-            line-height: 1.7;
-        }
-
-        .values-showcase {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .value-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--gray-light);
-            border-radius: var(--border-radius);
-        }
-
-        .value-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .value-item h4 {
-            margin-bottom: 0.5rem;
-            color: var(--fuchsia);
-        }
-
-        .achievement-stats {
+        /* Style spécial pour la crèche et garderie */
+        .cycle-item:first-child .cycle-features {
             display: flex;
+            justify-content: center;
             flex-direction: column;
-            gap: 2rem;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .stat {
+        .cycle-item:first-child .feature-tag {
+            width: auto;
+            min-width: 200px;
             text-align: center;
-            padding: 2rem;
-            background: var(--light-pink);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--fuchsia);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--gray-dark);
             font-weight: 600;
+            padding: 0.5rem 1rem;
         }
 
         /* ===== URGENT SECTION ===== */
@@ -794,6 +1130,7 @@
             padding: 2.5rem;
             border-radius: var(--border-radius);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: cardEntry 0.8s ease-out both;
         }
 
         .alert-icon {
@@ -806,6 +1143,12 @@
             justify-content: center;
             color: var(--fuchsia);
             font-size: 2rem;
+            transition: var(--transition-normal);
+        }
+
+        .urgent-alert:hover .alert-icon {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .alert-content h3 {
@@ -828,6 +1171,12 @@
             padding: 1rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
+            transition: var(--transition-normal);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .contact-item strong {
@@ -846,43 +1195,67 @@
             opacity: 0.8;
         }
 
-        /* ===== FOOTER OPTIMISÉ ===== */
+        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 1rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-section h4 {
             color: var(--lemon-green);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-section h4::after {
+            content: '+';
             font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-section.active h4::after {
+            content: '-';
+        }
+
+        .footer-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .footer-section.active .footer-details {
+            max-height: 500px;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .footer-logo-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--white);
             border-radius: 50%;
-            padding: 10px;
+            padding: 8px;
         }
 
         .footer-text h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
@@ -890,6 +1263,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .badge {
@@ -897,22 +1271,28 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
             border-radius: 15px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             backdrop-filter: blur(10px);
+            transition: var(--transition-normal);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .contact-info,
         .schedule-info {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line,
         .schedule-line {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line i {
@@ -933,16 +1313,16 @@
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             color: var(--white);
             text-decoration: none;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
             transition: var(--transition-fast);
@@ -956,7 +1336,7 @@
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
+            padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -964,15 +1344,51 @@
             gap: 1rem;
         }
 
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .legal-toggle:hover {
+            background: var(--fuchsia);
+        }
+
+        .legal-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .legal-content.active {
+            max-height: 200px;
+        }
+
         .footer-legal p {
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            line-height: 1.4;
         }
 
         .footer-credits p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            text-align: right;
         }
 
         /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
@@ -986,10 +1402,6 @@
                 text-align: center;
             }
             
-            .history-content {
-                grid-template-columns: 1fr;
-            }
-            
             .footer-content {
                 grid-template-columns: 1fr 1fr;
                 gap: 2rem;
@@ -998,6 +1410,25 @@
             .urgent-alert {
                 grid-template-columns: 1fr;
                 text-align: center;
+            }
+            
+            .slogan-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .slogan-circle {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .slogan-item {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .slogan-icon {
+                font-size: 2rem;
             }
         }
 
@@ -1050,16 +1481,118 @@
                 text-align: center;
             }
             
-            .values-showcase {
-                grid-template-columns: 1fr;
-            }
-            
             .contact-numbers {
                 grid-template-columns: 1fr;
             }
             
             .footer-content {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .footer-section h4 {
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-credits {
+                text-align: center;
+                width: 100%;
+            }
+            
+            .slogan-circle {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .slogan-item {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .slogan-icon {
+                font-size: 1.5rem;
+            }
+            
+            .slogan-item h3 {
+                font-size: 0.8rem;
+            }
+            
+            .slogan-content {
+                padding: 2rem;
+                height: 350px;
+            }
+            
+            .slogan-text h3 {
+                font-size: 1.5rem;
+            }
+            
+            .conclusion-card {
+                padding: 2rem;
+            }
+            
+            /* CORRECTIONS MOBILE POUR LES CARTES FLOTTANTES */
+            .mobile-cards {
+                display: grid;
+            }
+            
+            .desktop-only {
+                display: none;
+            }
+            
+            .hero-visual {
+                display: none;
+            }
+            
+            .floating-elements {
+                width: 250px;
+                height: 250px;
+                margin-bottom: 2rem;
+            }
+            
+            .floating-card {
+                width: 80px;
+                height: 80px;
+                padding: 1rem;
+            }
+            
+            .floating-card i {
+                font-size: 1.5rem;
+            }
+            
+            .floating-card span {
+                font-size: 0.8rem;
+            }
+            
+            .card-1 {
+                top: 5%;
+                left: 10%;
+            }
+            
+            .card-2 {
+                top: 50%;
+                right: 10%;
+                transform: translateY(-50%);
+            }
+            
+            .card-3 {
+                bottom: 5%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            /* Centrage amélioré pour mobile */
+            .cycle-item:first-child .cycle-features {
+                align-items: center;
+            }
+            
+            .cycle-item:first-child .feature-tag {
+                min-width: 180px;
             }
         }
 
@@ -1074,8 +1607,8 @@
             }
             
             .floating-elements {
-                width: 250px;
-                height: 250px;
+                width: 220px;
+                height: 220px;
             }
             
             .section {
@@ -1084,6 +1617,53 @@
             
             .section-title {
                 font-size: 1.8rem;
+            }
+            
+            .slogan-circle {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .slogan-item {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .slogan-icon {
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .slogan-item h3 {
+                font-size: 0.7rem;
+            }
+            
+            .slogan-content {
+                padding: 1.5rem;
+                height: 300px;
+            }
+            
+            .card-1 {
+                top: 5%;
+                left: 5%;
+            }
+            
+            .card-2 {
+                top: 50%;
+                right: 5%;
+                transform: translateY(-50%);
+            }
+            
+            .card-3 {
+                bottom: 5%;
+                left: 35%;
+                transform: translateX(-50%);
+            }
+
+            /* Ajustement final pour très petits écrans */
+            .cycle-item:first-child .feature-tag {
+                min-width: 160px;
+                font-size: 0.75rem;
             }
         }
 
@@ -1106,6 +1686,7 @@
             transition: transform 0.3s ease;
             z-index: 10000;
             max-width: 400px;
+            animation: cardEntry 0.5s ease-out;
         }
 
         .notification.show {
@@ -1180,7 +1761,7 @@
         </div>
     </div>
 
-    <!-- Navigation principale -->
+    <!-- Navigation principale CORRIGÉE -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo">
@@ -1200,6 +1781,7 @@
                     <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
                     <li><a href="activites.html" class="nav-link">Activités</a></li>
                     <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="tarifs.html" class="nav-link">Nos Tarifs</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
                     <li><a href="inscription.html" class="nav-link btn-contact">Inscription</a></li>
                 </ul>
@@ -1215,7 +1797,7 @@
 
     <!-- Contenu principal -->
     <main>
-        <!-- Hero Section -->
+        <!-- Hero Section CORRIGÉE -->
         <section class="hero" id="hero">
             <div class="hero-content">
                 <div class="hero-text">
@@ -1239,9 +1821,26 @@
                             Découvrir
                         </a>
                     </div>
+                    
+                    <!-- Version mobile simplifiée -->
+                    <div class="mobile-cards">
+                        <div class="mobile-card">
+                            <i class="fas fa-baby"></i>
+                            <span>Crèche</span>
+                        </div>
+                        <div class="mobile-card">
+                            <i class="fas fa-palette"></i>
+                            <span>Maternelle</span>
+                        </div>
+                        <div class="mobile-card">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Primaire</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="hero-visual">
+                <!-- Version desktop -->
+                <div class="hero-visual desktop-only">
                     <div class="floating-elements">
                         <div class="floating-card card-1">
                             <i class="fas fa-baby"></i>
@@ -1295,7 +1894,7 @@
                             <i class="fas fa-music"></i>
                         </div>
                         <h3>Musique</h3>
-                        <p>Explorer les sons, les rythmes et les instruments</p>
+                        <p>Exploration des rythmes traditionnels et modernes</p>
                     </div>
                     
                     <div class="immersion-card" data-category="danse">
@@ -1303,7 +1902,7 @@
                             <i class="fas fa-child"></i>
                         </div>
                         <h3>Danse</h3>
-                        <p>Expression corporelle, coordination et plaisir du mouvement</p>
+                        <p>Expression corporelle à travers danses traditionnelles et modernes</p>
                     </div>
                     
                     <div class="immersion-card" data-category="anglais">
@@ -1320,6 +1919,106 @@
                         </div>
                         <h3>Créativité</h3>
                         <p>Peinture, collage, modelage et expression artistique</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Notre Slogan -->
+        <section class="section slogan-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Notre Slogan Fondateur</h2>
+                    <p class="section-subtitle">Amour, Travail, Rigueur, Créativité : Les piliers de notre projet éducatif</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="slogan-container">
+                    <div class="slogan-visual">
+                        <div class="slogan-circle">
+                            <div class="slogan-item" data-slogan="amour">
+                                <div class="slogan-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <h3>Amour</h3>
+                            </div>
+                            <div class="slogan-item" data-slogan="travail">
+                                <div class="slogan-icon">
+                                    <i class="fas fa-hands-helping"></i>
+                                </div>
+                                <h3>Travail</h3>
+                            </div>
+                            <div class="slogan-item" data-slogan="rigueur">
+                                <div class="slogan-icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <h3>Rigueur</h3>
+                            </div>
+                            <div class="slogan-item" data-slogan="creativite">
+                                <div class="slogan-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h3>Créativité</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slogan-content">
+                        <div class="slogan-text active" id="amour-text">
+                            <h3>Amour : Le Cœur de Notre Pédagogie</h3>
+                            <p>À Les Bulles de Joie, l'amour est le fondement de notre approche éducative. Nous cultivons un environnement bienveillant où chaque enfant se sent aimé, en sécurité et valorisé.</p>
+                            <ul>
+                                <li>Écoute active et respect des émotions de l'enfant</li>
+                                <li>Relations chaleureuses entre éducateurs et enfants</li>
+                                <li>Encouragement constant et valorisation des progrès</li>
+                                <li>Création d'un climat de confiance mutuelle</li>
+                            </ul>
+                            <p class="slogan-quote">"C'est dans l'amour que l'enfant déploie ses ailes et découvre le monde avec confiance."</p>
+                        </div>
+                        
+                        <div class="slogan-text" id="travail-text">
+                            <h3>Travail : L'Engagement au Quotidien</h3>
+                            <p>Le travail représente notre engagement à accompagner chaque enfant dans son parcours d'apprentissage avec persévérance et régularité.</p>
+                            <ul>
+                                <li>Apprentissage par le jeu et l'expérimentation</li>
+                                <li>Développement de l'autonomie et de la persévérance</li>
+                                <li>Valorisation de l'effort et de la progression</li>
+                                <li>Collaboration entre enfants, éducateurs et parents</li>
+                            </ul>
+                            <p class="slogan-quote">"Le travail joyeux est le terreau où germent les plus belles réussites."</p>
+                        </div>
+                        
+                        <div class="slogan-text" id="rigueur-text">
+                            <h3>Rigueur : L'Excellence au Service de l'Apprentissage</h3>
+                            <p>La rigueur structure notre approche pédagogique pour garantir un apprentissage solide et progressif adapté à chaque enfant.</p>
+                            <ul>
+                                <li>Méthodologie adaptée à chaque tranche d'âge</li>
+                                <li>Suivi personnalisé des acquisitions</li>
+                                <li>Cadre éducatif structurant et sécurisant</li>
+                                <li>Exigence bienveillante dans les apprentissages</li>
+                            </ul>
+                            <p class="slogan-quote">"La rigueur bienveillante construit les fondations solides des esprits curieux."</p>
+                        </div>
+                        
+                        <div class="slogan-text" id="creativite-text">
+                            <h3>Créativité : L'Épanouissement par l'Imagination</h3>
+                            <p>La créativité est au cœur de notre projet pour développer l'imaginaire, l'innovation et l'expression personnelle de chaque enfant.</p>
+                            <ul>
+                                <li>Stimulation de la pensée divergente et de l'innovation</li>
+                                <li>Ateliers artistiques et d'expression corporelle</li>
+                                <li>Encouragement à la résolution créative de problèmes</li>
+                                <li>Valorisation de l'originalité et de l'expression personnelle</li>
+                            </ul>
+                            <p class="slogan-quote">"La créativité est la couleur de l'âme qui s'exprime dans chaque apprentissage."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slogan-conclusion">
+                    <div class="conclusion-card">
+                        <h3>Une Synergie Éducative Unique</h3>
+                        <p>Ces quatre piliers - Amour, Travail, Rigueur et Créativité - s'entremêlent pour former une approche éducative holistique qui prépare les enfants non seulement à réussir scolairement, mais aussi à s'épanouir pleinement dans la vie.</p>
+                        <p>Chez Les Bulles de Joie, nous croyons que c'est dans cet équilibre que naît la véritable excellence éducative.</p>
                     </div>
                 </div>
             </div>
@@ -1381,53 +2080,6 @@
             </div>
         </section>
 
-        <!-- Section Notre Histoire -->
-        <section class="section history-section">
-            <div class="container">
-                <div class="history-content">
-                    <div class="history-text">
-                        <h2>Notre Histoire</h2>
-                        <div class="founding-badge">
-                            <span class="founding-year">2017</span>
-                            <span>Année de Fondation</span>
-                        </div>
-                        <p>Les Bulles de Joie est née en 2017 de la passion pour l'éducation et du désir de créer un environnement d'apprentissage unique où chaque enfant peut s'épanouir pleinement.</p>
-                        <p>Notre établissement a été conçu comme un espace féerique où la curiosité naturelle des enfants est nourrie, où leurs talents sont révélés et où leur confiance en soi est renforcée.</p>
-                        
-                        <div class="values-showcase">
-                            <div class="value-item">
-                                <div class="value-icon">🎯</div>
-                                <h4>Rigueur</h4>
-                                <p>Excellence académique et suivi personnalisé</p>
-                            </div>
-                            <div class="value-item">
-                                <div class="value-icon">✨</div>
-                                <h4>Créativité</h4>
-                                <p>Expression personnelle et innovation</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="history-visual">
-                        <div class="achievement-stats">
-                            <div class="stat">
-                                <div class="stat-number">8+</div>
-                                <div class="stat-label">Années d'expérience</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">95%</div>
-                                <div class="stat-label">Taux de réussite</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">100%</div>
-                                <div class="stat-label">Élèves bilingues</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Section Contact Urgent -->
         <section class="section urgent-section">
             <div class="container">
@@ -1459,7 +2111,7 @@
         </section>
     </main>
 
-    <!-- Footer OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1482,68 +2134,81 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="contact-info">
-                        <div class="contact-line">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Parakou - Zongo, Bénin</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-envelope"></i>
-                            <span>lesbullesdejoie@gmail.com</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-phone"></i>
-                            <span>+229 01 97 91 94 52</span>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 97 91 94 52</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Horaires</h4>
-                    <div class="schedule-info">
-                        <div class="schedule-line">
-                            <strong>Crèche & Garderie:</strong>
-                            <span>07h - 19h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Maternelle:</strong>
-                            <span>08h - 11h30 & 15h - 17h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Primaire:</strong>
-                            <span>07h30 - 12h & 15h - 17h30</span>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Crèche & Garderie:</strong>
+                                <span>07h - 19h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Maternelle:</strong>
+                                <span>08h - 11h30 & 15h - 17h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Primaire:</strong>
+                                <span>07h30 - 12h & 15h - 17h30</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
-                    <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                            Facebook
-                        </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
-                        </a>
-                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
-                            <i class="fab fa-tiktok"></i>
-                            TikTok
-                        </a>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Google Maps
-                        </a>
+                    <div class="footer-details">
+                        <div class="social-links">
+                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                                <i class="fab fa-tiktok"></i>
+                                TikTok
+                            </a>
+                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
-                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <button class="legal-toggle">
+                        <span>Autorisations et Certifications</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1564,7 +2229,9 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
+                this.setupFooterInteractions();
                 this.setupPerformanceOptimizations();
+                this.setupSloganInteractions();
             }
 
             // Configuration de la navigation
@@ -1620,7 +2287,7 @@
                 }, observerOptions);
 
                 // Observer les éléments à animer
-                document.querySelectorAll('.immersion-card, .cycle-item, .value-item, .stat').forEach(el => {
+                document.querySelectorAll('.immersion-card, .cycle-item, .stat').forEach(el => {
                     observer.observe(el);
                 });
             }
@@ -1632,13 +2299,43 @@
                 
                 cards.forEach(card => {
                     card.addEventListener('mouseenter', () => {
-                        card.style.transform = 'translateY(-10px)';
+                        card.style.transform = 'translateY(-10px) scale(1.02)';
                     });
                     
                     card.addEventListener('mouseleave', () => {
-                        card.style.transform = 'translateY(0)';
+                        card.style.transform = 'translateY(0) scale(1)';
                     });
                 });
+            }
+
+            // Configuration de l'interactivité pour la section slogan
+            setupSloganInteractions() {
+                const sloganItems = document.querySelectorAll('.slogan-item');
+                const sloganTexts = document.querySelectorAll('.slogan-text');
+                
+                sloganItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const sloganType = item.getAttribute('data-slogan');
+                        
+                        // Retirer la classe active de tous les éléments
+                        sloganItems.forEach(el => el.classList.remove('active'));
+                        sloganTexts.forEach(el => el.classList.remove('active'));
+                        
+                        // Ajouter la classe active à l'élément cliqué
+                        item.classList.add('active');
+                        
+                        // Afficher le texte correspondant
+                        const targetText = document.getElementById(`${sloganType}-text`);
+                        if (targetText) {
+                            targetText.classList.add('active');
+                        }
+                    });
+                });
+                
+                // Activer le premier slogan par défaut
+                if (sloganItems.length > 0) {
+                    sloganItems[0].click();
+                }
             }
 
             // Gestion de l'animation d'introduction
@@ -1658,6 +2355,36 @@
                             );
                         }, 1000);
                     }, 3000);
+                }
+            }
+
+            // Interactions du footer
+            setupFooterInteractions() {
+                // Sections pliables du footer
+                const footerSections = document.querySelectorAll('.footer-section');
+                const legalToggle = document.querySelector('.legal-toggle');
+                const legalContent = document.querySelector('.legal-content');
+
+                footerSections.forEach(section => {
+                    const heading = section.querySelector('h4');
+                    if (heading) {
+                        heading.addEventListener('click', () => {
+                            section.classList.toggle('active');
+                        });
+                    }
+                });
+
+                // Toggle des autorisations
+                if (legalToggle && legalContent) {
+                    legalToggle.addEventListener('click', () => {
+                        legalContent.classList.toggle('active');
+                        const icon = legalToggle.querySelector('i');
+                        if (legalContent.classList.contains('active')) {
+                            icon.className = 'fas fa-chevron-up';
+                        } else {
+                            icon.className = 'fas fa-chevron-down';
+                        }
+                    });
                 }
             }
 
