@@ -26,10 +26,12 @@
     <style>
         /* ===== VARIABLES OPTIMISÉES ===== */
         :root {
-            /* Couleurs solides comme demandé */
+            /* Couleurs dominantes avec fuchsia prédominant */
             --white: #ffffff;
             --lemon-green: #c6ff00;
             --fuchsia: #ff00ff;
+            --fuchsia-dark: #e000e0;
+            --fuchsia-light: #ff99ff;
             --black: #000000;
             --light-pink: #ffccf9;
             --light-green: #e7ffb3;
@@ -39,10 +41,10 @@
             --gray-dark: #343a40;
             
             /* Ombres optimisées */
-            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
-            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
-            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            --shadow-sm: 0 2px 10px rgba(255, 0, 255, 0.1);
+            --shadow-md: 0 8px 30px rgba(255, 0, 255, 0.15);
+            --shadow-lg: 0 20px 60px rgba(255, 0, 255, 0.2);
+            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.4);
             
             /* Transitions performantes */
             --transition-fast: all 0.3s ease;
@@ -101,6 +103,67 @@
             0% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(1.1); }
             100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
+        }
+
+        /* ===== NOUVELLES ANIMATIONS POUR LES RÉSULTATS ===== */
+        @keyframes cardFloat {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg); 
+                box-shadow: 0 10px 20px rgba(255, 0, 255, 0.1);
+            }
+            25% { 
+                transform: translateY(-15px) rotate(2deg); 
+                box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2);
+            }
+            50% { 
+                transform: translateY(-25px) rotate(0deg); 
+                box-shadow: 0 20px 40px rgba(255, 0, 255, 0.3);
+            }
+            75% { 
+                transform: translateY(-15px) rotate(-2deg); 
+                box-shadow: 0 15px 30px rgba(255, 0, 255, 0.2);
+            }
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { 
+                box-shadow: 0 10px 20px rgba(255, 0, 255, 0.1),
+                           inset 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                box-shadow: 0 15px 30px rgba(255, 0, 255, 0.3),
+                           inset 0 0 30px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes cardEntry {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.8); 
+            }
+            70% { 
+                opacity: 0.8; 
+                transform: translateY(-10px) scale(1.05); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        @keyframes scorePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes progressFill {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
         }
 
         /* ===== INTRODUCTION SPÉCIFIQUE RÉSULTATS ===== */
@@ -189,7 +252,7 @@
             width: 100%;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
+            border-bottom: 2px solid var(--fuchsia);
             z-index: 1000;
             transition: var(--transition-normal);
             box-shadow: var(--shadow-sm);
@@ -217,6 +280,7 @@
             border-radius: 50%;
             padding: 8px;
             box-shadow: var(--shadow-sm);
+            border: 2px solid var(--fuchsia);
         }
 
         .logo-text h1 {
@@ -279,12 +343,13 @@
             color: var(--white) !important;
             padding: 0.75rem 1.5rem !important;
             border-radius: 25px;
+            border: 2px solid var(--fuchsia);
         }
 
         .btn-contact:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
-            background: var(--fuchsia);
+            background: var(--fuchsia-dark);
         }
 
         .nav-toggle {
@@ -321,18 +386,20 @@
             background: var(--fuchsia);
             color: var(--white);
             box-shadow: var(--shadow-md);
+            border: 2px solid var(--fuchsia);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
-            background: var(--fuchsia);
+            background: var(--fuchsia-dark);
         }
 
         .btn-secondary {
             background: var(--lemon-green);
             color: var(--black);
             box-shadow: var(--shadow-md);
+            border: 2px solid var(--lemon-green);
         }
 
         .btn-secondary:hover {
@@ -362,6 +429,7 @@
             font-weight: 800;
             margin-bottom: 1rem;
             color: var(--fuchsia);
+            text-shadow: 2px 2px 4px rgba(255, 0, 255, 0.1);
         }
 
         .section-subtitle {
@@ -374,9 +442,10 @@
         .section-divider {
             width: 80px;
             height: 4px;
-            background: var(--lemon-green);
+            background: var(--fuchsia);
             margin: 0 auto;
             border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(255, 0, 255, 0.3);
         }
 
         /* ===== STYLES SPÉCIFIQUES À LA PAGE RÉSULTATS ===== */
@@ -385,12 +454,26 @@
             color: var(--white);
             padding: 8rem 0 4rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-results::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
         }
 
         .hero-results h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             font-weight: 800;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-results p {
@@ -398,6 +481,8 @@
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .slogan-badge {
@@ -406,6 +491,8 @@
             margin-top: 2rem;
             flex-wrap: wrap;
             justify-content: center;
+            position: relative;
+            z-index: 2;
         }
 
         .slogan-item {
@@ -414,6 +501,14 @@
             border-radius: var(--border-radius);
             backdrop-filter: blur(10px);
             font-weight: 600;
+            transition: var(--transition-normal);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .slogan-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
         }
 
         .login-section {
@@ -421,8 +516,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--light-green);
+            background: var(--light-pink);
             padding: 4rem 0;
+            position: relative;
+        }
+
+        .login-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--light-pink) 0%, var(--fuchsia-light) 100%);
+            opacity: 0.1;
         }
 
         .login-container {
@@ -433,12 +540,17 @@
             max-width: 500px;
             width: 90%;
             text-align: center;
+            animation: cardEntry 0.8s ease-out;
+            position: relative;
+            z-index: 2;
+            border: 2px solid var(--fuchsia-light);
         }
 
         .login-icon {
             font-size: 4rem;
             margin-bottom: 2rem;
             color: var(--fuchsia);
+            animation: logoFloat 4s ease-in-out infinite;
         }
 
         .login-form {
@@ -447,6 +559,7 @@
 
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
         }
 
         .form-label {
@@ -463,12 +576,39 @@
             border-radius: var(--border-radius);
             font-size: 1rem;
             transition: var(--transition-fast);
+            padding-right: 3rem;
+            background: var(--white);
         }
 
         .form-input:focus {
             border-color: var(--fuchsia);
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition-fast);
+            padding: 5px;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-toggle:hover {
+            color: var(--fuchsia);
+            background: rgba(255, 0, 255, 0.1);
         }
 
         .results-section {
@@ -484,6 +624,9 @@
             border-radius: var(--border-radius);
             margin-bottom: 2rem;
             text-align: center;
+            animation: cardEntry 0.6s ease-out;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--fuchsia-light);
         }
 
         .student-info {
@@ -502,6 +645,14 @@
             align-items: center;
             justify-content: center;
             font-size: 2rem;
+            transition: var(--transition-normal);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .student-avatar:hover {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
+            border-color: var(--lemon-green);
         }
 
         .student-details h2 {
@@ -517,6 +668,13 @@
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
+            transition: var(--transition-normal);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .average-score:hover {
+            animation: scorePulse 1s ease-in-out;
+            color: var(--lemon-green);
         }
 
         .average-label {
@@ -536,6 +694,14 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-md);
             padding: 2rem;
+            transition: var(--transition-normal);
+            border: 2px solid var(--light-pink);
+        }
+
+        .subjects-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--fuchsia);
         }
 
         .subjects-grid {
@@ -550,24 +716,54 @@
             padding: 1.5rem;
             border-radius: var(--border-radius);
             text-align: center;
-            transition: var(--transition-fast);
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid transparent;
+            animation: cardEntry 0.8s ease-out both;
+            border: 1px solid var(--light-pink);
         }
 
+        .subject-item:nth-child(1) { animation-delay: 0.1s; }
+        .subject-item:nth-child(2) { animation-delay: 0.2s; }
+        .subject-item:nth-child(3) { animation-delay: 0.3s; }
+        .subject-item:nth-child(4) { animation-delay: 0.4s; }
+        .subject-item:nth-child(5) { animation-delay: 0.5s; }
+        .subject-item:nth-child(6) { animation-delay: 0.6s; }
+        .subject-item:nth-child(7) { animation-delay: 0.7s; }
+        .subject-item:nth-child(8) { animation-delay: 0.8s; }
+        .subject-item:nth-child(9) { animation-delay: 0.9s; }
+
         .subject-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-sm);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+            border-top-color: var(--fuchsia);
+            animation: cardFloat 3s ease-in-out infinite, cardGlow 2s ease-in-out infinite;
+            border-color: var(--fuchsia);
         }
 
         .subject-name {
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--black);
+            transition: var(--transition-normal);
+        }
+
+        .subject-item:hover .subject-name {
+            color: var(--fuchsia);
+            transform: translateY(-2px);
         }
 
         .subject-score {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--fuchsia);
+            transition: var(--transition-normal);
+        }
+
+        .subject-item:hover .subject-score {
+            animation: scorePulse 1s ease-in-out infinite;
+            color: var(--fuchsia-dark);
         }
 
         .progress-card {
@@ -575,6 +771,15 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-md);
             padding: 2rem;
+            transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out 0.3s both;
+            border: 2px solid var(--light-pink);
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--fuchsia);
         }
 
         .progress-chart {
@@ -582,6 +787,11 @@
             height: 200px;
             margin: 0 auto;
             position: relative;
+            transition: var(--transition-normal);
+        }
+
+        .progress-card:hover .progress-chart {
+            transform: scale(1.05);
         }
 
         .chart-circle {
@@ -590,6 +800,7 @@
             border-radius: 50%;
             background: conic-gradient(var(--fuchsia) 0% 75%, var(--light-pink) 75% 100%);
             position: relative;
+            transition: var(--transition-normal);
         }
 
         .chart-inner {
@@ -606,6 +817,13 @@
             font-size: 2rem;
             font-weight: 700;
             color: var(--fuchsia);
+            transition: var(--transition-normal);
+            border: 2px solid var(--light-pink);
+        }
+
+        .progress-card:hover .chart-inner {
+            animation: scorePulse 2s ease-in-out infinite;
+            border-color: var(--fuchsia);
         }
 
         .teacher-comment {
@@ -615,6 +833,16 @@
             padding: 2rem;
             margin-bottom: 2rem;
             border-left: 4px solid var(--lemon-green);
+            transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out 0.5s both;
+            border: 2px solid var(--light-pink);
+        }
+
+        .teacher-comment:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-left-color: var(--fuchsia);
+            border-color: var(--fuchsia);
         }
 
         .comment-header {
@@ -634,39 +862,13 @@
             justify-content: center;
             color: var(--white);
             font-size: 1.2rem;
+            transition: var(--transition-normal);
+            border: 2px solid var(--fuchsia-light);
         }
 
-        .download-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .download-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            padding: 1.5rem;
-            background: var(--white);
-            border: 2px solid var(--light-pink);
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            color: var(--black);
-            transition: var(--transition-fast);
-            font-weight: 600;
-        }
-
-        .download-btn:hover {
-            border-color: var(--fuchsia);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .download-btn i {
-            font-size: 1.5rem;
-            color: var(--fuchsia);
+        .teacher-comment:hover .teacher-avatar {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .teachers-section {
@@ -687,11 +889,20 @@
             padding: 2rem;
             text-align: center;
             transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
+            border: 2px solid var(--light-pink);
         }
+
+        .teacher-card:nth-child(1) { animation-delay: 0.1s; }
+        .teacher-card:nth-child(2) { animation-delay: 0.2s; }
+        .teacher-card:nth-child(3) { animation-delay: 0.3s; }
+        .teacher-card:nth-child(4) { animation-delay: 0.4s; }
 
         .teacher-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-lg);
+            animation: cardFloat 3s ease-in-out infinite, cardGlow 2s ease-in-out infinite;
+            border-color: var(--fuchsia);
         }
 
         .teacher-card.unavailable {
@@ -709,6 +920,13 @@
             color: var(--white);
             font-size: 2rem;
             margin: 0 auto 1rem;
+            transition: var(--transition-normal);
+            border: 2px solid var(--fuchsia-light);
+        }
+
+        .teacher-card:hover .teacher-avatar-large {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .availability-badge {
@@ -718,16 +936,23 @@
             font-size: 0.9rem;
             font-weight: 600;
             margin-top: 1rem;
+            transition: var(--transition-normal);
         }
 
         .available {
             background: var(--light-green);
             color: var(--black);
+            border: 1px solid var(--lemon-green);
         }
 
         .unavailable {
             background: var(--light-pink);
             color: var(--black);
+            border: 1px solid var(--fuchsia-light);
+        }
+
+        .teacher-card:hover .availability-badge {
+            transform: translateY(-3px);
         }
 
         .logout-section {
@@ -744,52 +969,84 @@
             margin-bottom: 1rem;
             text-align: center;
             display: none;
+            animation: cardEntry 0.5s ease-out;
+            border: 1px solid var(--fuchsia-light);
         }
 
-        /* ===== FOOTER OPTIMISÉ ===== */
+        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 1rem;
+            border-top: 3px solid var(--fuchsia);
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-section h4 {
             color: var(--lemon-green);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-section h4::after {
+            content: '+';
             font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-section.active h4::after {
+            content: '-';
+        }
+
+        .footer-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .footer-section.active .footer-details {
+            max-height: 500px;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .footer-logo-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--white);
             border-radius: 50%;
-            padding: 10px;
+            padding: 8px;
+            border: 2px solid var(--fuchsia);
         }
 
         .footer-text h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
+            color: var(--lemon-green);
         }
 
         .footer-badges {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .badge {
@@ -797,22 +1054,30 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
             border-radius: 15px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             backdrop-filter: blur(10px);
+            transition: var(--transition-normal);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--fuchsia);
         }
 
         .contact-info,
         .schedule-info {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line,
         .schedule-line {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line i {
@@ -833,46 +1098,89 @@
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             color: var(--white);
             text-decoration: none;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
             transition: var(--transition-fast);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .social-link:hover {
             background: var(--fuchsia);
             transform: translateX(5px);
+            border-color: var(--fuchsia);
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
+            border-top: 2px solid var(--fuchsia);
+            padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
+            background: rgba(255, 0, 255, 0.05);
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .legal-toggle:hover {
+            background: var(--fuchsia);
+            border-color: var(--fuchsia);
+        }
+
+        .legal-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .legal-content.active {
+            max-height: 200px;
         }
 
         .footer-legal p {
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            line-height: 1.4;
         }
 
         .footer-credits p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            text-align: right;
         }
 
         /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
@@ -958,10 +1266,6 @@
                 grid-template-columns: 1fr;
             }
             
-            .download-options {
-                grid-template-columns: 1fr;
-            }
-            
             .progress-chart {
                 width: 150px;
                 height: 150px;
@@ -977,6 +1281,17 @@
             
             .footer-content {
                 grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .footer-credits {
+                text-align: center;
+                width: 100%;
             }
         }
 
@@ -1017,11 +1332,6 @@
             
             .teachers-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
             }
         }
 
@@ -1129,6 +1439,7 @@
                     <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
                     <li><a href="activites.html" class="nav-link">Activités</a></li>
                     <li><a href="resultats.html" class="nav-link active">Résultats</a></li>
+                    <li><a href="tarifs.html" class="nav-link">Nos Tarifs</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
                     <li><a href="inscription.html" class="nav-link btn-contact">Inscription</a></li>
                 </ul>
@@ -1178,6 +1489,9 @@
                     <div class="form-group">
                         <label for="password" class="form-label">Mot de passe</label>
                         <input type="password" id="password" class="form-input" placeholder="Prénom en minuscules" required>
+                        <button type="button" id="togglePassword" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                     
                     <button type="submit" class="btn btn-primary" style="width: 100%;">
@@ -1256,22 +1570,6 @@
                     <p id="teacherComment">Fifamè montre une excellente compréhension en lecture et une belle progression en expression écrite. Continuez à encourager la pratique de la dictée à la maison.</p>
                 </div>
 
-                <!-- Options de téléchargement -->
-                <div class="download-options">
-                    <a href="#" class="download-btn" id="downloadPdf">
-                        <i class="fas fa-file-pdf"></i>
-                        <span>Télécharger le bulletin (PDF)</span>
-                    </a>
-                    <a href="#" class="download-btn" id="downloadImage">
-                        <i class="fas fa-file-image"></i>
-                        <span>Télécharger le bulletin (Image)</span>
-                    </a>
-                    <a href="#" class="download-btn" id="printResults">
-                        <i class="fas fa-print"></i>
-                        <span>Imprimer le bulletin</span>
-                    </a>
-                </div>
-
                 <!-- Section déconnexion -->
                 <div class="logout-section">
                     <button class="btn btn-secondary" id="logoutBtn">
@@ -1307,7 +1605,7 @@
                         <div class="teacher-avatar-large">
                             <i class="fas fa-female"></i>
                         </div>
-                        <h3>Enseignante du CP</h3>
+                        <h3>Enseignant du CP</h3>
                         <p>Classe de Cours Préparatoire</p>
                         <div class="availability-badge unavailable">
                             Disponible bientôt
@@ -1340,7 +1638,7 @@
         </section>
     </main>
 
-    <!-- Footer OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1363,68 +1661,81 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="contact-info">
-                        <div class="contact-line">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Parakou - Zongo, Bénin</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-envelope"></i>
-                            <span>lesbullesdejoie@gmail.com</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-phone"></i>
-                            <span>+229 01 97 91 94 52</span>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 97 91 94 52</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Horaires</h4>
-                    <div class="schedule-info">
-                        <div class="schedule-line">
-                            <strong>Crèche & Garderie:</strong>
-                            <span>07h - 19h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Maternelle:</strong>
-                            <span>08h - 11h30 & 15h - 17h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Primaire:</strong>
-                            <span>07h30 - 12h & 15h - 17h30</span>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Crèche & Garderie:</strong>
+                                <span>07h - 19h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Maternelle:</strong>
+                                <span>08h - 11h30 & 15h - 17h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Primaire:</strong>
+                                <span>07h30 - 12h & 15h - 17h30</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
-                    <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                            Facebook
-                        </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
-                        </a>
-                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
-                            <i class="fab fa-tiktok"></i>
-                            TikTok
-                        </a>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Google Maps
-                        </a>
+                    <div class="footer-details">
+                        <div class="social-links">
+                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                                <i class="fab fa-tiktok"></i>
+                                TikTok
+                            </a>
+                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
-                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <button class="legal-toggle">
+                        <span>Autorisations et Certifications</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1671,6 +1982,7 @@
                 this.setupEventListeners();
                 this.setupAutoLogout();
                 this.handleIntroAnimation();
+                this.setupFooterInteractions();
             }
 
             // Configuration de la navigation
@@ -1700,7 +2012,7 @@
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 100) {
                         header.style.background = 'rgba(255, 255, 255, 0.98)';
-                        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                        header.style.boxShadow = '0 2px 20px rgba(255, 0, 255, 0.1)';
                     } else {
                         header.style.background = 'rgba(255, 255, 255, 0.95)';
                         header.style.boxShadow = 'none';
@@ -1719,6 +2031,18 @@
                         this.handleLogin();
                     });
                 }
+
+                // Bouton pour afficher/masquer le mot de passe
+                const togglePassword = document.getElementById('togglePassword');
+                const passwordInput = document.getElementById('password');
+                
+                if (togglePassword && passwordInput) {
+                    togglePassword.addEventListener('click', () => {
+                        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordInput.setAttribute('type', type);
+                        togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                    });
+                }
             }
 
             // Gestionnaires d'événements
@@ -1728,33 +2052,6 @@
                 if (logoutBtn) {
                     logoutBtn.addEventListener('click', () => {
                         this.handleLogout();
-                    });
-                }
-
-                // Téléchargement PDF
-                const downloadPdf = document.getElementById('downloadPdf');
-                if (downloadPdf) {
-                    downloadPdf.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.downloadAsPdf();
-                    });
-                }
-
-                // Téléchargement Image
-                const downloadImage = document.getElementById('downloadImage');
-                if (downloadImage) {
-                    downloadImage.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.downloadAsImage();
-                    });
-                }
-
-                // Impression
-                const printResults = document.getElementById('printResults');
-                if (printResults) {
-                    printResults.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.printResults();
                     });
                 }
             }
@@ -1874,57 +2171,6 @@
                 this.showNotification('Vous avez été déconnecté avec succès', 'info');
             }
 
-            // Téléchargement en PDF (simulation)
-            downloadAsPdf() {
-                this.showNotification('Génération du PDF en cours...', 'info');
-                
-                // Simulation - dans une vraie implémentation, on générerait un PDF
-                setTimeout(() => {
-                    this.showNotification('PDF généré avec succès!', 'success');
-                    
-                    // Créer un lien de téléchargement simulé
-                    const studentName = this.currentStudent ? this.currentStudent.name : 'eleve';
-                    const link = document.createElement('a');
-                    link.href = '#';
-                    link.download = `bulletin-${studentName}.pdf`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }, 2000);
-            }
-
-            // Téléchargement en image (simulation)
-            downloadAsImage() {
-                this.showNotification('Génération de l\'image en cours...', 'info');
-                
-                // Simulation - dans une vraie implémentation, on convertirait en image
-                setTimeout(() => {
-                    this.showNotification('Image générée avec succès!', 'success');
-                    
-                    // Créer un lien de téléchargement simulé
-                    const studentName = this.currentStudent ? this.currentStudent.name : 'eleve';
-                    const link = document.createElement('a');
-                    link.href = '#';
-                    link.download = `bulletin-${studentName}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }, 2000);
-            }
-
-            // Impression des résultats
-            printResults() {
-                const resultsSection = document.getElementById('resultsSection');
-                if (resultsSection) {
-                    const originalDisplay = resultsSection.style.display;
-                    resultsSection.style.display = 'block';
-                    
-                    window.print();
-                    
-                    resultsSection.style.display = originalDisplay;
-                }
-            }
-
             // Déconnexion automatique après 30 minutes
             setupAutoLogout() {
                 let timeout;
@@ -1964,6 +2210,36 @@
                     }
                     
                     this.currentStudent = null;
+                }
+            }
+
+            // Interactions du footer
+            setupFooterInteractions() {
+                // Sections pliables du footer
+                const footerSections = document.querySelectorAll('.footer-section');
+                const legalToggle = document.querySelector('.legal-toggle');
+                const legalContent = document.querySelector('.legal-content');
+
+                footerSections.forEach(section => {
+                    const heading = section.querySelector('h4');
+                    if (heading) {
+                        heading.addEventListener('click', () => {
+                            section.classList.toggle('active');
+                        });
+                    }
+                });
+
+                // Toggle des autorisations
+                if (legalToggle && legalContent) {
+                    legalToggle.addEventListener('click', () => {
+                        legalContent.classList.toggle('active');
+                        const icon = legalToggle.querySelector('i');
+                        if (legalContent.classList.contains('active')) {
+                            icon.className = 'fas fa-chevron-up';
+                        } else {
+                            icon.className = 'fas fa-chevron-down';
+                        }
+                    });
                 }
             }
 
