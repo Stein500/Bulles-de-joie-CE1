@@ -99,24 +99,54 @@
             50% { transform: translateY(-10px) scale(1.05); }
         }
 
-        /* ===== INTRODUCTION UNIQUE POUR CONTACT ===== */
-        .contact-intro {
-            position: relative;
+        @keyframes introExit {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
+        }
+
+        @keyframes cardEntry {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.8); 
+            }
+            70% { 
+                opacity: 0.8; 
+                transform: translateY(-10px) scale(1.05); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ===== INTRODUCTION STYLÉE POUR CONTACT ===== */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: var(--fuchsia);
-            color: white;
-            padding: 8rem 0 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .intro-container {
             text-align: center;
-            overflow: hidden;
-        }
-
-        .contact-intro-container {
+            color: white;
             position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
-        .floating-contact-bubbles {
+        .floating-bubbles {
             position: absolute;
             top: 0;
             left: 0;
@@ -125,54 +155,78 @@
             overflow: hidden;
         }
 
-        .contact-bubble {
+        .bubble {
             position: absolute;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
             animation: floatBubble 8s infinite ease-in-out;
         }
 
-        .cb1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
-        .cb2 { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 1s; }
-        .cb3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
-        .cb4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
+        .b1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
+        .b2 { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 1s; }
+        .b3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
+        .b4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
 
-        .contact-logo-container {
+        .logo-glow-container {
+            position: relative;
+            display: inline-block;
             margin-bottom: 2rem;
         }
 
-        .contact-intro-logo {
-            width: 120px;
-            height: 120px;
+        .intro-logo {
+            width: 140px;
+            height: 140px;
             background: var(--white);
             border-radius: 50%;
-            padding: 15px;
+            padding: 20px;
             animation: logoFloat 3s ease-in-out infinite;
             box-shadow: var(--shadow-lg);
-            margin: 0 auto;
         }
 
-        .contact-intro-title {
+        .logo-text {
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            color: white;
+            color: var(--white);
         }
 
-        .contact-intro-subtitle {
+        .text-part {
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .text-part:nth-child(1) { animation-delay: 0.5s; }
+        .text-part:nth-child(2) { animation-delay: 1s; }
+
+        .logo-subtitle {
             font-size: 1.4rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards;
             margin-bottom: 2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        .contact-intro-actions {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--lemon-green);
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease-in-out;
+            transform-origin: left;
+        }
+
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
         }
 
         /* ===== HEADER OPTIMISÉ ===== */
@@ -380,6 +434,48 @@
             border-radius: 2px;
         }
 
+        /* ===== HERO SECTION CONTACT ===== */
+        .contact-hero {
+            background: var(--fuchsia);
+            color: white;
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: white;
+        }
+
+        .title-highlight {
+            color: var(--lemon-green);
+        }
+
+        .contact-hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         /* ===== STYLES SPÉCIFIQUES À LA PAGE CONTACT ===== */
         .contact-grid {
             display: grid;
@@ -393,6 +489,7 @@
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-lg);
             padding: 3rem;
+            animation: cardEntry 0.8s ease-out both;
         }
 
         .contact-info-container {
@@ -407,6 +504,7 @@
             box-shadow: var(--shadow-md);
             padding: 2rem;
             transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
         }
 
         .contact-card:hover {
@@ -440,6 +538,12 @@
             justify-content: center;
             color: var(--white);
             font-size: 1.5rem;
+            transition: var(--transition-normal);
+        }
+
+        .contact-card:hover .contact-icon {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .contact-card h3 {
@@ -550,11 +654,17 @@
             box-shadow: var(--shadow-md);
             padding: 2rem;
             transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
         }
 
         .level-contact:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
+        }
+
+        .level-contact:hover .level-icon {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .level-header {
@@ -574,6 +684,7 @@
             justify-content: center;
             color: var(--white);
             font-size: 1.2rem;
+            transition: var(--transition-normal);
         }
 
         .level-info h4 {
@@ -679,6 +790,7 @@
             padding: 2rem;
             text-align: center;
             transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
         }
 
         .schedule-card:hover {
@@ -690,6 +802,12 @@
             font-size: 3rem;
             margin-bottom: 1rem;
             color: var(--fuchsia);
+            transition: var(--transition-normal);
+        }
+
+        .schedule-card:hover .schedule-icon {
+            transform: scale(1.1);
+            animation: iconPulse 1s ease-in-out infinite;
         }
 
         .schedule-card h3 {
@@ -796,43 +914,67 @@
         .notification.warning i { color: #ff9800; }
         .notification.error i { color: #f44336; }
 
-        /* ===== FOOTER OPTIMISÉ ===== */
+        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 1rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-section h4 {
             color: var(--lemon-green);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-section h4::after {
+            content: '+';
             font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-section.active h4::after {
+            content: '-';
+        }
+
+        .footer-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .footer-section.active .footer-details {
+            max-height: 500px;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .footer-logo-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--white);
             border-radius: 50%;
-            padding: 10px;
+            padding: 8px;
         }
 
         .footer-text h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
@@ -840,6 +982,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .badge {
@@ -847,22 +990,28 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
             border-radius: 15px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             backdrop-filter: blur(10px);
+            transition: var(--transition-normal);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .contact-info,
         .schedule-info {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line,
         .schedule-line {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line i {
@@ -883,16 +1032,16 @@
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             color: var(--white);
             text-decoration: none;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
             transition: var(--transition-fast);
@@ -906,7 +1055,7 @@
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
+            padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -914,15 +1063,51 @@
             gap: 1rem;
         }
 
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .legal-toggle:hover {
+            background: var(--fuchsia);
+        }
+
+        .legal-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .legal-content.active {
+            max-height: 200px;
+        }
+
         .footer-legal p {
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            line-height: 1.4;
         }
 
         .footer-credits p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            text-align: right;
         }
 
         /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
@@ -966,15 +1151,15 @@
                 display: flex;
             }
             
-            .contact-intro {
+            .contact-hero {
                 padding: 7rem 0 3rem;
             }
             
-            .contact-intro-title {
-                font-size: 2.5rem;
+            .contact-hero-title {
+                font-size: 2.2rem;
             }
             
-            .contact-intro-subtitle {
+            .contact-hero-subtitle {
                 font-size: 1.1rem;
             }
             
@@ -1005,18 +1190,33 @@
             .footer-content {
                 grid-template-columns: 1fr;
             }
+            
+            .footer-section h4 {
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-credits {
+                text-align: center;
+                width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
-            .contact-intro {
+            .contact-hero {
                 padding: 7rem 0 3rem;
             }
             
-            .contact-intro-title {
-                font-size: 2rem;
+            .contact-hero-title {
+                font-size: 1.8rem;
             }
             
-            .contact-intro-actions {
+            .contact-hero-actions {
                 flex-direction: column;
                 align-items: center;
             }
@@ -1049,11 +1249,6 @@
                 flex-direction: column;
                 text-align: center;
             }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
         }
 
         /* Animation d'entrée des éléments */
@@ -1076,6 +1271,33 @@
     </style>
 </head>
 <body>
+    <!-- Animation d'introduction -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <div class="floating-bubbles">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+            </div>
+            
+            <div class="logo-glow-container">
+                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            </div>
+            
+            <h1 class="logo-text">
+                <span class="text-part">Contactez</span>
+                <span class="text-part">Les Bulles de Joie</span>
+            </h1>
+            
+            <p class="logo-subtitle">Votre école bilingue d'excellence à Parakou</p>
+            
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation principale -->
     <header class="main-header">
         <div class="header-container">
@@ -1096,6 +1318,7 @@
                     <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
                     <li><a href="activites.html" class="nav-link">Activités</a></li>
                     <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="tarifs.html" class="nav-link">Nos Tarifs</a></li>
                     <li><a href="contact.html" class="nav-link active">Contact</a></li>
                     <li><a href="inscription.html" class="nav-link btn-contact">Inscription</a></li>
                 </ul>
@@ -1109,24 +1332,15 @@
         </div>
     </header>
 
-    <!-- Introduction unique pour la page Contact -->
-    <section class="contact-intro">
-        <div class="floating-contact-bubbles">
-            <div class="contact-bubble cb1"></div>
-            <div class="contact-bubble cb2"></div>
-            <div class="contact-bubble cb3"></div>
-            <div class="contact-bubble cb4"></div>
-        </div>
-        
-        <div class="contact-intro-container">
-            <div class="contact-logo-container">
-                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="contact-intro-logo">
-            </div>
+    <!-- Hero Section Contact -->
+    <section class="contact-hero">
+        <div class="contact-hero-content">
+            <h2 class="contact-hero-title">
+                Contactez <span class="title-highlight">Les Bulles de Joie</span>
+            </h2>
+            <p class="contact-hero-subtitle">Nous sommes à votre écoute pour répondre à toutes vos questions et vous accompagner dans l'inscription de votre enfant</p>
             
-            <h1 class="contact-intro-title">Contactez-Nous</h1>
-            <p class="contact-intro-subtitle">Nous sommes à votre écoute pour répondre à toutes vos questions et vous accompagner dans l'inscription de votre enfant</p>
-            
-            <div class="contact-intro-actions">
+            <div class="contact-hero-actions">
                 <a href="#contacts" class="btn btn-primary">
                     <i class="fas fa-phone-alt"></i>
                     Contacts directs
@@ -1220,7 +1434,7 @@
                                     <i class="fas fa-phone"></i>
                                     <div class="contact-number-content">
                                         <span class="contact-number-label">Appel direct</span>
-                                        <span class="contact-number-value">+229 01 97 91 94 52</span>
+                                        <span class="contact-number-value">+229 01 49 77 77 00</span>
                                     </div>
                                 </div>
                                 
@@ -1239,7 +1453,7 @@
                                     <i class="fab fa-whatsapp"></i>
                                     WhatsApp
                                 </a>
-                                <a href="tel:+2290197919452" class="call-btn">
+                                <a href="tel:+2290149777700" class="call-btn">
                                     <i class="fas fa-phone"></i>
                                     Appeler
                                 </a>
@@ -1306,14 +1520,14 @@
                                     <i class="fas fa-phone"></i>
                                     <div class="contact-number-content">
                                         <span class="contact-number-label">Numéro d'urgence</span>
-                                        <span class="contact-number-value">+229 01 97 91 94 52</span>
+                                        <span class="contact-number-value">+229 01 49 77 77 00</span>
                                         <span class="contact-number-note">Disponible 24h/24</span>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="contact-action">
-                                <a href="tel:+2290197919452" class="call-btn" style="background: #ff0000;">
+                                <a href="tel:+2290149777700" class="call-btn" style="background: #ff0000;">
                                     <i class="fas fa-phone"></i>
                                     Appeler d'urgence
                                 </a>
@@ -1547,7 +1761,7 @@
                             </div>
                             <div class="schedule-time">
                                 <span>Samedi</span>
-                                <span>07h - 13h</span>
+                                <span>08h - 17h</span>
                             </div>
                         </div>
                     </div>
@@ -1617,7 +1831,7 @@
         </section>
     </main>
 
-    <!-- Footer OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1640,68 +1854,85 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="contact-info">
-                        <div class="contact-line">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Parakou - Zongo, Bénin</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-envelope"></i>
-                            <span>lesbullesdejoie@gmail.com</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-phone"></i>
-                            <span>+229 01 97 91 94 52</span>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 49 77 77 00</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Horaires</h4>
-                    <div class="schedule-info">
-                        <div class="schedule-line">
-                            <strong>Crèche & Garderie:</strong>
-                            <span>07h - 19h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Maternelle:</strong>
-                            <span>08h - 11h30 & 15h - 17h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Primaire:</strong>
-                            <span>07h30 - 12h & 15h - 17h30</span>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Crèche & Garderie:</strong>
+                                <span>07h - 19h (Lun-Ven)</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Crèche & Garderie:</strong>
+                                <span>08h - 17h (Samedi)</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Maternelle:</strong>
+                                <span>08h - 11h30 & 15h - 17h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Primaire:</strong>
+                                <span>07h30 - 12h & 15h - 17h30</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
-                    <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                            Facebook
-                        </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
-                        </a>
-                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
-                            <i class="fab fa-tiktok"></i>
-                            TikTok
-                        </a>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Google Maps
-                        </a>
+                    <div class="footer-details">
+                        <div class="social-links">
+                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                                <i class="fab fa-tiktok"></i>
+                                TikTok
+                            </a>
+                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
-                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <button class="legal-toggle">
+                        <span>Autorisations et Certifications</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1723,6 +1954,8 @@
                 this.setupEventListeners();
                 this.setupInteractiveElements();
                 this.setupPerformanceOptimizations();
+                this.setupFooterInteractions();
+                this.handleIntroAnimation();
             }
 
             // Configuration de la navigation
@@ -1760,6 +1993,26 @@
 
                     lastScrollY = window.scrollY;
                 }, { passive: true });
+            }
+
+            // Gestion de l'animation d'introduction
+            handleIntroAnimation() {
+                const introOverlay = document.getElementById('intro-overlay');
+                if (introOverlay) {
+                    // Animation de sortie après 3 secondes
+                    setTimeout(() => {
+                        introOverlay.style.animation = 'introExit 1s ease forwards';
+                        setTimeout(() => {
+                            introOverlay.style.display = 'none';
+                            
+                            // Notification de bienvenue
+                            this.showNotification(
+                                '📞 Bienvenue sur notre page contact!', 
+                                'success'
+                            );
+                        }, 1000);
+                    }, 3000);
+                }
             }
 
             // Configuration du formulaire de contact
@@ -1932,6 +2185,36 @@
                 return icons[type] || 'info-circle';
             }
 
+            // Interactions du footer
+            setupFooterInteractions() {
+                // Sections pliables du footer
+                const footerSections = document.querySelectorAll('.footer-section');
+                const legalToggle = document.querySelector('.legal-toggle');
+                const legalContent = document.querySelector('.legal-content');
+
+                footerSections.forEach(section => {
+                    const heading = section.querySelector('h4');
+                    if (heading) {
+                        heading.addEventListener('click', () => {
+                            section.classList.toggle('active');
+                        });
+                    }
+                });
+
+                // Toggle des autorisations
+                if (legalToggle && legalContent) {
+                    legalToggle.addEventListener('click', () => {
+                        legalContent.classList.toggle('active');
+                        const icon = legalToggle.querySelector('i');
+                        if (legalContent.classList.contains('active')) {
+                            icon.className = 'fas fa-chevron-up';
+                        } else {
+                            icon.className = 'fas fa-chevron-down';
+                        }
+                    });
+                }
+            }
+
             // Optimisations de performance
             setupPerformanceOptimizations() {
                 // Lazy loading pour les images
@@ -1956,13 +2239,6 @@
             // Chargement différé du manager pour meilleure performance
             setTimeout(() => {
                 window.contactManager = new ContactManager();
-                
-                // Message de bienvenue
-                setTimeout(() => {
-                    if (window.contactManager.showNotification) {
-                        window.contactManager.showNotification('Bienvenue sur notre page contact! Comment pouvons-nous vous aider?', 'info');
-                    }
-                }, 1000);
             }, 100);
         });
     </script>
