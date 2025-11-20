@@ -746,6 +746,13 @@
             margin-left: 0.5rem;
         }
 
+        .mtn-logo {
+            max-width: 120px;
+            height: auto;
+            margin: 1rem auto;
+            display: block;
+        }
+
         /* Section Documents */
         .documents-section {
             background: var(--white);
@@ -849,30 +856,6 @@
             color: var(--lemon-green);
             margin-bottom: 1rem;
             font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-section h4::after {
-            content: '+';
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-section.active h4::after {
-            content: '-';
-        }
-
-        .footer-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .footer-section.active .footer-details {
-            max-height: 500px;
         }
 
         .footer-logo {
@@ -984,34 +967,8 @@
             flex: 1;
         }
 
-        .legal-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition-fast);
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .legal-toggle:hover {
-            background: var(--fuchsia);
-        }
-
         .legal-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
             margin-top: 1rem;
-        }
-
-        .legal-content.active {
-            max-height: 200px;
         }
 
         .footer-legal p {
@@ -1103,11 +1060,6 @@
             
             .footer-content {
                 grid-template-columns: 1fr;
-            }
-            
-            .footer-section h4 {
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .footer-bottom {
@@ -1469,10 +1421,11 @@
                         <div class="paiement-icon">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
-                        <h3>Momopay <span class="soon-badge">Bientôt</span></h3>
+                        <h3>Momopay (MTN)</h3>
                         <div class="paiement-details">
-                            <p>Disponible prochainement</p>
-                            <p>Paiement mobile sécurisé</p>
+                            <p><strong>Code de paiement:</strong> *880*41*167452*montant#</p>
+                            <img src="assets/images/mtn-momo-logo.png" alt="Logo MTN Momo" class="mtn-logo">
+                            <p>Paiement mobile sécurisé MTN</p>
                             <p>Transactions instantanées</p>
                         </div>
                     </div>
@@ -1636,16 +1589,8 @@
                     <div class="footer-details">
                         <div class="schedule-info">
                             <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>07h - 19h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Maternelle:</strong>
-                                <span>08h - 11h30 & 15h - 17h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Primaire:</strong>
-                                <span>07h30 - 12h & 15h - 17h30</span>
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>08h - 17h</span>
                             </div>
                         </div>
                     </div>
@@ -1678,10 +1623,6 @@
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <button class="legal-toggle">
-                        <span>Autorisations et Certifications</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
                     <div class="legal-content">
                         <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                         <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
@@ -1711,7 +1652,6 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
-                this.setupFooterInteractions();
                 this.setupPerformanceOptimizations();
             }
 
@@ -2003,36 +1943,6 @@
                 }
             }
 
-            // Interactions du footer
-            setupFooterInteractions() {
-                // Sections pliables du footer
-                const footerSections = document.querySelectorAll('.footer-section');
-                const legalToggle = document.querySelector('.legal-toggle');
-                const legalContent = document.querySelector('.legal-content');
-
-                footerSections.forEach(section => {
-                    const heading = section.querySelector('h4');
-                    if (heading) {
-                        heading.addEventListener('click', () => {
-                            section.classList.toggle('active');
-                        });
-                    }
-                });
-
-                // Toggle des autorisations
-                if (legalToggle && legalContent) {
-                    legalToggle.addEventListener('click', () => {
-                        legalContent.classList.toggle('active');
-                        const icon = legalToggle.querySelector('i');
-                        if (legalContent.classList.contains('active')) {
-                            icon.className = 'fas fa-chevron-up';
-                        } else {
-                            icon.className = 'fas fa-chevron-down';
-                        }
-                    });
-                }
-            }
-
             // Gestion de la soumission du formulaire
             async handleFormSubmission() {
                 if (!this.currentCycle) {
@@ -2310,9 +2220,6 @@ Date de soumission: ${new Date().toLocaleString('fr-FR')}
             
             container.appendChild(nouveauMoyen);
         }
-
-        // Exemple d'utilisation pour ajouter un moyen de paiement plus tard :
-        // ajouterMoyenPaiement("FLOOZ", "<p>Disponible prochainement</p><p>Paiement mobile sécurisé</p><p>Transactions instantanées</p>", false);
     </script>
 </body>
 </html>
