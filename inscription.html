@@ -108,6 +108,21 @@
             100% { transform: scaleX(1); }
         }
 
+        @keyframes cardEntry {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.8); 
+            }
+            70% { 
+                opacity: 0.8; 
+                transform: translateY(-10px) scale(1.05); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
         /* ===== INTRODUCTION SPÉCIFIQUE À INSCRIPTION ===== */
         .intro-overlay {
             position: fixed;
@@ -329,6 +344,30 @@
             background: var(--fuchsia);
         }
 
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--fuchsia);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--fuchsia);
+            border: 2px solid var(--fuchsia);
+        }
+
+        .btn-outline:hover {
+            background: var(--fuchsia);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
             padding: 5rem 0;
@@ -399,6 +438,7 @@
             font-size: 1.2rem;
         }
 
+        /* Section Processus */
         .process-section {
             background: var(--white);
         }
@@ -462,101 +502,78 @@
             color: var(--fuchsia);
         }
 
-        /* Section Tarifs */
-        .tarifs-section {
+        /* Section Cycles d'Inscription */
+        .cycles-section {
             background: var(--gray-light);
         }
 
-        .tarifs-container {
-            overflow-x: auto;
-            margin: 0 auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
+        .cycles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .cycle-card {
             background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
         }
 
-        .tarifs-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
+        .cycle-card:nth-child(1) { animation-delay: 0.1s; }
+        .cycle-card:nth-child(2) { animation-delay: 0.2s; }
+        .cycle-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .cycle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
         }
 
-        .tarifs-table th {
+        .cycle-header {
             background: var(--fuchsia);
             color: var(--white);
             padding: 1.5rem;
             text-align: center;
-            font-weight: 600;
         }
 
-        .tarifs-table td {
-            padding: 1.2rem;
-            text-align: center;
-            border-bottom: 1px solid var(--gray-light);
-        }
-
-        .tarifs-table tr:nth-child(even) {
-            background: rgba(255, 0, 255, 0.03);
-        }
-
-        .tarifs-table .highlight {
-            background: var(--light-pink);
-            font-weight: 600;
-        }
-
-        .tarifs-table .total-row {
-            background: var(--light-green);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* Section Modalités */
-        .modalites-section {
-            background: var(--white);
-        }
-
-        .modalites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .modalite-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-            border-left: 4px solid var(--fuchsia);
-            transition: var(--transition-normal);
-        }
-
-        .modalite-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .modalite-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--fuchsia);
-        }
-
-        .modalite-card h3 {
-            margin-bottom: 1rem;
-            color: var(--black);
-        }
-
-        .modalite-card ul {
-            list-style: none;
-        }
-
-        .modalite-card li {
+        .cycle-header h3 {
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
+        }
+
+        .cycle-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .cycle-content {
+            padding: 2rem;
+        }
+
+        .cycle-age {
+            display: inline-block;
+            background: var(--light-pink);
+            color: var(--fuchsia);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .cycle-features {
+            margin: 1.5rem 0;
+        }
+
+        .cycle-features li {
+            margin-bottom: 0.8rem;
             padding-left: 1.5rem;
             position: relative;
         }
 
-        .modalite-card li::before {
+        .cycle-features li::before {
             content: '•';
             position: absolute;
             left: 0;
@@ -564,47 +581,14 @@
             font-weight: bold;
         }
 
-        /* Section Services */
-        .services-section {
-            background: var(--light-pink);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .service-card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--border-radius);
+        .cycle-action {
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition-normal);
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--fuchsia);
-        }
-
-        .service-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 1rem 0;
-            color: var(--fuchsia);
+            margin-top: 2rem;
         }
 
         /* Section Formulaire */
         .form-section {
-            background: var(--gray-light);
+            background: var(--white);
         }
 
         .form-container {
@@ -695,6 +679,75 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Section Paiement */
+        .paiement-section {
+            background: var(--light-pink);
+        }
+
+        .paiement-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .paiement-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: var(--transition-normal);
+            animation: cardEntry 0.8s ease-out both;
+        }
+
+        .paiement-card:nth-child(1) { animation-delay: 0.1s; }
+        .paiement-card:nth-child(2) { animation-delay: 0.2s; }
+        .paiement-card:nth-child(3) { animation-delay: 0.3s; }
+        .paiement-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .paiement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .paiement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--fuchsia);
+        }
+
+        .paiement-card h3 {
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        .paiement-details {
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+
+        .paiement-details p {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .paiement-details p:last-child {
+            border-bottom: none;
+        }
+
+        .soon-badge {
+            display: inline-block;
+            background: var(--lemon-green);
+            color: var(--black);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
         /* Section Documents */
         .documents-section {
             background: var(--white);
@@ -780,43 +833,67 @@
             color: var(--black);
         }
 
-        /* ===== FOOTER OPTIMISÉ ===== */
+        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
-            padding: 4rem 0 2rem;
+            padding: 3rem 0 1rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .footer-section h4 {
             color: var(--lemon-green);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-section h4::after {
+            content: '+';
             font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .footer-section.active h4::after {
+            content: '-';
+        }
+
+        .footer-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .footer-section.active .footer-details {
+            max-height: 500px;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .footer-logo-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: var(--white);
             border-radius: 50%;
-            padding: 10px;
+            padding: 8px;
         }
 
         .footer-text h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
@@ -824,6 +901,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .badge {
@@ -831,22 +909,28 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
             border-radius: 15px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             backdrop-filter: blur(10px);
+            transition: var(--transition-normal);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .contact-info,
         .schedule-info {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line,
         .schedule-line {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .contact-line i {
@@ -867,16 +951,16 @@
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             color: var(--white);
             text-decoration: none;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
             transition: var(--transition-fast);
@@ -890,7 +974,7 @@
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
+            padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -898,15 +982,51 @@
             gap: 1rem;
         }
 
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .legal-toggle:hover {
+            background: var(--fuchsia);
+        }
+
+        .legal-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .legal-content.active {
+            max-height: 200px;
+        }
+
         .footer-legal p {
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            line-height: 1.4;
         }
 
         .footer-credits p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
+            text-align: right;
         }
 
         /* ===== RESPONSIVE DESIGN OPTIMISÉ ===== */
@@ -927,6 +1047,10 @@
             .footer-content {
                 grid-template-columns: 1fr 1fr;
                 gap: 2rem;
+            }
+            
+            .cycles-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -975,13 +1099,27 @@
             }
             
             .documents-grid,
-            .modalites-grid,
-            .services-grid {
+            .paiement-cards {
                 grid-template-columns: 1fr;
             }
             
             .footer-content {
                 grid-template-columns: 1fr;
+            }
+            
+            .footer-section h4 {
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-credits {
+                text-align: center;
+                width: 100%;
             }
         }
 
@@ -1009,11 +1147,6 @@
             
             .contact-info {
                 grid-template-columns: 1fr;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
             }
         }
 
@@ -1116,6 +1249,7 @@
                     <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
                     <li><a href="activites.html" class="nav-link">Activités</a></li>
                     <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="tarifs.html" class="nav-link">Nos Tarifs</a></li>
                     <li><a href="contact.html" class="nav-link">Contact</a></li>
                     <li><a href="inscription.html" class="nav-link active btn-contact">Inscription</a></li>
                 </ul>
@@ -1184,308 +1318,197 @@
             </div>
         </section>
 
-        <!-- Section Tarifs -->
-        <section class="section tarifs-section">
+        <!-- Section Cycles d'Inscription -->
+        <section class="section cycles-section">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Nos Tarifs 2025-2026</h2>
-                    <p class="section-subtitle">Des frais transparents et adaptés à chaque niveau</p>
+                    <h2 class="section-title">Choisissez Votre Cycle</h2>
+                    <p class="section-subtitle">Sélectionnez le formulaire adapté au niveau de votre enfant</p>
                     <div class="section-divider"></div>
                 </div>
                 
-                <div class="tarifs-container">
-                    <table class="tarifs-table">
-                        <thead>
-                            <tr>
-                                <th>Poste de frais</th>
-                                <th>Prématernelle</th>
-                                <th>Maternelle 1 & 2</th>
-                                <th>CI - CP</th>
-                                <th>CE1 - CE2</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Frais d'inscription (nouveau)</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                            </tr>
-                            <tr>
-                                <td>Frais de réinscription (ancien)</td>
-                                <td>10.000 F</td>
-                                <td>10.000 F</td>
-                                <td>10.000 F</td>
-                                <td>10.000 F</td>
-                            </tr>
-                            <tr>
-                                <td>Activités parascolaires</td>
-                                <td>4.000 F</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                                <td>17.000 F</td>
-                            </tr>
-                            <tr>
-                                <td>Fêtes</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                                <td>12.000 F</td>
-                            </tr>
-                            <tr>
-                                <td>Assurance</td>
-                                <td>2.000 F</td>
-                                <td>2.000 F</td>
-                                <td>2.000 F</td>
-                                <td>2.000 F</td>
-                            </tr>
-                            <tr>
-                                <td>APE</td>
-                                <td>2.500 F</td>
-                                <td>2.500 F</td>
-                                <td>2.500 F</td>
-                                <td>2.500 F</td>
-                            </tr>
-                            <tr class="highlight">
-                                <td><strong>Total Frais Généraux</strong></td>
-                                <td><strong>32.500 F</strong></td>
-                                <td><strong>40.500 F</strong></td>
-                                <td><strong>40.500 F</strong></td>
-                                <td><strong>45.500 F</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Scolarité annuelle</td>
-                                <td>90.000 F</td>
-                                <td>85.000 F</td>
-                                <td>85.000 F</td>
-                                <td>85.000 F</td>
-                            </tr>
-                            <tr class="total-row">
-                                <td><strong>TOTAL NOUVEAU</strong></td>
-                                <td><strong>122.500 F</strong></td>
-                                <td><strong>125.500 F</strong></td>
-                                <td><strong>125.500 F</strong></td>
-                                <td><strong>130.500 F</strong></td>
-                            </tr>
-                            <tr class="total-row">
-                                <td><strong>TOTAL ANCIEN</strong></td>
-                                <td><strong>120.500 F</strong></td>
-                                <td><strong>123.500 F</strong></td>
-                                <td><strong>123.500 F</strong></td>
-                                <td><strong>128.500 F</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Modalités de Paiement -->
-        <section class="section modalites-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Modalités de Paiement</h2>
-                    <p class="section-subtitle">Un échéancier adapté pour faciliter vos paiements</p>
-                    <div class="section-divider"></div>
-                </div>
-                
-                <div class="modalites-grid">
-                    <div class="modalite-card">
-                        <div class="modalite-icon">
-                            <i class="fas fa-file-signature"></i>
+                <div class="cycles-grid">
+                    <!-- Crèche et Garderie -->
+                    <div class="cycle-card">
+                        <div class="cycle-header">
+                            <div class="cycle-icon">
+                                <i class="fas fa-baby-carriage"></i>
+                            </div>
+                            <h3>Crèche & Garderie</h3>
                         </div>
-                        <h3>À l'inscription</h3>
-                        <ul>
-                            <li>Paiement des <strong>Frais Généraux</strong></li>
-                            <li>Prématernelle: 32.500 F</li>
-                            <li>Maternelle: 40.500 F</li>
-                            <li>CI-CP: 40.500 F</li>
-                            <li>CE1-CE2: 45.500 F</li>
-                        </ul>
+                        <div class="cycle-content">
+                            <span class="cycle-age">À partir de 2 mois</span>
+                            <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement féerique, sécurisé et bienveillant.</p>
+                            
+                            <div class="cycle-features">
+                                <ul>
+                                    <li>Activités ludiques adaptées</li>
+                                    <li>Cadre féerique et sécurisé</li>
+                                    <li>Éveil sensoriel progressif</li>
+                                    <li>Horaires flexibles</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="cycle-action">
+                                <button class="btn btn-primary" data-cycle="creche">
+                                    <i class="fas fa-file-alt"></i>
+                                    Formulaire Crèche
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="modalite-card">
-                        <div class="modalite-icon">
-                            <i class="fas fa-calendar-alt"></i>
+                    <!-- Maternelle -->
+                    <div class="cycle-card">
+                        <div class="cycle-header">
+                            <div class="cycle-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3>Maternelle Bilingue</h3>
                         </div>
-                        <h3>1ère Tranche</h3>
-                        <ul>
-                            <li>Au plus tard le <strong>20 Octobre</strong></li>
-                            <li>Prématernelle: 30.000 F</li>
-                            <li>Autres niveaux: 35.000 F</li>
-                        </ul>
+                        <div class="cycle-content">
+                            <span class="cycle-age">3-5 ans</span>
+                            <p>Apprentissage fondamental par le jeu, pré-lecture, pré-mathématiques et initiation à l'anglais par immersion.</p>
+                            
+                            <div class="cycle-features">
+                                <ul>
+                                    <li>Immersion bilingue français-anglais</li>
+                                    <li>Apprentissage par le jeu</li>
+                                    <li>Développement de la créativité</li>
+                                    <li>Socialisation et autonomie</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="cycle-action">
+                                <button class="btn btn-primary" data-cycle="maternelle">
+                                    <i class="fas fa-file-alt"></i>
+                                    Formulaire Maternelle
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="modalite-card">
-                        <div class="modalite-icon">
-                            <i class="fas fa-calendar-check"></i>
+                    <!-- Primaire -->
+                    <div class="cycle-card">
+                        <div class="cycle-header">
+                            <div class="cycle-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Primaire Bilingue</h3>
                         </div>
-                        <h3>2ème Tranche</h3>
-                        <ul>
-                            <li>Au plus tard le <strong>08 Décembre</strong></li>
-                            <li>Tous niveaux: 30.000 F</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="modalite-card">
-                        <div class="modalite-icon">
-                            <i class="fas fa-calendar-day"></i>
+                        <div class="cycle-content">
+                            <span class="cycle-age">À partir de 6 ans</span>
+                            <p>Programme bilingue enrichi, technologies éducatives et développement de l'esprit critique.</p>
+                            
+                            <div class="cycle-features">
+                                <ul>
+                                    <li>Programme bilingue complet</li>
+                                    <li>Technologies éducatives</li>
+                                    <li>Développement de l'esprit critique</li>
+                                    <li>Activités parascolaires variées</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="cycle-action">
+                                <button class="btn btn-primary" data-cycle="primaire">
+                                    <i class="fas fa-file-alt"></i>
+                                    Formulaire Primaire
+                                </button>
+                            </div>
                         </div>
-                        <h3>3ème Tranche</h3>
-                        <ul>
-                            <li>Au plus tard le <strong>09 Février</strong></li>
-                            <li>Solde restant dû</li>
-                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section Services Facultatifs -->
-        <section class="section services-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Services Facultatifs</h2>
-                    <p class="section-subtitle">Des options pour faciliter votre quotidien</p>
-                    <div class="section-divider"></div>
-                </div>
-                
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-utensils"></i>
-                        </div>
-                        <h3>Déjeuner</h3>
-                        <div class="service-price">9.000 F</div>
-                        <p>Repas équilibré préparé sur place</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-coffee"></i>
-                        </div>
-                        <h3>Petit-déjeuner</h3>
-                        <div class="service-price">5.000 F</div>
-                        <p>Pour bien commencer la journée</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>Garderie</h3>
-                        <div class="service-price">3.000 F</div>
-                        <p>Accueil avant et après l'école</p>
-                    </div>
-                    
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fas fa-cookie-bite"></i>
-                        </div>
-                        <h3>Goûté (Maternelle)</h3>
-                        <div class="service-price">3.000 F</div>
-                        <p>Collation saine de l'après-midi</p>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 3rem; background: var(--white); padding: 2rem; border-radius: var(--border-radius);">
-                    <h3 style="color: var(--fuchsia); margin-bottom: 1rem;">Rappel Important</h3>
-                    <p>Les frais de cantine sont payables <strong>au plus tard le 5</strong> de chaque mois</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Formulaire -->
+        <!-- Section Formulaire (dynamique) -->
         <section class="section form-section" id="form-section">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Pré-inscription en Ligne</h2>
-                    <p class="section-subtitle">Remplissez ce formulaire pour initier le processus d'inscription</p>
+                    <h2 class="section-title" id="form-title">Pré-inscription en Ligne</h2>
+                    <p class="section-subtitle" id="form-subtitle">Remplissez ce formulaire pour initier le processus d'inscription</p>
                     <div class="section-divider"></div>
                 </div>
                 
                 <div class="form-container">
                     <form id="inscriptionForm">
-                        <h3 style="margin-bottom: 2rem; color: var(--fuchsia);">Informations de l'Enfant</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="enfantPrenom" class="form-label">Prénom de l'enfant *</label>
-                                <input type="text" id="enfantPrenom" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="enfantNom" class="form-label">Nom de l'enfant *</label>
-                                <input type="text" id="enfantNom" class="form-input" required>
+                        <!-- Ce formulaire sera rempli dynamiquement par JavaScript -->
+                        <div id="form-content">
+                            <div style="text-align: center; padding: 2rem;">
+                                <i class="fas fa-hand-pointer" style="font-size: 3rem; color: var(--fuchsia); margin-bottom: 1rem;"></i>
+                                <h3 style="color: var(--fuchsia); margin-bottom: 1rem;">Sélectionnez un cycle ci-dessus</h3>
+                                <p>Veuillez choisir le cycle d'inscription (Crèche, Maternelle ou Primaire) pour afficher le formulaire approprié.</p>
                             </div>
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="enfantDateNaissance" class="form-label">Date de naissance *</label>
-                                <input type="date" id="enfantDateNaissance" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="enfantNiveau" class="form-label">Niveau souhaité *</label>
-                                <select id="enfantNiveau" class="form-select" required>
-                                    <option value="">Sélectionnez un niveau</option>
-                                    <option value="prematernelle">Prématernelle</option>
-                                    <option value="maternelle1">Maternelle 1</option>
-                                    <option value="maternelle2">Maternelle 2</option>
-                                    <option value="ci">Cours d'Initiation - CI</option>
-                                    <option value="cp">Cours Préparatoire - CP</option>
-                                    <option value="ce1">Cours Élémentaire 1 - CE1</option>
-                                    <option value="ce2">Cours Élémentaire 2 - CE2</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <h3 style="margin: 3rem 0 2rem; color: var(--fuchsia);">Informations des Parents</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="parentPrenom" class="form-label">Prénom du parent *</label>
-                                <input type="text" id="parentPrenom" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="parentNom" class="form-label">Nom du parent *</label>
-                                <input type="text" id="parentNom" class="form-input" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="parentEmail" class="form-label">Email *</label>
-                                <input type="email" id="parentEmail" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="parentTelephone" class="form-label">Téléphone *</label>
-                                <input type="tel" id="parentTelephone" class="form-input" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="parentAdresse" class="form-label">Adresse</label>
-                            <textarea id="parentAdresse" class="form-textarea"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message" class="form-label">Message complémentaire</label>
-                            <textarea id="message" class="form-textarea" placeholder="Informations supplémentaires, questions particulières..."></textarea>
-                        </div>
-                        
-                        <div class="form-checkbox">
-                            <input type="checkbox" id="consentement" required>
-                            <label for="consentement">J'accepte que mes données personnelles soient traitées dans le cadre de la pré-inscription et je confirme avoir pris connaissance de la politique de confidentialité.</label>
-                        </div>
-                        
-                        <div class="loading-spinner" id="loadingSpinner"></div>
-                        
-                        <button type="submit" class="btn btn-primary form-submit" id="submitButton">
-                            <i class="fas fa-paper-plane"></i>
-                            Envoyer la Pré-inscription
-                        </button>
                     </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Paiement -->
+        <section class="section paiement-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Coordonnées Bancaires</h2>
+                    <p class="section-subtitle">Modalités de paiement pour finaliser l'inscription</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="paiement-cards">
+                    <div class="paiement-card">
+                        <div class="paiement-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3>Coris Bank</h3>
+                        <div class="paiement-details">
+                            <p><strong>Numéro de compte:</strong> 004943124101</p>
+                            <p><strong>RIB:</strong> 61</p>
+                            <p><strong>Bénéficiaire:</strong> Les Bulles de Joie</p>
+                        </div>
+                    </div>
+                    
+                    <div class="paiement-card">
+                        <div class="paiement-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Momopay <span class="soon-badge">Bientôt</span></h3>
+                        <div class="paiement-details">
+                            <p>Disponible prochainement</p>
+                            <p>Paiement mobile sécurisé</p>
+                            <p>Transactions instantanées</p>
+                        </div>
+                    </div>
+                    
+                    <div class="paiement-card">
+                        <div class="paiement-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h3>FLOOZ <span class="soon-badge">Bientôt</span></h3>
+                        <div class="paiement-details">
+                            <p>Disponible prochainement</p>
+                            <p>Paiement mobile sécurisé</p>
+                            <p>Transactions instantanées</p>
+                        </div>
+                    </div>
+                    
+                    <div class="paiement-card">
+                        <div class="paiement-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <h3>Celtiis Cash <span class="soon-badge">Bientôt</span></h3>
+                        <div class="paiement-details">
+                            <p>Disponible prochainement</p>
+                            <p>Paiement mobile sécurisé</p>
+                            <p>Transactions instantanées</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="tarifs.html" class="btn btn-outline">
+                        <i class="fas fa-euro-sign"></i>
+                        Voir les tarifs détaillés
+                    </a>
                 </div>
             </div>
         </section>
@@ -1590,7 +1613,7 @@
         </section>
     </main>
 
-    <!-- Footer OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1613,68 +1636,81 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="contact-info">
-                        <div class="contact-line">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Parakou - Zongo, Bénin</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-envelope"></i>
-                            <span>lesbullesdejoie@gmail.com</span>
-                        </div>
-                        <div class="contact-line">
-                            <i class="fas fa-phone"></i>
-                            <span>+229 01 97 91 94 52</span>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 97 91 94 52</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Horaires</h4>
-                    <div class="schedule-info">
-                        <div class="schedule-line">
-                            <strong>Crèche & Garderie:</strong>
-                            <span>07h - 19h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Maternelle:</strong>
-                            <span>08h - 11h30 & 15h - 17h</span>
-                        </div>
-                        <div class="schedule-line">
-                            <strong>Primaire:</strong>
-                            <span>07h30 - 12h & 15h - 17h30</span>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Crèche & Garderie:</strong>
+                                <span>07h - 19h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Maternelle:</strong>
+                                <span>08h - 11h30 & 15h - 17h</span>
+                            </div>
+                            <div class="schedule-line">
+                                <strong>Primaire:</strong>
+                                <span>07h30 - 12h & 15h - 17h30</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
-                    <div class="social-links">
-                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                            Facebook
-                        </a>
-                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
-                        </a>
-                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
-                            <i class="fab fa-tiktok"></i>
-                            TikTok
-                        </a>
-                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Google Maps
-                        </a>
+                    <div class="footer-details">
+                        <div class="social-links">
+                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                                <i class="fab fa-tiktok"></i>
+                                TikTok
+                            </a>
+                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Google Maps
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
-                    <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
-                    <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21 & 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    <button class="legal-toggle">
+                        <span>Autorisations et Certifications</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
                 </div>
                 <div class="footer-credits">
                     <p>Année scolaire 2025-2026</p>
@@ -1687,15 +1723,18 @@
         // ===== GESTIONNAIRE DE LA PAGE INSCRIPTION OPTIMISÉ =====
         class InscriptionManager {
             constructor() {
+                this.currentCycle = null;
                 this.init();
             }
 
             init() {
                 this.setupNavigation();
+                this.setupCycleSelection();
                 this.setupInscriptionForm();
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
+                this.setupFooterInteractions();
                 this.setupPerformanceOptimizations();
             }
 
@@ -1736,11 +1775,200 @@
                 }, { passive: true });
             }
 
+            // Configuration de la sélection de cycle
+            setupCycleSelection() {
+                const cycleButtons = document.querySelectorAll('.cycle-action .btn');
+                
+                cycleButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const cycle = e.target.closest('button').getAttribute('data-cycle');
+                        this.selectCycle(cycle);
+                    });
+                });
+            }
+
+            // Sélection d'un cycle
+            selectCycle(cycle) {
+                this.currentCycle = cycle;
+                
+                // Mettre à jour l'interface
+                this.updateFormInterface(cycle);
+                
+                // Faire défiler jusqu'au formulaire
+                document.getElementById('form-section').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+
+            // Mise à jour de l'interface du formulaire
+            updateFormInterface(cycle) {
+                const formTitle = document.getElementById('form-title');
+                const formSubtitle = document.getElementById('form-subtitle');
+                const formContent = document.getElementById('form-content');
+                
+                // Mettre à jour les titres
+                const cycleTitles = {
+                    'creche': 'Inscription Crèche & Garderie',
+                    'maternelle': 'Inscription Maternelle Bilingue',
+                    'primaire': 'Inscription Primaire Bilingue'
+                };
+                
+                const cycleSubtitles = {
+                    'creche': 'Formulaire dédié à l\'inscription en crèche et garderie (à partir de 2 mois)',
+                    'maternelle': 'Formulaire dédié à l\'inscription en maternelle bilingue (3-5 ans)',
+                    'primaire': 'Formulaire dédié à l\'inscription en primaire bilingue (à partir de 6 ans)'
+                };
+                
+                formTitle.textContent = cycleTitles[cycle];
+                formSubtitle.textContent = cycleSubtitles[cycle];
+                
+                // Générer le formulaire approprié
+                formContent.innerHTML = this.generateForm(cycle);
+                
+                // Réinitialiser les écouteurs d'événements
+                this.setupInscriptionForm();
+            }
+
+            // Génération du formulaire selon le cycle
+            generateForm(cycle) {
+                const baseFields = `
+                    <h3 style="margin-bottom: 2rem; color: var(--fuchsia);">Informations de l'Enfant</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="enfantPrenom" class="form-label">Prénom de l'enfant *</label>
+                            <input type="text" id="enfantPrenom" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enfantNom" class="form-label">Nom de l'enfant *</label>
+                            <input type="text" id="enfantNom" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="enfantDateNaissance" class="form-label">Date de naissance *</label>
+                            <input type="date" id="enfantDateNaissance" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enfantLieuNaissance" class="form-label">Lieu de naissance *</label>
+                            <input type="text" id="enfantLieuNaissance" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 3rem 0 2rem; color: var(--fuchsia);">Informations des Parents</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentPrenom" class="form-label">Prénom du parent *</label>
+                            <input type="text" id="parentPrenom" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="parentNom" class="form-label">Nom du parent *</label>
+                            <input type="text" id="parentNom" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="parentEmail" class="form-label">Email *</label>
+                            <input type="email" id="parentEmail" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="parentTelephone" class="form-label">Téléphone *</label>
+                            <input type="tel" id="parentTelephone" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parentAdresse" class="form-label">Adresse complète *</label>
+                        <textarea id="parentAdresse" class="form-textarea" required></textarea>
+                    </div>
+                `;
+                
+                const specificFields = {
+                    'creche': `
+                        <div class="form-group">
+                            <label for="regimeAlimentaire" class="form-label">Régime alimentaire spécifique</label>
+                            <input type="text" id="regimeAlimentaire" class="form-input" placeholder="Allergies, intolérances...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="habitudesSommeil" class="form-label">Habitudes de sommeil</label>
+                            <textarea id="habitudesSommeil" class="form-textarea" placeholder="Sieste, horaires de sommeil..."></textarea>
+                        </div>
+                    `,
+                    'maternelle': `
+                        <div class="form-group">
+                            <label for="niveauMaternelle" class="form-label">Niveau demandé *</label>
+                            <select id="niveauMaternelle" class="form-select" required>
+                                <option value="">Sélectionnez un niveau</option>
+                                <option value="prematernelle">Prématernelle</option>
+                                <option value="maternelle1">Maternelle 1</option>
+                                <option value="maternelle2">Maternelle 2</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="experienceScolaire" class="form-label">Expérience scolaire antérieure</label>
+                            <textarea id="experienceScolaire" class="form-textarea" placeholder="A déjà fréquenté une structure? laquelle?"></textarea>
+                        </div>
+                    `,
+                    'primaire': `
+                        <div class="form-group">
+                            <label for="niveauPrimaire" class="form-label">Niveau demandé *</label>
+                            <select id="niveauPrimaire" class="form-select" required>
+                                <option value="">Sélectionnez un niveau</option>
+                                <option value="ci">Cours d'Initiation - CI</option>
+                                <option value="cp">Cours Préparatoire - CP</option>
+                                <option value="ce1">Cours Élémentaire 1 - CE1</option>
+                                <option value="ce2">Cours Élémentaire 2 - CE2</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="derniereEcole" class="form-label">Dernière école fréquentée</label>
+                            <input type="text" id="derniereEcole" class="form-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="niveauAcademique" class="form-label">Niveau académique actuel</label>
+                            <textarea id="niveauAcademique" class="form-textarea" placeholder="Points forts, difficultés éventuelles..."></textarea>
+                        </div>
+                    `
+                };
+                
+                const commonFields = `
+                    <div class="form-group">
+                        <label for="message" class="form-label">Informations complémentaires</label>
+                        <textarea id="message" class="form-textarea" placeholder="Informations supplémentaires, questions particulières..."></textarea>
+                    </div>
+                    
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="consentement" required>
+                        <label for="consentement">J'accepte que mes données personnelles soient traitées dans le cadre de la pré-inscription et je confirme avoir pris connaissance de la politique de confidentialité.</label>
+                    </div>
+                    
+                    <div class="loading-spinner" id="loadingSpinner"></div>
+                    
+                    <button type="submit" class="btn btn-primary form-submit" id="submitButton">
+                        <i class="fas fa-paper-plane"></i>
+                        Envoyer la Pré-inscription
+                    </button>
+                `;
+                
+                return baseFields + (specificFields[cycle] || '') + commonFields;
+            }
+
             // Configuration du formulaire d'inscription
             setupInscriptionForm() {
                 const inscriptionForm = document.getElementById('inscriptionForm');
                 if (inscriptionForm) {
-                    inscriptionForm.addEventListener('submit', (e) => {
+                    // Supprimer les anciens écouteurs
+                    inscriptionForm.replaceWith(inscriptionForm.cloneNode(true));
+                    
+                    // Réattacher les écouteurs
+                    document.getElementById('inscriptionForm').addEventListener('submit', (e) => {
                         e.preventDefault();
                         this.handleFormSubmission();
                     });
@@ -1763,7 +1991,7 @@
                 }, observerOptions);
 
                 // Observer les éléments à animer
-                document.querySelectorAll('.process-step, .modalite-card, .service-card, .document-card, .contact-item').forEach(el => {
+                document.querySelectorAll('.process-step, .cycle-card, .paiement-card, .document-card, .contact-item').forEach(el => {
                     observer.observe(el);
                 });
             }
@@ -1771,7 +1999,7 @@
             // Configuration des éléments interactifs
             setupInteractiveElements() {
                 // Animation des cartes au survol
-                const cards = document.querySelectorAll('.modalite-card, .service-card, .document-card, .contact-item');
+                const cards = document.querySelectorAll('.cycle-card, .paiement-card, .document-card, .contact-item');
                 
                 cards.forEach(card => {
                     card.addEventListener('mouseenter', () => {
@@ -1798,28 +2026,80 @@
                 }
             }
 
+            // Interactions du footer
+            setupFooterInteractions() {
+                // Sections pliables du footer
+                const footerSections = document.querySelectorAll('.footer-section');
+                const legalToggle = document.querySelector('.legal-toggle');
+                const legalContent = document.querySelector('.legal-content');
+
+                footerSections.forEach(section => {
+                    const heading = section.querySelector('h4');
+                    if (heading) {
+                        heading.addEventListener('click', () => {
+                            section.classList.toggle('active');
+                        });
+                    }
+                });
+
+                // Toggle des autorisations
+                if (legalToggle && legalContent) {
+                    legalToggle.addEventListener('click', () => {
+                        legalContent.classList.toggle('active');
+                        const icon = legalToggle.querySelector('i');
+                        if (legalContent.classList.contains('active')) {
+                            icon.className = 'fas fa-chevron-up';
+                        } else {
+                            icon.className = 'fas fa-chevron-down';
+                        }
+                    });
+                }
+            }
+
             // Gestion de la soumission du formulaire
             async handleFormSubmission() {
+                if (!this.currentCycle) {
+                    this.showNotification('Veuillez sélectionner un cycle d\'inscription', 'error');
+                    return;
+                }
+                
                 const form = document.getElementById('inscriptionForm');
                 const submitButton = document.getElementById('submitButton');
                 const loadingSpinner = document.getElementById('loadingSpinner');
                 
                 // Validation basique
-                const requiredFields = ['enfantPrenom', 'enfantNom', 'enfantDateNaissance', 'enfantNiveau', 'parentPrenom', 'parentNom', 'parentEmail', 'parentTelephone'];
+                const requiredFields = ['enfantPrenom', 'enfantNom', 'enfantDateNaissance', 'enfantLieuNaissance', 'parentPrenom', 'parentNom', 'parentEmail', 'parentTelephone', 'parentAdresse'];
                 let isValid = true;
                 
                 requiredFields.forEach(field => {
                     const input = document.getElementById(field);
-                    if (!input.value.trim()) {
+                    if (!input || !input.value.trim()) {
                         isValid = false;
-                        input.style.borderColor = '#f44336';
-                    } else {
+                        if (input) input.style.borderColor = '#f44336';
+                    } else if (input) {
                         input.style.borderColor = '';
                     }
                 });
                 
+                // Validation des champs spécifiques
+                if (this.currentCycle === 'maternelle') {
+                    const niveauMaternelle = document.getElementById('niveauMaternelle');
+                    if (!niveauMaternelle || !niveauMaternelle.value) {
+                        isValid = false;
+                        if (niveauMaternelle) niveauMaternelle.style.borderColor = '#f44336';
+                    }
+                }
+                
+                if (this.currentCycle === 'primaire') {
+                    const niveauPrimaire = document.getElementById('niveauPrimaire');
+                    if (!niveauPrimaire || !niveauPrimaire.value) {
+                        isValid = false;
+                        if (niveauPrimaire) niveauPrimaire.style.borderColor = '#f44336';
+                    }
+                }
+                
                 const consentement = document.getElementById('consentement');
-                if (!consentement.checked) {
+                if (!consentement || !consentement.checked) {
                     isValid = false;
                     this.showNotification('Veuillez accepter les conditions de traitement des données', 'error');
                     return;
@@ -1831,8 +2111,8 @@
                 }
                 
                 // Afficher le loading
-                submitButton.style.display = 'none';
-                loadingSpinner.style.display = 'block';
+                if (submitButton) submitButton.style.display = 'none';
+                if (loadingSpinner) loadingSpinner.style.display = 'block';
                 
                 try {
                     // Envoi par email
@@ -1848,20 +2128,28 @@
                     this.showNotification('Erreur lors de l\'envoi. Veuillez réessayer.', 'error');
                 } finally {
                     // Cacher le loading
-                    submitButton.style.display = 'flex';
-                    loadingSpinner.style.display = 'none';
+                    if (submitButton) submitButton.style.display = 'flex';
+                    if (loadingSpinner) loadingSpinner.style.display = 'none';
                 }
             }
 
             // Envoi par email
             async sendEmail(form) {
                 const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
+                const data = {};
+                
+                // Récupérer toutes les données du formulaire
+                const inputs = form.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    if (input.id && input.value) {
+                        data[input.id] = input.value;
+                    }
+                });
                 
                 // Simulation d'envoi par email (dans un cas réel, vous utiliseriez un service backend)
                 const emailData = {
                     to: 'lesbullesdejoie@gmail.com',
-                    subject: `Nouvelle Pré-inscription - ${data.enfantPrenom} ${data.enfantNom}`,
+                    subject: `Nouvelle Pré-inscription ${this.currentCycle} - ${data.enfantPrenom} ${data.enfantNom}`,
                     body: this.formatEmailBody(data)
                 };
                 
@@ -1879,59 +2167,91 @@
             // Formatage du corps de l'email
             formatEmailBody(data) {
                 return `
-NOUVELLE PRÉ-INSCRIPTION - LES BULLES DE JOIE
+NOUVELLE PRÉ-INSCRIPTION ${this.currentCycle.toUpperCase()} - LES BULLES DE JOIE
 
 INFORMATIONS DE L'ENFANT:
 Prénom: ${data.enfantPrenom}
 Nom: ${data.enfantNom}
 Date de naissance: ${data.enfantDateNaissance}
-Niveau souhaité: ${data.enfantNiveau}
+Lieu de naissance: ${data.enfantLieuNaissance}
 
 INFORMATIONS DES PARENTS:
 Prénom: ${data.parentPrenom}
 Nom: ${data.parentNom}
 Email: ${data.parentEmail}
 Téléphone: ${data.parentTelephone}
-Adresse: ${data.parentAdresse || 'Non renseignée'}
+Adresse: ${data.parentAdresse}
+
+INFORMATIONS SPÉCIFIQUES:
+${this.getSpecificFieldsText(data)}
 
 MESSAGE COMPLÉMENTAIRE:
 ${data.message || 'Aucun message'}
 
+Cycle: ${this.currentCycle}
 Date de soumission: ${new Date().toLocaleString('fr-FR')}
                 `;
             }
 
+            // Récupération des champs spécifiques
+            getSpecificFieldsText(data) {
+                let specificText = '';
+                
+                if (this.currentCycle === 'creche') {
+                    specificText = `Régime alimentaire: ${data.regimeAlimentaire || 'Non renseigné'}\nHabitudes de sommeil: ${data.habitudesSommeil || 'Non renseigné'}`;
+                } else if (this.currentCycle === 'maternelle') {
+                    specificText = `Niveau demandé: ${data.niveauMaternelle || 'Non renseigné'}\nExpérience scolaire: ${data.experienceScolaire || 'Non renseigné'}`;
+                } else if (this.currentCycle === 'primaire') {
+                    specificText = `Niveau demandé: ${data.niveauPrimaire || 'Non renseigné'}\nDernière école: ${data.derniereEcole || 'Non renseigné'}\nNiveau académique: ${data.niveauAcademique || 'Non renseigné'}`;
+                }
+                
+                return specificText;
+            }
+
             // Envoi par WhatsApp
             sendWhatsApp(form) {
-                const data = {
-                    enfantPrenom: form.querySelector('#enfantPrenom').value,
-                    enfantNom: form.querySelector('#enfantNom').value,
-                    enfantDateNaissance: form.querySelector('#enfantDateNaissance').value,
-                    enfantNiveau: form.querySelector('#enfantNiveau').value,
-                    parentPrenom: form.querySelector('#parentPrenom').value,
-                    parentNom: form.querySelector('#parentNom').value,
-                    parentEmail: form.querySelector('#parentEmail').value,
-                    parentTelephone: form.querySelector('#parentTelephone').value,
-                    parentAdresse: form.querySelector('#parentAdresse').value,
-                    message: form.querySelector('#message').value
-                };
+                const data = {};
+                
+                // Récupérer toutes les données du formulaire
+                const inputs = form.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    if (input.id && input.value) {
+                        data[input.id] = input.value;
+                    }
+                });
 
-                const whatsappMessage = `Nouvelle Pré-inscription - Les Bulles de Joie%0A%0A` +
+                const whatsappMessage = `Nouvelle Pré-inscription ${this.currentCycle} - Les Bulles de Joie%0A%0A` +
                     `*INFORMATIONS ENFANT*%0A` +
                     `👶 ${data.enfantPrenom} ${data.enfantNom}%0A` +
                     `📅 ${data.enfantDateNaissance}%0A` +
-                    `🎓 ${data.enfantNiveau}%0A%0A` +
+                    `📍 ${data.enfantLieuNaissance}%0A%0A` +
                     `*INFORMATIONS PARENT*%0A` +
                     `👨‍👩‍👧‍👦 ${data.parentPrenom} ${data.parentNom}%0A` +
                     `📧 ${data.parentEmail}%0A` +
                     `📞 ${data.parentTelephone}%0A` +
                     `🏠 ${data.parentAdresse || 'Non renseignée'}%0A%0A` +
+                    `*INFORMATIONS SPÉCIFIQUES*%0A${this.getSpecificFieldsWhatsApp(data)}%0A%0A` +
                     `*MESSAGE:*%0A${data.message || 'Aucun message'}`;
 
                 const whatsappUrl = `https://wa.me/2290197919452?text=${whatsappMessage}`;
                 
                 // Ouvrir WhatsApp dans un nouvel onglet
                 window.open(whatsappUrl, '_blank');
+            }
+
+            // Récupération des champs spécifiques pour WhatsApp
+            getSpecificFieldsWhatsApp(data) {
+                let specificText = '';
+                
+                if (this.currentCycle === 'creche') {
+                    specificText = `🍼 Régime: ${data.regimeAlimentaire || 'Non renseigné'}%0A😴 Sommeil: ${data.habitudesSommeil || 'Non renseigné'}`;
+                } else if (this.currentCycle === 'maternelle') {
+                    specificText = `🎓 Niveau: ${data.niveauMaternelle || 'Non renseigné'}%0A📚 Expérience: ${data.experienceScolaire || 'Non renseigné'}`;
+                } else if (this.currentCycle === 'primaire') {
+                    specificText = `🎓 Niveau: ${data.niveauPrimaire || 'Non renseigné'}%0A🏫 Dernière école: ${data.derniereEcole || 'Non renseigné'}%0A📊 Niveau académique: ${data.niveauAcademique || 'Non renseigné'}`;
+                }
+                
+                return specificText;
             }
 
             // Système de notifications
@@ -1976,6 +2296,13 @@ Date de soumission: ${new Date().toLocaleString('fr-FR')}
                         img.loading = 'lazy';
                     });
                 }
+
+                // Préchargement des polices critiques
+                const fontLink = document.createElement('link');
+                fontLink.rel = 'preload';
+                fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap';
+                fontLink.as = 'style';
+                document.head.appendChild(fontLink);
             }
         }
 
