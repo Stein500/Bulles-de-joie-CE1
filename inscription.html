@@ -703,8 +703,6 @@
 
         .paiement-card:nth-child(1) { animation-delay: 0.1s; }
         .paiement-card:nth-child(2) { animation-delay: 0.2s; }
-        .paiement-card:nth-child(3) { animation-delay: 0.3s; }
-        .paiement-card:nth-child(4) { animation-delay: 0.4s; }
 
         .paiement-card:hover {
             transform: translateY(-5px);
@@ -1479,29 +1477,8 @@
                         </div>
                     </div>
                     
-                    <div class="paiement-card">
-                        <div class="paiement-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <h3>FLOOZ <span class="soon-badge">Bientôt</span></h3>
-                        <div class="paiement-details">
-                            <p>Disponible prochainement</p>
-                            <p>Paiement mobile sécurisé</p>
-                            <p>Transactions instantanées</p>
-                        </div>
-                    </div>
-                    
-                    <div class="paiement-card">
-                        <div class="paiement-icon">
-                            <i class="fas fa-wallet"></i>
-                        </div>
-                        <h3>Celtiis Cash <span class="soon-badge">Bientôt</span></h3>
-                        <div class="paiement-details">
-                            <p>Disponible prochainement</p>
-                            <p>Paiement mobile sécurisé</p>
-                            <p>Transactions instantanées</p>
-                        </div>
-                    </div>
+                    <!-- Section pour ajouter d'autres moyens de paiement plus tard -->
+                    <div id="additional-payment-methods"></div>
                 </div>
                 
                 <div style="text-align: center; margin-top: 3rem;">
@@ -2313,6 +2290,29 @@ Date de soumission: ${new Date().toLocaleString('fr-FR')}
                 window.inscriptionManager = new InscriptionManager();
             }, 100);
         });
+
+        // ===== FONCTION POUR AJOUTER DES MOYENS DE PAIEMENT PLUS TARD =====
+        function ajouterMoyenPaiement(nom, details, disponible = false) {
+            const container = document.getElementById('additional-payment-methods');
+            if (!container) return;
+            
+            const nouveauMoyen = document.createElement('div');
+            nouveauMoyen.className = 'paiement-card';
+            nouveauMoyen.innerHTML = `
+                <div class="paiement-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>${nom} ${!disponible ? '<span class="soon-badge">Bientôt</span>' : ''}</h3>
+                <div class="paiement-details">
+                    ${details}
+                </div>
+            `;
+            
+            container.appendChild(nouveauMoyen);
+        }
+
+        // Exemple d'utilisation pour ajouter un moyen de paiement plus tard :
+        // ajouterMoyenPaiement("FLOOZ", "<p>Disponible prochainement</p><p>Paiement mobile sécurisé</p><p>Transactions instantanées</p>", false);
     </script>
 </body>
 </html>
