@@ -72,6 +72,64 @@
             overflow-x: hidden;
         }
 
+        /* ===== EFFETS DE TOUCHER OPTIMISÉS ===== */
+        .btn, .nav-link, .tarif-card, .fourniture-card,
+        .service-card, .modalite-item, .contact-item,
+        .slogan-item, .social-link, .badge {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de vague au clic */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Feedback tactile pour tous les éléments interactifs */
+        .btn:active, .nav-link:active, .tarif-card:active, 
+        .fourniture-card:active, .service-card:active,
+        .modalite-item:active, .contact-item:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Effets spécifiques pour les boutons */
+        .btn {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn:active {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Support des appareils tactiles */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .tarif-card, .fourniture-card, .service-card {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 12px 16px !important;
+            }
+        }
+
         /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
@@ -106,6 +164,21 @@
         @keyframes loadingProgress {
             0% { transform: scaleX(0); }
             100% { transform: scaleX(1); }
+        }
+
+        @keyframes cardEntry {
+            0% { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.8); 
+            }
+            70% { 
+                opacity: 0.8; 
+                transform: translateY(-10px) scale(1.05); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
         }
 
         /* ===== INTRODUCTION SPÉCIFIQUE À TARIFS ===== */
@@ -329,6 +402,18 @@
             background: var(--fuchsia);
         }
 
+        .btn-outline {
+            background: transparent;
+            color: var(--fuchsia);
+            border: 2px solid var(--fuchsia);
+        }
+
+        .btn-outline:hover {
+            background: var(--fuchsia);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
         /* ===== SECTIONS GÉNÉRIQUES ===== */
         .section {
             padding: 5rem 0;
@@ -417,7 +502,7 @@
             box-shadow: var(--shadow-md);
             transition: var(--transition-normal);
             border-top: 4px solid var(--fuchsia);
-            animation: slideInUp 0.8s ease both;
+            animation: cardEntry 0.8s ease both;
         }
 
         .tarif-card:nth-child(1) { animation-delay: 0.1s; }
@@ -526,7 +611,7 @@
             box-shadow: var(--shadow-sm);
             text-align: center;
             transition: var(--transition-normal);
-            animation: slideInUp 0.8s ease both;
+            animation: cardEntry 0.8s ease both;
         }
 
         .fourniture-card:nth-child(1) { animation-delay: 0.1s; }
@@ -570,7 +655,7 @@
             border-radius: var(--border-radius);
             padding: 3rem;
             box-shadow: var(--shadow-md);
-            animation: slideInUp 0.8s ease both;
+            animation: cardEntry 0.8s ease both;
         }
 
         .modalite-item {
@@ -628,7 +713,7 @@
             text-align: center;
             box-shadow: var(--shadow-sm);
             transition: var(--transition-normal);
-            animation: slideInUp 0.8s ease both;
+            animation: cardEntry 0.8s ease both;
         }
 
         .service-card:nth-child(1) { animation-delay: 0.1s; }
@@ -664,7 +749,7 @@
             border-radius: var(--border-radius);
             padding: 3rem;
             box-shadow: var(--shadow-md);
-            animation: slideInUp 0.8s ease both;
+            animation: cardEntry 0.8s ease both;
         }
 
         .documents-list {
@@ -706,7 +791,7 @@
             padding: 2rem;
             border-radius: var(--border-radius);
             text-align: center;
-            animation: slideInUp 0.8s ease both;
+            animation: cardEntry 0.8s ease both;
         }
 
         .contact-item:nth-child(1) { animation-delay: 0.1s; }
@@ -743,30 +828,6 @@
             color: var(--lemon-green);
             margin-bottom: 1rem;
             font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-section h4::after {
-            content: '+';
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-section.active h4::after {
-            content: '-';
-        }
-
-        .footer-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .footer-section.active .footer-details {
-            max-height: 500px;
         }
 
         .footer-logo {
@@ -878,34 +939,8 @@
             flex: 1;
         }
 
-        .legal-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition-fast);
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .legal-toggle:hover {
-            background: var(--fuchsia);
-        }
-
         .legal-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
             margin-top: 1rem;
-        }
-
-        .legal-content.active {
-            max-height: 200px;
         }
 
         .footer-legal p {
@@ -984,11 +1019,6 @@
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
-            }
-            
-            .footer-section h4 {
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .footer-bottom {
@@ -1627,16 +1657,8 @@
                     <div class="footer-details">
                         <div class="schedule-info">
                             <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>07h - 19h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Maternelle:</strong>
-                                <span>08h - 11h30 & 15h - 17h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Primaire:</strong>
-                                <span>07h30 - 12h & 15h - 17h30</span>
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>Lundi au Vendredi :08h à 17h</span>
                             </div>
                         </div>
                     </div>
@@ -1669,10 +1691,6 @@
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <button class="legal-toggle">
-                        <span>Autorisations et Certifications</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
                     <div class="legal-content">
                         <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                         <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
@@ -1699,8 +1717,88 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
-                this.setupFooterInteractions();
-                this.setupPerformanceOptimizations();
+                this.setupTouchEffects();
+            }
+
+            // Configuration des effets tactiles
+            setupTouchEffects() {
+                // Effets de ripple au clic
+                document.addEventListener('click', (e) => {
+                    const target = e.target;
+                    
+                    // Appliquer l'effet de ripple aux éléments interactifs
+                    if (target.classList.contains('btn') || 
+                        target.classList.contains('nav-link') ||
+                        target.classList.contains('tarif-card') ||
+                        target.classList.contains('fourniture-card') ||
+                        target.classList.contains('service-card') ||
+                        target.classList.contains('modalite-item') ||
+                        target.classList.contains('contact-item') ||
+                        target.classList.contains('slogan-item') ||
+                        target.classList.contains('social-link') ||
+                        target.closest('.btn') ||
+                        target.closest('.nav-link') ||
+                        target.closest('.tarif-card') ||
+                        target.closest('.fourniture-card') ||
+                        target.closest('.service-card')) {
+                        
+                        this.createRippleEffect(e);
+                    }
+                });
+
+                // Feedback tactile amélioré
+                document.addEventListener('touchstart', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const element = target.classList.contains('btn') ? target : target.closest('.btn');
+                        element.style.transform = 'scale(0.98)';
+                    }
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const element = target.classList.contains('btn') ? target : target.closest('.btn');
+                        element.style.transform = '';
+                    }
+                });
+
+                // Amélioration de l'accessibilité
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        const target = e.target;
+                        if (target.classList.contains('btn') || 
+                            target.classList.contains('nav-link') ||
+                            target.getAttribute('role') === 'button') {
+                            
+                            e.preventDefault();
+                            target.click();
+                        }
+                    }
+                });
+            }
+
+            createRippleEffect(event) {
+                const element = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('click-ripple');
+
+                // Supprimer les anciens ripples
+                const existingRipples = element.querySelectorAll('.click-ripple');
+                existingRipples.forEach(ripple => ripple.remove());
+
+                element.appendChild(circle);
+
+                // Supprimer le ripple après l'animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
             }
 
             // Configuration de la navigation
@@ -1764,11 +1862,11 @@
             // Configuration des éléments interactifs
             setupInteractiveElements() {
                 // Animation des cartes au survol
-                const cards = document.querySelectorAll('.tarif-card, .fourniture-card, .service-card');
+                const cards = document.querySelectorAll('.tarif-card, .fourniture-card, .service-card, .contact-item');
                 
                 cards.forEach(card => {
                     card.addEventListener('mouseenter', () => {
-                        card.style.transform = 'translateY(-10px)';
+                        card.style.transform = card.classList.contains('tarif-card') ? 'translateY(-10px)' : 'translateY(-5px)';
                     });
                     
                     card.addEventListener('mouseleave', () => {
@@ -1788,47 +1886,6 @@
                             introOverlay.style.display = 'none';
                         }, 1000);
                     }, 3000);
-                }
-            }
-
-            // Interactions du footer
-            setupFooterInteractions() {
-                // Sections pliables du footer
-                const footerSections = document.querySelectorAll('.footer-section');
-                const legalToggle = document.querySelector('.legal-toggle');
-                const legalContent = document.querySelector('.legal-content');
-
-                footerSections.forEach(section => {
-                    const heading = section.querySelector('h4');
-                    if (heading) {
-                        heading.addEventListener('click', () => {
-                            section.classList.toggle('active');
-                        });
-                    }
-                });
-
-                // Toggle des autorisations
-                if (legalToggle && legalContent) {
-                    legalToggle.addEventListener('click', () => {
-                        legalContent.classList.toggle('active');
-                        const icon = legalToggle.querySelector('i');
-                        if (legalContent.classList.contains('active')) {
-                            icon.className = 'fas fa-chevron-up';
-                        } else {
-                            icon.className = 'fas fa-chevron-down';
-                        }
-                    });
-                }
-            }
-
-            // Optimisations de performance
-            setupPerformanceOptimizations() {
-                // Lazy loading pour les images
-                if ('loading' in HTMLImageElement.prototype) {
-                    const images = document.querySelectorAll('img[loading="lazy"]');
-                    images.forEach(img => {
-                        img.loading = 'lazy';
-                    });
                 }
             }
         }

@@ -74,6 +74,66 @@
             overflow-x: hidden;
         }
 
+        /* ===== EFFETS DE TOUCHER OPTIMISÉS ===== */
+        .btn, .nav-link, .subject-item, .teacher-card,
+        .slogan-item, .social-link, .badge, .student-avatar,
+        .teacher-avatar, .teacher-avatar-large, .password-toggle,
+        .form-input, .form-submit {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de vague au clic */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Feedback tactile pour tous les éléments interactifs */
+        .btn:active, .nav-link:active, .subject-item:active, 
+        .teacher-card:active, .slogan-item:active, .student-avatar:active,
+        .teacher-avatar:active, .teacher-avatar-large:active,
+        .password-toggle:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Effets spécifiques pour les boutons */
+        .btn {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn:active {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Support des appareils tactiles */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .subject-item, .teacher-card {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 12px 16px !important;
+            }
+        }
+
         /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
@@ -166,6 +226,11 @@
             100% { transform: scaleX(1); }
         }
 
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
         /* ===== INTRODUCTION SPÉCIFIQUE RÉSULTATS ===== */
         .intro-overlay {
             position: fixed;
@@ -237,11 +302,6 @@
             border-radius: 2px;
             animation: loadingProgress 2.5s ease-in-out;
             transform-origin: left;
-        }
-
-        @keyframes loadingProgress {
-            0% { transform: scaleX(0); }
-            100% { transform: scaleX(1); }
         }
 
         /* ===== HEADER OPTIMISÉ ===== */
@@ -978,7 +1038,6 @@
             background: var(--black);
             color: var(--white);
             padding: 3rem 0 1rem;
-            border-top: 3px solid var(--fuchsia);
         }
 
         .footer-content {
@@ -992,32 +1051,6 @@
             color: var(--lemon-green);
             margin-bottom: 1rem;
             font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-section h4::after {
-            content: '+';
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-section.active h4::after {
-            content: '-';
-        }
-
-        .footer-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .footer-section.active .footer-details {
-            max-height: 500px;
         }
 
         .footer-logo {
@@ -1122,52 +1155,21 @@
         }
 
         .footer-bottom {
-            border-top: 2px solid var(--fuchsia);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            background: rgba(255, 0, 255, 0.05);
-            margin-top: 2rem;
-            padding: 1.5rem 2rem;
-            border-radius: var(--border-radius);
         }
 
         .footer-legal {
             flex: 1;
         }
 
-        .legal-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition-fast);
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .legal-toggle:hover {
-            background: var(--fuchsia);
-            border-color: var(--fuchsia);
-        }
-
         .legal-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
             margin-top: 1rem;
-        }
-
-        .legal-content.active {
-            max-height: 200px;
         }
 
         .footer-legal p {
@@ -1494,7 +1496,7 @@
                         </button>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <button type="submit" class="btn btn-primary form-submit" style="width: 100%;">
                         <i class="fas fa-sign-in-alt"></i>
                         Se connecter
                     </button>
@@ -1684,16 +1686,8 @@
                     <div class="footer-details">
                         <div class="schedule-info">
                             <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>07h - 19h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Maternelle:</strong>
-                                <span>08h - 11h30 & 15h - 17h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Primaire:</strong>
-                                <span>07h30 - 12h & 15h - 17h30</span>
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>Lundi au Vendredi :08h à 17h</span>
                             </div>
                         </div>
                     </div>
@@ -1726,10 +1720,6 @@
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <button class="legal-toggle">
-                        <span>Autorisations et Certifications</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
                     <div class="legal-content">
                         <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                         <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
@@ -1982,7 +1972,88 @@
                 this.setupEventListeners();
                 this.setupAutoLogout();
                 this.handleIntroAnimation();
-                this.setupFooterInteractions();
+                this.setupTouchEffects();
+            }
+
+            // Configuration des effets tactiles
+            setupTouchEffects() {
+                // Effets de ripple au clic
+                document.addEventListener('click', (e) => {
+                    const target = e.target;
+                    
+                    // Appliquer l'effet de ripple aux éléments interactifs
+                    if (target.classList.contains('btn') || 
+                        target.classList.contains('nav-link') ||
+                        target.classList.contains('subject-item') ||
+                        target.classList.contains('teacher-card') ||
+                        target.classList.contains('slogan-item') ||
+                        target.classList.contains('social-link') ||
+                        target.classList.contains('student-avatar') ||
+                        target.classList.contains('teacher-avatar') ||
+                        target.classList.contains('teacher-avatar-large') ||
+                        target.classList.contains('password-toggle') ||
+                        target.closest('.btn') ||
+                        target.closest('.nav-link') ||
+                        target.closest('.subject-item') ||
+                        target.closest('.teacher-card')) {
+                        
+                        this.createRippleEffect(e);
+                    }
+                });
+
+                // Feedback tactile amélioré
+                document.addEventListener('touchstart', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const element = target.classList.contains('btn') ? target : target.closest('.btn');
+                        element.style.transform = 'scale(0.98)';
+                    }
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const element = target.classList.contains('btn') ? target : target.closest('.btn');
+                        element.style.transform = '';
+                    }
+                });
+
+                // Amélioration de l'accessibilité
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        const target = e.target;
+                        if (target.classList.contains('btn') || 
+                            target.classList.contains('nav-link') ||
+                            target.getAttribute('role') === 'button') {
+                            
+                            e.preventDefault();
+                            target.click();
+                        }
+                    }
+                });
+            }
+
+            createRippleEffect(event) {
+                const element = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('click-ripple');
+
+                // Supprimer les anciens ripples
+                const existingRipples = element.querySelectorAll('.click-ripple');
+                existingRipples.forEach(ripple => ripple.remove());
+
+                element.appendChild(circle);
+
+                // Supprimer le ripple après l'animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
             }
 
             // Configuration de la navigation
@@ -2210,36 +2281,6 @@
                     }
                     
                     this.currentStudent = null;
-                }
-            }
-
-            // Interactions du footer
-            setupFooterInteractions() {
-                // Sections pliables du footer
-                const footerSections = document.querySelectorAll('.footer-section');
-                const legalToggle = document.querySelector('.legal-toggle');
-                const legalContent = document.querySelector('.legal-content');
-
-                footerSections.forEach(section => {
-                    const heading = section.querySelector('h4');
-                    if (heading) {
-                        heading.addEventListener('click', () => {
-                            section.classList.toggle('active');
-                        });
-                    }
-                });
-
-                // Toggle des autorisations
-                if (legalToggle && legalContent) {
-                    legalToggle.addEventListener('click', () => {
-                        legalContent.classList.toggle('active');
-                        const icon = legalToggle.querySelector('i');
-                        if (legalContent.classList.contains('active')) {
-                            icon.className = 'fas fa-chevron-up';
-                        } else {
-                            icon.className = 'fas fa-chevron-down';
-                        }
-                    });
                 }
             }
 
