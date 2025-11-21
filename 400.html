@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="fr-BJ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requête Incorrecte - Les Bulles de Joie</title>
+    <meta name="description" content="La requête envoyée au serveur est incorrecte. Retournez à l'accueil des Bulles de Joie.">
+    
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIABLES ===== */
+        :root {
+            --white: #ffffff;
+            --lemon-green: #c6ff00;
+            --fuchsia: #ff00ff;
+            --black: #000000;
+            --light-pink: #ffccf9;
+            --light-green: #e7ffb3;
+            --dark-purple: #2d1b69;
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --gradient-primary: linear-gradient(135deg, var(--fuchsia) 0%, var(--lemon-green) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark-purple) 0%, var(--fuchsia) 100%);
+            --gradient-light: linear-gradient(135deg, var(--light-pink) 0%, var(--light-green) 100%);
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+            --shadow-glow: 0 0 30px rgba(255, 0, 255, 0.3);
+            --transition-fast: all 0.3s ease;
+            --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --border-radius: 20px;
+            --border-radius-lg: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--black);
+            background: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== EFFETS DE TOUCHER OPTIMISÉS ===== */
+        .btn, .nav-link, .social-link, .badge {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de vague au clic */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Feedback tactile pour tous les éléments interactifs */
+        .btn:active, .nav-link:active, .social-link:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Effets spécifiques pour les boutons */
+        .btn {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn:active {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Support des appareils tactiles */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .social-link {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 12px 16px !important;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-40px) translateX(-10px); }
+            75% { transform: translateY(-20px) translateX(-5px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        /* ===== HEADER OPTIMISÉ ===== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 0, 255, 0.1);
+            z-index: 1000;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fuchsia);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Navigation optimisée */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--fuchsia);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--fuchsia);
+            transition: var(--transition-fast);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .btn-contact {
+            background: var(--fuchsia);
+            color: var(--white) !important;
+            padding: 0.75rem 1.5rem !important;
+            border-radius: 25px;
+        }
+
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            background: var(--fuchsia);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--black);
+            margin: 3px 0;
+            transition: var(--transition-fast);
+        }
+
+        /* ===== SECTION 400 ===== */
+        .error-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            color: var(--white);
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-container {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            animation: shake 2s ease-in-out infinite;
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .technical-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+
+        .technical-info h3 {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--fuchsia);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--fuchsia);
+            transform: translateY(-3px);
+        }
+
+        .floating-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: floatBubble 15s infinite ease-in-out;
+        }
+
+        .b1 { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .b2 { width: 60px; height: 60px; top: 20%; left: 80%; animation-delay: 2s; }
+        .b3 { width: 100px; height: 100px; top: 60%; left: 15%; animation-delay: 4s; }
+        .b4 { width: 70px; height: 70px; top: 40%; left: 70%; animation-delay: 6s; }
+        .b5 { width: 90px; height: 90px; top: 70%; left: 60%; animation-delay: 8s; }
+
+        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
+        .main-footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--lemon-green);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-img {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 8px;
+        }
+
+        .footer-text h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-normal);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-info,
+        .schedule-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .contact-line,
+        .schedule-line {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .contact-line i {
+            width: 20px;
+            color: var(--lemon-green);
+        }
+
+        .schedule-line {
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-line:last-child {
+            border-bottom: none;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.6rem 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            transition: var(--transition-fast);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            background: var(--fuchsia);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 0;
+        }
+
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-content {
+            margin-top: 1rem;
+        }
+
+        .footer-legal p {
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+
+        .footer-credits p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--white);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-title {
+                font-size: 2rem;
+            }
+            
+            .error-message {
+                font-size: 1.1rem;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-credits {
+                text-align: center;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-section {
+                padding: 6rem 1rem 3rem;
+            }
+            
+            .error-code {
+                font-size: 4rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .technical-info {
+                padding: 1rem;
+            }
+        }
+
+        /* Animations pour le menu mobile */
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation principale -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p>Amour • Travail • Rigueur • Créativité</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="apropos.html" class="nav-link">Notre École</a></li>
+                    <li><a href="pedagogie.html" class="nav-link">Pédagogie</a></li>
+                    <li><a href="activites.html" class="nav-link">Activités</a></li>
+                    <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="tarifs.html" class="nav-link">Nos Tarifs</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="inscription.html" class="nav-link btn-contact">Inscription</a></li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Section Erreur 400 -->
+        <section class="error-section">
+            <div class="floating-bubbles">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+                <div class="bubble b5"></div>
+            </div>
+            
+            <div class="error-container">
+                <div class="error-code">400</div>
+                <h1 class="error-title">Requête Incorrecte</h1>
+                <p class="error-message">La requête envoyée au serveur est incorrecte ou mal formée.</p>
+                
+                <div class="technical-info">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Information Technique</h3>
+                    <p>Erreur 400 - Bad Request. La requête ne peut être traitée par le serveur en raison d'une syntaxe incorrecte.</p>
+                    <p>Veuillez vérifier l'URL ou réessayer. Si le problème persiste, contactez-nous.</p>
+                </div>
+                
+                <div class="error-actions">
+                    <a href="index.html" class="btn btn-primary">
+                        <i class="fas fa-home"></i>
+                        Retour à l'Accueil
+                    </a>
+                    <a href="contact.html" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i>
+                        Nous Contacter
+                    </a>
+                    <button onclick="location.reload()" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i>
+                        Réessayer
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer IMMERSIF OPTIMISÉ -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img">
+                        </div>
+                        <div class="footer-text">
+                            <h3>Les Bulles de Joie</h3>
+                            <p>École privée agréée - Enseignement bilingue</p>
+                        </div>
+                    </div>
+                    <div class="footer-badges">
+                        <span class="badge">🏆 École Certifiée</span>
+                        <span class="badge">🌍 Bilingue Français-Anglais</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Coordonnées</h4>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 97 91 94 52</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horaires</h4>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>Lundi au Vendredi :08h à 17h</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Réseaux Sociaux</h4>
+                    <div class="footer-details">
+                        <div class="social-links">
+                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </a>
+                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </a>
+                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                                <i class="fab fa-tiktok"></i>
+                                TikTok
+                            </a>
+                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Google Maps
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
+                </div>
+                <div class="footer-credits">
+                    <p>Année scolaire 2025-2026</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== GESTIONNAIRE DE LA PAGE 400 =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuration de la navigation
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (navToggle) {
+                navToggle.addEventListener('click', () => {
+                    navToggle.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Fermer le menu mobile au clic sur un lien
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // Configuration des effets tactiles
+            function setupTouchEffects() {
+                // Effets de ripple au clic
+                document.addEventListener('click', (e) => {
+                    const target = e.target;
+                    
+                    // Appliquer l'effet de ripple aux éléments interactifs
+                    if (target.classList.contains('btn') || 
+                        target.classList.contains('nav-link') ||
+                        target.classList.contains('social-link') ||
+                        target.closest('.btn') ||
+                        target.closest('.nav-link') ||
+                        target.closest('.social-link')) {
+                        
+                        createRippleEffect(e);
+                    }
+                });
+
+                // Feedback tactile amélioré
+                document.addEventListener('touchstart', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const element = target.classList.contains('btn') ? target : target.closest('.btn');
+                        element.style.transform = 'scale(0.98)';
+                    }
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const element = target.classList.contains('btn') ? target : target.closest('.btn');
+                        element.style.transform = '';
+                    }
+                });
+            }
+
+            function createRippleEffect(event) {
+                const element = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('click-ripple');
+
+                // Supprimer les anciens ripples
+                const existingRipples = element.querySelectorAll('.click-ripple');
+                existingRipples.forEach(ripple => ripple.remove());
+
+                element.appendChild(circle);
+
+                // Supprimer le ripple après l'animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
+            }
+
+            // Initialisation des effets tactiles
+            setupTouchEffects();
+
+            // Animation supplémentaire pour la page 400
+            const errorCode = document.querySelector('.error-code');
+            if (errorCode) {
+                setInterval(() => {
+                    errorCode.style.animation = 'none';
+                    setTimeout(() => {
+                        errorCode.style.animation = 'shake 2s ease-in-out infinite';
+                    }, 10);
+                }, 4000);
+            }
+        });
+    </script>
+</body>
+</html>

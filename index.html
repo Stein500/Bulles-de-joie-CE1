@@ -163,6 +163,96 @@
             }
         }
 
+        /* ===== EFFETS DE TOUCHER OPTIMISÉS ===== */
+        .btn, .nav-link, .cycle-card, .immersion-card, 
+        .slogan-item, .social-link, .badge, .floating-card,
+        .mobile-card, .document-card, .paiement-card,
+        .process-step, .contact-item {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de vague au clic */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Feedback tactile pour tous les éléments interactifs */
+        .btn:active, .nav-link:active, .cycle-card:active, 
+        .immersion-card:active, .slogan-item:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Effets spécifiques pour les boutons */
+        .btn {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn:active {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Effets pour les cartes */
+        .cycle-card:active, .immersion-card:active, 
+        .document-card:active, .paiement-card:active {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        }
+
+        /* Effets pour la navigation */
+        .nav-link:active {
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        /* Effets pour les éléments du slogan */
+        .slogan-item:active {
+            animation: none;
+            transform: scale(0.95);
+        }
+
+        /* Feedback visuel pour les états actifs */
+        .btn:focus, .nav-link:focus, .form-input:focus,
+        .form-select:focus, .form-textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.3) !important;
+        }
+
+        /* Amélioration de l'accessibilité au clavier */
+        @media (hover: hover) {
+            .btn:hover, .nav-link:hover, .cycle-card:hover,
+            .immersion-card:hover, .slogan-item:hover {
+                transform: translateY(-2px);
+            }
+        }
+
+        /* Support des appareils tactiles */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .cycle-card, .immersion-card {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 12px 16px !important;
+            }
+        }
+
         /* ===== INTRODUCTION OPTIMISÉE ===== */
         .intro-overlay {
             position: fixed;
@@ -558,17 +648,14 @@
 
         /* Animation d'entrée séquentielle pour les cartes */
         .floating-card:nth-child(1) {
-            animation-delay: 0s, 0s;
             animation: cardEntry 1s ease-out, cardFloat 6s ease-in-out 1s infinite, cardGlow 4s ease-in-out 1s infinite;
         }
 
         .floating-card:nth-child(2) {
-            animation-delay: 0.3s, 0.3s;
             animation: cardEntry 1s ease-out 0.3s both, cardFloat 6s ease-in-out 1.3s infinite, cardGlow 4s ease-in-out 1.3s infinite;
         }
 
         .floating-card:nth-child(3) {
-            animation-delay: 0.6s, 0.6s;
             animation: cardEntry 1s ease-out 0.6s both, cardFloat 6s ease-in-out 1.6s infinite, cardGlow 4s ease-in-out 1.6s infinite;
         }
 
@@ -1213,30 +1300,12 @@
             color: var(--lemon-green);
             margin-bottom: 1rem;
             font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-section h4::after {
-            content: '+';
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-section.active h4::after {
-            content: '-';
         }
 
         .footer-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .footer-section.active .footer-details {
-            max-height: 500px;
+            display: block;
+            max-height: none;
+            overflow: visible;
         }
 
         .footer-logo {
@@ -1348,34 +1417,11 @@
             flex: 1;
         }
 
-        .legal-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition-fast);
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .legal-toggle:hover {
-            background: var(--fuchsia);
-        }
-
         .legal-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+            display: block;
+            max-height: none;
+            overflow: visible;
             margin-top: 1rem;
-        }
-
-        .legal-content.active {
-            max-height: 200px;
         }
 
         .footer-legal p {
@@ -1488,11 +1534,6 @@
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
-            }
-            
-            .footer-section h4 {
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .footer-bottom {
@@ -2043,8 +2084,7 @@
                             <span class="cycle-age">À partir de 2 mois</span>
                             <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement féerique, sécurisé et bienveillant.</p>
                             <div class="cycle-features">
-                                <span class="feature-tag">Activités ludiques</span>
-                                <span class="feature-tag">Cadre féerique</span>
+                                <span class="feature-tag">Horaires: 07h - 19h</span>
                             </div>
                         </div>
                     </div>
@@ -2157,16 +2197,8 @@
                     <div class="footer-details">
                         <div class="schedule-info">
                             <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>07h - 19h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Maternelle:</strong>
-                                <span>08h - 11h30 & 15h - 17h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Primaire:</strong>
-                                <span>07h30 - 12h & 15h - 17h30</span>
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>Lundi au Vendredi :08h à 17h</span>
                             </div>
                         </div>
                     </div>
@@ -2199,10 +2231,6 @@
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <button class="legal-toggle">
-                        <span>Autorisations et Certifications</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
                     <div class="legal-content">
                         <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                         <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
@@ -2229,9 +2257,9 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
-                this.setupFooterInteractions();
                 this.setupPerformanceOptimizations();
                 this.setupSloganInteractions();
+                this.setupTouchEffects();
             }
 
             // Configuration de la navigation
@@ -2269,6 +2297,83 @@
 
                     lastScrollY = window.scrollY;
                 }, { passive: true });
+            }
+
+            // Configuration des effets tactiles
+            setupTouchEffects() {
+                // Effets de ripple au clic
+                document.addEventListener('click', (e) => {
+                    const target = e.target;
+                    
+                    // Appliquer l'effet de ripple aux éléments interactifs
+                    if (target.classList.contains('btn') || 
+                        target.classList.contains('nav-link') ||
+                        target.classList.contains('cycle-card') ||
+                        target.classList.contains('immersion-card') ||
+                        target.classList.contains('slogan-item') ||
+                        target.classList.contains('social-link') ||
+                        target.closest('.btn') ||
+                        target.closest('.nav-link') ||
+                        target.closest('.cycle-card') ||
+                        target.closest('.immersion-card')) {
+                        
+                        this.createRippleEffect(e);
+                    }
+                });
+
+                // Feedback tactile amélioré
+                document.addEventListener('touchstart', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const btn = target.classList.contains('btn') ? target : target.closest('.btn');
+                        btn.style.transform = 'scale(0.98)';
+                    }
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn')) {
+                        const btn = target.classList.contains('btn') ? target : target.closest('.btn');
+                        btn.style.transform = '';
+                    }
+                });
+
+                // Amélioration de l'accessibilité
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        const target = e.target;
+                        if (target.classList.contains('btn') || 
+                            target.classList.contains('nav-link') ||
+                            target.getAttribute('role') === 'button') {
+                            
+                            e.preventDefault();
+                            target.click();
+                        }
+                    }
+                });
+            }
+
+            createRippleEffect(event) {
+                const element = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('click-ripple');
+
+                // Supprimer les anciens ripples
+                const existingRipples = element.querySelectorAll('.click-ripple');
+                existingRipples.forEach(ripple => ripple.remove());
+
+                element.appendChild(circle);
+
+                // Supprimer le ripple après l'animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
             }
 
             // Animations au scroll optimisées
@@ -2355,36 +2460,6 @@
                             );
                         }, 1000);
                     }, 3000);
-                }
-            }
-
-            // Interactions du footer
-            setupFooterInteractions() {
-                // Sections pliables du footer
-                const footerSections = document.querySelectorAll('.footer-section');
-                const legalToggle = document.querySelector('.legal-toggle');
-                const legalContent = document.querySelector('.legal-content');
-
-                footerSections.forEach(section => {
-                    const heading = section.querySelector('h4');
-                    if (heading) {
-                        heading.addEventListener('click', () => {
-                            section.classList.toggle('active');
-                        });
-                    }
-                });
-
-                // Toggle des autorisations
-                if (legalToggle && legalContent) {
-                    legalToggle.addEventListener('click', () => {
-                        legalContent.classList.toggle('active');
-                        const icon = legalToggle.querySelector('i');
-                        if (legalContent.classList.contains('active')) {
-                            icon.className = 'fas fa-chevron-up';
-                        } else {
-                            icon.className = 'fas fa-chevron-down';
-                        }
-                    });
                 }
             }
 

@@ -67,6 +67,76 @@
             overflow-x: hidden;
         }
 
+        /* ===== EFFETS DE TOUCHER OPTIMISÉS ===== */
+        .btn, .nav-link, .contact-card, .level-contact, 
+        .schedule-card, .social-link, .badge, .ussd-button,
+        .whatsapp-btn, .call-btn {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de vague au clic */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Feedback tactile pour tous les éléments interactifs */
+        .btn:active, .nav-link:active, .contact-card:active, 
+        .level-contact:active, .schedule-card:active,
+        .ussd-button:active, .whatsapp-btn:active, .call-btn:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Effets spécifiques pour les boutons */
+        .btn, .ussd-button, .whatsapp-btn, .call-btn {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn:active, .ussd-button:active, .whatsapp-btn:active, .call-btn:active {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Effets pour les cartes */
+        .contact-card:active, .level-contact:active, 
+        .schedule-card:active {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        }
+
+        /* Effets pour la navigation */
+        .nav-link:active {
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        /* Support des appareils tactiles */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .contact-card, .level-contact,
+            .ussd-button, .whatsapp-btn, .call-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 12px 16px !important;
+            }
+        }
+
         /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
@@ -853,30 +923,6 @@
             color: var(--lemon-green);
             margin-bottom: 1rem;
             font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-section h4::after {
-            content: '+';
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-section.active h4::after {
-            content: '-';
-        }
-
-        .footer-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .footer-section.active .footer-details {
-            max-height: 500px;
         }
 
         .footer-logo {
@@ -988,34 +1034,8 @@
             flex: 1;
         }
 
-        .legal-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition-fast);
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .legal-toggle:hover {
-            background: var(--fuchsia);
-        }
-
         .legal-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
             margin-top: 1rem;
-        }
-
-        .legal-content.active {
-            max-height: 200px;
         }
 
         .footer-legal p {
@@ -1102,11 +1122,6 @@
             
             .footer-content {
                 grid-template-columns: 1fr;
-            }
-            
-            .footer-section h4 {
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .footer-bottom {
@@ -1690,7 +1705,7 @@
         </section>
     </main>
 
-    <!-- Footer IMMERSIF OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ (version non-pliable) -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1725,7 +1740,7 @@
                             </div>
                             <div class="contact-line">
                                 <i class="fas fa-phone"></i>
-                                <span>+229 01 49 77 77 00</span>
+                                <span>+229 01 97 91 94 52</span>
                             </div>
                         </div>
                     </div>
@@ -1736,20 +1751,8 @@
                     <div class="footer-details">
                         <div class="schedule-info">
                             <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>07h - 19h (Lun-Ven)</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>08h - 17h (Samedi)</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Maternelle:</strong>
-                                <span>08h - 11h30 & 15h - 17h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Primaire:</strong>
-                                <span>07h30 - 12h & 15h - 17h30</span>
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>Lundi au Vendredi :08h à 17h</span>
                             </div>
                         </div>
                     </div>
@@ -1782,10 +1785,6 @@
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <button class="legal-toggle">
-                        <span>Autorisations et Certifications</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
                     <div class="legal-content">
                         <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                         <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
@@ -1812,8 +1811,102 @@
                 this.setupEventListeners();
                 this.setupInteractiveElements();
                 this.setupPerformanceOptimizations();
-                this.setupFooterInteractions();
                 this.handleIntroAnimation();
+                this.setupTouchEffects(); // Ajout des effets de toucher
+            }
+
+            // Configuration des effets tactiles
+            setupTouchEffects() {
+                // Effets de ripple au clic
+                document.addEventListener('click', (e) => {
+                    const target = e.target;
+                    
+                    // Appliquer l'effet de ripple aux éléments interactifs
+                    if (target.classList.contains('btn') || 
+                        target.classList.contains('nav-link') ||
+                        target.classList.contains('contact-card') ||
+                        target.classList.contains('level-contact') ||
+                        target.classList.contains('schedule-card') ||
+                        target.classList.contains('social-link') ||
+                        target.classList.contains('whatsapp-btn') ||
+                        target.classList.contains('call-btn') ||
+                        target.closest('.btn') ||
+                        target.closest('.nav-link') ||
+                        target.closest('.contact-card') ||
+                        target.closest('.level-contact') ||
+                        target.closest('.schedule-card') ||
+                        target.closest('.whatsapp-btn') ||
+                        target.closest('.call-btn')) {
+                        
+                        this.createRippleEffect(e);
+                    }
+                });
+
+                // Feedback tactile amélioré
+                document.addEventListener('touchstart', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn') ||
+                        target.classList.contains('whatsapp-btn') || target.closest('.whatsapp-btn') ||
+                        target.classList.contains('call-btn') || target.closest('.call-btn')) {
+                        const element = target.classList.contains('btn') ? target : 
+                                      target.classList.contains('whatsapp-btn') ? target :
+                                      target.classList.contains('call-btn') ? target :
+                                      target.closest('.btn') || target.closest('.whatsapp-btn') || target.closest('.call-btn');
+                        element.style.transform = 'scale(0.98)';
+                    }
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn') ||
+                        target.classList.contains('whatsapp-btn') || target.closest('.whatsapp-btn') ||
+                        target.classList.contains('call-btn') || target.closest('.call-btn')) {
+                        const element = target.classList.contains('btn') ? target : 
+                                      target.classList.contains('whatsapp-btn') ? target :
+                                      target.classList.contains('call-btn') ? target :
+                                      target.closest('.btn') || target.closest('.whatsapp-btn') || target.closest('.call-btn');
+                        element.style.transform = '';
+                    }
+                });
+
+                // Amélioration de l'accessibilité
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        const target = e.target;
+                        if (target.classList.contains('btn') || 
+                            target.classList.contains('nav-link') ||
+                            target.classList.contains('whatsapp-btn') ||
+                            target.classList.contains('call-btn') ||
+                            target.getAttribute('role') === 'button') {
+                            
+                            e.preventDefault();
+                            target.click();
+                        }
+                    }
+                });
+            }
+
+            createRippleEffect(event) {
+                const element = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('click-ripple');
+
+                // Supprimer les anciens ripples
+                const existingRipples = element.querySelectorAll('.click-ripple');
+                existingRipples.forEach(ripple => ripple.remove());
+
+                element.appendChild(circle);
+
+                // Supprimer le ripple après l'animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
             }
 
             // Configuration de la navigation
@@ -1965,36 +2058,6 @@
                     'error': 'times-circle'
                 };
                 return icons[type] || 'info-circle';
-            }
-
-            // Interactions du footer
-            setupFooterInteractions() {
-                // Sections pliables du footer
-                const footerSections = document.querySelectorAll('.footer-section');
-                const legalToggle = document.querySelector('.legal-toggle');
-                const legalContent = document.querySelector('.legal-content');
-
-                footerSections.forEach(section => {
-                    const heading = section.querySelector('h4');
-                    if (heading) {
-                        heading.addEventListener('click', () => {
-                            section.classList.toggle('active');
-                        });
-                    }
-                });
-
-                // Toggle des autorisations
-                if (legalToggle && legalContent) {
-                    legalToggle.addEventListener('click', () => {
-                        legalContent.classList.toggle('active');
-                        const icon = legalToggle.querySelector('i');
-                        if (legalContent.classList.contains('active')) {
-                            icon.className = 'fas fa-chevron-up';
-                        } else {
-                            icon.className = 'fas fa-chevron-down';
-                        }
-                    });
-                }
             }
 
             // Optimisations de performance

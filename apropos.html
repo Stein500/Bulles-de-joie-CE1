@@ -74,6 +74,82 @@
             overflow-x: hidden;
         }
 
+        /* ===== EFFETS DE TOUCHER OPTIMISÉS ===== */
+        .btn, .nav-link, .cycle-card, .immersion-card, 
+        .slogan-item, .social-link, .badge, .floating-card,
+        .mobile-card, .document-card, .paiement-card,
+        .process-step, .contact-item, .step-content,
+        .form-submit, .ussd-button, .value-card,
+        .immersion-item, .history-card {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de vague au clic */
+        .click-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Feedback tactile pour tous les éléments interactifs */
+        .btn:active, .nav-link:active, .cycle-card:active, 
+        .immersion-card:active, .slogan-item:active,
+        .ussd-button:active, .value-card:active,
+        .immersion-item:active, .history-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        /* Effets spécifiques pour les boutons */
+        .btn, .ussd-button {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn:active, .ussd-button:active {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+
+        /* Effets pour les cartes */
+        .cycle-card:active, .immersion-card:active, 
+        .document-card:active, .paiement-card:active,
+        .value-card:active, .immersion-item:active,
+        .history-card:active {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        }
+
+        /* Effets pour la navigation */
+        .nav-link:active {
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        /* Support des appareils tactiles */
+        @media (max-width: 768px) {
+            .btn, .nav-link, .cycle-card, .immersion-card,
+            .ussd-button, .value-card, .immersion-item {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .nav-link {
+                padding: 12px 16px !important;
+            }
+        }
+
         /* ===== ANIMATIONS PERFORMANTES ===== */
         @keyframes fadeOut {
             to { opacity: 0; visibility: hidden; }
@@ -140,6 +216,13 @@
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
             animation: floatBubble 8s infinite ease-in-out;
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-40px) translateX(-10px); }
+            75% { transform: translateY(-20px) translateX(10px); }
         }
 
         .b1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
@@ -661,7 +744,7 @@
             margin: 0.25rem;
         }
 
-        /* ===== FOOTER IMMERSIF OPTIMISÉ ===== */
+        /* ===== FOOTER IMMERSIF OPTIMISÉ (SANS PLIABLE) ===== */
         .main-footer {
             background: var(--black);
             color: var(--white);
@@ -679,30 +762,6 @@
             color: var(--lemon-green);
             margin-bottom: 1rem;
             font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-section h4::after {
-            content: '+';
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-
-        .footer-section.active h4::after {
-            content: '-';
-        }
-
-        .footer-details {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .footer-section.active .footer-details {
-            max-height: 500px;
         }
 
         .footer-logo {
@@ -814,34 +873,8 @@
             flex: 1;
         }
 
-        .legal-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--white);
-            padding: 0.8rem 1.2rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition-fast);
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .legal-toggle:hover {
-            background: var(--fuchsia);
-        }
-
         .legal-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
             margin-top: 1rem;
-        }
-
-        .legal-content.active {
-            max-height: 200px;
         }
 
         .footer-legal p {
@@ -928,11 +961,6 @@
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
-            }
-            
-            .footer-section h4 {
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .footer-bottom {
@@ -1249,7 +1277,7 @@
         </section>
     </main>
 
-    <!-- Footer IMMERSIF OPTIMISÉ -->
+    <!-- Footer IMMERSIF OPTIMISÉ (identique à inscription.html) -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -1272,75 +1300,57 @@
                 
                 <div class="footer-section">
                     <h4>Coordonnées</h4>
-                    <div class="footer-details">
-                        <div class="contact-info">
-                            <div class="contact-line">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Parakou - Zongo, Bénin</span>
-                            </div>
-                            <div class="contact-line">
-                                <i class="fas fa-envelope"></i>
-                                <span>lesbullesdejoie@gmail.com</span>
-                            </div>
-                            <div class="contact-line">
-                                <i class="fas fa-phone"></i>
-                                <span>+229 01 97 91 94 52</span>
-                            </div>
+                    <div class="contact-info">
+                        <div class="contact-line">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Parakou - Zongo, Bénin</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-envelope"></i>
+                            <span>lesbullesdejoie@gmail.com</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fas fa-phone"></i>
+                            <span>+229 01 97 91 94 52</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Horaires</h4>
-                    <div class="footer-details">
-                        <div class="schedule-info">
-                            <div class="schedule-line">
-                                <strong>Crèche & Garderie:</strong>
-                                <span>07h - 19h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Maternelle:</strong>
-                                <span>08h - 11h30 & 15h - 17h</span>
-                            </div>
-                            <div class="schedule-line">
-                                <strong>Primaire:</strong>
-                                <span>07h30 - 12h & 15h - 17h30</span>
-                            </div>
+                    <div class="schedule-info">
+                        <div class="schedule-line">
+                            <strong>Secrétariat - renseignements:</strong>
+                            <span>Lundi au Vendredi :08h à 17h</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Réseaux Sociaux</h4>
-                    <div class="footer-details">
-                        <div class="social-links">
-                            <a href="https://facebook.com/lesbullesdejoie" class="social-link">
-                                <i class="fab fa-facebook-f"></i>
-                                Facebook
-                            </a>
-                            <a href="https://instagram.com/lesbullesdejoie" class="social-link">
-                                <i class="fab fa-instagram"></i>
-                                Instagram
-                            </a>
-                            <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
-                                <i class="fab fa-tiktok"></i>
-                                TikTok
-                            </a>
-                            <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Google Maps
-                            </a>
-                        </div>
+                    <div class="social-links">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </a>
+                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link">
+                            <i class="fab fa-tiktok"></i>
+                            TikTok
+                        </a>
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Google Maps
+                        </a>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
                 <div class="footer-legal">
-                    <button class="legal-toggle">
-                        <span>Autorisations et Certifications</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
                     <div class="legal-content">
                         <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
                         <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
@@ -1367,8 +1377,8 @@
                 this.setupScrollAnimations();
                 this.setupInteractiveElements();
                 this.handleIntroAnimation();
-                this.setupFooterInteractions();
                 this.setupPerformanceOptimizations();
+                this.setupTouchEffects();
             }
 
             // Configuration de la navigation
@@ -1408,6 +1418,93 @@
                 }, { passive: true });
             }
 
+            // Configuration des effets tactiles
+            setupTouchEffects() {
+                // Effets de ripple au clic
+                document.addEventListener('click', (e) => {
+                    const target = e.target;
+                    
+                    // Appliquer l'effet de ripple aux éléments interactifs
+                    if (target.classList.contains('btn') || 
+                        target.classList.contains('nav-link') ||
+                        target.classList.contains('cycle-card') ||
+                        target.classList.contains('immersion-card') ||
+                        target.classList.contains('slogan-item') ||
+                        target.classList.contains('social-link') ||
+                        target.classList.contains('badge') ||
+                        target.classList.contains('value-card') ||
+                        target.classList.contains('immersion-item') ||
+                        target.classList.contains('history-card') ||
+                        target.closest('.btn') ||
+                        target.closest('.nav-link') ||
+                        target.closest('.cycle-card') ||
+                        target.closest('.immersion-card')) {
+                        
+                        this.createRippleEffect(e);
+                    }
+                });
+
+                // Feedback tactile amélioré
+                document.addEventListener('touchstart', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn') ||
+                        target.classList.contains('slogan-item') || target.closest('.slogan-item')) {
+                        const element = target.classList.contains('btn') ? target : 
+                                      target.classList.contains('slogan-item') ? target :
+                                      target.closest('.btn') || target.closest('.slogan-item');
+                        element.style.transform = 'scale(0.98)';
+                    }
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    const target = e.target;
+                    if (target.classList.contains('btn') || target.closest('.btn') ||
+                        target.classList.contains('slogan-item') || target.closest('.slogan-item')) {
+                        const element = target.classList.contains('btn') ? target : 
+                                      target.classList.contains('slogan-item') ? target :
+                                      target.closest('.btn') || target.closest('.slogan-item');
+                        element.style.transform = '';
+                    }
+                });
+
+                // Amélioration de l'accessibilité
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        const target = e.target;
+                        if (target.classList.contains('btn') || 
+                            target.classList.contains('nav-link') ||
+                            target.getAttribute('role') === 'button') {
+                            
+                            e.preventDefault();
+                            target.click();
+                        }
+                    }
+                });
+            }
+
+            createRippleEffect(event) {
+                const element = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(element.clientWidth, element.clientHeight);
+                const radius = diameter / 2;
+
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+                circle.classList.add('click-ripple');
+
+                // Supprimer les anciens ripples
+                const existingRipples = element.querySelectorAll('.click-ripple');
+                existingRipples.forEach(ripple => ripple.remove());
+
+                element.appendChild(circle);
+
+                // Supprimer le ripple après l'animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
+            }
+
             // Animations au scroll optimisées
             setupScrollAnimations() {
                 const observerOptions = {
@@ -1424,7 +1521,7 @@
                 }, observerOptions);
 
                 // Observer les éléments à animer
-                document.querySelectorAll('.value-card, .immersion-item, .cycle-card, .history-card').forEach(el => {
+                document.querySelectorAll('.value-card, .immersion-item, .cycle-card, .history-card, .founding-badge').forEach(el => {
                     observer.observe(el);
                 });
             }
@@ -1456,36 +1553,6 @@
                             introOverlay.style.display = 'none';
                         }, 1000);
                     }, 3000);
-                }
-            }
-
-            // Interactions du footer
-            setupFooterInteractions() {
-                // Sections pliables du footer
-                const footerSections = document.querySelectorAll('.footer-section');
-                const legalToggle = document.querySelector('.legal-toggle');
-                const legalContent = document.querySelector('.legal-content');
-
-                footerSections.forEach(section => {
-                    const heading = section.querySelector('h4');
-                    if (heading) {
-                        heading.addEventListener('click', () => {
-                            section.classList.toggle('active');
-                        });
-                    }
-                });
-
-                // Toggle des autorisations
-                if (legalToggle && legalContent) {
-                    legalToggle.addEventListener('click', () => {
-                        legalContent.classList.toggle('active');
-                        const icon = legalToggle.querySelector('i');
-                        if (legalContent.classList.contains('active')) {
-                            icon.className = 'fas fa-chevron-up';
-                        } else {
-                            icon.className = 'fas fa-chevron-down';
-                        }
-                    });
                 }
             }
 
