@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    
+    <!-- Page d'accueil - Priorité maximale -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="fr-BJ" href="https://les-bulles-de-joie.onrender.com/"/>
+    </url>
+    
+    <!-- Pédagogie & Activités -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/pedagogie-activites.html</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="fr-BJ" href="https://les-bulles-de-joie.onrender.com/pedagogie-activites.html"/>
+    </url>
+    
+    <!-- Tarifs & Inscription -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/tarifs-inscription.html</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="fr-BJ" href="https://les-bulles-de-joie.onrender.com/tarifs-inscription.html"/>
+    </url>
+    
+    <!-- Résultats -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/resultats.html</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="fr-BJ" href="https://les-bulles-de-joie.onrender.com/resultats.html"/>
+    </url>
+    
+    <!-- Contact -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/contact.html</loc>
+        <lastmod>2025-01-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="fr-BJ" href="https://les-bulles-de-joie.onrender.com/contact.html"/>
+    </url>
+
+</urlset>

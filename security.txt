@@ -1,0 +1,9 @@
+# Service de sécurité
+Contact: mailto:lesbullesdejoie@gmail.com
+Encryption: https://les-bulles-de-joie.onrender.com/security-key.asc
+Acknowledgments: https://les-bulles-de-joie.onrender.com/security-hall-of-fame.html
+Policy: https://les-bulles-de-joie.onrender.com/security-policy.html
+Hiring: https://les-bulles-de-joie.onrender.com/emplois.html
+
+# Validité
+Expires: 2026-12-31T23:00:00.000Z
