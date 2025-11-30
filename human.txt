@@ -5,12 +5,14 @@ Les Bulles de Joie - École Bilingue d'Excellence
 Directrice: SEGBO S. Carol
 Enseignants: Équipe pédagogique qualifiée
 Coordinateur: Responsable pédagogique
+Développeur: Équipe technique
 
 /* SITE */
 Standards: HTML5, CSS3, JavaScript ES6+
 Design: Design responsive et accessible
 Performance: Optimisé pour vitesse et SEO
 Accessibilité: WCAG 2.1 AA
+Dernière mise à jour: 2024-12-19
 
 /* CONTACT */
 Email: lesbullesdejoie@gmail.com
@@ -24,6 +26,6 @@ TikTok: https://www.tiktok.com/@cspblesbullesdejoie
 Google Maps: https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA
 
 /* MENTIONS */
-Dernière mise à jour: 2025
 Agréments: 2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21
 Agréments: 2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22
+© 2024 Les Bulles de Joie. Tous droits réservés.

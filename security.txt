@@ -1,6 +1,6 @@
-# Service de sécurité
+# Service de sécurité - Les Bulles de Joie
 Contact: mailto:lesbullesdejoie@gmail.com
-Encryption: https://les-bulles-de-joie.onrender.com/security-key.asc
+Encryption: mailto:lesbullesdejoie@gmail.com
 Acknowledgments: https://les-bulles-de-joie.onrender.com/security-hall-of-fame.html
 Policy: https://les-bulles-de-joie.onrender.com/security-policy.html
 Hiring: https://les-bulles-de-joie.onrender.com/emplois.html
