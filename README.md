@@ -7,7 +7,7 @@ https://img.shields.io/badge/SEO-Optimized%20✅-orange.svg
 
 🌐 Site Officiel en Ligne
 
-URL du site : https://les-bulles-de-joie.onrender.com/
+URL du site : https://les-bulles-de-joie.onrender.com
 
 École Les Bulles de Joie - Établissement d'enseignement privé à Parakou, Bénin.
 Crèche, Garderie, Maternelle et Primaire Bilingue français-anglais.
@@ -177,4 +177,4 @@ Roadmap
 
 🚀 Site optimisé pour le référencement naturel - Prêt pour Google Search Console
 
-Dernière mise à jour: Novembre 2025
+Dernière mise à jour: Décembre 2025
