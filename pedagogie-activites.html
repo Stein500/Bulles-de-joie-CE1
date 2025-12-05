@@ -387,48 +387,13 @@
             transition: var(--transition-fast);
         }
 
-        /* ===== BOUTONS ===== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-normal);
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: var(--rose);
-            color: var(--blanc);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-            background: var(--rose);
-        }
-
-        .btn-secondary {
-            background: var(--vert);
-            color: var(--noir);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-secondary:hover {
-            background: var(--vert);
-            color: var(--noir);
-            transform: translateY(-3px);
-        }
-
-        /* ===== HERO SECTION OPTIMISÉE ===== */
+        /* ===== HERO SECTION CORRIGÉE ===== */
         .hero-pedagogie {
-            background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
+            background: 
+                linear-gradient(135deg, rgba(255, 20, 147, 0.85) 0%, rgba(160, 255, 79, 0.85) 100%),
+                url('assets/images/hero-pedagogie.jpg');
+            background-size: cover;
+            background-position: center;
             color: var(--blanc);
             padding: 8rem 0 4rem;
             text-align: center;
@@ -486,6 +451,45 @@
             transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.95);
             box-shadow: var(--shadow-md);
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--rose);
+            color: var(--blanc);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: var(--rose);
+        }
+
+        .btn-secondary {
+            background: var(--vert);
+            color: var(--noir);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary:hover {
+            background: var(--vert);
+            color: var(--noir);
+            transform: translateY(-3px);
         }
 
         /* ===== SECTION APPROCHE PÉDAGOGIQUE ===== */
@@ -592,6 +596,140 @@
         .video-player-header h3 {
             font-size: 1.3rem;
             margin: 0;
+        }
+
+        /* ===== STYLES POUR LE LECTEUR DE SECOURS ===== */
+        .advanced-video-fallback {
+            position: relative;
+            background: #000;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            overflow: hidden;
+        }
+
+        .advanced-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .advanced-controls button {
+            background: var(--rose);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+
+        .advanced-controls button:hover {
+            background: var(--vert);
+            color: var(--noir);
+            transform: scale(1.1);
+        }
+
+        .adv-progress {
+            flex: 1;
+            height: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .adv-progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: var(--rose);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .adv-volume-slider {
+            width: 80px;
+            height: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .adv-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--vert);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Message d'erreur vidéo */
+        .video-error-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .error-content {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .error-content i {
+            font-size: 3rem;
+            color: var(--rose);
+            margin-bottom: 1rem;
+        }
+
+        .error-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-content p {
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .btn-retry {
+            background: var(--rose);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+
+        .btn-retry:hover {
+            background: var(--vert);
+            color: var(--noir);
         }
 
         /* ===== TIMELINE INTERACTIVE ===== */
@@ -1522,9 +1660,6 @@
             background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
         }
     </style>
-    
-    <!-- Préchargement de la première vidéo -->
-    <link rel="preload" as="video" href="assets/videos/pedagogie/education-bienveillante.mp4" type="video/mp4">
 </head>
 <body>
     <!-- Bulles animées en fond -->
@@ -2269,6 +2404,7 @@
         // ===== GESTIONNAIRE DE LA PAGE PÉDAGOGIE & ACTIVITÉS =====
         class PedagogieVideosManager {
             constructor() {
+                this.players = [];
                 this.init();
             }
 
@@ -2320,22 +2456,232 @@
                 }, { passive: true });
             }
 
-            // Configuration des lecteurs vidéo Plyr
+            // Configuration des lecteurs vidéo Plyr avec fallback
             setupPlyrVideoPlayers() {
-                // Configuration par défaut pour tous les lecteurs Plyr
+                // Vérifier si Plyr est chargé
+                if (typeof Plyr === 'undefined') {
+                    console.warn('Plyr non chargé, activation du lecteur de secours');
+                    this.setupAdvancedFallbackPlayers();
+                    return;
+                }
+
+                // Configuration Plyr améliorée avec ratio automatique
                 const players = Array.from(document.querySelectorAll('.plyr')).map(player => {
-                    return new Plyr(player, {
-                        ratio: '16:9',
-                        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                        settings: ['quality', 'speed'],
+                    const instance = new Plyr(player, {
+                        // Ratio automatique (correction du problème n°2)
+                        ratio: null,
+                        settings: ['quality', 'speed', 'loop'],
+                        controls: [
+                            'play-large',
+                            'play',
+                            'progress',
+                            'current-time',
+                            'duration',
+                            'mute',
+                            'volume',
+                            'settings',
+                            'pip',
+                            'fullscreen'
+                        ],
                         clickToPlay: true,
                         autoplay: false,
-                        keyboard: { focused: true, global: true }
+                        keyboard: { focused: true, global: true },
+                        fullscreen: { enabled: true, fallback: true, iosNative: true },
+                        tooltips: { controls: true, seek: true },
+                        storage: { enabled: true, key: 'plyr_' }
                     });
+
+                    // Gestionnaire d'erreur pour fallback (correction du problème n°3)
+                    instance.on('error', (event) => {
+                        console.error('Erreur Plyr:', event.detail);
+                        this.fallbackToAdvancedPlayer(player, instance);
+                    });
+
+                    return instance;
                 });
 
-                // Sauvegarder les références des lecteurs
                 this.players = players;
+            }
+
+            // Lecteur de secours avancé
+            fallbackToAdvancedPlayer(videoElement, plyrInstance) {
+                console.log('Activation du lecteur de secours pour:', videoElement);
+                
+                try {
+                    // Détruire l'instance Plyr
+                    if (plyrInstance && typeof plyrInstance.destroy === 'function') {
+                        plyrInstance.destroy();
+                    }
+                    
+                    // Créer un lecteur HTML5 amélioré
+                    const videoContainer = videoElement.parentElement;
+                    const videoHeader = videoContainer.querySelector('.video-player-header, .video-niveau-header');
+                    const headerTitle = videoHeader ? videoHeader.querySelector('h3').textContent : 'Vidéo';
+                    
+                    videoContainer.innerHTML = `
+                        <div class="advanced-video-fallback">
+                            ${videoHeader ? videoHeader.outerHTML : ''}
+                            <video controls style="width: 100%; height: auto; display: block;">
+                                ${videoElement.innerHTML}
+                            </video>
+                            <div class="advanced-controls">
+                                <button class="adv-play-pause" title="Play/Pause">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <input type="range" class="adv-progress" value="0" min="0" max="100">
+                                <button class="adv-volume" title="Volume">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                                <input type="range" class="adv-volume-slider" value="100" min="0" max="100">
+                                <button class="adv-fullscreen" title="Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Initialiser les contrôles personnalisés
+                    this.initAdvancedPlayerControls(videoContainer.querySelector('.advanced-video-fallback'));
+                    
+                } catch (error) {
+                    console.error('Erreur lors de l\'initialisation du lecteur de secours:', error);
+                }
+            }
+
+            // Initialiser les contrôles du lecteur avancé
+            initAdvancedPlayerControls(container) {
+                const video = container.querySelector('video');
+                const playBtn = container.querySelector('.adv-play-pause');
+                const progress = container.querySelector('.adv-progress');
+                const volumeBtn = container.querySelector('.adv-volume');
+                const volumeSlider = container.querySelector('.adv-volume-slider');
+                const fullscreenBtn = container.querySelector('.adv-fullscreen');
+                
+                if (!video) return;
+
+                // Play/Pause
+                playBtn.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    } else {
+                        video.pause();
+                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                });
+                
+                // Progression
+                video.addEventListener('timeupdate', () => {
+                    if (video.duration) {
+                        const value = (video.currentTime / video.duration) * 100;
+                        progress.value = value;
+                    }
+                });
+                
+                progress.addEventListener('input', () => {
+                    if (video.duration) {
+                        const time = (progress.value / 100) * video.duration;
+                        video.currentTime = time;
+                    }
+                });
+                
+                // Volume
+                volumeBtn.addEventListener('click', () => {
+                    video.muted = !video.muted;
+                    volumeBtn.innerHTML = video.muted 
+                        ? '<i class="fas fa-volume-mute"></i>' 
+                        : '<i class="fas fa-volume-up"></i>';
+                });
+                
+                volumeSlider.addEventListener('input', () => {
+                    video.volume = volumeSlider.value / 100;
+                    video.muted = false;
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                });
+                
+                // Plein écran
+                fullscreenBtn.addEventListener('click', () => {
+                    if (!document.fullscreenElement) {
+                        container.requestFullscreen().catch(err => {
+                            console.error(`Erreur fullscreen: ${err.message}`);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                });
+                
+                // Gestionnaire d'erreur vidéo
+                video.addEventListener('error', (e) => {
+                    this.handleVideoError(container, e);
+                });
+                
+                // Mise à jour de l'icône play/pause
+                video.addEventListener('play', () => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                });
+                
+                video.addEventListener('pause', () => {
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            }
+
+            // Setup pour tous les lecteurs natifs en fallback
+            setupAdvancedFallbackPlayers() {
+                document.querySelectorAll('.plyr').forEach(videoElement => {
+                    const videoContainer = videoElement.parentElement;
+                    const videoHeader = videoContainer.querySelector('.video-player-header, .video-niveau-header');
+                    
+                    videoContainer.innerHTML = `
+                        <div class="advanced-video-fallback">
+                            ${videoHeader ? videoHeader.outerHTML : ''}
+                            <video controls style="width: 100%; height: auto; display: block;">
+                                ${videoElement.innerHTML}
+                            </video>
+                            <div class="advanced-controls">
+                                <button class="adv-play-pause" title="Play/Pause">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <input type="range" class="adv-progress" value="0" min="0" max="100">
+                                <button class="adv-volume" title="Volume">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                                <input type="range" class="adv-volume-slider" value="100" min="0" max="100">
+                                <button class="adv-fullscreen" title="Fullscreen">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    this.initAdvancedPlayerControls(videoContainer.querySelector('.advanced-video-fallback'));
+                });
+            }
+
+            // Gestion des erreurs vidéo
+            handleVideoError(container, errorEvent) {
+                console.error('Erreur vidéo:', errorEvent);
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'video-error-message';
+                errorDiv.innerHTML = `
+                    <div class="error-content">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h4>Impossible de charger la vidéo</h4>
+                        <p>Veuillez réessayer ou contacter l'administrateur.</p>
+                        <button class="btn-retry">Réessayer</button>
+                    </div>
+                `;
+                
+                container.appendChild(errorDiv);
+                
+                // Gestionnaire pour le bouton réessayer
+                errorDiv.querySelector('.btn-retry').addEventListener('click', () => {
+                    errorDiv.remove();
+                    const video = container.querySelector('video');
+                    if (video) {
+                        video.load();
+                    }
+                });
             }
 
             // Configuration des onglets par niveau
@@ -2359,9 +2705,6 @@
                         const targetGrid = document.getElementById(`${niveau}-videos`);
                         if (targetGrid) {
                             targetGrid.classList.add('active');
-                            
-                            // Initialiser les lecteurs Plyr pour les vidéos nouvellement affichées
-                            this.setupPlyrVideoPlayers();
                         }
                     });
                 });
