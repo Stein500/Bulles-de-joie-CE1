@@ -570,7 +570,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            background: linear-gradient(135deg, rgba(255, 20, 147, 0.9) 0%, rgba(160, 255, 79, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.7) 0%, rgba(160, 255, 79, 0.6) 100%);
         }
 
         .hero-image-wrapper {
@@ -593,7 +593,8 @@
             -moz-backface-visibility: hidden;
             -webkit-transform: translate3d(0, 0, 0);
             -moz-transform: translate3d(0, 0, 0);
-            filter: brightness(0.9);
+            filter: brightness(0.8);
+            display: block;
         }
 
         .contact-hero-content {
@@ -1421,6 +1422,15 @@
             .facade-container img {
                 height: 300px;
             }
+            
+            /* Correction pour l'image hero sur mobile */
+            .hero-image-wrapper {
+                background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
+            }
+            
+            .hero-image-wrapper img {
+                opacity: 0.5;
+            }
         }
 
         /* Animation d'entrée des éléments */
@@ -1475,6 +1485,24 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Correction spécifique pour l'image hero */
+        .hero-image-fallback {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-image-fallback {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
+                z-index: 0;
             }
         }
     </style>
@@ -1553,10 +1581,10 @@
         <section class="contact-hero">
             <div class="hero-image-wrapper">
                 <img src="assets/images/contact/contact-hero.jpg" 
-                     srcset="assets/images/contact/contact-hero.jpg 1x, 
-                             assets/images/contact/contact-hero@2x.jpg 2x"
                      alt="Contactez Les Bulles de Joie à Parakou" 
-                     loading="eager">
+                     loading="eager"
+                     onerror="this.style.display='none'; document.querySelector('.hero-image-fallback').style.display='block';">
+                <div class="hero-image-fallback"></div>
             </div>
             <div class="hero-background"></div>
             <div class="container contact-hero-content">
@@ -1581,7 +1609,8 @@
                 <div class="facade-container">
                     <img src="assets/images/ecole-facade.jpg" 
                          alt="Façade de l'école Les Bulles de Joie à Parakou" 
-                         loading="lazy">
+                         loading="lazy"
+                         onerror="this.src='assets/images/logo.png'">
                     <div class="facade-caption">
                         <h3>Notre École à Parakou</h3>
                         <p>Un environnement éducatif moderne et sécurisé pour vos enfants</p>
@@ -2127,6 +2156,36 @@
                 this.setupPerformanceOptimizations();
                 this.setupRippleEffects();
                 this.setupAccessibility();
+                this.fixHeroImage();
+            }
+
+            // Correction spécifique pour l'image hero
+            fixHeroImage() {
+                const heroImg = document.querySelector('.hero-image-wrapper img');
+                if (heroImg) {
+                    // Vérifier si l'image est chargée
+                    if (heroImg.complete) {
+                        this.checkImageLoaded(heroImg);
+                    } else {
+                        heroImg.onload = () => this.checkImageLoaded(heroImg);
+                        heroImg.onerror = () => {
+                            console.log('Image hero non trouvée, utilisation du fallback');
+                            heroImg.style.display = 'none';
+                            const fallback = document.querySelector('.hero-image-fallback');
+                            if (fallback) fallback.style.display = 'block';
+                        };
+                    }
+                }
+            }
+
+            checkImageLoaded(img) {
+                // Vérifier si l'image a une largeur et hauteur valides
+                if (img.naturalWidth === 0 || img.naturalHeight === 0) {
+                    console.log('Image hero invalide, utilisation du fallback');
+                    img.style.display = 'none';
+                    const fallback = document.querySelector('.hero-image-fallback');
+                    if (fallback) fallback.style.display = 'block';
+                }
             }
 
             // Configuration de la navigation
