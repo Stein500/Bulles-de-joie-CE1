@@ -40,7 +40,7 @@
     <meta name="msvalidate.01" content="50A15735567A6A88D07A7D912DA676B7">
 
     <!-- Préchargement de l'image hero optimisée -->
-    <link rel="preload" as="image" href="assets/images/contact/contact-hero.jpg" imagesrcset="assets/images/contact/contact-hero.jpg 1x, assets/images/contact/contact-hero@2x.jpg 2x" type="image/jpeg">
+    <link rel="preload" as="image" href="assets/images/contact/contact-hero.jpg" type="image/jpeg">
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -587,13 +587,6 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            -webkit-backface-visibility: hidden;
-            -moz-backface-visibility: hidden;
-            -webkit-transform: translate3d(0, 0, 0);
-            -moz-transform: translate3d(0, 0, 0);
-            filter: brightness(0.8);
             display: block;
         }
 
@@ -1422,15 +1415,6 @@
             .facade-container img {
                 height: 300px;
             }
-            
-            /* Correction pour l'image hero sur mobile */
-            .hero-image-wrapper {
-                background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
-            }
-            
-            .hero-image-wrapper img {
-                opacity: 0.5;
-            }
         }
 
         /* Animation d'entrée des éléments */
@@ -1487,24 +1471,6 @@
                 transition-duration: 0.01ms !important;
             }
         }
-        
-        /* Correction spécifique pour l'image hero */
-        .hero-image-fallback {
-            display: none;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-image-fallback {
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
-                z-index: 0;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1529,7 +1495,7 @@
             </div>
             
             <div class="logo-glow-container">
-                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiByeD0iNzAiIGZpbGw9IiNGRjE0OTMiLz4KPHBhdGggZD0iTTQ1IDcwQzQ1IDU2LjE5MiA1Ni4xOTIgNDUgNzAgNDVTMTA1IDU2LjE5MiAxMDUgNzBDMTA1IDgzLjgwOCA5My44MDggOTUgNzAgOTVTMzUgODMuODA4IDM1IDcwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTYwIDY1TDU1IDc1SDg1TDgwIDY1SDBWODBIMTBWOTVINzBWOE04NSA4NVY3MEg5NVY4NVoiIGZpbGw9IiNGRjE0OTMiLz4KPC9zdmc+';">
             </div>
             
             <h1 class="logo-text">
@@ -1550,7 +1516,7 @@
         <div class="header-container">
             <div class="logo">
                 <div class="logo-image-container">
-                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo" loading="eager">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo" loading="eager" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iMzAiIGZpbGw9IiNGRjE0OTMiLz4KPHBhdGggZD0iTTIwIDMwQzIwIDIzLjM4NyAyNS4zODcgMTggMzIgMThTNDQgMjMuMzg3IDQ0IDMwQzQ0IDM2LjYxMyAzOC42MTMgNDIgMzIgNDJTMjAgMzYuNjEzIDIwIDMwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI2IDI4TDI0IDMySDM2TDM0IDI4SDBWMzRINFY0MkgyOFY4QzM2IDhWMzRINDJWNDJaIiBmaWxsPSIjRkYxNDkzIi8+Cjwvc3ZnPg==';">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
@@ -1583,8 +1549,7 @@
                 <img src="assets/images/contact/contact-hero.jpg" 
                      alt="Contactez Les Bulles de Joie à Parakou" 
                      loading="eager"
-                     onerror="this.style.display='none'; document.querySelector('.hero-image-fallback').style.display='block';">
-                <div class="hero-image-fallback"></div>
+                     onerror="this.onerror=null; this.style.background='linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%)'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontSize='1.5rem'; this.style.fontWeight='bold'; this.innerHTML='Les Bulles de Joie<br>Contact';">
             </div>
             <div class="hero-background"></div>
             <div class="container contact-hero-content">
@@ -1610,7 +1575,7 @@
                     <img src="assets/images/ecole-facade.jpg" 
                          alt="Façade de l'école Les Bulles de Joie à Parakou" 
                          loading="lazy"
-                         onerror="this.src='assets/images/logo.png'">
+                         onerror="this.onerror=null; this.src='assets/images/logo.png';">
                     <div class="facade-caption">
                         <h3>Notre École à Parakou</h3>
                         <p>Un environnement éducatif moderne et sécurisé pour vos enfants</p>
@@ -2059,7 +2024,7 @@
                 <div class="footer-section">
                     <div class="footer-logo">
                         <div class="logo-image-container">
-                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img" loading="lazy">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iMzAiIGZpbGw9IiNGRjE0OTMiLz4KPHBhdGggZD0iTTIwIDMwQzIwIDIzLjM4NyAyNS4zODcgMTggMzIgMThTNDQgMjMuMzg3IDQ0IDMwQzQ0IDM2LjYxMyAzOC42MTMgNDIgMzIgNDJTMjAgMzYuNjEzIDIwIDMwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI2IDI4TDI0IDMySDM2TDM0IDI4SDBWMzRINFY0MkgyOFY4QzM2IDhWMzRINDJWNDJaIiBmaWxsPSIjRkYxNDkzIi8+Cjwvc3ZnPg==';">
                         </div>
                         <div class="footer-text">
                             <h3>Les Bulles de Joie</h3>
@@ -2156,36 +2121,45 @@
                 this.setupPerformanceOptimizations();
                 this.setupRippleEffects();
                 this.setupAccessibility();
-                this.fixHeroImage();
+                this.checkHeroImage();
             }
 
-            // Correction spécifique pour l'image hero
-            fixHeroImage() {
+            // Vérification et correction de l'image hero
+            checkHeroImage() {
                 const heroImg = document.querySelector('.hero-image-wrapper img');
-                if (heroImg) {
-                    // Vérifier si l'image est chargée
-                    if (heroImg.complete) {
-                        this.checkImageLoaded(heroImg);
-                    } else {
-                        heroImg.onload = () => this.checkImageLoaded(heroImg);
-                        heroImg.onerror = () => {
-                            console.log('Image hero non trouvée, utilisation du fallback');
-                            heroImg.style.display = 'none';
-                            const fallback = document.querySelector('.hero-image-fallback');
-                            if (fallback) fallback.style.display = 'block';
-                        };
+                if (!heroImg) return;
+                
+                // Vérifier si l'image est chargée
+                setTimeout(() => {
+                    if (heroImg.naturalWidth === 0 || heroImg.complete === false) {
+                        console.log('Image hero non chargée, application du fallback');
+                        this.applyHeroFallback(heroImg);
                     }
-                }
+                }, 1000);
+                
+                // Vérifier aussi au chargement
+                heroImg.onload = () => {
+                    if (heroImg.naturalWidth === 0) {
+                        this.applyHeroFallback(heroImg);
+                    }
+                };
+                
+                heroImg.onerror = () => {
+                    this.applyHeroFallback(heroImg);
+                };
             }
 
-            checkImageLoaded(img) {
-                // Vérifier si l'image a une largeur et hauteur valides
-                if (img.naturalWidth === 0 || img.naturalHeight === 0) {
-                    console.log('Image hero invalide, utilisation du fallback');
-                    img.style.display = 'none';
-                    const fallback = document.querySelector('.hero-image-fallback');
-                    if (fallback) fallback.style.display = 'block';
-                }
+            applyHeroFallback(imgElement) {
+                // Remplacer par un dégradé de couleur
+                imgElement.style.display = 'none';
+                imgElement.parentElement.style.background = 'linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%)';
+                imgElement.parentElement.style.display = 'flex';
+                imgElement.parentElement.style.alignItems = 'center';
+                imgElement.parentElement.style.justifyContent = 'center';
+                imgElement.parentElement.style.color = 'white';
+                imgElement.parentElement.style.fontSize = '1.5rem';
+                imgElement.parentElement.style.fontWeight = 'bold';
+                imgElement.parentElement.innerHTML = 'Les Bulles de Joie<br>École Bilingue d\'Excellence';
             }
 
             // Configuration de la navigation
