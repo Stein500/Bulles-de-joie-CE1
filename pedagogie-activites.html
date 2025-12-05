@@ -1,0 +1,2492 @@
+<!DOCTYPE html>
+<html lang="fr-BJ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pédagogie Innovante & Activités Éducatives - Les Bulles de Joie</title>
+    <meta name="description" content="Découvrez notre approche pédagogique unique illustrée par des vidéos concrètes. École bilingue d'excellence à Parakou.">
+    
+    <!-- SEO Optimizations -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="keywords" content="pédagogie innovante, activités parascolaires, éducation bienveillante, école bilingue Parakou, Les Bulles de Joie, vidéos pédagogiques">
+    <meta name="author" content="Les Bulles de Joie">
+
+    <!-- ===== VERIFICATION SITES ===== -->
+    <meta name="google-site-verification" content="google345f448c750dcad8">
+    <meta name="msvalidate.01" content="50A15735567A6A88D07A7D912DA676B7">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pédagogie Innovante & Activités Éducatives - Les Bulles de Joie">
+    <meta property="og:description" content="Découvrez notre approche pédagogique unique illustrée par des vidéos concrètes">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://les-bulles-de-joie.onrender.com/pedagogie-activites.html">
+    <meta property="og:image" content="https://les-bulles-de-joie.onrender.com/assets/images/logo.png">
+    <meta property="og:site_name" content="Les Bulles de Joie">
+    
+    <!-- Polices optimisées -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Plyr CSS pour lecteurs vidéo -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    
+    <style>
+        /* ===== VARIABLES ET RESET ===== */
+        :root {
+            --rose: #FF1493;
+            --vert: #A0FF4F;
+            --blanc: #ffffff;
+            --noir: #2d1b3a;
+            --gris-clair: #f9f9f9;
+            
+            --bg-primary: var(--blanc);
+            --bg-secondary: var(--gris-clair);
+            --text-primary: var(--noir);
+            --text-secondary: #7a7280;
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+            
+            --transition-fast: all 0.3s ease;
+            --transition-normal: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            --border-radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes introExit {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(0.8); visibility: hidden; }
+        }
+
+        @keyframes loadingProgress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-40px) translateX(-10px); }
+            75% { transform: translateY(-20px) translateX(-5px); }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        /* ===== BULLES ANIMÉES EN FOND ===== */
+        .bubbles-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 14s infinite ease-in-out;
+        }
+        .bubble:nth-child(1) { width:100px; height:100px; background:var(--rose); top:10%; left:10%; animation-delay:0s; }
+        .bubble:nth-child(2) { width:140px; height:140px; background:var(--vert); top:60%; left:75%; animation-delay:3s; }
+        .bubble:nth-child(3) { width:80px; height:80px; background:var(--rose); top:80%; left:20%; animation-delay:6s; }
+        .bubble:nth-child(4) { width:110px; height:110px; background:var(--vert); top:30%; left:80%; animation-delay:9s; }
+        .bubble:nth-child(5) { width:90px; height:90px; background:var(--rose); top:50%; left:5%; animation-delay:5s; }
+        .bubble:nth-child(6) { width:120px; height:120px; background:var(--vert); top:15%; left:60%; animation-delay:7s; }
+
+        /* ===== INTRODUCTION ===== */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--rose);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: introExit 0.5s ease 2.5s forwards;
+        }
+
+        .intro-container {
+            text-align: center;
+            color: var(--blanc);
+            position: relative;
+        }
+
+        .floating-bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .bubble-intro {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+            animation: floatBubble 8s infinite ease-in-out;
+        }
+
+        .b1 { width: 40px; height: 40px; top: 20%; left: 10%; animation-delay: 0s; }
+        .b2 { width: 60px; height: 60px; top: 60%; left: 80%; animation-delay: 1s; }
+        .b3 { width: 30px; height: 30px; top: 80%; left: 20%; animation-delay: 2s; }
+        .b4 { width: 50px; height: 50px; top: 40%; left: 70%; animation-delay: 3s; }
+
+        .logo-glow-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .intro-logo {
+            width: 140px;
+            height: 140px;
+            background: var(--blanc);
+            border-radius: 50%;
+            padding: 20px;
+            animation: logoFloat 3s ease-in-out infinite;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--rose);
+        }
+
+        .logo-text {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--blanc);
+        }
+
+        .text-part {
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .text-part:nth-child(1) { animation-delay: 0.5s; }
+        .text-part:nth-child(2) { animation-delay: 1s; }
+
+        .logo-subtitle {
+            font-size: 1.4rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.5s forwards;
+            margin-bottom: 2rem;
+            color: var(--blanc);
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--vert);
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease-in-out;
+            transform-origin: left;
+        }
+
+        /* ===== LAYOUT GÉNÉRAL ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--rose);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: var(--vert);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ===== HEADER ===== */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--blanc);
+            border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+            z-index: 1000;
+            transition: var(--transition-normal);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--blanc);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--rose);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--rose);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition-fast);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--rose);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: var(--transition-fast);
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-normal);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--rose);
+            color: var(--blanc);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: var(--rose);
+        }
+
+        .btn-secondary {
+            background: var(--vert);
+            color: var(--noir);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary:hover {
+            background: var(--vert);
+            color: var(--noir);
+            transform: translateY(-3px);
+        }
+
+        /* ===== HERO SECTION OPTIMISÉE ===== */
+        .hero-pedagogie {
+            background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
+            color: var(--blanc);
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-pedagogie .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-pedagogie h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-pedagogie p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .slogan-badge {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .slogan-item {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: 1px solid rgba(255, 182, 193, 0.4);
+            animation: slideInUp 0.8s ease both;
+            color: var(--noir);
+        }
+
+        .slogan-item:nth-child(1) { animation-delay: 0.1s; }
+        .slogan-item:nth-child(2) { animation-delay: 0.2s; }
+        .slogan-item:nth-child(3) { animation-delay: 0.3s; }
+        .slogan-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .slogan-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== SECTION APPROCHE PÉDAGOGIQUE ===== */
+        .approche-section {
+            background: var(--bg-primary);
+        }
+
+        .approche-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .approche-card {
+            background: var(--blanc);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+            border-top: 4px solid var(--rose);
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease both;
+        }
+
+        .approche-card:nth-child(1) { animation-delay: 0.1s; }
+        .approche-card:nth-child(2) { animation-delay: 0.2s; }
+        .approche-card:nth-child(3) { animation-delay: 0.3s; }
+        .approche-card:nth-child(4) { animation-delay: 0.4s; }
+        .approche-card:nth-child(5) { animation-delay: 0.5s; }
+        .approche-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .approche-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .approche-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .approche-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--rose);
+            transition: var(--transition-normal);
+        }
+
+        .approche-card:hover .approche-icon {
+            transform: scale(1.2);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .approche-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .approche-card p {
+            color: var(--text-secondary);
+        }
+
+        /* ===== SECTION VIDÉOS APPROCHE ===== */
+        .videos-approche-section {
+            background: var(--bg-secondary);
+            padding: 4rem 0;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-player-card {
+            background: var(--blanc);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .video-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-player-header {
+            padding: 1.5rem;
+            background: var(--rose);
+            color: var(--blanc);
+        }
+
+        .video-player-header h3 {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        /* ===== TIMELINE INTERACTIVE ===== */
+        .timeline-section {
+            background: var(--bg-primary);
+            position: relative;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--rose);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-items {
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 4rem;
+            animation: slideInUp 0.8s ease both;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: var(--blanc);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            transition: var(--transition-normal);
+        }
+
+        .timeline-item:hover .timeline-content {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background: var(--rose);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 2rem;
+            color: var(--blanc);
+            font-weight: bold;
+            flex-shrink: 0;
+            z-index: 3;
+            position: relative;
+            transition: var(--transition-normal);
+        }
+
+        .timeline-item:hover .timeline-marker {
+            transform: scale(1.2);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .timeline-year {
+            font-weight: 800;
+            color: var(--rose);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== SECTION VIDÉOS TIMELINE ===== */
+        .videos-timeline-section {
+            background: var(--bg-secondary);
+        }
+
+        .videos-timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .videos-timeline-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== SECTION ÉLÉGANCE ÉLOQUENCE BONNES MANIÈRES ===== */
+        .elegance-section {
+            background: var(--bg-primary);
+        }
+
+        .elegance-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .elegance-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .elegance-circle {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: var(--blanc);
+            box-shadow: var(--shadow-md);
+            animation: logoFloat 8s ease-in-out infinite;
+            border: 2px solid rgba(255, 20, 147, 0.3);
+        }
+
+        .elegance-item {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: var(--blanc);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            cursor: pointer;
+            border: 3px solid transparent;
+            animation: slideInUp 0.8s ease both;
+        }
+
+        .elegance-item:nth-child(1) { animation-delay: 0.1s; }
+        .elegance-item:nth-child(2) { animation-delay: 0.2s; }
+        .elegance-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .elegance-item:hover,
+        .elegance-item.active {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--rose);
+        }
+
+        .elegance-item[data-elegance="elegance"] {
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .elegance-item[data-elegance="eloquence"] {
+            top: 50%;
+            left: 20%;
+            transform: translateY(-50%);
+        }
+
+        .elegance-item[data-elegance="manieres"] {
+            top: 50%;
+            right: 20%;
+            transform: translateY(-50%);
+        }
+
+        .elegance-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-normal);
+        }
+
+        .elegance-item:hover .elegance-icon,
+        .elegance-item.active .elegance-icon {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .elegance-item[data-elegance="elegance"] .elegance-icon {
+            color: var(--rose);
+        }
+
+        .elegance-item[data-elegance="eloquence"] .elegance-icon {
+            color: var(--vert);
+        }
+
+        .elegance-item[data-elegance="manieres"] .elegance-icon {
+            color: #9370db;
+        }
+
+        .elegance-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            transition: var(--transition-normal);
+            color: var(--text-primary);
+        }
+
+        .elegance-content {
+            background: var(--blanc);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 20, 147, 0.2);
+            animation: slideInUp 0.8s ease 0.5s both;
+        }
+
+        .elegance-text {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .elegance-text.active {
+            display: block;
+        }
+
+        .elegance-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--rose);
+        }
+
+        .elegance-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .elegance-text ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .elegance-text li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            color: var(--text-primary);
+        }
+
+        .elegance-text li::before {
+            content: '•';
+            color: var(--rose);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+
+        /* ===== SECTION VIDÉOS ÉLÉGANCE ===== */
+        .videos-elegance-section {
+            background: var(--bg-secondary);
+            padding: 4rem 0;
+        }
+
+        .videos-elegance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .videos-elegance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== SECTION ACTIVITÉS PARASCOLAIRES ===== */
+        .activities-section {
+            background: var(--bg-primary);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background: var(--blanc);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+            border-top: 4px solid var(--rose);
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease both;
+        }
+
+        .activity-card:nth-child(1) { animation-delay: 0.1s; }
+        .activity-card:nth-child(2) { animation-delay: 0.2s; }
+        .activity-card:nth-child(3) { animation-delay: 0.3s; }
+        .activity-card:nth-child(4) { animation-delay: 0.4s; }
+        .activity-card:nth-child(5) { animation-delay: 0.5s; }
+        .activity-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .activity-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--rose);
+            transition: var(--transition-normal);
+        }
+
+        .activity-card:hover .activity-icon {
+            transform: scale(1.2);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .activity-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .activity-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--rose);
+            font-weight: bold;
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: var(--vert);
+            color: var(--noir);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: var(--transition-normal);
+        }
+
+        .activity-card:hover .age-badge {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ===== SECTION VIDÉOS ACTIVITÉS PAR NIVEAU ===== */
+        .videos-niveau-section {
+            background: var(--bg-secondary);
+            padding: 4rem 0;
+        }
+
+        .niveau-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .niveau-tab {
+            padding: 0.8rem 1.5rem;
+            background: var(--blanc);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .niveau-tab.active {
+            background: var(--rose);
+            color: var(--blanc);
+            border-color: var(--rose);
+        }
+
+        .niveau-tab:hover:not(.active) {
+            border-color: var(--rose);
+            transform: translateY(-2px);
+        }
+
+        .videos-niveau-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .videos-niveau-grid.active {
+            display: grid;
+        }
+
+        @media (max-width: 768px) {
+            .videos-niveau-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-niveau-card {
+            background: var(--blanc);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .video-niveau-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .video-niveau-header {
+            padding: 1.5rem;
+            background: var(--rose);
+            color: var(--blanc);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-niveau-header h3 {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .niveau-badge {
+            background: var(--vert);
+            color: var(--noir);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Section pour la créativité (2 vidéos côte à côte) */
+        .creativite-videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .creativite-videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== SECTION CTA SIMPLIFIÉE ===== */
+        .cta-section {
+            background: var(--bg-primary);
+        }
+
+        .cta-card {
+            background: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideInUp 0.8s ease both;
+        }
+
+        .cta-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .cta-card p {
+            color: var(--text-primary);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background: var(--noir);
+            color: var(--blanc);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--vert);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-img {
+            width: 60px;
+            height: 60px;
+            background: var(--blanc);
+            border-radius: 50%;
+            padding: 8px;
+            border: 2px solid var(--rose);
+        }
+
+        .footer-text h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            transition: var(--transition-normal);
+        }
+
+        .badge:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-info,
+        .schedule-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .contact-line,
+        .schedule-line {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .contact-line i {
+            width: 20px;
+            color: var(--vert);
+        }
+
+        .schedule-line {
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-line:last-child {
+            border-bottom: none;
+        }
+
+        .social-links-minimal {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link-minimal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: var(--blanc);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            font-size: 1.2rem;
+        }
+
+        .social-link-minimal:hover {
+            background: var(--rose);
+            transform: translateY(-3px) scale(1.1);
+            color: var(--blanc);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-legal {
+            flex: 1;
+        }
+
+        .legal-content {
+            display: block;
+            max-height: none;
+            overflow: visible;
+            margin-top: 1rem;
+        }
+
+        .footer-legal p {
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+
+        .footer-credits p {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .hero-pedagogie h1 {
+                font-size: 2.5rem;
+            }
+            
+            .elegance-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .elegance-circle {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .elegance-item {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .elegance-icon {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+                align-items: flex-start;
+            }
+
+            .timeline-content {
+                margin-left: 80px;
+            }
+
+            .timeline-marker {
+                position: absolute;
+                left: 0;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--blanc);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem;
+                transition: var(--transition-normal);
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .hero-pedagogie {
+                padding: 7rem 0 3rem;
+            }
+            
+            .hero-pedagogie h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-pedagogie p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .elegance-circle {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .elegance-item {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .elegance-icon {
+                font-size: 1.5rem;
+            }
+            
+            .elegance-item h3 {
+                font-size: 0.8rem;
+            }
+            
+            .elegance-content {
+                padding: 2rem;
+            }
+            
+            .elegance-text h3 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-credits {
+                text-align: center;
+                width: 100%;
+            }
+
+            .niveau-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .niveau-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .approche-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .elegance-item[data-elegance="eloquence"] {
+                left: 15%;
+            }
+            
+            .elegance-item[data-elegance="manieres"] {
+                right: 15%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-pedagogie {
+                padding: 7rem 0 3rem;
+            }
+            
+            .hero-pedagogie h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .approche-card {
+                padding: 2rem 1rem;
+            }
+            
+            .elegance-circle {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .elegance-item {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .elegance-icon {
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .elegance-item h3 {
+                font-size: 0.7rem;
+            }
+            
+            .elegance-content {
+                padding: 1.5rem;
+            }
+
+            .activity-card {
+                padding: 2rem 1rem;
+            }
+
+            .cta-card {
+                padding: 2rem 1rem;
+            }
+
+            .video-player-header {
+                padding: 1rem;
+            }
+
+            .video-player-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .video-niveau-header {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Animation d'entrée des éléments */
+        .animate-in {
+            animation: slideInUp 0.8s ease both;
+        }
+
+        /* Animations pour le menu mobile */
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Styles Plyr personnalisés */
+        .plyr {
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .plyr--video .plyr__control--overlaid {
+            background: rgba(255, 20, 147, 0.8) !important;
+        }
+
+        .plyr--video .plyr__control:hover {
+            background: var(--rose) !important;
+        }
+
+        .plyr__controls {
+            background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
+        }
+    </style>
+    
+    <!-- Préchargement de la première vidéo -->
+    <link rel="preload" as="video" href="assets/videos/pedagogie/education-bienveillante.mp4" type="video/mp4">
+</head>
+<body>
+    <!-- Bulles animées en fond -->
+    <div class="bubbles-bg">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <!-- Animation d'introduction (2.5 secondes) -->
+    <div id="intro-overlay" class="intro-overlay">
+        <div class="intro-container">
+            <div class="floating-bubbles">
+                <div class="bubble-intro b1"></div>
+                <div class="bubble-intro b2"></div>
+                <div class="bubble-intro b3"></div>
+                <div class="bubble-intro b4"></div>
+            </div>
+            
+            <div class="logo-glow-container">
+                <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="intro-logo">
+            </div>
+            
+            <h1 class="logo-text">
+                <span class="text-part">Pédagogie</span>
+                <span class="text-part">Innovante</span>
+            </h1>
+            
+            <p class="logo-subtitle">Découvrez notre approche éducative unique</p>
+            
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation principale -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-image-container">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo">
+                </div>
+                <div class="logo-text">
+                    <h1>Les Bulles de Joie</h1>
+                    <p>Amour • Travail • Rigueur • Créativité</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="pedagogie-activites.html" class="nav-link active">Pédagogie & Activités</a></li>
+                    <li><a href="tarifs-inscription.html" class="nav-link">Tarifs & Inscription</a></li>
+                    <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section Pédagogie -->
+        <section class="hero-pedagogie">
+            <div class="container">
+                <h1>Pédagogie Innovante & Activités Éducatives</h1>
+                <p>Découvrez notre approche unique illustrée par des vidéos concrètes de notre quotidien éducatif</p>
+                <div class="slogan-badge">
+                    <div class="slogan-item">Innovation</div>
+                    <div class="slogan-item">Bienveillance</div>
+                    <div class="slogan-item">Épanouissement</div>
+                    <div class="slogan-item">Excellence</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Approche Pédagogique -->
+        <section class="section approche-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Notre Approche Pédagogique</h2>
+                    <p class="section-subtitle">Une méthode unique qui allie tradition et innovation pour l'épanouissement de chaque enfant</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="approche-grid">
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Éducation Bienveillante</h3>
+                        <p>Une approche respectueuse qui valorise l'enfant dans sa globalité, favorise son autonomie et cultive son estime de soi dans un climat de confiance mutuelle.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Centrée sur l'Enfant</h3>
+                        <p>L'enfant est acteur de ses apprentissages. Nous respectons son rythme et valorisons ses talents uniques.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>Élégance & Éloquence</h3>
+                        <p>Nous cultivons le savoir-être, la présentation soignée et l'aisance à l'oral pour former des enfants épanouis, confiants et distingués.</p>
+                    </div>
+                </div>
+                
+                <!-- Vidéos d'illustration de l'approche pédagogique -->
+                <div class="videos-approche-section">
+                    <div class="videos-grid">
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Éducation Bienveillante en Pratique</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/education-bienveillante-poster.jpg">
+                                <source src="assets/videos/pedagogie/education-bienveillante.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Immersion Bilingue au Quotidien</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/immersion-bilingue-poster.jpg">
+                                <source src="assets/videos/pedagogie/immersion-bilingue.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="approche-grid">
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Apprentissage par le Jeu</h3>
+                        <p>Le jeu comme vecteur principal d'apprentissage pour développer curiosité et motivation.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Pédagogie Active</h3>
+                        <p>Manipulation, expérimentation et découverte pour des apprentissages durables et significatifs.</p>
+                    </div>
+                    
+                    <div class="approche-card">
+                        <div class="approche-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Immersion Bilingue</h3>
+                        <p>Français et anglais intégrés naturellement dans le quotidien pour une maîtrise authentique.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Parcours Éducatif (Timeline) -->
+        <section class="section timeline-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Notre Parcours Éducatif</h2>
+                    <p class="section-subtitle">Une progression adaptée à chaque étape du développement de l'enfant</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">2 mois - 3 ans</div>
+                                <h3>Éveil et Socialisation</h3>
+                                <p>Développement psychomoteur, éveil sensoriel et premières interactions sociales dans un environnement sécurisé et bienveillant.</p>
+                            </div>
+                            <div class="timeline-marker">1</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">3 - 5 ans</div>
+                                <h3>Maternelle Bilingue</h3>
+                                <p>Apprentissage fondamental par le jeu, pré-lecture, pré-mathématiques et initiation à l'anglais par immersion.</p>
+                            </div>
+                            <div class="timeline-marker">2</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">6 - 10 ans</div>
+                                <h3>Primaire Bilingue</h3>
+                                <p>Programme bilingue enrichi, technologies éducatives et développement de l'esprit critique.</p>
+                            </div>
+                            <div class="timeline-marker">3</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-year">+10 ans</div>
+                                <h3>Excellence et Ouverture</h3>
+                                <p>Préparation aux études secondaires, développement des compétences transversales et ouverture sur le monde.</p>
+                            </div>
+                            <div class="timeline-marker">4</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vidéos d'illustration du parcours éducatif -->
+                <div class="videos-timeline-section">
+                    <div class="videos-timeline-grid">
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Éveil et Socialisation en Crèche</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/eveil-socialisation-poster.jpg">
+                                <source src="assets/videos/pedagogie/eveil-socialisation.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Primaire Bilingue en Action</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/primaire-bilingue-poster.jpg">
+                                <source src="assets/videos/pedagogie/primaire-bilingue.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Élégance Éloquence Bonnes Manières -->
+        <section class="section elegance-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Élégance - Éloquence - Bonnes Manières</h2>
+                    <p class="section-subtitle">Cultiver le savoir-être et le savoir-vivre dès le plus jeune âge</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="elegance-container">
+                    <div class="elegance-visual">
+                        <div class="elegance-circle">
+                            <div class="elegance-item active" data-elegance="elegance">
+                                <div class="elegance-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <h3>Élégance</h3>
+                            </div>
+                            <div class="elegance-item" data-elegance="eloquence">
+                                <div class="elegance-icon">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <h3>Éloquence</h3>
+                            </div>
+                            <div class="elegance-item" data-elegance="manieres">
+                                <div class="elegance-icon">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <h3>Bonnes Manières</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="elegance-content">
+                        <div class="elegance-text active" id="elegance-text">
+                            <h3>L'Élégance : Cultiver la Présence et le Savoir-Être</h3>
+                            <p>L'élégance ne se limite pas à l'apparence, c'est une attitude globale qui reflète le respect de soi et des autres.</p>
+                            <ul>
+                                <li>Soin de la présentation et de l'hygiène personnelle</li>
+                                <li>Posture et maintien appropriés dans différentes situations</li>
+                                <li>Respect du code vestimentaire adapté à chaque occasion</li>
+                                <li>Développement de la grâce dans les mouvements et les gestes</li>
+                                <li>Valorisation de la simplicité et de l'authenticité</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="elegance-text" id="eloquence-text">
+                            <h3>L'Éloquence : L'Art de Bien Parler et de Convaincre</h3>
+                            <p>L'éloquence est un art qui se cultive dès le plus jeune âge pour exprimer ses idées avec clarté et conviction.</p>
+                            <ul>
+                                <li>Exercices de diction et de prononciation</li>
+                                <li>Développement du vocabulaire et de la syntaxe</li>
+                                <li>Techniques d'expression orale et de prise de parole en public</li>
+                                <li>Apprentissage de la structuration des idées</li>
+                                <li>Développement de l'écoute active et du respect des tours de parole</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="elegance-text" id="manieres-text">
+                            <h3>Les Bonnes Manières : Le Savoir-Vivre au Quotidien</h3>
+                            <p>Les bonnes manières sont la base du vivre-ensemble et du respect mutuel dans toutes les situations.</p>
+                            <ul>
+                                <li>Politesse et formules de courtoisie adaptées à chaque contexte</li>
+                                <li>Comportement à table et savoir-vivre alimentaire</li>
+                                <li>Respect des règles de vie en communauté</li>
+                                <li>Gestion des émotions et maîtrise de soi</li>
+                                <li>Empathie et considération pour les autres</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vidéos d'illustration Élégance/Éloquence/Manieres -->
+                <div class="videos-elegance-section">
+                    <div class="videos-elegance-grid">
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Atelier Élégance et Posture</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/atelier-elegance-poster.jpg">
+                                <source src="assets/videos/pedagogie/atelier-elegance.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Exercice d'Éloquence en Classe</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/exercice-eloquence-poster.jpg">
+                                <source src="assets/videos/pedagogie/exercice-eloquence.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-player-card">
+                            <div class="video-player-header">
+                                <h3>Apprentissage des Bonnes Manières</h3>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/bonnes-manieres-poster.jpg">
+                                <source src="assets/videos/pedagogie/bonnes-manieres.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Activités Parascolaires -->
+        <section class="section activities-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nos Activités Parascolaires</h2>
+                    <p class="section-subtitle">Des activités conçues pour stimuler la curiosité, la créativité et l'expression à chaque âge</p>
+                    <div class="section-divider"></div>
+                </div>
+                
+                <div class="activities-grid">
+                    <!-- Art Oratoire -->
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3>Art Oratoire</h3>
+                        <p>Développer la prise de parole, la confiance et l'écoute dans un environnement bienveillant.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Expression verbale et non-verbale</li>
+                            <li>Confiance en soi</li>
+                            <li>Écoute active</li>
+                            <li>Improvisation et créativité</li>
+                            <li>Présentation en public</li>
+                        </ul>
+                        
+                        <span class="age-badge">À partir du CE1</span>
+                    </div>
+
+                    <!-- Jardinage -->
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Jardinage Pédagogique</h3>
+                        <p>Éveiller à la nature, à la patience et à la responsabilité environnementale.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Connexion à la nature</li>
+                            <li>Patience et observation</li>
+                            <li>Responsabilité écologique</li>
+                            <li>Cycle des plantes</li>
+                            <li>Alimentation saine</li>
+                        </ul>
+                        
+                        <span class="age-badge">À partir de la pré-maternelle</span>
+                    </div>
+
+                    <!-- Musique -->
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>Musique</h3>
+                        <p>Explorer les sons, les rythmes et les instruments dans une approche sensorielle.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Développement auditif</li>
+                            <li>Sens du rythme</li>
+                            <li>Coordination motrice</li>
+                            <li>Expression émotionnelle</li>
+                            <li>Culture musicale</li>
+                        </ul>
+                        
+                        <span class="age-badge">À partir de la maternelle</span>
+                    </div>
+
+                    <!-- Danse -->
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Danse</h3>
+                        <p>Favoriser l'expression corporelle, la coordination et le plaisir du mouvement.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Conscience corporelle</li>
+                            <li>Coordination et équilibre</li>
+                            <li>Créativité motrice</li>
+                            <li>Expression des émotions</li>
+                            <li>Travail d'équipe</li>
+                        </ul>
+                        
+                        <span class="age-badge">À partir de la maternelle</span>
+                    </div>
+
+                    <!-- Anglais -->
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Anglais</h3>
+                        <p>Apprentissage naturel de l'anglais par le jeu et les activités ludiques.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Immersion naturelle</li>
+                            <li>Apprentissage par le jeu</li>
+                            <li>Prononciation authentique</li>
+                            <li>Vocabulaire contextuel</li>
+                            <li>Ouverture culturelle</li>
+                        </ul>
+                        
+                        <span class="age-badge">À partir de la pré-maternelle</span>
+                    </div>
+
+                    <!-- Créativité -->
+                    <div class="activity-card">
+                        <div class="activity-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Ateliers Créatifs</h3>
+                        <p>Peinture, collage, modelage, couture et expression artistique libre.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Imagination et créativité</li>
+                            <li>Motricité fine</li>
+                            <li>Expression personnelle</li>
+                            <li>Résolution de problèmes</li>
+                            <li>Confiance créative</li>
+                        </ul>
+                        
+                        <span class="age-badge">À partir de la pré-maternelle</span>
+                    </div>
+                </div>
+                
+                <!-- Vidéos des Activités par Niveau -->
+                <div class="videos-niveau-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Vidéos des Activités par Niveau</h3>
+                        <p class="section-subtitle">Découvrez nos activités en action à chaque étape du développement</p>
+                    </div>
+                    
+                    <div class="niveau-tabs">
+                        <div class="niveau-tab active" data-niveau="creche">Crèche (2 vidéos)</div>
+                        <div class="niveau-tab" data-niveau="maternelle">Maternelle (3 vidéos)</div>
+                        <div class="niveau-tab" data-niveau="primaire">Primaire (5 vidéos)</div>
+                    </div>
+                    
+                    <!-- Vidéos Crèche -->
+                    <div class="videos-niveau-grid active" id="creche-videos">
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Éveil Musical en Crèche</h3>
+                                <span class="niveau-badge">Crèche</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/eveil-musical-creche-poster.jpg">
+                                <source src="assets/videos/pedagogie/eveil-musical-creche.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Premiers Jeux Créatifs</h3>
+                                <span class="niveau-badge">Crèche</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/jeux-creatifs-creche-poster.jpg">
+                                <source src="assets/videos/pedagogie/jeux-creatifs-creche.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                    
+                    <!-- Vidéos Maternelle -->
+                    <div class="videos-niveau-grid" id="maternelle-videos">
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Atelier Jardinage Maternelle</h3>
+                                <span class="niveau-badge">Maternelle</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/jardinage-maternelle-poster.jpg">
+                                <source src="assets/videos/pedagogie/jardinage-maternelle.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Initiation à l'Anglais par le Jeu</h3>
+                                <span class="niveau-badge">Maternelle</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/anglais-jeu-maternelle-poster.jpg">
+                                <source src="assets/videos/pedagogie/anglais-jeu-maternelle.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Danse et Expression Corporelle</h3>
+                                <span class="niveau-badge">Maternelle</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/danse-maternelle-poster.jpg">
+                                <source src="assets/videos/pedagogie/danse-maternelle.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                    
+                    <!-- Vidéos Primaire -->
+                    <div class="videos-niveau-grid" id="primaire-videos">
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Art Oratoire - Concours d'Éloquence</h3>
+                                <span class="niveau-badge">Primaire</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/art-oratoire-primaire-poster.jpg">
+                                <source src="assets/videos/pedagogie/art-oratoire-primaire.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Musique - Concert des Élèves</h3>
+                                <span class="niveau-badge">Primaire</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/concert-primaire-poster.jpg">
+                                <source src="assets/videos/pedagogie/concert-primaire.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Loisirs - Activités Sportives</h3>
+                                <span class="niveau-badge">Primaire</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/sport-primaire-poster.jpg">
+                                <source src="assets/videos/pedagogie/sport-primaire.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                    
+                    <!-- Section spéciale pour la Créativité (2 vidéos côte à côte) -->
+                    <div class="section-header" style="margin-top: 4rem;">
+                        <h3 class="section-title">Créativité en Action</h3>
+                        <p class="section-subtitle">Découvrez nos ateliers créatifs à travers deux projets distincts</p>
+                    </div>
+                    
+                    <div class="creativite-videos-grid">
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Atelier Arts Plastiques</h3>
+                                <span class="niveau-badge">Primaire</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/arts-plastiques-primaire-poster.jpg">
+                                <source src="assets/videos/pedagogie/arts-plastiques-primaire.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        
+                        <div class="video-niveau-card">
+                            <div class="video-niveau-header">
+                                <h3>Projet Artistique Collectif</h3>
+                                <span class="niveau-badge">Primaire</span>
+                            </div>
+                            <video class="plyr" playsinline controls data-poster="assets/images/videos/posters/projet-artistique-primaire-poster.jpg">
+                                <source src="assets/videos/pedagogie/projet-artistique-primaire.mp4" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section CTA Simplifiée -->
+        <section class="section cta-section">
+            <div class="container">
+                <div class="cta-card">
+                    <h3>Prêt à découvrir notre école ?</h3>
+                    <p>
+                        Les inscriptions pour l'année scolaire 2025-2026 sont ouvertes.<br>
+                        Contactez-nous pour plus d'informations ou visitez notre école.
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <a href="contact.html" class="btn btn-secondary">
+                            <i class="fas fa-phone"></i> Nous contacter
+                        </a>
+                        <a href="tarifs-inscription.html" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Formulaire d'inscription
+                        </a>
+                        <a href="resultats.html" class="btn btn-secondary">
+                            <i class="fas fa-chart-line"></i> Voir nos résultats
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-image-container">
+                            <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="footer-logo-img">
+                        </div>
+                        <div class="footer-text">
+                            <h3>Les Bulles de Joie</h3>
+                            <p>École privée agréée - Enseignement bilingue</p>
+                        </div>
+                    </div>
+                    <div class="footer-badges">
+                        <span class="badge">🏆 École Certifiée</span>
+                        <span class="badge">🌍 Bilingue Français-Anglais</span>
+                        <span class="badge">👶 À partir de 2 mois</span>
+                    </div>
+                    
+                    <div class="social-links-minimal">
+                        <a href="https://facebook.com/lesbullesdejoie" class="social-link-minimal" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://instagram.com/lesbullesdejoie" class="social-link-minimal" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link-minimal" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link-minimal" aria-label="Google Maps">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Coordonnées</h4>
+                    <div class="footer-details">
+                        <div class="contact-info">
+                            <div class="contact-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Parakou - Zongo, Bénin</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-envelope"></i>
+                                <span>lesbullesdejoie@gmail.com</span>
+                            </div>
+                            <div class="contact-line">
+                                <i class="fas fa-phone"></i>
+                                <span>+229 01 97 91 94 52</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Horaires</h4>
+                    <div class="footer-details">
+                        <div class="schedule-info">
+                            <div class="schedule-line">
+                                <strong>Secrétariat - renseignements:</strong>
+                                <span>Lundi au Vendredi :08h à 17h</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <div class="legal-content">
+                        <p>&copy; 2017-2025 Les Bulles de Joie - Tous droits réservés</p>
+                        <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
+                        <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
+                        <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                    </div>
+                </div>
+                <div class="footer-credits">
+                    <p>Année scolaire 2025-2026</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Plyr JS -->
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+    <script>
+        // ===== GESTIONNAIRE DE LA PAGE PÉDAGOGIE & ACTIVITÉS =====
+        class PedagogieVideosManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupPlyrVideoPlayers();
+                this.setupScrollAnimations();
+                this.setupInteractiveElements();
+                this.handleIntroAnimation();
+                this.setupEleganceInteractions();
+                this.setupNiveauTabs();
+                this.setupLazyLoading();
+            }
+
+            // Configuration de la navigation
+            setupNavigation() {
+                const navToggle = document.querySelector('.nav-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (navToggle) {
+                    navToggle.addEventListener('click', () => {
+                        navToggle.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                }
+
+                // Fermer le menu mobile au clic sur un lien
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+
+                // Gestion du header au scroll
+                let lastScrollY = window.scrollY;
+                const header = document.querySelector('.main-header');
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 100) {
+                        header.style.background = 'var(--blanc)';
+                        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                    } else {
+                        header.style.background = 'var(--blanc)';
+                        header.style.boxShadow = 'none';
+                    }
+
+                    lastScrollY = window.scrollY;
+                }, { passive: true });
+            }
+
+            // Configuration des lecteurs vidéo Plyr
+            setupPlyrVideoPlayers() {
+                // Configuration par défaut pour tous les lecteurs Plyr
+                const players = Array.from(document.querySelectorAll('.plyr')).map(player => {
+                    return new Plyr(player, {
+                        ratio: '16:9',
+                        controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                        settings: ['quality', 'speed'],
+                        clickToPlay: true,
+                        autoplay: false,
+                        keyboard: { focused: true, global: true }
+                    });
+                });
+
+                // Sauvegarder les références des lecteurs
+                this.players = players;
+            }
+
+            // Configuration des onglets par niveau
+            setupNiveauTabs() {
+                const niveauTabs = document.querySelectorAll('.niveau-tab');
+                const niveauGrids = document.querySelectorAll('.videos-niveau-grid');
+                
+                niveauTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Retirer la classe active de tous les onglets
+                        niveauTabs.forEach(t => t.classList.remove('active'));
+                        // Ajouter la classe active à l'onglet cliqué
+                        tab.classList.add('active');
+                        
+                        const niveau = tab.getAttribute('data-niveau');
+                        
+                        // Masquer toutes les grilles
+                        niveauGrids.forEach(grid => grid.classList.remove('active'));
+                        
+                        // Afficher la grille correspondante
+                        const targetGrid = document.getElementById(`${niveau}-videos`);
+                        if (targetGrid) {
+                            targetGrid.classList.add('active');
+                            
+                            // Initialiser les lecteurs Plyr pour les vidéos nouvellement affichées
+                            this.setupPlyrVideoPlayers();
+                        }
+                    });
+                });
+            }
+
+            // Configuration de l'interactivité pour la section élégance
+            setupEleganceInteractions() {
+                const eleganceItems = document.querySelectorAll('.elegance-item');
+                const eleganceTexts = document.querySelectorAll('.elegance-text');
+                
+                eleganceItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const eleganceType = item.getAttribute('data-elegance');
+                        
+                        // Retirer la classe active de tous les éléments
+                        eleganceItems.forEach(el => el.classList.remove('active'));
+                        eleganceTexts.forEach(el => el.classList.remove('active'));
+                        
+                        // Ajouter la classe active à l'élément cliqué
+                        item.classList.add('active');
+                        
+                        // Afficher le texte correspondant
+                        const targetText = document.getElementById(`${eleganceType}-text`);
+                        if (targetText) {
+                            targetText.classList.add('active');
+                        }
+                    });
+                });
+                
+                // Activer le premier élément par défaut
+                if (eleganceItems.length > 0) {
+                    eleganceItems[0].click();
+                }
+            }
+
+            // Lazy loading des vidéos
+            setupLazyLoading() {
+                const videoObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const video = entry.target;
+                            const source = video.querySelector('source');
+                            
+                            if (source && !source.src) {
+                                source.src = source.dataset.src;
+                                video.load();
+                            }
+                            
+                            videoObserver.unobserve(video);
+                        }
+                    });
+                }, { rootMargin: '50px' });
+
+                // Observer toutes les vidéos pour le lazy loading
+                document.querySelectorAll('video').forEach(video => {
+                    videoObserver.observe(video);
+                });
+            }
+
+            // Animations au scroll
+            setupScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observer les éléments à animer
+                document.querySelectorAll('.approche-card, .activity-card, .timeline-item, .slogan-item, .video-player-card, .video-niveau-card').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+
+            // Configuration des éléments interactifs
+            setupInteractiveElements() {
+                // Animation des cartes au survol
+                const cards = document.querySelectorAll('.approche-card, .activity-card, .timeline-content, .video-player-card, .video-niveau-card');
+                
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-5px)';
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                    });
+                });
+            }
+
+            // Gestion de l'animation d'introduction (2.5 secondes)
+            handleIntroAnimation() {
+                const introOverlay = document.getElementById('intro-overlay');
+                if (introOverlay) {
+                    // Animation de sortie après 2.5 secondes
+                    setTimeout(() => {
+                        introOverlay.style.animation = 'introExit 0.5s ease forwards';
+                        setTimeout(() => {
+                            introOverlay.style.display = 'none';
+                        }, 500);
+                    }, 2500);
+                }
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            window.pedagogieVideosManager = new PedagogieVideosManager();
+            
+            // Préchargement intelligent des premières vidéos
+            const firstVideos = document.querySelectorAll('video[data-poster]');
+            firstVideos.forEach((video, index) => {
+                if (index < 3) { // Précharger les 3 premières vidéos
+                    video.preload = 'auto';
+                } else {
+                    video.preload = 'metadata';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
