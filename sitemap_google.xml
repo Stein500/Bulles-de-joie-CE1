@@ -1,50 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
-    <url>
-        <loc>https://les-bulles-de-joie.onrender.com/</loc>
+    <!-- Sitemap principal -->
+    <sitemap>
+        <loc>https://les-bulles-de-joie.onrender.com/sitemap.xml</loc>
         <lastmod>2025-01-01</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-        <image:image>
-            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/logo.png</image:loc>
-            <image:title>Les Bulles de Joie - Logo</image:title>
-            <image:caption>École Bilingue d'Excellence à Parakou</image:caption>
-        </image:image>
-    </url>
+    </sitemap>
     
-    <url>
-        <loc>https://les-bulles-de-joie.onrender.com/pedagogie-activites.html</loc>
+    <!-- Sitemap images -->
+    <sitemap>
+        <loc>https://les-bulles-de-joie.onrender.com/sitemap-images.xml</loc>
         <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-        <image:image>
-            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/pedagogie-hero.jpg</image:loc>
-            <image:title>Pédagogie Innovante</image:title>
-        </image:image>
-    </url>
+    </sitemap>
     
-    <url>
-        <loc>https://les-bulles-de-joie.onrender.com/tarifs-inscription.html</loc>
+    <!-- Sitemap vidéos -->
+    <sitemap>
+        <loc>https://les-bulles-de-joie.onrender.com/sitemap-videos.xml</loc>
         <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://les-bulles-de-joie.onrender.com/resultats.html</loc>
-        <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <url>
-        <loc>https://les-bulles-de-joie.onrender.com/contact.html</loc>
-        <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
+    </sitemap>
 
-</urlset>
+</sitemapindex>

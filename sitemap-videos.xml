@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+    
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/#video</loc>
+        
+        <video:video>
+            <video:thumbnail_loc>https://les-bulles-de-joie.onrender.com/assets/images/video-poster.jpg</video:thumbnail_loc>
+            <video:title>Présentation de l'école Les Bulles de Joie</video:title>
+            <video:description>Découvrez notre école bilingue d'excellence à Parakou : crèche, maternelle et primaire. Installations modernes, pédagogie innovante fondée sur l'Amour, le Travail, la Rigueur et la Créativité.</video:description>
+            <video:content_loc>https://les-bulles-de-joie.onrender.com/assets/videos/ecole.mp4</video:content_loc>
+            <video:player_loc allow_embed="yes" autoplay="ap=1">https://les-bulles-de-joie.onrender.com/#video</video:player_loc>
+            <video:duration>120</video:duration>
+            <video:expiration_date>2030-01-01T00:00:00+01:00</video:expiration_date>
+            <video:rating>4.9</video:rating>
+            <video:view_count>1500</video:view_count>
+            <video:publication_date>2025-01-01T00:00:00+01:00</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:requires_subscription>no</video:requires_subscription>
+            <video:live>no</video:live>
+            <video:tag>école</video:tag>
+            <video:tag>bilingue</video:tag>
+            <video:tag>Parakou</video:tag>
+            <video:tag>Bénin</video:tag>
+            <video:tag>éducation</video:tag>
+            <video:tag>crèche</video:tag>
+            <video:tag>maternelle</video:tag>
+            <video:tag>primaire</video:tag>
+            <video:category>Éducation</video:category>
+            <video:uploader info="https://les-bulles-de-joie.onrender.com/">Les Bulles de Joie</video:uploader>
+        </video:video>
+        
+    </url>
+
+</urlset>

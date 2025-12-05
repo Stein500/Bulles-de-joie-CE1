@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Logo -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/</loc>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/logo.png</image:loc>
+            <image:title>Logo Les Bulles de Joie</image:title>
+            <image:caption>École bilingue Parakou</image:caption>
+        </image:image>
+    </url>
+    
+    <!-- Hero Background -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/</loc>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/hero-bg.jpg</image:loc>
+            <image:title>Élèves des Bulles de Joie</image:title>
+            <image:caption>Activités pédagogiques en groupe</image:caption>
+            <image:license>https://les-bulles-de-joie.onrender.com/droits-images</image:license>
+        </image:image>
+    </url>
+    
+    <!-- Façade -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/</loc>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/facade.jpg</image:loc>
+            <image:title>Façade école Les Bulles de Joie</image:title>
+            <image:caption>Architecture moderne à Parakou</image:caption>
+            <image:geo_location>Parakou, Borgou, Bénin</image:geo_location>
+        </image:image>
+    </url>
+    
+    <!-- Galerie Crèche -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/#gallery-creche</loc>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/creche1.jpg</image:loc>
+            <image:title>Espace bébé sécurisé</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/creche2.jpg</image:loc>
+            <image:title>Salle de sieste</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/creche3.jpg</image:loc>
+            <image:title>Éveil sensoriel</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/creche4.jpg</image:loc>
+            <image:title>Repas équilibrés</image:title>
+        </image:image>
+    </url>
+    
+    <!-- Galerie Maternelle -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/#gallery-maternelle</loc>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/maternelle1.jpg</image:loc>
+            <image:title>Classe maternelle</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/maternelle2.jpg</image:loc>
+            <image:title>Atelier créatif</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/maternelle3.jpg</image:loc>
+            <image:title>Apprentissage par le jeu</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/maternelle4.jpg</image:loc>
+            <image:title>Jardin pédagogique</image:title>
+        </image:image>
+    </url>
+    
+    <!-- Galerie Primaire -->
+    <url>
+        <loc>https://les-bulles-de-joie.onrender.com/#gallery-primaire</loc>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/primaire1.jpg</image:loc>
+            <image:title>Salle de classe primaire</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/primaire2.jpg</image:loc>
+            <image:title>Bibliothèque scolaire</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/primaire3.jpg</image:loc>
+            <image:title>Laboratoire scientifique</image:title>
+        </image:image>
+        <image:image>
+            <image:loc>https://les-bulles-de-joie.onrender.com/assets/images/gallery/primaire4.jpg</image:loc>
+            <image:title>Salle informatique</image:title>
+        </image:image>
+    </url>
+
+</urlset>
