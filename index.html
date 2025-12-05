@@ -548,10 +548,8 @@
             left: 0;
             width: 100%;
             background: var(--light);
-            border-bottom: 1px solid rgba(255, 20, 147, 0.2);
             z-index: 1000;
             transition: var(--transition);
-            box-shadow: var(--shadow-sm);
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.95);
             transform: translate3d(0, 0, 0);
@@ -1125,8 +1123,10 @@
 
         .facade-info {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .info-card {
@@ -2038,7 +2038,6 @@
             
             .main-header {
                 background: rgba(26, 26, 26, 0.95);
-                border-bottom-color: rgba(255, 20, 147, 0.3);
             }
             
             .nav-link {
@@ -2210,16 +2209,6 @@
                 </div>
                 
                 <div class="facade-info">
-                    <div class="info-card ripple touch-feedback">
-                        <i class="fas fa-sun info-icon" aria-hidden="true"></i>
-                        <h4>Espaces Lumineux</h4>
-                        <p>Grandes baies vitrées pour une luminosité naturelle optimale</p>
-                    </div>
-                    <div class="info-card ripple touch-feedback">
-                        <i class="fas fa-tree info-icon" aria-hidden="true"></i>
-                        <h4>Jardin Pédagogique</h4>
-                        <p>500m² d'espaces verts pour l'apprentissage en plein air</p>
-                    </div>
                     <div class="info-card ripple touch-feedback">
                         <i class="fas fa-shield-alt info-icon" aria-hidden="true"></i>
                         <h4>Sécurité Totale</h4>
