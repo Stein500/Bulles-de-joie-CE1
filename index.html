@@ -299,6 +299,12 @@
             --border-radius-lg: 30px;
             --safe-area-inset-top: env(safe-area-inset-top);
             --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            
+            /* Couleurs de Noël discrètes */
+            --christmas-red: #c62828;
+            --christmas-green: #2e7d32;
+            --christmas-gold: #f9a825;
+            --christmas-snow: #f5f5f5;
         }
 
         * {
@@ -332,121 +338,213 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ===== WATER DROP RIPPLE EFFECT ===== */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-            transform: translate3d(0, 0, 0);
-            -webkit-user-select: none;
-            user-select: none;
+        /* ===== EFFETS DE NOËL DISCRETS ===== */
+        .christmas-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--christmas-red) 0%, 
+                var(--christmas-green) 25%, 
+                var(--christmas-gold) 50%, 
+                var(--christmas-red) 75%, 
+                var(--christmas-green) 100%);
+            z-index: 9998;
+            animation: twinkle 3s infinite alternate;
+            opacity: 0.7;
         }
 
-        .ripple::after {
-            content: '';
-            position: absolute;
+        .christmas-decoration.bottom {
+            top: auto;
+            bottom: 0;
+        }
+
+        .christmas-flakes {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
             pointer-events: none;
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
-            background-repeat: no-repeat;
-            background-position: 50%;
-            transform: scale(10, 10);
-            opacity: 0;
-            transition: transform 0.5s, opacity 1s;
-        }
-
-        .ripple:active::after {
-            transform: scale(0, 0);
-            opacity: 0.3;
-            transition: 0s;
-        }
-
-        /* ===== TOGGLE BUTTON RIPPLE EFFECT ===== */
-        .nav-toggle.ripple {
-            position: relative;
+            z-index: -1;
             overflow: hidden;
         }
 
-        .nav-toggle.ripple::after {
-            content: '';
+        .christmas-flake {
             position: absolute;
+            background: var(--christmas-snow);
             border-radius: 50%;
-            background: rgba(255, 20, 147, 0.2);
-            transform: scale(0);
-            opacity: 0;
-            transition: transform 0.5s, opacity 0.5s;
+            opacity: 0.15;
+            animation: floatDown 10s linear infinite;
         }
 
-        .nav-toggle.ripple:active::after {
-            transform: scale(2);
-            opacity: 0.5;
-            transition: 0s;
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
         }
 
-        /* ===== WAVE EFFECT ===== */
-        .wave {
+        @keyframes floatDown {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(100vh) translateX(20px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== HEADER OPTIMISÉ (de contact.html) ===== */
+        .main-header {
+            position: fixed;
+            top: 4px; /* Pour laisser place à la décoration de Noël */
+            left: 0;
+            width: 100%;
+            background: var(--light);
+            border-bottom: 1px solid rgba(255, 20, 147, 0.2);
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--light);
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--primary);
             position: relative;
             overflow: hidden;
         }
 
-        .wave:before {
+        .header-logo::before {
+            content: '🎄';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.8rem;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: #7a7280;
+        }
+
+        /* Navigation optimisée */
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
             content: '';
             position: absolute;
-            top: 50%;
+            bottom: -5px;
             left: 50%;
             width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .wave:hover:before {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* ===== TOUCH EFFECTS ===== */
-        .touch-feedback {
-            transition: transform 0.1s ease, opacity 0.1s ease;
-        }
-
-        .touch-feedback:active {
-            transform: scale(0.97);
-            opacity: 0.8;
-        }
-
-        .touch-glow {
-            transition: box-shadow 0.2s ease;
-        }
-
-        .touch-glow:active {
-            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4) !important;
-        }
-
-        /* ===== SKIP TO CONTENT ===== */
-        .skip-to-content {
-            position: absolute;
-            top: -40px;
-            left: 0;
+            height: 2px;
             background: var(--primary);
-            color: white;
-            padding: 12px 20px;
-            z-index: 9999;
-            text-decoration: none;
-            border-radius: 0 0 4px 0;
-            font-weight: 600;
             transition: var(--transition);
-            font-size: 1rem;
+            transform: translateX(-50%);
         }
 
-        .skip-to-content:focus {
-            top: 0;
-            outline: 3px solid var(--secondary);
-            outline-offset: 2px;
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            margin: 3px 0;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
         /* ===== INTRO ANIMATION ===== */
@@ -471,6 +569,7 @@
         .intro-container {
             text-align: center;
             color: var(--light);
+            position: relative;
         }
 
         .intro-logo {
@@ -482,8 +581,24 @@
             animation: float 2s ease-in-out infinite;
             box-shadow: var(--shadow-lg);
             border: 3px solid var(--primary);
-            aspect-ratio: 1/1;
-            object-fit: contain;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-logo::before {
+            content: '🎅';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 2rem;
+            z-index: 2;
+            animation: wiggle 3s infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
         }
 
         .logo-text {
@@ -507,6 +622,18 @@
             opacity: 0;
             animation: fadeIn 1s ease 1.5s forwards;
             margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo-subtitle::after {
+            content: ' 🎄';
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .loading-bar {
@@ -541,155 +668,6 @@
             100% { transform: scaleX(1); }
         }
 
-        /* ===== HEADER DE PEDAGOGIE ===== */
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--light);
-            z-index: 1000;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-            transform: translate3d(0, 0, 0);
-            will-change: transform;
-        }
-
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            flex-shrink: 0;
-        }
-
-        .header-logo {
-            width: 60px;
-            height: 60px;
-            background: var(--light);
-            border-radius: 50%;
-            padding: 8px;
-            box-shadow: var(--shadow-sm);
-            border: 2px solid var(--primary);
-            aspect-ratio: 1/1;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover .header-logo {
-            transform: scale(1.05);
-        }
-
-        .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.2;
-            margin: 0;
-        }
-
-        .logo-text p {
-            font-size: 0.9rem;
-            color: #7a7280;
-            margin: 0;
-        }
-
-        /* Navigation */
-        .main-nav {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            transition: var(--transition);
-            position: relative;
-            white-space: nowrap;
-            font-size: 1rem;
-            display: block;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--primary);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 80%;
-        }
-
-        .nav-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 5px;
-            background: none;
-            border: none;
-            width: 40px;
-            height: 40px;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 1001;
-        }
-
-        .nav-toggle span {
-            width: 25px;
-            height: 3px;
-            background: var(--dark);
-            margin: 3px 0;
-            transition: var(--transition);
-            border-radius: 2px;
-            display: block;
-        }
-
-        .nav-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .nav-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .nav-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
         /* ===== HERO SECTION ===== */
         .hero {
             min-height: 100vh;
@@ -703,7 +681,7 @@
             display: flex;
             align-items: center;
             overflow: hidden;
-            margin-top: 80px;
+            margin-top: 84px; /* Ajusté pour le header + décoration Noël */
             touch-action: pan-y;
         }
 
@@ -750,6 +728,19 @@
             line-height: 1.2;
             margin-bottom: 1.5rem;
             animation: fadeIn 1s ease-out;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: ' 🎁';
+            font-size: 0.8em;
+            animation: bounce 2s infinite;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .title-highlight {
@@ -782,6 +773,12 @@
             margin-bottom: 2rem;
             opacity: 0.9;
             animation: fadeIn 1s ease-out 0.3s both;
+            position: relative;
+        }
+
+        .hero-subtitle::before {
+            content: '✨ ';
+            animation: twinkle 1.5s infinite;
         }
 
         .hero-description {
@@ -817,6 +814,23 @@
             transition: var(--transition);
             will-change: transform;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '❄️';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            opacity: 0.3;
+            font-size: 1.5rem;
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .stat-card:hover {
@@ -865,6 +879,16 @@
             will-change: transform;
             cursor: pointer;
             transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .floating-element::before {
+            content: '🎄';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            opacity: 0.7;
         }
 
         .floating-element:active {
@@ -1062,6 +1086,19 @@
             background-clip: text;
             color: transparent;
             margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .facade-title::after {
+            content: ' 🏫';
+            animation: wave 2s infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
         }
 
         .facade-subtitle {
@@ -1084,6 +1121,21 @@
             background: white;
             cursor: pointer;
             touch-action: manipulation;
+            position: relative;
+        }
+
+        .facade-16-9::before {
+            content: '📸';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 2;
+            opacity: 0.8;
         }
 
         .facade-image {
@@ -1141,6 +1193,16 @@
             z-index: 2;
             will-change: transform;
             cursor: pointer;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '⭐';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            opacity: 0.3;
+            font-size: 1rem;
         }
 
         .info-card:hover {
@@ -1165,6 +1227,314 @@
             transform: scale(1.1) rotate(5deg);
         }
 
+        /* ===== SECTION NOS VALEURS FONDAMENTALES ===== */
+        .values-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f8f8ff 0%, #fff0f5 100%);
+            position: relative;
+        }
+
+        .values-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .values-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .values-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .values-title::after {
+            content: ' ❤️';
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .values-subtitle {
+            font-size: 1.2rem;
+            color: #7a7280;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid rgba(255, 20, 147, 0.1);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '🎄';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0.1;
+            font-size: 1.5rem;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .value-card:active {
+            transform: translateY(-5px) scale(0.98);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== SECTION DOMAINES D'IMMERSION ===== */
+        .immersion-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #fff0f0 0%, #f0fff0 100%);
+        }
+
+        .immersion-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .immersion-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .immersion-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .immersion-title::after {
+            content: ' 🌟';
+            animation: twinkle 1s infinite;
+        }
+
+        .immersion-subtitle {
+            font-size: 1.2rem;
+            color: #7a7280;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .immersion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .immersion-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid rgba(160, 255, 79, 0.1);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .immersion-card::before {
+            content: '✨';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0.2;
+        }
+
+        .immersion-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--secondary);
+        }
+
+        .immersion-card:active {
+            transform: translateY(-5px) scale(0.98);
+        }
+
+        .immersion-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .immersion-card h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== SECTION GRANDS CYCLES D'APPRENTISSAGE ===== */
+        .cycles-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f0f8ff 0%, #fff8f0 100%);
+        }
+
+        .cycles-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .cycles-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .cycles-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .cycles-title::after {
+            content: ' 📚';
+            animation: bounce 2s infinite;
+        }
+
+        .cycles-subtitle {
+            font-size: 1.2rem;
+            color: #7a7280;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cycles-timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .cycles-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .cycle-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: calc(50% - 40px);
+        }
+
+        .cycle-item:nth-child(odd) {
+            margin-left: auto;
+        }
+
+        .cycle-item:nth-child(even) {
+            margin-right: auto;
+        }
+
+        .cycle-content {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 20, 147, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cycle-content::before {
+            content: '🎁';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            opacity: 0.1;
+            font-size: 1.5rem;
+        }
+
+        .cycle-content:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cycle-marker {
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .cycle-item:nth-child(odd) .cycle-marker {
+            right: -45px;
+            transform: translateY(-50%);
+        }
+
+        .cycle-item:nth-child(even) .cycle-marker {
+            left: -45px;
+            transform: translateY(-50%);
+        }
+
+        .cycle-age {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
         /* ===== GALERIE PREMIUM ===== */
         .gallery-premium-section {
             padding: 6rem 0;
@@ -1183,6 +1553,17 @@
             color: var(--primary);
             margin-bottom: 1rem;
             font-weight: 800;
+            position: relative;
+        }
+
+        .gallery-premium-title::after {
+            content: ' 📷';
+            animation: camera 2s infinite;
+        }
+
+        @keyframes camera {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .gallery-premium-subtitle {
@@ -1216,6 +1597,21 @@
             white-space: nowrap;
             font-size: 1rem;
             touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-btn::before {
+            content: '🎄';
+            position: absolute;
+            left: -20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover::before {
+            left: 10px;
+            opacity: 0.5;
         }
 
         .category-btn:hover,
@@ -1431,6 +1827,12 @@
             color: var(--primary);
             margin-bottom: 1rem;
             font-weight: 800;
+            position: relative;
+        }
+
+        .slogan-title::after {
+            content: ' 💫';
+            animation: spin 3s linear infinite;
         }
 
         .slogan-subtitle {
@@ -1452,6 +1854,18 @@
             align-items: center;
             justify-content: center;
             touch-action: manipulation;
+            position: relative;
+        }
+
+        .slogan-circle::before {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: twinkle 2s infinite;
         }
 
         .slogan-item {
@@ -1470,6 +1884,15 @@
             border: 3px solid transparent;
             will-change: transform;
             touch-action: manipulation;
+            z-index: 2;
+        }
+
+        .slogan-item::before {
+            content: '🎄';
+            position: absolute;
+            top: 5px;
+            opacity: 0.3;
+            font-size: 1rem;
         }
 
         .slogan-item:hover,
@@ -1519,6 +1942,18 @@
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-lg);
             display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slogan-content::before {
+            content: '❄️';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0.1;
+            font-size: 2rem;
+            animation: float 4s infinite;
         }
 
         .slogan-content.active {
@@ -1549,6 +1984,21 @@
             overflow: hidden;
             box-shadow: var(--shadow-lg);
             cursor: pointer;
+            position: relative;
+        }
+
+        .video-wrapper::before {
+            content: '🎬';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 2;
+            opacity: 0.8;
         }
 
         /* ===== BOUTONS ===== */
@@ -1569,6 +2019,19 @@
             position: relative;
             overflow: hidden;
             touch-action: manipulation;
+        }
+
+        .btn::before {
+            content: '🎄';
+            position: absolute;
+            left: -20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover::before {
+            left: 10px;
+            opacity: 0.5;
         }
 
         .btn-primary {
@@ -1611,6 +2074,28 @@
             background: linear-gradient(135deg, var(--primary) 0%, #ff6b9d 100%);
             color: white;
             touch-action: pan-y;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-registration::before {
+            content: '🎅';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.1;
+            animation: float 6s infinite;
+        }
+
+        .quick-registration::after {
+            content: '🦌';
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: float 7s infinite 1s;
         }
 
         .registration-container {
@@ -1618,6 +2103,8 @@
             margin: 0 auto;
             padding: 0 2rem;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         /* ===== FOOTER DE PEDAGOGIE ===== */
@@ -1626,6 +2113,18 @@
             color: var(--light);
             padding: 3rem 0 1rem;
             touch-action: pan-y;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-footer::before {
+            content: '🎄';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.1;
+            animation: wiggle 5s infinite;
         }
 
         .footer-content {
@@ -1635,6 +2134,8 @@
             max-width: 1400px;
             margin: 0 auto 2rem;
             padding: 0 2rem;
+            position: relative;
+            z-index: 2;
         }
 
         .footer-section h4 {
@@ -1648,6 +2149,7 @@
             align-items: center;
             gap: 1rem;
             margin-bottom: 1rem;
+            position: relative;
         }
 
         .footer-logo-img {
@@ -1657,8 +2159,18 @@
             border-radius: 50%;
             padding: 8px;
             border: 2px solid var(--primary);
-            aspect-ratio: 1/1;
-            object-fit: contain;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-logo-img::before {
+            content: '🎄';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.8rem;
+            z-index: 2;
+            opacity: 0.8;
         }
 
         .footer-text h3 {
@@ -1685,6 +2197,16 @@
             text-align: center;
             cursor: pointer;
             touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '⭐';
+            position: absolute;
+            left: 5px;
+            opacity: 0.5;
+            font-size: 0.7rem;
         }
 
         .badge:hover {
@@ -1734,6 +2256,19 @@
             transition: var(--transition);
             font-size: 1.2rem;
             touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link-minimal::before {
+            content: '🎄';
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-link-minimal:hover::before {
+            opacity: 0.3;
         }
 
         .social-link-minimal:hover {
@@ -1757,6 +2292,8 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 1.5rem 2rem 0;
+            position: relative;
+            z-index: 2;
         }
 
         .footer-legal p {
@@ -1793,6 +2330,11 @@
             .footer-content {
                 grid-template-columns: 1fr 1fr;
             }
+            
+            .values-grid,
+            .immersion-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 992px) {
@@ -1814,15 +2356,30 @@
             .footer-content {
                 grid-template-columns: 1fr;
             }
+            
+            .cycles-timeline::before {
+                left: 30px;
+            }
+            
+            .cycle-item {
+                width: calc(100% - 70px);
+                margin-left: 70px !important;
+            }
+            
+            .cycle-item:nth-child(odd) .cycle-marker,
+            .cycle-item:nth-child(even) .cycle-marker {
+                left: -50px;
+                right: auto;
+            }
         }
 
         @media (max-width: 768px) {
             .nav-menu {
                 position: fixed;
-                top: 80px;
+                top: 84px; /* Ajusté pour le header + décoration Noël */
                 left: -100%;
                 width: 100%;
-                height: calc(100vh - 80px);
+                height: calc(100vh - 84px);
                 background: var(--light);
                 flex-direction: column;
                 justify-content: flex-start;
@@ -1862,7 +2419,10 @@
             
             .facade-title,
             .slogan-title,
-            .gallery-premium-title {
+            .gallery-premium-title,
+            .values-title,
+            .immersion-title,
+            .cycles-title {
                 font-size: 2.2rem;
             }
             
@@ -1898,6 +2458,11 @@
                 justify-content: center;
             }
             
+            .values-grid,
+            .immersion-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .footer-content {
                 grid-template-columns: 1fr;
             }
@@ -1921,7 +2486,10 @@
             
             .facade-title,
             .slogan-title,
-            .gallery-premium-title {
+            .gallery-premium-title,
+            .values-title,
+            .immersion-title,
+            .cycles-title {
                 font-size: 1.8rem;
             }
             
@@ -1942,6 +2510,10 @@
             
             .slogan-item i {
                 font-size: 1.5rem;
+            }
+            
+            .cycle-content {
+                padding: 1.5rem;
             }
         }
 
@@ -1982,6 +2554,25 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
+            
+            .christmas-decoration,
+            .christmas-flake,
+            .intro-logo::before,
+            .header-logo::before,
+            .hero-title::after,
+            .hero-subtitle::before,
+            .stat-card::before,
+            .facade-title::after,
+            .values-title::after,
+            .immersion-title::after,
+            .cycles-title::after,
+            .gallery-premium-title::after,
+            .slogan-title::after,
+            .quick-registration::before,
+            .quick-registration::after,
+            .main-footer::before {
+                display: none !important;
+            }
         }
 
         /* Print styles */
@@ -1994,7 +2585,23 @@
             .category-btn,
             .social-links-minimal,
             video,
-            .plyr {
+            .plyr,
+            .christmas-decoration,
+            .christmas-flakes,
+            .header-logo::before,
+            .intro-logo::before,
+            .hero-title::after,
+            .hero-subtitle::before,
+            .stat-card::before,
+            .facade-title::after,
+            .values-title::after,
+            .immersion-title::after,
+            .cycles-title::after,
+            .gallery-premium-title::after,
+            .slogan-title::after,
+            .quick-registration::before,
+            .quick-registration::after,
+            .main-footer::before {
                 display: none !important;
             }
             
@@ -2037,7 +2644,7 @@
             }
             
             .main-header {
-                background: rgba(26, 26, 26, 0.95);
+                background: rgba(26, 26, 26, 0.98);
             }
             
             .nav-link {
@@ -2047,7 +2654,10 @@
             .info-card,
             .stat-card,
             .slogan-content,
-            .gallery-item-16-9 {
+            .gallery-item-16-9,
+            .value-card,
+            .immersion-card,
+            .cycle-content {
                 background: #2a2a2a;
                 color: #f0f0f0;
             }
@@ -2059,12 +2669,31 @@
             .lightbox {
                 background: rgba(0,0,0,0.98);
             }
+            
+            .values-section {
+                background: linear-gradient(135deg, #1a1a2a 0%, #2a1a1a 100%);
+            }
+            
+            .immersion-section {
+                background: linear-gradient(135deg, #2a1a1a 0%, #1a2a1a 100%);
+            }
+            
+            .cycles-section {
+                background: linear-gradient(135deg, #1a2a2a 0%, #2a2a1a 100%);
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Décoration de Noël discrète -->
+    <div class="christmas-decoration"></div>
+    <div class="christmas-decoration bottom"></div>
+    
+    <!-- Flocons de Noël discrets -->
+    <div class="christmas-flakes" id="christmasFlakes"></div>
+
     <!-- Skip to Content for Accessibility -->
-    <a href="#main-content" class="skip-to-content ripple touch-feedback" tabindex="0">Aller au contenu principal</a>
+    <a href="#main-content" class="skip-to-content" tabindex="0">Aller au contenu principal</a>
 
     <!-- Intro Animation -->
     <div id="intro-overlay" class="intro-overlay" aria-hidden="true" role="presentation">
@@ -2081,33 +2710,33 @@
         </div>
     </div>
 
-    <!-- Header de pedagogie avec effets ripple -->
-    <header class="main-header" role="banner">
+    <!-- Header principal (de contact.html) -->
+    <header class="main-header">
         <div class="header-container">
-            <a href="#hero" class="logo ripple touch-feedback">
+            <div class="logo">
                 <div class="logo-image-container">
-                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo" loading="eager" fetchpriority="high">
+                    <img src="assets/images/logo.png" alt="Les Bulles de Joie" class="header-logo" loading="eager" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iMzAiIGZpbGw9IiNGRjE0OTMiLz4KPHBhdGggZD0iTTIwIDMwQzIwIDIzLjM4NyAyNS4zODcgMTggMzIgMThTNDQgMjMuMzg3IDQ0IDMwQzQ0IDM2LjYxMyAzOC42MTMgNDIgMzIgNDJTMjAgMzYuNjEzIDIwIDMwWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI2IDI4TDI0IDMySDM2TDM0IDI4SDBWMzRINFY0MkgyOFY4QzM2IDhWMzRINDJWNDJaIiBmaWxsPSIjRkYxNDkzIi8+Cjwvc3ZnPg==';">
                 </div>
                 <div class="logo-text">
                     <h1>Les Bulles de Joie</h1>
                     <p>Amour • Travail • Rigueur • Créativité</p>
                 </div>
-            </a>
+            </div>
             
-            <nav class="main-nav" role="navigation" aria-label="Navigation principale">
+            <nav class="main-nav">
                 <ul class="nav-menu">
-                    <li><a href="#hero" class="nav-link active ripple touch-feedback">Accueil</a></li>
-                    <li><a href="pedagogie-activites.html" class="nav-link ripple touch-feedback">Pédagogie & Activités</a></li>
-                    <li><a href="tarifs-inscription.html" class="nav-link ripple touch-feedback">Tarifs & Inscription</a></li>
-                    <li><a href="resultats.html" class="nav-link ripple touch-feedback">Résultats</a></li>
-                    <li><a href="contact.html" class="nav-link ripple touch-feedback">Contact</a></li>
+                    <li><a href="index.html" class="nav-link active">Accueil</a></li>
+                    <li><a href="pedagogie-activites.html" class="nav-link">Pédagogie & Activités</a></li>
+                    <li><a href="tarifs-inscription.html" class="nav-link">Tarifs & Inscription</a></li>
+                    <li><a href="resultats.html" class="nav-link">Résultats</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
                 </ul>
                 
-                <button class="nav-toggle ripple touch-feedback" aria-label="Menu" aria-expanded="false" aria-controls="main-nav-menu">
+                <div class="nav-toggle" aria-label="Menu de navigation">
                     <span></span>
                     <span></span>
                     <span></span>
-                </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -2130,29 +2759,29 @@
                         <p class="hero-description">
                             Depuis 2017, nous créons un environnement féerique où chaque enfant 
                             découvre la joie d'apprendre et s'épanouit pleinement dans un cadre 
-                            stimulant et sécurisé.
+                            stimulant et sécurisé. <strong>Joyeux Noël et Bonne Année 2025!</strong>
                         </p>
                         <div class="hero-actions">
-                            <a href="contact.html" class="btn btn-primary ripple touch-feedback touch-glow">
+                            <a href="contact.html" class="btn btn-primary">
                                 <i class="fas fa-calendar-check" aria-hidden="true"></i>
                                 Inscrire mon enfant
                             </a>
-                            <a href="#video" class="btn btn-secondary ripple touch-feedback touch-glow">
+                            <a href="#video" class="btn btn-secondary">
                                 <i class="fas fa-play-circle" aria-hidden="true"></i>
                                 Découvrir en vidéo
                             </a>
                         </div>
                         
                         <div class="hero-stats">
-                            <div class="stat-card ripple touch-feedback">
+                            <div class="stat-card">
                                 <div class="stat-number">2017</div>
                                 <div class="stat-label">Année de Fondation</div>
                             </div>
-                            <div class="stat-card ripple touch-feedback">
+                            <div class="stat-card">
                                 <div class="stat-number">500+</div>
                                 <div class="stat-label">Enfants Accueillis</div>
                             </div>
-                            <div class="stat-card ripple touch-feedback">
+                            <div class="stat-card">
                                 <div class="stat-number">98%</div>
                                 <div class="stat-label">Satisfaction Parents</div>
                             </div>
@@ -2160,20 +2789,20 @@
                     </div>
                     
                     <div class="hero-visual" aria-hidden="true">
-                        <div class="floating-element ripple touch-feedback">
+                        <div class="floating-element">
                             <i class="fas fa-baby fa-2x" style="color: var(--primary);"></i>
                         </div>
-                        <div class="floating-element ripple touch-feedback">
+                        <div class="floating-element">
                             <i class="fas fa-graduation-cap fa-2x" style="color: var(--secondary);"></i>
                         </div>
-                        <div class="floating-element ripple touch-feedback">
+                        <div class="floating-element">
                             <i class="fas fa-heart fa-2x" style="color: var(--light);"></i>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="scroll-indicator ripple touch-feedback" aria-label="Défiler vers le bas" tabindex="0" role="button">
+            <div class="scroll-indicator" aria-label="Défiler vers le bas" tabindex="0" role="button">
                 <div class="scroll-arrow"></div>
                 <span>Défiler pour découvrir</span>
             </div>
@@ -2196,28 +2825,183 @@
                     <h2 id="facade-title" class="facade-title">Notre Campus d'Exception</h2>
                     <p class="facade-subtitle">
                         Un écrin architectural moderne au cœur de Parakou, conçu pour inspirer 
-                        et favoriser l'épanouissement de chaque enfant
+                        et favoriser l'épanouissement de chaque enfant. <em>Décoré pour les fêtes de fin d'année!</em>
                     </p>
                 </div>
                 
-                <div class="facade-16-9 ripple touch-feedback">
-                    <img src="assets/images/facade.jpg" alt="Façade de l'école Les Bulles de Joie à Parakou" class="facade-image" width="1200" height="675" loading="lazy">
+                <div class="facade-16-9">
+                    <img src="assets/images/facade.jpg" alt="Façade de l'école Les Bulles de Joie à Parakou décorée pour Noël" class="facade-image" width="1200" height="675" loading="lazy">
                     <div class="facade-overlay">
                         <h3>Architecture Innovante</h3>
-                        <p>Des espaces lumineux, ergonomiques et adaptés à chaque âge</p>
+                        <p>Des espaces adaptés à chaque cycle & âge</p>
                     </div>
                 </div>
                 
                 <div class="facade-info">
-                    <div class="info-card ripple touch-feedback">
+                    <div class="info-card">
                         <i class="fas fa-shield-alt info-icon" aria-hidden="true"></i>
                         <h4>Sécurité Totale</h4>
                         <p>Système de sécurité avancé et environnement protégé</p>
                     </div>
-                    <div class="info-card ripple touch-feedback">
+                    <div class="info-card">
                         <i class="fas fa-palette info-icon" aria-hidden="true"></i>
                         <h4>Design Éducatif</h4>
                         <p>Couleurs et aménagements stimulant la créativité</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Nos Valeurs Fondamentales -->
+        <section id="values" class="values-section" aria-labelledby="values-title">
+            <div class="values-container">
+                <div class="values-header">
+                    <h2 id="values-title" class="values-title">Nos Valeurs Fondamentales</h2>
+                    <p class="values-subtitle">
+                        Les piliers qui guident notre approche éducative. <em>L'esprit de Noël toute l'année!</em>
+                    </p>
+                </div>
+                
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Amour & Bienveillance</h3>
+                        <p>Un environnement chaleureux où chaque enfant se sent aimé, respecté et en sécurité pour explorer et grandir.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Travail & Persévérance</h3>
+                        <p>Encourager l'effort, l'autonomie et le goût du travail accompli dans une atmosphère positive et motivante.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3>Rigueur & Excellence</h3>
+                        <p>Exigence académique et suivi personnalisé pour garantir des apprentissages solides et des résultats durables.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Créativité & Innovation</h3>
+                        <p>Stimuler l'imagination, l'innovation et l'expression personnelle à travers des activités variées et enrichissantes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Domaines d'Immersion -->
+        <section id="immersion" class="immersion-section" aria-labelledby="immersion-title">
+            <div class="immersion-container">
+                <div class="immersion-header">
+                    <h2 id="immersion-title" class="immersion-title">Domaines d'Immersion</h2>
+                    <p class="immersion-subtitle">
+                        Un cadre adapté pour l'épanouissement complet de l'enfant. <em>Avec des activités spéciales pour Noël!</em>
+                    </p>
+                </div>
+                
+                <div class="immersion-grid">
+                    <div class="immersion-card">
+                        <div class="immersion-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>Art Oratoire</h3>
+                        <p>Développer la prise de parole, la confiance en soi et l'écoute active dès le plus jeune âge.</p>
+                    </div>
+                    
+                    <div class="immersion-card">
+                        <div class="immersion-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Jardinage Pédagogique</h3>
+                        <p>Éveiller à la nature, à la patience et à la responsabilité environnementale.</p>
+                    </div>
+                    
+                    <div class="immersion-card">
+                        <div class="immersion-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>Musique & Rythmes</h3>
+                        <p>Exploration des rythmes traditionnels et modernes pour développer l'oreille musicale.</p>
+                    </div>
+                    
+                    <div class="immersion-card">
+                        <div class="immersion-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Danse & Expression</h3>
+                        <p>Expression corporelle à travers danses traditionnelles et chorégraphies modernes.</p>
+                    </div>
+                    
+                    <div class="immersion-card">
+                        <div class="immersion-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Immersion Anglaise</h3>
+                        <p>Apprentissage ludique et quotidien de l'anglais par immersion totale.</p>
+                    </div>
+                    
+                    <div class="immersion-card">
+                        <div class="immersion-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3>Ateliers Créatifs</h3>
+                        <p>Peinture, collage, modelage et expression artistique libre et guidée.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Grands Cycles d'Apprentissage -->
+        <section id="cycles" class="cycles-section" aria-labelledby="cycles-title">
+            <div class="cycles-container">
+                <div class="cycles-header">
+                    <h2 id="cycles-title" class="cycles-title">Grands Cycles d'Apprentissage</h2>
+                    <p class="cycles-subtitle">
+                        Un parcours adapté à chaque étape du développement de l'enfant
+                    </p>
+                </div>
+                
+                <div class="cycles-timeline">
+                    <div class="cycle-item" data-index="0">
+                        <div class="cycle-marker">
+                            <i class="fas fa-baby-carriage"></i>
+                        </div>
+                        <div class="cycle-content">
+                            <span class="cycle-age">À partir de 2 mois</span>
+                            <h3>Crèche & Garderie</h3>
+                            <p>Socialisation, développement psychomoteur et éveil sensoriel dans un environnement sécurisé et bienveillant.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cycle-item" data-index="1">
+                        <div class="cycle-marker">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="cycle-content">
+                            <span class="cycle-age">3-5 ans</span>
+                            <h3>Maternelle Bilingue</h3>
+                            <p>Apprentissage fondamental par le jeu, pré-lecture, pré-mathématiques et initiation à l'anglais par immersion.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cycle-item" data-index="2">
+                        <div class="cycle-marker">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="cycle-content">
+                            <span class="cycle-age">À partir de 6 ans</span>
+                            <h3>Primaire Bilingue d'Excellence</h3>
+                            <p>Programme bilingue enrichi, technologies éducatives et développement de l'esprit critique dans un environnement stimulant.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2227,20 +3011,20 @@
         <section id="gallery" class="gallery-premium-section" aria-labelledby="gallery-title">
             <div class="gallery-premium-header">
                 <h2 id="gallery-title" class="gallery-premium-title">Notre Univers Éducatif</h2>
-                <p class="gallery-premium-subtitle">Découvrez nos espaces d'apprentissage par section</p>
+                <p class="gallery-premium-subtitle">Découvrez nos espaces d'apprentissage par section. <em>Décorés pour les fêtes!</em></p>
             </div>
             
             <div class="gallery-container">
                 <div class="gallery-categories" role="tablist" aria-label="Catégories de galerie">
-                    <button class="category-btn active ripple touch-feedback touch-glow" data-category="creche" role="tab" aria-selected="true" aria-controls="gallery-creche">
+                    <button class="category-btn active" data-category="creche" role="tab" aria-selected="true" aria-controls="gallery-creche">
                         <i class="fas fa-baby" aria-hidden="true"></i>
                         Crèche & Garderie
                     </button>
-                    <button class="category-btn ripple touch-feedback touch-glow" data-category="maternelle" role="tab" aria-selected="false" aria-controls="gallery-maternelle">
+                    <button class="category-btn" data-category="maternelle" role="tab" aria-selected="false" aria-controls="gallery-maternelle">
                         <i class="fas fa-child" aria-hidden="true"></i>
                         Maternelle
                     </button>
-                    <button class="category-btn ripple touch-feedback touch-glow" data-category="primaire" role="tab" aria-selected="false" aria-controls="gallery-primaire">
+                    <button class="category-btn" data-category="primaire" role="tab" aria-selected="false" aria-controls="gallery-primaire">
                         <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                         Primaire
                     </button>
@@ -2249,28 +3033,28 @@
                 <!-- Crèche & Garderie -->
                 <div id="gallery-creche" class="gallery-section-content active" role="tabpanel" aria-labelledby="gallery-creche" tabindex="0">
                     <div class="gallery-grid-16-9">
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="0" tabindex="0" role="button" aria-label="Ouvrir l'image: Espace bébé sécurisé">
+                        <div class="gallery-item-16-9" data-index="0" tabindex="0" role="button" aria-label="Ouvrir l'image: Espace bébé sécurisé">
                             <img src="assets/images/gallery/creche1.jpg" alt="Espace bébé sécurisé avec matériel adapté" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Espace Bébé Sécurisé</h4>
                                 <p>Matériel adapté aux tout-petits</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="1" tabindex="0" role="button" aria-label="Ouvrir l'image: Salle de sieste">
+                        <div class="gallery-item-16-9" data-index="1" tabindex="0" role="button" aria-label="Ouvrir l'image: Salle de sieste">
                             <img src="assets/images/gallery/creche2.jpg" alt="Salle de sieste ambiance calme et reposante" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Salle de Sieste</h4>
                                 <p>Ambiance calme et reposante</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="2" tabindex="0" role="button" aria-label="Ouvrir l'image: Éveil sensoriel">
+                        <div class="gallery-item-16-9" data-index="2" tabindex="0" role="button" aria-label="Ouvrir l'image: Éveil sensoriel">
                             <img src="assets/images/gallery/creche3.jpg" alt="Activités d'éveil sensoriel pour bébés" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Éveil Sensoriel</h4>
                                 <p>Activités de découverte</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="3" tabindex="0" role="button" aria-label="Ouvrir l'image: Repas nutritifs">
+                        <div class="gallery-item-16-9" data-index="3" tabindex="0" role="button" aria-label="Ouvrir l'image: Repas nutritifs">
                             <img src="assets/images/gallery/creche4.jpg" alt="Repas équilibrés pour les enfants" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Repas Équilibrés</h4>
@@ -2283,28 +3067,28 @@
                 <!-- Maternelle -->
                 <div id="gallery-maternelle" class="gallery-section-content" role="tabpanel" aria-labelledby="gallery-maternelle" hidden tabindex="0">
                     <div class="gallery-grid-16-9">
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="0" tabindex="0" role="button" aria-label="Ouvrir l'image: Classe maternelle">
+                        <div class="gallery-item-16-9" data-index="0" tabindex="0" role="button" aria-label="Ouvrir l'image: Classe maternelle">
                             <img src="assets/images/gallery/maternelle1.jpg" alt="Classe maternelle colorée et stimulante" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Classe Maternelle</h4>
                                 <p>Espace coloré et stimulant</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="1" tabindex="0" role="button" aria-label="Ouvrir l'image: Atelier créatif">
+                        <div class="gallery-item-16-9" data-index="1" tabindex="0" role="button" aria-label="Ouvrir l'image: Atelier créatif">
                             <img src="assets/images/gallery/maternelle2.jpg" alt="Atelier créatif pour enfants" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Atelier Créatif</h4>
                                 <p>Expression artistique libre</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="2" tabindex="0" role="button" aria-label="Ouvrir l'image: Apprentissage par le jeu">
+                        <div class="gallery-item-16-9" data-index="2" tabindex="0" role="button" aria-label="Ouvrir l'image: Apprentissage par le jeu">
                             <img src="assets/images/gallery/maternelle3.jpg" alt="Apprentissage par le jeu pédagogique" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Apprentissage par le Jeu</h4>
                                 <p>Matériel pédagogique ludique</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="3" tabindex="0" role="button" aria-label="Ouvrir l'image: Jardin pédagogique">
+                        <div class="gallery-item-16-9" data-index="3" tabindex="0" role="button" aria-label="Ouvrir l'image: Jardin pédagogique">
                             <img src="assets/images/gallery/maternelle4.jpg" alt="Jardin pédagogique pour la découverte de la nature" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Jardin Pédagogique</h4>
@@ -2317,28 +3101,28 @@
                 <!-- Primaire -->
                 <div id="gallery-primaire" class="gallery-section-content" role="tabpanel" aria-labelledby="gallery-primaire" hidden tabindex="0">
                     <div class="gallery-grid-16-9">
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="0" tabindex="0" role="button" aria-label="Ouvrir l'image: Salle de classe primaire">
+                        <div class="gallery-item-16-9" data-index="0" tabindex="0" role="button" aria-label="Ouvrir l'image: Salle de classe primaire">
                             <img src="assets/images/gallery/primaire1.jpg" alt="Salle de classe primaire moderne" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Salle de Classe Primaire</h4>
                                 <p>Environnement d'apprentissage moderne</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="1" tabindex="0" role="button" aria-label="Ouvrir l'image: Bibliothèque">
+                        <div class="gallery-item-16-9" data-index="1" tabindex="0" role="button" aria-label="Ouvrir l'image: Bibliothèque">
                             <img src="assets/images/gallery/primaire2.jpg" alt="Bibliothèque scolaire avec livres éducatifs" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Bibliothèque</h4>
                                 <p>Collection de livres éducatifs</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="2" tabindex="0" role="button" aria-label="Ouvrir l'image: Laboratoire scientifique">
+                        <div class="gallery-item-16-9" data-index="2" tabindex="0" role="button" aria-label="Ouvrir l'image: Laboratoire scientifique">
                             <img src="assets/images/gallery/primaire3.jpg" alt="Laboratoire scientifique pour expérimentations" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Laboratoire Scientifique</h4>
                                 <p>Expérimentation et découverte</p>
                             </div>
                         </div>
-                        <div class="gallery-item-16-9 ripple touch-feedback touch-glow" data-index="3" tabindex="0" role="button" aria-label="Ouvrir l'image: Salle informatique">
+                        <div class="gallery-item-16-9" data-index="3" tabindex="0" role="button" aria-label="Ouvrir l'image: Salle informatique">
                             <img src="assets/images/gallery/primaire4.jpg" alt="Salle informatique avec équipement technologique" class="gallery-image-16-9" width="400" height="225" loading="lazy">
                             <div class="gallery-caption">
                                 <h4>Salle Informatique</h4>
@@ -2349,10 +3133,10 @@
                 </div>
                 
                 <div class="gallery-controls">
-                    <button class="gallery-prev ripple touch-feedback touch-glow" aria-label="Image précédente">
+                    <button class="gallery-prev" aria-label="Image précédente">
                         <i class="fas fa-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <button class="gallery-next ripple touch-feedback touch-glow" aria-label="Image suivante">
+                    <button class="gallery-next" aria-label="Image suivante">
                         <i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -2361,7 +3145,7 @@
 
         <!-- Lightbox -->
         <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visionneuse d'image" hidden>
-            <button class="lightbox-close ripple touch-feedback touch-glow" aria-label="Fermer la visionneuse">
+            <button class="lightbox-close" aria-label="Fermer la visionneuse">
                 <i class="fas fa-times" aria-hidden="true"></i>
             </button>
             <div class="lightbox-content" id="lightboxContent">
@@ -2380,19 +3164,19 @@
                 </div>
                 
                 <div class="slogan-circle" aria-label="Piliers pédagogiques" role="region">
-                    <div class="slogan-item ripple touch-feedback touch-glow" data-slogan="amour" role="button" tabindex="0" aria-label="Pilier Amour - Cliquer pour plus d'informations">
+                    <div class="slogan-item" data-slogan="amour" role="button" tabindex="0" aria-label="Pilier Amour - Cliquer pour plus d'informations">
                         <i class="fas fa-heart fa-2x" aria-hidden="true"></i>
                         <h4>Amour</h4>
                     </div>
-                    <div class="slogan-item ripple touch-feedback touch-glow" data-slogan="travail" role="button" tabindex="0" aria-label="Pilier Travail - Cliquer pour plus d'informations">
+                    <div class="slogan-item" data-slogan="travail" role="button" tabindex="0" aria-label="Pilier Travail - Cliquer pour plus d'informations">
                         <i class="fas fa-hands-helping fa-2x" aria-hidden="true"></i>
                         <h4>Travail</h4>
                     </div>
-                    <div class="slogan-item ripple touch-feedback touch-glow" data-slogan="rigueur" role="button" tabindex="0" aria-label="Pilier Rigueur - Cliquer pour plus d'informations">
+                    <div class="slogan-item" data-slogan="rigueur" role="button" tabindex="0" aria-label="Pilier Rigueur - Cliquer pour plus d'informations">
                         <i class="fas fa-gem fa-2x" aria-hidden="true"></i>
                         <h4>Rigueur</h4>
                     </div>
-                    <div class="slogan-item ripple touch-feedback touch-glow" data-slogan="creativite" role="button" tabindex="0" aria-label="Pilier Créativité - Cliquer pour plus d'informations">
+                    <div class="slogan-item" data-slogan="creativite" role="button" tabindex="0" aria-label="Pilier Créativité - Cliquer pour plus d'informations">
                         <i class="fas fa-lightbulb fa-2x" aria-hidden="true"></i>
                         <h4>Créativité</h4>
                     </div>
@@ -2449,9 +3233,10 @@
             <div class="registration-container">
                 <h2 id="registration-title" style="font-size: 2.5rem; margin-bottom: 1rem;">Pré-inscription 2025-2026</h2>
                 <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
-                    Réservez dès maintenant la place de votre enfant pour la prochaine année scolaire
+                    Réservez dès maintenant la place de votre enfant pour la prochaine année scolaire.<br>
+                    <strong>Joyeuses Fêtes de fin d'année!</strong>
                 </p>
-                <a href="contact.html" class="btn btn-secondary ripple touch-feedback touch-glow" style="background: white; color: var(--primary);">
+                <a href="contact.html" class="btn btn-secondary" style="background: white; color: var(--primary);">
                     <i class="fas fa-calendar-plus"></i>
                     Pré-inscription en ligne
                 </a>
@@ -2477,7 +3262,7 @@
         </section>
     </main>
 
-    <!-- Footer de pedagogie avec effets ripple -->
+    <!-- Footer de pedagogie -->
     <footer class="main-footer" role="contentinfo">
         <div class="footer-content">
             <div class="footer-section">
@@ -2489,22 +3274,22 @@
                     </div>
                 </div>
                 <div class="footer-badges">
-                    <span class="badge ripple touch-feedback">🏆 École Certifiée</span>
-                    <span class="badge ripple touch-feedback">🌍 Bilingue Français-Anglais</span>
-                    <span class="badge ripple touch-feedback">👶 À partir de 2 mois</span>
+                    <span class="badge">🏆 École Certifiée</span>
+                    <span class="badge">🌍 Bilingue Français-Anglais</span>
+                    <span class="badge">👶 À partir de 2 mois</span>
                 </div>
                 
                 <div class="social-links-minimal">
-                    <a href="https://facebook.com/lesbullesdejoie" class="social-link-minimal ripple touch-feedback touch-glow" aria-label="Facebook Les Bulles de Joie" rel="noopener noreferrer" target="_blank">
+                    <a href="https://facebook.com/lesbullesdejoie" class="social-link-minimal" aria-label="Facebook Les Bulles de Joie" rel="noopener noreferrer" target="_blank">
                         <i class="fab fa-facebook-f" aria-hidden="true"></i>
                     </a>
-                    <a href="https://instagram.com/lesbullesdejoie" class="social-link-minimal ripple touch-feedback touch-glow" aria-label="Instagram Les Bulles de Joie" rel="noopener noreferrer" target="_blank">
+                    <a href="https://instagram.com/lesbullesdejoie" class="social-link-minimal" aria-label="Instagram Les Bulles de Joie" rel="noopener noreferrer" target="_blank">
                         <i class="fab fa-instagram" aria-hidden="true"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link-minimal ripple touch-feedback touch-glow" aria-label="TikTok Les Bulles de Joie" rel="noopener noreferrer" target="_blank">
+                    <a href="https://www.tiktok.com/@cspblesbullesdejoie" class="social-link-minimal" aria-label="TikTok Les Bulles de Joie" rel="noopener noreferrer" target="_blank">
                         <i class="fab fa-tiktok" aria-hidden="true"></i>
                     </a>
-                    <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link-minimal ripple touch-feedback touch-glow" aria-label="Localisation Les Bulles de Joie sur Google Maps" rel="noopener noreferrer" target="_blank">
+                    <a href="https://maps.app.goo.gl/Cz9oXhGhiR2T6czEA" class="social-link-minimal" aria-label="Localisation Les Bulles de Joie sur Google Maps" rel="noopener noreferrer" target="_blank">
                         <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -2519,11 +3304,11 @@
                     </div>
                     <div class="contact-line">
                         <i class="fas fa-envelope" aria-hidden="true"></i>
-                        <a href="mailto:lesbullesdejoie@gmail.com" style="color: var(--light); text-decoration: none;" class="ripple touch-feedback">lesbullesdejoie@gmail.com</a>
+                        <a href="mailto:lesbullesdejoie@gmail.com" style="color: var(--light); text-decoration: none;">lesbullesdejoie@gmail.com</a>
                     </div>
                     <div class="contact-line">
                         <i class="fas fa-phone" aria-hidden="true"></i>
-                        <a href="tel:+2290197919452" style="color: var(--light); text-decoration: none;" class="ripple touch-feedback">+229 01 97 91 94 52</a>
+                        <a href="tel:+2290197919452" style="color: var(--light); text-decoration: none;">+229 01 97 91 94 52</a>
                     </div>
                 </div>
             </div>
@@ -2546,16 +3331,16 @@
                 <h4>Liens Rapides</h4>
                 <div class="contact-info">
                     <div class="contact-line">
-                        <a href="#hero" style="color: var(--light); text-decoration: none;" class="ripple touch-feedback">Accueil</a>
+                        <a href="#hero" style="color: var(--light); text-decoration: none;">Accueil</a>
                     </div>
                     <div class="contact-line">
-                        <a href="pedagogie-activites.html" style="color: var(--light); text-decoration: none;" class="ripple touch-feedback">Pédagogie & Activités</a>
+                        <a href="#values" style="color: var(--light); text-decoration: none;">Nos Valeurs</a>
                     </div>
                     <div class="contact-line">
-                        <a href="tarifs-inscription.html" style="color: var(--light); text-decoration: none;" class="ripple touch-feedback">Tarifs & Inscription</a>
+                        <a href="#immersion" style="color: var(--light); text-decoration: none;">Immersion</a>
                     </div>
                     <div class="contact-line">
-                        <a href="contact.html" style="color: var(--light); text-decoration: none;" class="ripple touch-feedback">Contact</a>
+                        <a href="#cycles" style="color: var(--light); text-decoration: none;">Cycles</a>
                     </div>
                 </div>
             </div>
@@ -2567,6 +3352,7 @@
                 <p>Établissement certifié - Agrément Ministère de l'Éducation</p>
                 <p>2021 N°018/MASM/DC/SGM/DGAS/DFEA/SA/021SGG21</p>
                 <p>2022 N°045/MEMP/DC/SGM/DPP/SP/0223SGG22</p>
+                <p style="color: var(--christmas-gold);">🎄 Joyeux Noël et Bonne Année 2025! 🎄</p>
             </div>
             <div class="footer-credits">
                 <p>Année scolaire 2025-2026</p>
@@ -2581,7 +3367,38 @@
     <script defer>
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Intro Animation
+            // 1. Créer les flocons de Noël discrets
+            function createChristmasFlakes() {
+                const flakesContainer = document.getElementById('christmasFlakes');
+                if (!flakesContainer) return;
+                
+                for (let i = 0; i < 15; i++) {
+                    const flake = document.createElement('div');
+                    flake.className = 'christmas-flake';
+                    
+                    // Taille aléatoire
+                    const size = Math.random() * 6 + 3;
+                    flake.style.width = `${size}px`;
+                    flake.style.height = `${size}px`;
+                    
+                    // Position aléatoire
+                    flake.style.left = `${Math.random() * 100}vw`;
+                    
+                    // Opacité aléatoire
+                    flake.style.opacity = Math.random() * 0.1 + 0.05;
+                    
+                    // Animation
+                    const duration = Math.random() * 20 + 20;
+                    const delay = Math.random() * 10;
+                    flake.style.animation = `floatDown ${duration}s linear ${delay}s infinite`;
+                    
+                    flakesContainer.appendChild(flake);
+                }
+            }
+            
+            createChristmasFlakes();
+            
+            // 2. Intro Animation
             const intro = document.getElementById('intro-overlay');
             if (intro) {
                 setTimeout(() => {
@@ -2593,44 +3410,19 @@
                 }, 2500);
             }
             
-            // 2. Mobile Navigation avec effet ripple
+            // 3. Mobile Navigation
             const navToggle = document.querySelector('.nav-toggle');
             const navMenu = document.querySelector('.nav-menu');
             
             if (navToggle && navMenu) {
-                // Effet ripple pour le toggle button
-                navToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.addEventListener('click', () => {
                     navToggle.classList.toggle('active');
                     navMenu.classList.toggle('active');
-                    navToggle.setAttribute('aria-expanded', !isExpanded);
+                    
+                    const isExpanded = navToggle.classList.contains('active');
+                    navToggle.setAttribute('aria-expanded', isExpanded);
+                    
                     document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-                    
-                    // Créer l'effet ripple
-                    const ripple = document.createElement('span');
-                    const rect = navToggle.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        border-radius: 50%;
-                        background: rgba(255, 20, 147, 0.2);
-                        transform: scale(0);
-                        animation: ripple 0.6s linear;
-                        width: ${size}px;
-                        height: ${size}px;
-                        top: ${y}px;
-                        left: ${x}px;
-                    `;
-                    
-                    navToggle.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
                 });
                 
                 // Close menu on link click
@@ -2656,7 +3448,7 @@
                 });
             }
             
-            // 3. Slogan Interaction
+            // 4. Slogan Interaction
             const sloganItems = document.querySelectorAll('.slogan-item');
             const sloganContents = document.querySelectorAll('.slogan-content');
             
@@ -2699,7 +3491,7 @@
                 });
             });
             
-            // 4. Video Player
+            // 5. Video Player
             if (document.querySelector('#player')) {
                 const player = new Plyr('#player', {
                     controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
@@ -2711,7 +3503,7 @@
                 });
             }
             
-            // 5. Gallery System
+            // 6. Gallery System
             const categoryBtns = document.querySelectorAll('.category-btn');
             const gallerySections = document.querySelectorAll('.gallery-section-content');
             const galleryItems = document.querySelectorAll('.gallery-item-16-9');
@@ -2843,7 +3635,7 @@
                 }
             });
             
-            // 6. Scroll Animations
+            // 7. Scroll Animations
             if ('IntersectionObserver' in window) {
                 const observerOptions = {
                     threshold: 0.1,
@@ -2858,12 +3650,12 @@
                     });
                 }, observerOptions);
                 
-                document.querySelectorAll('.stat-card, .info-card, .gallery-item-16-9').forEach(el => {
+                document.querySelectorAll('.stat-card, .info-card, .gallery-item-16-9, .value-card, .immersion-card, .cycle-content').forEach(el => {
                     observer.observe(el);
                 });
             }
             
-            // 7. Header Scroll Effect
+            // 8. Header Scroll Effect
             let lastScroll = 0;
             const header = document.querySelector('.main-header');
             
@@ -2881,7 +3673,7 @@
                 }, { passive: true });
             }
             
-            // 8. Smooth Scrolling for Anchor Links
+            // 9. Smooth Scrolling for Anchor Links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
@@ -2891,7 +3683,7 @@
                         e.preventDefault();
                         const target = document.querySelector(href);
                         if (target) {
-                            const headerHeight = document.querySelector('.main-header')?.offsetHeight || 80;
+                            const headerHeight = document.querySelector('.main-header')?.offsetHeight || 84;
                             window.scrollTo({
                                 top: target.offsetTop - headerHeight,
                                 behavior: 'smooth'
@@ -2906,7 +3698,7 @@
                 });
             });
             
-            // 9. Lazy Loading Images
+            // 10. Lazy Loading Images
             if ('IntersectionObserver' in window) {
                 const imageObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -2935,26 +3727,13 @@
                 });
             }
             
-            // 10. Touch feedback for all interactive elements
-            const touchElements = document.querySelectorAll('.btn, .category-btn, .gallery-item-16-9, .slogan-item, .stat-card, .info-card, .social-link-minimal, .badge, .nav-link');
-            
-            touchElements.forEach(el => {
-                el.addEventListener('touchstart', function() {
-                    this.classList.add('touch-active');
-                }, { passive: true });
-                
-                el.addEventListener('touchend', function() {
-                    this.classList.remove('touch-active');
-                }, { passive: true });
-            });
-            
             // 11. Scroll indicator click
             const scrollIndicator = document.querySelector('.scroll-indicator');
             if (scrollIndicator) {
                 scrollIndicator.addEventListener('click', () => {
                     const nextSection = document.querySelector('.facade-section');
                     if (nextSection) {
-                        const headerHeight = document.querySelector('.main-header')?.offsetHeight || 80;
+                        const headerHeight = document.querySelector('.main-header')?.offsetHeight || 84;
                         window.scrollTo({
                             top: nextSection.offsetTop - headerHeight,
                             behavior: 'smooth'
@@ -2962,50 +3741,6 @@
                     }
                 });
             }
-            
-            // 12. Ripple effect for all ripple elements
-            const rippleElements = document.querySelectorAll('.ripple');
-            rippleElements.forEach(el => {
-                el.addEventListener('click', function(e) {
-                    // Create ripple element
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        border-radius: 50%;
-                        background: rgba(255, 255, 255, 0.3);
-                        transform: scale(0);
-                        animation: ripple 0.6s linear;
-                        width: ${size}px;
-                        height: ${size}px;
-                        top: ${y}px;
-                        left: ${x}px;
-                        pointer-events: none;
-                    `;
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-            
-            // Add ripple animation to style
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
         });
         
         // Window Resize Handler
@@ -3038,9 +3773,6 @@
             
             // Remove loading class
             document.body.classList.add('loaded');
-            
-            // Initialize touch feedback
-            document.body.classList.add('touch-ready');
         });
     </script>
     
