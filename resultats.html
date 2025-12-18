@@ -366,6 +366,17 @@
             color: var(--blanc);
         }
 
+        /* CANVAS CONFETTIS */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10002;
+        }
+
         .results-modal {
             display: none;
             position: fixed;
@@ -387,7 +398,7 @@
         .modal-content {
             background: var(--blanc);
             border-radius: var(--border-radius-lg);
-            max-width: 800px;
+            max-width: 1200px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -402,6 +413,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .modal-close {
@@ -422,6 +436,198 @@
 
         .modal-body {
             padding: 2rem;
+        }
+
+        /* STATISTIQUES CLASSE */
+        .class-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--rose);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--blanc);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--rose);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* CARTES ÉLÈVES */
+        .students-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .student-card {
+            background: var(--blanc);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--rose);
+        }
+
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-clair);
+        }
+
+        .student-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--noir);
+        }
+
+        .student-average {
+            font-size: 2rem;
+            font-weight: 800;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .average-excellent {
+            background: linear-gradient(135deg, var(--vert) 0%, #8bc34a 100%);
+            color: var(--noir);
+        }
+
+        .average-good {
+            background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%);
+            color: var(--blanc);
+        }
+
+        .average-needs-improvement {
+            background: linear-gradient(135deg, #ff8a80 0%, #f44336 100%);
+            color: var(--blanc);
+        }
+
+        .student-mention {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .mention-satisfaisant {
+            background: var(--vert);
+            color: var(--noir);
+        }
+
+        .mention-peu-satisfaisant {
+            background: #ff9800;
+            color: var(--blanc);
+        }
+
+        .student-comment {
+            background: var(--gris-clair);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--rose);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .student-notes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .note-item {
+            background: var(--blanc);
+            border: 2px solid var(--gris-moyen);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition-fast);
+        }
+
+        .note-item:hover {
+            border-color: var(--rose);
+            transform: translateY(-3px);
+        }
+
+        .note-subject {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .note-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--noir);
+        }
+
+        /* TABLEAU DE FÉLICITATIONS */
+        .celebration-card {
+            background: linear-gradient(135deg, var(--rose) 0%, var(--vert) 100%);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--blanc);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+            border: 4px solid var(--vert);
+        }
+
+        .celebration-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .celebration-message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .celebration-emojis {
+            font-size: 3rem;
+            margin: 1rem 0;
         }
 
         .results-table {
@@ -1463,6 +1669,10 @@
             .results-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            .celebration-title {
+                font-size: 2rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1548,6 +1758,24 @@
             .results-content {
                 padding: 2rem 1rem;
             }
+            
+            .student-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .student-average {
+                font-size: 1.5rem;
+            }
+            
+            .celebration-title {
+                font-size: 1.8rem;
+            }
+            
+            .celebration-emojis {
+                font-size: 2rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1589,6 +1817,18 @@
                 width: 60px;
                 height: 60px;
                 font-size: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .student-name {
+                font-size: 1.2rem;
+            }
+            
+            .student-notes {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -1679,6 +1919,9 @@
     </style>
 </head>
 <body>
+    <!-- Canvas pour confettis -->
+    <canvas id="confetti-canvas"></canvas>
+
     <!-- Animation d'introduction -->
     <div id="intro-overlay" class="intro-overlay">
         <div class="intro-container">
@@ -1914,7 +2157,7 @@
                     <div class="results-content">
                         <div class="results-disclaimer">
                             <i class="fas fa-info-circle"></i>
-                            Les résultats seront disponibles après le 12 Décembre 2025
+                            Les résultats sont disponibles pour la classe de CE1
                         </div>
                         
                         <div class="login-form" id="loginForm">
@@ -1925,7 +2168,7 @@
                                         type="text" 
                                         id="username" 
                                         class="form-input"
-                                        placeholder="Votre identifiant (ex: parent2025)"
+                                        placeholder="Votre identifiant (ex: CE1-...)"
                                         required
                                     >
                                     <i class="fas fa-user input-icon"></i>
@@ -1939,7 +2182,7 @@
                                         type="password" 
                                         id="password" 
                                         class="form-input"
-                                        placeholder="Votre mot de passe"
+                                        placeholder="Prénom de l'enfant (ex: stein)"
                                         required
                                     >
                                     <i class="fas fa-lock input-icon"></i>
@@ -1956,16 +2199,15 @@
                             <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
                                 <small>
                                     <i class="fas fa-key"></i> 
-                                    Vos identifiants vous ont été communiqués par SMS. 
-                                    En cas de problème, contactez l'école.
+                                    Identifiants : CE1... • Mot de passe : prénom de l'enfant
                                 </small>
                             </p>
                         </div>
                         
                         <div id="resultsDisplay" style="display: none;">
                             <div class="results-disclaimer" style="background: var(--rose); color: white;">
-                                <i class="fas fa-calendar-alt"></i>
-                                Disponibilité : Après 12 Décembre 2025 •
+                                <i class="fas fa-graduation-cap"></i>
+                                Connecté avec succès • Accès aux résultats CE1 activé
                             </div>
                             
                             <h3 style="margin: 2rem 0 1rem; color: var(--rose);">Classes Disponibles</h3>
@@ -1994,13 +2236,13 @@
                                 </div>
                                 
                                 <!-- CE1 -->
-                                <div class="class-card" data-class="CE1">
+                                <div class="class-card available" data-class="CE1">
                                     <div class="class-icon">
                                         <i class="fas fa-user-graduate"></i>
                                     </div>
                                     <h4>Cours Élémentaire 1 (CE1)</h4>
-                                    <div class="class-status status-pending">
-                                        <i class="fas fa-clock"></i> Bientôt disponible
+                                    <div class="class-status status-available">
+                                        <i class="fas fa-check-circle"></i> Résultats disponibles
                                     </div>
                                 </div>
                                 
@@ -2031,21 +2273,13 @@
         <div class="results-modal" id="resultsModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 id="modalTitle">Résultats - CI</h3>
+                    <h3 id="modalTitle">Résultats CE1 - Trimestre 1 2025-2026</h3>
                     <button class="modal-close" id="modalClose">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="no-results" id="resultsContent">
-                        <i class="fas fa-clock"></i>
-                        <h4>Résultats non disponibles</h4>
-                        <p>Les résultats de cette classe seront disponibles après le 12 Décembre 2025.</p>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
-                            <i class="fas fa-info-circle"></i>
-                            Vous pourrez consulter les notes, appréciations et statistiques détaillées.
-                        </p>
-                    </div>
+                <div class="modal-body" id="resultsContent">
+                    <!-- Contenu injecté dynamiquement -->
                 </div>
             </div>
         </div>
@@ -2287,6 +2521,220 @@
     </footer>
 
     <script>
+        // ===== DONNÉES DES ÉLÈVES CE1 =====
+        const CE1_STUDENTS = [
+            {
+                id: "CE1-001",
+                password: "fifame",
+                fullName: "AGBLO AGOND JIHOSSOU Fifamè",
+                average: 14.61,
+                mention: "Satisfaisant",
+                comment: "Félicitations pour ton tableau d'encouragement++.",
+                notes: {
+                    "Lecture": 19,
+                    "ES": 18.25,
+                    "EPS": 18,
+                    "Mathématiques": 16.75,
+                    "Ateliers": 17,
+                    "Poésie": 15,
+                    "EA Dessin": 12,
+                    "Anglais": 11,
+                    "Expression Écrite": 11,
+                    "EST": 13.75,
+                    "Dictée": 9
+                }
+            },
+            {
+                id: "CE1-002",
+                password: "emmanuel",
+                fullName: "AKYOH Emmanuel",
+                average: 10.45,
+                mention: "Peu Satisfaisant",
+                comment: "À améliorer.",
+                notes: {
+                    "Ateliers": 17,
+                    "ES": 15.25,
+                    "EPS": 15,
+                    "Poésie": 14,
+                    "EA Dessin": 13,
+                    "Expression Écrite": 10.25,
+                    "EST": 8.25,
+                    "Lecture": 7.75,
+                    "Anglais": 7.5,
+                    "Mathématiques": 5,
+                    "Dictée": 2
+                }
+            },
+            {
+                id: "CE1-003",
+                password: "yinki",
+                fullName: "AMADOU Yinki",
+                average: 13.93,
+                mention: "Peu Satisfaisant",
+                comment: "Bravo pour ton tableau de félicitations.",
+                notes: {
+                    "ES": 20,
+                    "Lecture": 18.5,
+                    "Ateliers": 17,
+                    "EPS": 17,
+                    "EST": 15.25,
+                    "Poésie": 15,
+                    "EA Dessin": 14,
+                    "Anglais": 12.5,
+                    "Expression Écrite": 11,
+                    "Mathématiques": 9,
+                    "Dictée": 4
+                }
+            },
+            {
+                id: "CE1-004",
+                password: "rahama",
+                fullName: "BANI Rahama",
+                average: 15.73,
+                mention: "Satisfaisant",
+                comment: "",
+                notes: {
+                    "ES": 19.5,
+                    "Lecture": 18,
+                    "Anglais": 17.5,
+                    "Ateliers": 17,
+                    "EST": 16.5,
+                    "EPS": 16,
+                    "Dictée": 15,
+                    "Poésie": 15,
+                    "Mathématiques": 14,
+                    "Expression Écrite": 12.5,
+                    "EA Dessin": 12
+                }
+            },
+            {
+                id: "CE1-005",
+                password: "noham",
+                fullName: "DAHOUGOU Noham",
+                average: 12.18,
+                mention: "Peu Satisfaisant",
+                comment: "À améliorer.",
+                notes: {
+                    "Ateliers": 17,
+                    "EPS": 16,
+                    "Lecture": 15.50,
+                    "Poésie": 15,
+                    "EST": 12,
+                    "EA Dessin": 11,
+                    "Expression Écrite": 10.50,
+                    "Anglais": 10,
+                    "Dictée": 10,
+                    "ES": 9.25,
+                    "Mathématiques": 7.75
+                }
+            },
+            {
+                id: "CE1-006",
+                password: "queen",
+                fullName: "EDAH Queen",
+                average: 12.93,
+                mention: "Peu Satisfaisant",
+                comment: "À améliorer.",
+                notes: {
+                    "Ateliers": 17,
+                    "EPS": 17,
+                    "ES": 15.50,
+                    "Poésie": 15,
+                    "Lecture": 14.75,
+                    "EA Dessin": 13,
+                    "Expression Écrite": 11.50,
+                    "Anglais": 10.5,
+                    "Dictée": 10,
+                    "EST": 9,
+                    "Mathématiques": 9
+                }
+            },
+            {
+                id: "CE1-007",
+                password: "mekaddishem",
+                fullName: "HOUEHOU Mékaddishem",
+                average: 16.43,
+                mention: "Satisfaisant",
+                comment: "🔥 Bravo pour ton tableau de félicitations 👍.",
+                notes: {
+                    "Mathématiques": 20,
+                    "ES": 18,
+                    "Anglais": 18,
+                    "Lecture": 17.5,
+                    "EST": 17.25,
+                    "Ateliers": 17,
+                    "EPS": 16,
+                    "Poésie": 15,
+                    "EA Dessin": 14,
+                    "Expression Écrite": 14,
+                    "Dictée": 14
+                }
+            },
+            {
+                id: "CE1-008",
+                password: "faith",
+                fullName: "PADONOU Faith",
+                average: 15.14,
+                mention: "Satisfaisant",
+                comment: "🔥 Félicitations pour ton tableau d'encouragement ✨.",
+                notes: {
+                    "EPS": 18,
+                    "Lecture": 17.5,
+                    "EST": 17.25,
+                    "Ateliers": 17,
+                    "Anglais": 16.5,
+                    "ES": 15.5,
+                    "Poésie": 15,
+                    "EA Dessin": 14,
+                    "Dictée": 13,
+                    "Mathématiques": 12.5,
+                    "Expression Écrite": 10.25
+                }
+            },
+            {
+                id: "CE1-009",
+                password: "peniel",
+                fullName: "SOVI Péniel",
+                average: 16.18,
+                mention: "Satisfaisant",
+                comment: "🔥 Félicitations pour ton tableau d'encouragement ✨.",
+                notes: {
+                    "ES": 19.25,
+                    "Lecture": 18.5,
+                    "Mathématiques": 18,
+                    "Anglais": 17.5,
+                    "Ateliers": 17,
+                    "EPS": 17,
+                    "Dictée": 15,
+                    "Poésie": 15,
+                    "EST": 14.25,
+                    "Expression Écrite": 13.5,
+                    "EA Dessin": 13
+                }
+            },
+            {
+                id: "CE1-010",
+                password: "naelle",
+                fullName: "TOSSAVI Naelle",
+                average: 15.48,
+                mention: "Satisfaisant",
+                comment: "💯 Bravo pour ton tableau de félicitations 🔥.",
+                notes: {
+                    "EST": 18,
+                    "Anglais": 18,
+                    "ES": 17.25,
+                    "Ateliers": 17,
+                    "EPS": 17,
+                    "Lecture": 17,
+                    "Poésie": 15,
+                    "EA Dessin": 14,
+                    "Expression Écrite": 13,
+                    "Dictée": 12,
+                    "Mathématiques": 12
+                }
+            }
+        ];
+
         // ===== GESTIONNAIRE DE GALERIE =====
         class GalleryManager {
             constructor() {
@@ -2382,6 +2830,98 @@
             }
         }
 
+        // ===== SYSTÈME DE CONFETTIS =====
+        class ConfettiSystem {
+            constructor() {
+                this.canvas = document.getElementById('confetti-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.animationId = null;
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            launch(particleCount = 150, duration = 3000) {
+                this.stop();
+                this.particles = [];
+                
+                const colors = [
+                    '#FF1493', '#A0FF4F', '#FFD700', '#00BFFF', '#FF69B4',
+                    '#32CD32', '#FF4500', '#9370DB', '#00CED1', '#FFA500'
+                ];
+
+                for (let i = 0; i < particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height - this.canvas.height,
+                        size: Math.random() * 10 + 5,
+                        speedX: Math.random() * 6 - 3,
+                        speedY: Math.random() * 3 + 2,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        shape: Math.random() > 0.5 ? 'circle' : 'square',
+                        rotation: Math.random() * 360,
+                        rotationSpeed: Math.random() * 10 - 5
+                    });
+                }
+
+                this.animate();
+                
+                setTimeout(() => {
+                    this.stop();
+                }, duration);
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                for (let i = 0; i < this.particles.length; i++) {
+                    const p = this.particles[i];
+                    
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    p.rotation += p.rotationSpeed;
+                    
+                    p.speedY += 0.05;
+                    
+                    this.ctx.save();
+                    this.ctx.translate(p.x, p.y);
+                    this.ctx.rotate(p.rotation * Math.PI / 180);
+                    this.ctx.fillStyle = p.color;
+                    
+                    if (p.shape === 'circle') {
+                        this.ctx.beginPath();
+                        this.ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                    } else {
+                        this.ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                    }
+                    
+                    this.ctx.restore();
+                    
+                    if (p.y > this.canvas.height) {
+                        p.y = 0 - p.size;
+                        p.x = Math.random() * this.canvas.width;
+                        p.speedY = Math.random() * 3 + 2;
+                    }
+                }
+                
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+
+            stop() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                    this.animationId = null;
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                }
+            }
+        }
+
         // ===== COMPTE À REBOURS IMPRESSIONNANT =====
         class CountdownTimer {
             constructor(targetDate) {
@@ -2423,11 +2963,10 @@
                 
                 if (oldValue !== newValue) {
                     element.style.animation = 'none';
-                    element.offsetHeight; // Trigger reflow
+                    element.offsetHeight;
                     element.style.animation = 'countUp 0.5s ease-out';
                     element.textContent = newValue < 10 ? '0' + newValue : newValue;
                     
-                    // Effet de scintillement
                     this.createSparkle(element);
                 }
             }
@@ -2522,7 +3061,7 @@
             }
         }
 
-        // ===== SYSTÈME DE RÉSULTATS =====
+        // ===== SYSTÈME DE RÉSULTATS CORRIGÉ =====
         class ResultsSystem {
             constructor() {
                 this.loginForm = document.getElementById('loginForm');
@@ -2537,6 +3076,8 @@
                 this.modalClose = document.getElementById('modalClose');
                 this.modalTitle = document.getElementById('modalTitle');
                 this.resultsContent = document.getElementById('resultsContent');
+                this.confettiSystem = new ConfettiSystem();
+                this.currentStudent = null; // Stocker l'élève connecté
                 this.init();
             }
 
@@ -2546,7 +3087,6 @@
             }
 
             setupEventListeners() {
-                // Toggle mot de passe
                 this.passwordToggle.addEventListener('click', () => {
                     const type = this.passwordInput.type === 'password' ? 'text' : 'password';
                     this.passwordInput.type = type;
@@ -2555,7 +3095,6 @@
                         '<i class="fas fa-eye-slash"></i>';
                 });
 
-                // Connexion
                 this.loginBtn.addEventListener('click', () => this.login());
                 this.usernameInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.login();
@@ -2564,18 +3103,19 @@
                     if (e.key === 'Enter') this.login();
                 });
 
-                // Déconnexion
                 this.logoutBtn.addEventListener('click', () => this.logout());
 
-                // Clic sur les cartes de classe
                 this.classCards.forEach(card => {
                     card.addEventListener('click', () => {
                         const className = card.getAttribute('data-class');
-                        this.showClassResults(className);
+                        if (className === 'CE1' && card.classList.contains('available')) {
+                            this.showCurrentStudentResults();
+                        } else if (!card.classList.contains('available')) {
+                            this.showNotification('Cette classe n\'est pas encore disponible', 'warning');
+                        }
                     });
                 });
 
-                // Fermeture modal
                 this.modalClose.addEventListener('click', () => this.closeModal());
                 this.resultsModal.addEventListener('click', (e) => {
                     if (e.target === this.resultsModal) this.closeModal();
@@ -2589,29 +3129,35 @@
             }
 
             checkSession() {
-                const isLoggedIn = localStorage.getItem('resultsLoggedIn') === 'true';
-                if (isLoggedIn) {
-                    this.showResults();
+                const savedStudentId = localStorage.getItem('currentStudentId');
+                if (savedStudentId) {
+                    const student = CE1_STUDENTS.find(s => s.id === savedStudentId);
+                    if (student) {
+                        this.currentStudent = student;
+                        this.showResults();
+                    }
                 }
             }
 
             login() {
                 const username = this.usernameInput.value.trim();
-                const password = this.passwordInput.value.trim();
+                const password = this.passwordInput.value.trim().toLowerCase();
 
                 if (!username || !password) {
                     this.showNotification('Veuillez remplir tous les champs', 'warning');
                     return;
                 }
 
-                // Simulation de connexion - En production, vous connecterez à un backend
-                if (username && password) {
-                    localStorage.setItem('resultsLoggedIn', 'true');
-                    localStorage.setItem('resultsUsername', username);
+                // Chercher l'élève correspondant
+                const student = CE1_STUDENTS.find(s => 
+                    s.id === username && s.password === password
+                );
+
+                if (student) {
+                    this.currentStudent = student;
+                    localStorage.setItem('currentStudentId', student.id);
                     this.showResults();
-                    this.showNotification('Connexion réussie !', 'success');
-                    
-                    // Effet Ripple
+                    this.showNotification(`Bienvenue ${student.fullName.split(' ').pop()} !`, 'success');
                     this.createRippleEffect(this.loginBtn);
                 } else {
                     this.showNotification('Identifiants incorrects', 'error');
@@ -2619,8 +3165,8 @@
             }
 
             logout() {
-                localStorage.removeItem('resultsLoggedIn');
-                localStorage.removeItem('resultsUsername');
+                this.currentStudent = null;
+                localStorage.removeItem('currentStudentId');
                 this.loginForm.style.display = 'block';
                 this.resultsDisplay.style.display = 'none';
                 this.usernameInput.value = '';
@@ -2628,63 +3174,152 @@
                 this.passwordInput.type = 'password';
                 this.passwordToggle.innerHTML = '<i class="fas fa-eye"></i>';
                 this.showNotification('Déconnexion réussie', 'info');
+                this.confettiSystem.stop();
             }
 
             showResults() {
                 this.loginForm.style.display = 'none';
                 this.resultsDisplay.style.display = 'block';
+                
+                // Mettre à jour le message pour indiquer quel élève est connecté
+                if (this.currentStudent) {
+                    const welcomeMessage = document.createElement('div');
+                    welcomeMessage.className = 'results-disclaimer';
+                    welcomeMessage.style.background = 'var(--vert)';
+                    welcomeMessage.style.color = 'var(--noir)';
+                    welcomeMessage.innerHTML = `
+                        <i class="fas fa-user-check"></i>
+                        Connecté en tant que : ${this.currentStudent.fullName}
+                    `;
+                    
+                    // Insérer le message après le header
+                    const resultsContent = document.querySelector('.results-content');
+                    const existingDisclaimer = resultsContent.querySelector('.results-disclaimer');
+                    if (existingDisclaimer) {
+                        existingDisclaimer.remove();
+                    }
+                    resultsContent.insertBefore(welcomeMessage, resultsContent.children[0]);
+                }
             }
 
-            showClassResults(className) {
-                const classNames = {
-                    'CI': "Cours d'Initiation",
-                    'CP': "Cours Préparatoire",
-                    'CE1': "Cours Élémentaire 1",
-                    'CE2': "Cours Élémentaire 2"
-                };
+            showCurrentStudentResults() {
+                if (!this.currentStudent) {
+                    this.showNotification('Veuillez vous connecter', 'warning');
+                    return;
+                }
 
-                this.modalTitle.textContent = `Résultats - ${classNames[className]}`;
+                this.modalTitle.textContent = `Mes Résultats - ${this.currentStudent.fullName}`;
                 
-                // Contenu simulé - À remplacer par les vraies données
-                const currentDate = new Date();
-                const targetDate = new Date('December 15, 2025');
+                const student = this.currentStudent;
                 
-                if (currentDate < targetDate) {
-                    this.resultsContent.innerHTML = `
-                        <i class="fas fa-clock"></i>
-                        <h4>Résultats non disponibles</h4>
-                        <p>Les résultats de ${classNames[className]} seront disponibles à partir du 15 Décembre 2025.</p>
-                        <div style="margin-top: 2rem; padding: 1rem; background: var(--gris-clair); border-radius: var(--border-radius);">
-                            <h5 style="color: var(--rose); margin-bottom: 0.5rem;">Informations importantes :</h5>
-                            <ul style="text-align: left; padding-left: 1.5rem; margin-top: 0.5rem;">
-                                <li>Disponibilité : 15 - 20 Décembre 2025</li>
-                                <li>Horaires : 08:00 - 18:00</li>
-                                <li>Accès via vos identifiants personnels</li>
-                                <li>Contact : +229 01 97 91 94 52</li>
-                            </ul>
+                const averageClass = student.average >= 15 ? 'average-excellent' : 
+                                   student.average >= 13 ? 'average-good' : 
+                                   'average-needs-improvement';
+                
+                const mentionClass = student.mention === 'Satisfaisant' ? 'mention-satisfaisant' : 'mention-peu-satisfaisant';
+                
+                const isCelebration = student.comment.toLowerCase().includes('félicitations') || 
+                                     student.comment.toLowerCase().includes('encouragement');
+                
+                let notesHtml = '';
+                Object.entries(student.notes).forEach(([subject, note]) => {
+                    notesHtml += `
+                        <div class="note-item">
+                            <div class="note-subject">${subject}</div>
+                            <div class="note-value">${note}</div>
                         </div>
                     `;
-                } else {
-                    this.resultsContent.innerHTML = `
-                        <h4 style="color: var(--vert); margin-bottom: 1rem;">
-                            <i class="fas fa-check-circle"></i> Résultats disponibles
-                        </h4>
-                        <p>Les résultats sont en cours de préparation et seront publiés très prochainement.</p>
-                        <div style="margin-top: 2rem; text-align: left;">
-                            <p><strong>Discipline:</strong> Évaluation en cours</p>
-                            <p><strong>Moyenne:</strong> En attente</p>
-                            <p><strong>Statut:</strong> Publication imminente</p>
+                });
+                
+                let html = `
+                    <div class="student-card">
+                        <div class="student-header">
+                            <div>
+                                <h2 class="student-name">${student.fullName}</h2>
+                                <div class="${mentionClass} student-mention">
+                                    <i class="fas fa-${student.mention === 'Satisfaisant' ? 'star' : 'exclamation-circle'}"></i>
+                                    ${student.mention}
+                                </div>
+                            </div>
+                            <div class="student-average ${averageClass}">
+                                ${student.average.toFixed(2)}/20
+                                <i class="fas fa-${student.average >= 15 ? 'trophy' : student.average >= 13 ? 'chart-line' : 'chart-bar'}"></i>
+                            </div>
+                        </div>
+                        
+                        ${student.comment ? `
+                            <div class="student-comment">
+                                <i class="fas fa-comment"></i> ${student.comment}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="student-notes">
+                            ${notesHtml}
+                        </div>
+                    </div>
+                `;
+                
+                if (isCelebration) {
+                    const celebrationType = student.comment.toLowerCase().includes('félicitations') ? 
+                                          'TABLEAU DE FÉLICITATIONS' : 'TABLEAU D\'ENCOURAGEMENT';
+                    
+                    html += `
+                        <div class="celebration-card">
+                            <div class="celebration-emojis">
+                                ${celebrationType.includes('FÉLICITATIONS') ? '🏆✨💯🎉🌟' : '👏🔥🚀💪⭐'}
+                            </div>
+                            <h2 class="celebration-title">${celebrationType}</h2>
+                            <p class="celebration-message">
+                                ${student.fullName.split(' ').pop()} ! ${student.comment}
+                            </p>
+                            <div class="celebration-emojis">
+                                ${celebrationType.includes('FÉLICITATIONS') ? '🎯🏅🥇👑💐' : '🌈🌠🎊🤗📈'}
+                            </div>
+                            <button class="btn btn-primary" onclick="window.resultsManager.launchConfetti()" style="margin-top: 1rem;">
+                                <i class="fas fa-party-horn"></i> Lancer les confettis !
+                            </button>
                         </div>
                     `;
                 }
                 
+                // Ajouter des statistiques personnelles
+                const totalNotes = Object.values(student.notes).length;
+                const sumNotes = Object.values(student.notes).reduce((a, b) => a + b, 0);
+                const moyenne = sumNotes / totalNotes;
+                const meilleureNote = Math.max(...Object.values(student.notes));
+                const pireNote = Math.min(...Object.values(student.notes));
+                
+                html += `
+                    <div class="class-stats" style="margin-top: 2rem;">
+                        <div class="stat-item">
+                            <div class="stat-number">${moyenne.toFixed(2)}</div>
+                            <div class="stat-label">Moyenne personnelle</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${meilleureNote}</div>
+                            <div class="stat-label">Meilleure note</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${pireNote}</div>
+                            <div class="stat-label">Note à améliorer</div>
+                        </div>
+                    </div>
+                `;
+                
+                this.resultsContent.innerHTML = html;
                 this.resultsModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+            }
+
+            launchConfetti() {
+                this.confettiSystem.launch(200, 5000);
+                this.showNotification('Confettis lancés ! 🎉', 'success');
             }
 
             closeModal() {
                 this.resultsModal.classList.remove('active');
                 document.body.style.overflow = '';
+                this.confettiSystem.stop();
             }
 
             createRippleEffect(element) {
@@ -2719,7 +3354,7 @@
             
             buttons.forEach(button => {
                 button.addEventListener('click', function(e) {
-                    if (this.classList.contains('ripple')) return; // Évite les doublons
+                    if (this.classList.contains('ripple')) return;
                     
                     const ripple = document.createElement('span');
                     const rect = this.getBoundingClientRect();
@@ -2784,7 +3419,6 @@
                     });
                 });
 
-                // Header scroll effect
                 let lastScrollY = window.scrollY;
                 const header = document.querySelector('.main-header');
 
@@ -2801,7 +3435,6 @@
             }
 
             setupEventListeners() {
-                // Effets interactifs sur les cartes
                 document.querySelectorAll('.stat-card, .teacher-card, .info-item, .countdown-item').forEach(card => {
                     card.addEventListener('mouseenter', () => {
                         card.style.transform = 'translateY(-10px)';
@@ -2812,7 +3445,6 @@
                     });
                 });
 
-                // Effets sur les badges
                 document.querySelectorAll('.slogan-item, .badge').forEach(badge => {
                     badge.addEventListener('mouseenter', () => {
                         badge.style.transform = 'translateY(-5px)';
@@ -2823,7 +3455,6 @@
                     });
                 });
 
-                // Navigation au clavier améliorée
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         if (document.querySelector('.lightbox.active')) {
@@ -2840,7 +3471,6 @@
             }
 
             initCountdown() {
-                // Date cible : 15 Décembre 2025
                 const targetDate = 'December 15, 2025 08:00:00';
                 this.countdownTimer = new CountdownTimer(targetDate);
             }
@@ -2868,6 +3498,10 @@
                         'info'
                     );
                 }, 1000);
+            }
+
+            launchConfetti() {
+                this.resultsSystem.launchConfetti();
             }
         }
 
