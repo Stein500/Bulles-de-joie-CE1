@@ -3,42 +3,11 @@
   "short_name": "Bulles de Joie",
   "description": "École bilingue d'excellence à Parakou : Crèche, Garderie, Maternelle et Primaire Bilingue",
   "start_url": "/index.html",
-  "scope": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#FF1493",
   "orientation": "portrait-primary",
   "icons": [
-    {
-      "src": "/android-icon-36x36.png",
-      "sizes": "36x36",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/android-icon-48x48.png",
-      "sizes": "48x48",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/android-icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/android-icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/android-icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
     {
       "src": "/android-icon-192x192.png",
       "sizes": "192x192",
@@ -54,36 +23,18 @@
   ],
   "categories": ["education", "school", "kids"],
   "lang": "fr-BJ",
-  "dir": "ltr",
-  "prefer_related_applications": false,
   "shortcuts": [
     {
-      "name": "Nous contacter",
+      "name": "Contact",
       "short_name": "Contact",
       "description": "Contactez l'école",
-      "url": "/contact.html",
-      "icons": [{ "src": "/android-icon-96x96.png", "sizes": "96x96" }]
+      "url": "/contact.html"
     },
     {
-      "name": "Tarifs & Inscription",
+      "name": "Inscription",
       "short_name": "Inscription",
       "description": "Tarifs et inscription",
-      "url": "/tarifs-inscription.html",
-      "icons": [{ "src": "/android-icon-96x96.png", "sizes": "96x96" }]
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/assets/images/screenshot-mobile.jpg",
-      "sizes": "360x640",
-      "type": "image/jpeg",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/assets/images/screenshot-desktop.jpg",
-      "sizes": "1280x720",
-      "type": "image/jpeg",
-      "form_factor": "wide"
+      "url": "/tarifs-inscription.html"
     }
   ]
 }

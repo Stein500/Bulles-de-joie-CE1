@@ -1,26 +1,29 @@
 // ============================================
-// SERVICE WORKER - Les Bulles de Joie PWA
-// Version 2.1 avec offline.html intégré
+// SERVICE WORKER - Les Bulles de Joie
+// Version: 2.5 - Optimisée pour PWA
 // ============================================
 
-const CACHE_NAME = 'bulles-de-joie-v2.1';
-const STATIC_CACHE = 'static-v2.1';
-const DYNAMIC_CACHE = 'dynamic-v2.1';
+const CACHE_NAME = 'bulles-de-joie-v2.5';
+const STATIC_CACHE = 'static-v2.5';
+const DYNAMIC_CACHE = 'dynamic-v2.5';
 
-// Fichiers à mettre en cache lors de l'installation
+// ============================================
+// FICHIERS À METTRE EN CACHE
+// ============================================
 const STATIC_FILES = [
+  // Pages principales
   '/',
   '/index.html',
+  '/offline.html',
   '/contact.html',
   '/pedagogie-activites.html',
   '/tarifs-inscription.html',
   '/resultats.html',
   '/security-policy.html',
   '/security-hall-of-fame.html',
-  '/offline.html',  // NOUVEAU : Page hors ligne
-  '/manifest.json',
   
-  // Icônes PWA
+  // Manifest et icônes
+  '/manifest.json',
   '/android-icon-36x36.png',
   '/android-icon-48x48.png',
   '/android-icon-72x72.png',
@@ -28,266 +31,319 @@ const STATIC_FILES = [
   '/android-icon-144x144.png',
   '/android-icon-192x192.png',
   '/android-chrome-512x512.png',
-  
-  // Favicons (si existants)
+  '/apple-touch-icon.png',
   '/favicon.ico',
   '/favicon-16x16.png',
   '/favicon-32x32.png',
-  '/apple-touch-icon.png',
   '/safari-pinned-tab.svg',
   
-  // Police de secours pour offline
-  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fredoka+One&display=swap'
+  // LOGO ESSENTIEL - CORRIGEZ LE CHEMIN SI NÉCESSAIRE
+  '/assets/images/logo.png',
+  
+  // Fonts critiques
+  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fredoka+One&display=swap'
 ];
 
 // ============================================
-// INSTALLATION DU SERVICE WORKER
+// INSTALLATION
 // ============================================
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] 📦 Installation en cours...');
+  console.log('[SW] 📦 Installation en cours...');
   
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
-        console.log('[Service Worker] 💾 Mise en cache des fichiers statiques');
-        return cache.addAll(STATIC_FILES.map(url => {
-          // Gestion des erreurs pour chaque fichier
-          return cache.add(url).catch(error => {
-            console.warn(`[Service Worker] ⚠️ Impossible de mettre en cache ${url}:`, error);
-            return Promise.resolve();
-          });
-        }));
-      })
-      .then(() => {
-        console.log('[Service Worker] ✅ Installation terminée');
-        return self.skipWaiting();
-      })
-      .catch((error) => {
-        console.error('[Service Worker] ❌ Erreur lors de l\'installation:', error);
-      })
+    (async () => {
+      try {
+        const cache = await caches.open(STATIC_CACHE);
+        console.log('[SW] 💾 Mise en cache des fichiers statiques');
+        
+        // Mettre en cache les fichiers critiques
+        await cache.addAll(STATIC_FILES);
+        console.log('[SW] ✅ Installation terminée');
+        
+        // Activer immédiatement
+        await self.skipWaiting();
+      } catch (error) {
+        console.error('[SW] ❌ Erreur lors de l\'installation:', error);
+      }
+    })()
   );
 });
 
 // ============================================
-// ACTIVATION DU SERVICE WORKER
+// ACTIVATION
 // ============================================
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] 🔄 Activation en cours...');
-  
-  // Nettoyer les anciens caches
-  const cacheWhitelist = [STATIC_CACHE, DYNAMIC_CACHE];
+  console.log('[SW] 🔄 Activation en cours...');
   
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (!cacheWhitelist.includes(cacheName)) {
-              console.log('[Service Worker] 🗑️ Suppression de l\'ancien cache:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
-      .then(() => {
-        console.log('[Service Worker] ✅ Activation terminée');
-        return self.clients.claim();
-      })
-      .then(() => {
-        // Envoyer un message à tous les clients pour les informer
-        return self.clients.matchAll().then(clients => {
-          clients.forEach(client => {
-            client.postMessage({
-              type: 'SW_ACTIVATED',
-              message: 'Service Worker activé avec succès!'
-            });
-          });
+    (async () => {
+      // Supprimer les anciens caches
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames.map(cacheName => {
+          if (![STATIC_CACHE, DYNAMIC_CACHE, CACHE_NAME].includes(cacheName)) {
+            console.log(`[SW] 🗑️ Suppression de l'ancien cache: ${cacheName}`);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+      
+      // Prendre le contrôle de tous les clients
+      await self.clients.claim();
+      console.log('[SW] ✅ Activation terminée');
+      
+      // Informer les clients
+      const clients = await self.clients.matchAll();
+      clients.forEach(client => {
+        client.postMessage({
+          type: 'SW_ACTIVATED',
+          message: 'Service Worker activé et prêt'
         });
-      })
+      });
+    })()
   );
 });
 
 // ============================================
-// STRATÉGIE DE MISE EN CACHE INTELLIGENTE
+// STRATÉGIE DE MISE EN CACHE
 // ============================================
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   
-  // Ignorer les requêtes non-GET et les requêtes cross-origin (sauf les fonts Google)
+  // Ignorer les non-GET
   if (request.method !== 'GET') return;
   
   // Gestion spéciale pour les fonts Google
-  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com') {
-    event.respondWith(
-      caches.match(request)
-        .then(cachedResponse => {
-          if (cachedResponse) return cachedResponse;
-          return fetch(request)
-            .then(response => {
-              // Mettre en cache la police
-              const responseClone = response.clone();
-              caches.open(DYNAMIC_CACHE)
-                .then(cache => cache.put(request, responseClone));
-              return response;
-            })
-            .catch(() => {
-              // Retourner une police de secours
-              return new Response('', {
-                headers: { 'Content-Type': 'text/css' }
-              });
-            });
-        })
-    );
+  if (url.origin.includes('fonts.googleapis.com') || url.origin.includes('fonts.gstatic.com')) {
+    event.respondWith(serveFonts(request));
     return;
   }
   
-  // Ignorer les autres requêtes cross-origin
+  // Ignorer les autres cross-origin
   if (!url.origin.startsWith(self.location.origin)) return;
   
-  // Stratégie: Cache First pour les pages HTML
+  // Stratégie différente selon le type
   if (request.headers.get('Accept').includes('text/html')) {
-    event.respondWith(
-      caches.match(request)
-        .then((cachedResponse) => {
-          // Si la page est en cache, la retourner immédiatement
-          if (cachedResponse) {
-            // Mettre à jour le cache en arrière-plan
-            event.waitUntil(
-              fetch(request)
-                .then((networkResponse) => {
-                  if (networkResponse.ok) {
-                    return caches.open(DYNAMIC_CACHE)
-                      .then((cache) => cache.put(request, networkResponse.clone()));
-                  }
-                })
-                .catch(() => {
-                  // Échec réseau, on garde la version en cache
-                })
-            );
-            return cachedResponse;
-          }
-          
-          // Sinon, aller sur le réseau
-          return fetch(request)
-            .then((networkResponse) => {
-              // Vérifier si la réponse est valide
-              if (!networkResponse || networkResponse.status !== 200) {
-                return caches.match('/offline.html');
-              }
-              
-              // Mettre en cache pour la prochaine fois
-              const responseClone = networkResponse.clone();
-              caches.open(DYNAMIC_CACHE)
-                .then((cache) => cache.put(request, responseClone));
-              
-              return networkResponse;
-            })
-            .catch(() => {
-              // Réseau indisponible, retourner offline.html
-              return caches.match('/offline.html');
-            });
-        })
-    );
+    event.respondWith(serveHtml(request));
     return;
   }
   
-  // Stratégie: Cache Only pour les icônes et manifest
-  if (url.pathname.includes('android-icon') || 
+  if (url.pathname.includes('logo.png') || 
       url.pathname.includes('favicon') || 
       url.pathname.endsWith('manifest.json')) {
-    event.respondWith(
-      caches.match(request)
-        .then((cachedResponse) => {
-          return cachedResponse || fetch(request);
-        })
-    );
+    event.respondWith(serveCriticalAssets(request));
     return;
   }
   
-  // Stratégie: Cache First pour les CSS et JS intégrés
   if (request.url.includes('.css') || request.url.includes('.js')) {
-    event.respondWith(
-      caches.match(request)
-        .then(cachedResponse => {
-          if (cachedResponse) return cachedResponse;
-          return fetch(request);
-        })
-    );
+    event.respondWith(serveCssJs(request));
     return;
   }
   
-  // Pour tout le reste: Network First (sans mise en cache des images par défaut)
-  event.respondWith(
-    fetch(request)
-      .then((networkResponse) => {
-        // Pour les images importantes, on peut les mettre en cache
-        if (request.url.includes('/assets/images/logo') || 
-            request.url.includes('/assets/images/favicon')) {
-          const responseClone = networkResponse.clone();
-          caches.open(DYNAMIC_CACHE)
-            .then(cache => cache.put(request, responseClone));
-        }
-        return networkResponse;
-      })
-      .catch(() => {
-        // Réseau indisponible, essayer le cache
-        return caches.match(request)
-          .then((cachedResponse) => {
-            if (cachedResponse) {
-              return cachedResponse;
-            }
-            
-            // Pour les images, retourner une image de secours
-            if (request.url.includes('.jpg') || request.url.includes('.png') || request.url.includes('.webp')) {
-              return new Response(
-                `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
-                  <rect width="400" height="300" fill="#f0f0f0"/>
-                  <text x="200" y="150" text-anchor="middle" font-family="Arial" font-size="16" fill="#666">
-                    Image non disponible hors ligne
-                  </text>
-                  <text x="200" y="170" text-anchor="middle" font-family="Arial" font-size="12" fill="#999">
-                    Les Bulles de Joie
-                  </text>
-                </svg>`,
-                {
-                  headers: {
-                    'Content-Type': 'image/svg+xml',
-                    'Cache-Control': 'no-cache'
-                  }
-                }
-              );
-            }
-            
-            return new Response('Ressource non disponible hors ligne', {
-              status: 503,
-              statusText: 'Service Unavailable',
-              headers: new Headers({
-                'Content-Type': 'text/plain'
-              })
-            });
-          });
-      })
-  );
+  // Par défaut: Network First
+  event.respondWith(serveDefault(request));
 });
 
 // ============================================
-// SYNC EN ARRIÈRE-PLAN
+// FONCTIONS DE STRATÉGIE
+// ============================================
+
+// HTML: Cache First avec mise à jour en fond
+async function serveHtml(request) {
+  try {
+    // Essayer le cache d'abord
+    const cachedResponse = await caches.match(request);
+    
+    if (cachedResponse) {
+      // Mettre à jour en arrière-plan
+      event.waitUntil(
+        updateCache(request).catch(() => {
+          // Échec silencieux
+        })
+      );
+      return cachedResponse;
+    }
+    
+    // Sinon, réseau avec mise en cache
+    return await fetchAndCache(request, DYNAMIC_CACHE);
+  } catch (error) {
+    console.log('[SW] 📵 Hors ligne pour HTML, retour offline.html');
+    const offlinePage = await caches.match('/offline.html');
+    return offlinePage || new Response('Hors ligne', { status: 503 });
+  }
+}
+
+// Assets critiques: Cache Only
+async function serveCriticalAssets(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  
+  try {
+    return await fetchAndCache(request, STATIC_CACHE);
+  } catch {
+    // Fallback pour le logo
+    if (request.url.includes('logo.png')) {
+      return new Response(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+          <rect width="60" height="60" rx="30" fill="#FF1493"/>
+          <circle cx="30" cy="25" r="10" fill="white"/>
+          <circle cx="30" cy="25" r="8" fill="#FF1493" opacity="0.8"/>
+          <text x="30" y="45" text-anchor="middle" fill="white" font-family="Arial" font-size="10" font-weight="bold">BDJ</text>
+        </svg>`,
+        { headers: { 'Content-Type': 'image/svg+xml' } }
+      );
+    }
+    return new Response('', { status: 404 });
+  }
+}
+
+// CSS/JS: Cache First
+async function serveCssJs(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  
+  try {
+    return await fetch(request);
+  } catch {
+    return new Response('', { 
+      status: 404,
+      headers: { 'Content-Type': 'text/css' }
+    });
+  }
+}
+
+// Fonts: Cache avec réseau
+async function serveFonts(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  
+  try {
+    const response = await fetch(request);
+    const cache = await caches.open(DYNAMIC_CACHE);
+    await cache.put(request, response.clone());
+    return response;
+  } catch {
+    return new Response('', { 
+      headers: { 'Content-Type': 'text/css' }
+    });
+  }
+}
+
+// Default: Network First
+async function serveDefault(request) {
+  try {
+    const response = await fetch(request);
+    
+    // Mettre en cache certaines images
+    if (response.ok && request.url.includes('/assets/images/')) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      await cache.put(request, response.clone());
+    }
+    
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    
+    // Image placeholder pour les images manquantes
+    if (request.url.match(/\.(jpg|jpeg|png|webp)$/)) {
+      return new Response(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+          <rect width="400" height="300" fill="#f0f0f0"/>
+          <circle cx="200" cy="120" r="50" fill="#FF1493" opacity="0.1"/>
+          <text x="200" y="150" text-anchor="middle" font-family="Arial" font-size="16" fill="#666">
+            Image non disponible hors ligne
+          </text>
+          <text x="200" y="170" text-anchor="middle" font-family="Arial" font-size="12" fill="#999">
+            Les Bulles de Joie
+          </text>
+        </svg>`,
+        { headers: { 'Content-Type': 'image/svg+xml' } }
+      );
+    }
+    
+    return new Response('Ressource non disponible hors ligne', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain' }
+    });
+  }
+}
+
+// ============================================
+// FONCTIONS UTILITAIRES
+// ============================================
+
+async function fetchAndCache(request, cacheName) {
+  const response = await fetch(request);
+  
+  if (response.ok) {
+    const cache = await caches.open(cacheName);
+    await cache.put(request, response.clone());
+  }
+  
+  return response;
+}
+
+async function updateCache(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      await cache.put(request, response.clone());
+    }
+  } catch (error) {
+    // Échec silencieux
+  }
+}
+
+// ============================================
+// MESSAGES ET SYNCHRONISATION
+// ============================================
+self.addEventListener('message', (event) => {
+  console.log('[SW] 📨 Message reçu:', event.data);
+  
+  switch (event.data?.type) {
+    case 'SKIP_WAITING':
+      self.skipWaiting();
+      break;
+      
+    case 'CLEAR_CACHE':
+      clearCaches().then(() => {
+        event.ports?.[0]?.postMessage({ success: true });
+      });
+      break;
+      
+    case 'GET_CACHE_INFO':
+      getCacheInfo().then(info => {
+        event.ports?.[0]?.postMessage({ info });
+      });
+      break;
+      
+    case 'SYNC_DATA':
+      syncOfflineData();
+      break;
+  }
+});
+
+// ============================================
+// BACKGROUND SYNC
 // ============================================
 self.addEventListener('sync', (event) => {
-  console.log('[Service Worker] 🔄 Synchronisation:', event.tag);
-  
   if (event.tag === 'sync-forms') {
-    event.waitUntil(syncFormData());
+    event.waitUntil(syncForms());
   }
 });
 
-async function syncFormData() {
-  try {
-    const db = await openDatabase();
-    const pendingForms = await db.getAll('pendingForms');
-    
-    for (const form of pendingForms) {
+async function syncForms() {
+  console.log('[SW] 🔄 Synchronisation des formulaires');
+  
+  // Récupérer les formulaires en attente
+  const db = await openDatabase();
+  const forms = await db.getAll('pendingForms');
+  
+  for (const form of forms) {
+    try {
       const response = await fetch('/api/submit-form', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -296,18 +352,18 @@ async function syncFormData() {
       
       if (response.ok) {
         await db.delete('pendingForms', form.id);
-        console.log(`[Service Worker] ✅ Formulaire ${form.id} synchronisé`);
+        console.log(`[SW] ✅ Formulaire ${form.id} synchronisé`);
         
-        // Envoyer une notification
+        // Notification
         self.registration.showNotification('Synchronisation réussie', {
-          body: 'Vos données ont été synchronisées',
+          body: 'Vos données ont été envoyées',
           icon: '/android-icon-192x192.png',
-          badge: '/android-icon-72x72.png'
+          tag: 'sync-success'
         });
       }
+    } catch (error) {
+      console.error('[SW] ❌ Erreur de synchronisation:', error);
     }
-  } catch (error) {
-    console.error('[Service Worker] ❌ Erreur de synchronisation:', error);
   }
 }
 
@@ -315,14 +371,12 @@ async function syncFormData() {
 // PUSH NOTIFICATIONS
 // ============================================
 self.addEventListener('push', (event) => {
-  console.log('[Service Worker] 📢 Notification push reçue');
-  
   if (!event.data) return;
   
   let data;
   try {
     data = event.data.json();
-  } catch (e) {
+  } catch {
     data = {
       title: 'Les Bulles de Joie',
       body: event.data.text() || 'Nouvelle notification'
@@ -334,231 +388,41 @@ self.addEventListener('push', (event) => {
     icon: '/android-icon-192x192.png',
     badge: '/android-icon-72x72.png',
     vibrate: [100, 50, 100],
-    data: {
-      url: data.url || '/',
-      timestamp: Date.now()
-    },
+    data: { url: data.url || '/' },
     actions: [
-      {
-        action: 'open',
-        title: 'Ouvrir',
-        icon: '/android-icon-36x36.png'
-      },
-      {
-        action: 'dismiss',
-        title: 'Fermer',
-        icon: '/android-icon-36x36.png'
-      }
-    ],
-    tag: data.tag || 'general-notification',
-    renotify: true,
-    requireInteraction: false
+      { action: 'open', title: 'Ouvrir', icon: '/android-icon-36x36.png' },
+      { action: 'dismiss', title: 'Fermer' }
+    ]
   };
   
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+  event.waitUntil(self.registration.showNotification(data.title, options));
 });
 
 self.addEventListener('notificationclick', (event) => {
-  console.log('[Service Worker] 🔔 Notification cliquée:', event.action);
-  
   event.notification.close();
   
-  if (event.action === 'dismiss') {
-    return;
-  }
-  
-  let url = event.notification.data.url || '/';
+  if (event.action === 'dismiss') return;
   
   event.waitUntil(
-    clients.matchAll({
-      type: 'window',
-      includeUncontrolled: true
-    }).then((clientList) => {
-      // Chercher un client ouvert
+    clients.matchAll({ type: 'window' }).then(clientList => {
       for (const client of clientList) {
-        if (client.url === url && 'focus' in client) {
+        if (client.url === event.notification.data.url && 'focus' in client) {
           return client.focus();
         }
       }
       
-      // Sinon, ouvrir une nouvelle fenêtre
       if (clients.openWindow) {
-        return clients.openWindow(url);
+        return clients.openWindow(event.notification.data.url || '/');
       }
     })
   );
 });
 
 // ============================================
-// GESTION DES MESSAGES
-// ============================================
-self.addEventListener('message', (event) => {
-  console.log('[Service Worker] 📨 Message reçu:', event.data);
-  
-  switch (event.data.type) {
-    case 'SKIP_WAITING':
-      self.skipWaiting();
-      break;
-      
-    case 'CLEAR_CACHE':
-      caches.delete(STATIC_CACHE);
-      caches.delete(DYNAMIC_CACHE);
-      event.ports[0].postMessage({ success: true });
-      break;
-      
-    case 'GET_CACHE_INFO':
-      caches.keys().then(cacheNames => {
-        const cacheInfo = {};
-        Promise.all(
-          cacheNames.map(cacheName => 
-            caches.open(cacheName)
-              .then(cache => cache.keys())
-              .then(requests => {
-                cacheInfo[cacheName] = requests.length;
-              })
-          )
-        ).then(() => {
-          event.ports[0].postMessage({ cacheInfo });
-        });
-      });
-      break;
-      
-    case 'UPDATE_CONTENT':
-      updateContent(event.data.url);
-      break;
-  }
-});
-
-// ============================================
-// FONCTIONS UTILITAIRES
-// ============================================
-
-// Mise à jour du contenu
-async function updateContent(url) {
-  try {
-    const cache = await caches.open(DYNAMIC_CACHE);
-    const response = await fetch(url);
-    
-    if (response.ok) {
-      await cache.put(url, response.clone());
-      
-      // Informer tous les clients
-      const clients = await self.clients.matchAll();
-      clients.forEach(client => {
-        client.postMessage({
-          type: 'CONTENT_UPDATED',
-          url: url,
-          timestamp: Date.now()
-        });
-      });
-    }
-  } catch (error) {
-    console.error('[Service Worker] ❌ Erreur de mise à jour:', error);
-  }
-}
-
-// IndexedDB simplifié pour stocker des données hors ligne
-function openDatabase() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open('BullesDeJoieDB', 1);
-    
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
-    
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      
-      if (!db.objectStoreNames.contains('pendingForms')) {
-        const store = db.createObjectStore('pendingForms', { 
-          keyPath: 'id',
-          autoIncrement: true 
-        });
-        store.createIndex('timestamp', 'timestamp', { unique: false });
-      }
-      
-      if (!db.objectStoreNames.contains('offlineData')) {
-        const store = db.createObjectStore('offlineData', { keyPath: 'key' });
-        store.createIndex('category', 'category', { unique: false });
-      }
-    };
-  });
-}
-
-// Nettoyage périodique du cache
-setInterval(() => {
-  caches.open(DYNAMIC_CACHE).then(cache => {
-    cache.keys().then(requests => {
-      const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-      
-      requests.forEach(request => {
-        cache.match(request).then(response => {
-          if (response) {
-            const dateHeader = response.headers.get('date');
-            if (dateHeader) {
-              const cacheDate = new Date(dateHeader).getTime();
-              if (cacheDate < oneWeekAgo) {
-                cache.delete(request);
-              }
-            }
-          }
-        });
-      });
-    });
-  });
-}, 24 * 60 * 60 * 1000); // Tous les jours
-
-// ============================================
-// GESTION D'ERREURS GLOBALES
-// ============================================
-self.addEventListener('error', (error) => {
-  console.error('[Service Worker] 🔥 Erreur non gérée:', error);
-  
-  // Enregistrer l'erreur dans IndexedDB pour analyse ultérieure
-  try {
-    openDatabase().then(db => {
-      const transaction = db.transaction(['offlineData'], 'readwrite');
-      const store = transaction.objectStore('offlineData');
-      
-      store.put({
-        key: `error_${Date.now()}`,
-        type: 'service_worker_error',
-        message: error.message,
-        stack: error.stack,
-        timestamp: Date.now()
-      });
-    });
-  } catch (e) {
-    console.error('[Service Worker] Impossible d\'enregistrer l\'erreur:', e);
-  }
-});
-
-// ============================================
-// GESTION DES INSTALLATIONS PWA
-// ============================================
-self.addEventListener('appinstalled', (event) => {
-  console.log('[Service Worker] 📱 PWA installée avec succès');
-  
-  // Envoyer une analyse
-  fetch('/api/analytics/pwa-installed', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      timestamp: Date.now(),
-      platform: navigator.platform,
-      userAgent: navigator.userAgent
-    })
-  }).catch(() => {
-    // Ignorer les erreurs en mode hors ligne
-  });
-});
-
-// ============================================
-// GESTION DU MODE HORS LIGNE AVANCÉ
+// GESTION HORS LIGNE
 // ============================================
 self.addEventListener('offline', () => {
-  console.log('[Service Worker] 📵 Mode hors ligne détecté');
+  console.log('[SW] 📵 Mode hors ligne détecté');
   
   // Informer tous les clients
   self.clients.matchAll().then(clients => {
@@ -573,7 +437,7 @@ self.addEventListener('offline', () => {
 });
 
 self.addEventListener('online', () => {
-  console.log('[Service Worker] 🌐 Mode en ligne détecté');
+  console.log('[SW] 🌐 Mode en ligne détecté');
   
   // Informer tous les clients
   self.clients.matchAll().then(clients => {
@@ -586,8 +450,89 @@ self.addEventListener('online', () => {
     });
   });
   
-  // Tenter une synchronisation
+  // Synchroniser
   self.registration.sync.register('sync-forms').catch(() => {
     // API Sync non supportée
   });
+});
+
+// ============================================
+// INDEXEDDB
+// ============================================
+function openDatabase() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('BullesDeJoieDB', 2);
+    
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+    
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      
+      if (!db.objectStoreNames.contains('pendingForms')) {
+        const store = db.createObjectStore('pendingForms', { 
+          keyPath: 'id',
+          autoIncrement: true 
+        });
+        store.createIndex('timestamp', 'timestamp');
+      }
+      
+      if (!db.objectStoreNames.contains('offlineData')) {
+        db.createObjectStore('offlineData', { keyPath: 'key' });
+      }
+    };
+  });
+}
+
+// ============================================
+// FONCTIONS DE MAINTENANCE
+// ============================================
+async function clearCaches() {
+  const cacheNames = await caches.keys();
+  await Promise.all(cacheNames.map(name => caches.delete(name)));
+  console.log('[SW] 🗑️ Tous les caches nettoyés');
+}
+
+async function getCacheInfo() {
+  const cacheNames = await caches.keys();
+  const info = {};
+  
+  for (const name of cacheNames) {
+    const cache = await caches.open(name);
+    const requests = await cache.keys();
+    info[name] = requests.length;
+  }
+  
+  return info;
+}
+
+// Nettoyage automatique toutes les semaines
+setInterval(async () => {
+  const cache = await caches.open(DYNAMIC_CACHE);
+  const requests = await cache.keys();
+  const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  
+  for (const request of requests) {
+    const response = await cache.match(request);
+    if (response) {
+      const dateHeader = response.headers.get('date');
+      if (dateHeader && new Date(dateHeader).getTime() < oneWeekAgo) {
+        await cache.delete(request);
+      }
+    }
+  }
+}, 7 * 24 * 60 * 60 * 1000);
+
+// ============================================
+// APP INSTALLED EVENT
+// ============================================
+self.addEventListener('appinstalled', () => {
+  console.log('[SW] 📱 Application installée');
+});
+
+// ============================================
+// ERREURS GLOBALES
+// ============================================
+self.addEventListener('error', (error) => {
+  console.error('[SW] 🔥 Erreur non gérée:', error);
 });
