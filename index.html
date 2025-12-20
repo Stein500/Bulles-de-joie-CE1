@@ -50,6 +50,29 @@
     <meta name="twitter:image" content="https://les-bulles-de-joie.onrender.com/assets/images/twitter-card.jpg">
     <meta name="twitter:image:alt" content="Les Bulles de Joie - École Bilingue Parakou">
     
+    <!-- ===== PWA OPTIMIZATION ===== -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Bulles de Joie">
+    <link rel="apple-touch-startup-image" href="/apple-launch-2048x2732.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Bulles de Joie">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- iOS specific -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF1493">
+
+    <!-- Windows specific -->
+    <meta name="msapplication-TileColor" content="#FF1493">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+
+    <!-- PWA installation prompt -->
+    <meta name="theme-color" content="#FF1493">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FF1493">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2d1b3a">
+
     <!-- ===== LIENS SEO IMPORTANTS ===== -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" title="Plan du site">
     <link rel="sitemap" type="application/xml" href="/sitemap_google.xml" title="Plan du site Google">
@@ -3789,7 +3812,7 @@
         });
     </script>
     
-    <!-- Schema.org Breadcrumb Script -->
+        <!-- Schema.org Breadcrumb Script -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -3801,6 +3824,111 @@
             "item": "https://les-bulles-de-joie.onrender.com/"
         }]
     }
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      // Enregistrement du Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then((registration) => {
+              console.log('✅ Service Worker enregistré avec succès:', registration.scope);
+              
+              // Vérifier les mises à jour
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                console.log('🔄 Nouveau Service Worker en cours d\'installation...');
+                
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('📦 Nouvelle version disponible!');
+                    
+                    // Afficher une notification de mise à jour
+                    if (confirm('Une nouvelle version est disponible. Recharger la page?')) {
+                      window.location.reload();
+                    }
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.error('❌ Erreur d\'enregistrement du Service Worker:', error);
+            });
+          
+          // Écouter les messages du Service Worker
+          navigator.serviceWorker.addEventListener('message', (event) => {
+            console.log('📨 Message du Service Worker:', event.data);
+          });
+        });
+        
+        // Gérer le mode hors ligne
+        window.addEventListener('online', () => {
+          console.log('🌐 Connexion rétablie');
+          document.documentElement.classList.remove('offline');
+        });
+        
+        window.addEventListener('offline', () => {
+          console.log('📵 Mode hors ligne');
+          document.documentElement.classList.add('offline');
+        });
+      }
+      
+      // Détection PWA
+      function isRunningAsPWA() {
+        return window.matchMedia('(display-mode: standalone)').matches || 
+               window.matchMedia('(display-mode: fullscreen)').matches ||
+               window.matchMedia('(display-mode: minimal-ui)').matches ||
+               window.navigator.standalone === true;
+      }
+      
+      // Afficher l'installation prompt
+      let deferredPrompt;
+      
+      window.addEventListener('beforeinstallprompt', (event) => {
+        console.log('📱 Installation PWA disponible');
+        event.preventDefault();
+        deferredPrompt = event;
+        
+        // Afficher un bouton d'installation
+        const installBtn = document.createElement('button');
+        installBtn.innerHTML = '📱 Installer l\'app';
+        installBtn.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #FF1493;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 25px;
+          font-weight: bold;
+          z-index: 9999;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3);
+        `;
+        installBtn.addEventListener('click', () => {
+          installBtn.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('✅ Application installée');
+            } else {
+              console.log('❌ Installation refusée');
+            }
+            deferredPrompt = null;
+          });
+        });
+        
+        if (!isRunningAsPWA()) {
+          document.body.appendChild(installBtn);
+          setTimeout(() => {
+            if (installBtn.parentNode) {
+              installBtn.style.display = 'none';
+            }
+          }, 10000); // Disparaît après 10 secondes
+        }
+      });
     </script>
 </body>
 </html>
