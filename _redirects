@@ -1,6 +1,0 @@
-# Redirections permanentes
-/accueil      /index.html          301
-/home         /index.html          301
-
-# Gestion des pages d'erreur
-/404.html     404
