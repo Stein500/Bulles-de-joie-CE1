@@ -411,17 +411,23 @@
             transition: var(--transition);
         }
 
-        /* ===== HERO SLIDER IMMERSIF 16:8 ===== */
+        /* ===== HERO SLIDER IMMERSIF 16:8 - CORRECTION DU CHEVAUCHEMENT ===== */
         .hero {
             min-height: 80vh;
             position: relative;
-            margin-top: 0;
+            margin-top: 80px; /* Ajouté pour compenser le header fixe */
             overflow: hidden;
             background: linear-gradient(135deg, 
                 rgba(255, 20, 147, 0.95) 0%,
                 rgba(255, 105, 180, 0.85) 50%,
                 rgba(255, 20, 147, 0.75) 100%
             );
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                margin-top: 70px; /* Ajustement pour mobile */
+            }
         }
 
         .hero-slider {
@@ -473,7 +479,7 @@
             z-index: 2;
             text-align: center;
             color: var(--light);
-            padding: 0 2rem;
+            padding: 2rem;
             max-width: 900px;
             margin: 0 auto;
             height: 100%;
@@ -533,6 +539,10 @@
             line-height: 1.6;
             max-width: 600px;
             animation: fadeInUp 1s ease 0.6s both;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            backdrop-filter: blur(5px);
         }
 
         .hero-actions {
@@ -836,7 +846,7 @@
             transform: scale(1.2) rotate(10deg);
         }
 
-        /* ===== VIDEO SECTION AVEC PLYR.JS ===== */
+        /* ===== VIDEO SECTION SIMPLIFIÉE ===== */
         .video-section {
             padding: 6rem 0;
             background: linear-gradient(135deg, #f0f8ff 0%, #fff8f0 100%);
@@ -849,9 +859,10 @@
             max-width: 900px;
             margin: 0 auto;
             position: relative;
+            background: #000;
         }
 
-        /* Personnalisation Plyr.js */
+        /* Personnalisation Plyr.js avec téléchargement */
         .plyr {
             --plyr-color-main: var(--primary);
             --plyr-control-radius: var(--radius);
@@ -859,6 +870,60 @@
             --plyr-video-control-background-hover: var(--primary-light);
             border-radius: var(--radius-lg);
             overflow: hidden;
+        }
+
+        /* Bouton téléchargement flottant */
+        .video-download-float {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .video-wrapper:hover .video-download-float {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .download-btn {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .download-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Menu personnalisé pour Plyr avec téléchargement */
+        .plyr__menu__container .plyr__control[data-plyr="download"] {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .plyr__menu__container .plyr__control[data-plyr="download"]::before {
+            content: "⬇️";
+            font-size: 1rem;
         }
 
         /* ===== PHILOSOPHY SECTION ===== */
@@ -1661,6 +1726,10 @@
         }
 
         @media (max-width: 768px) {
+            .hero {
+                margin-top: 70px;
+            }
+            
             .nav-menu {
                 position: fixed;
                 top: 0;
@@ -1758,6 +1827,23 @@
             .logo-subtitle {
                 font-size: 1.4rem;
             }
+            
+            /* Responsive vidéo mobile */
+            .video-download-float {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin: 1rem auto;
+                text-align: center;
+                opacity: 1;
+                transform: none;
+            }
+            
+            .download-btn {
+                background: var(--primary);
+                margin: 0 auto;
+                max-width: 200px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1837,7 +1923,8 @@
             .facade-card,
             .value-card,
             .immersion-card,
-            .cycle-content {
+            .cycle-content,
+            .download-btn {
                 animation: none !important;
                 transition: none !important;
             }
@@ -1874,6 +1961,10 @@
             
             .lightbox {
                 background: rgba(0,0,0,0.98);
+            }
+            
+            .video-section {
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2a 100%);
             }
         }
     </style>
@@ -1928,7 +2019,7 @@
         </div>
     </header>
 
-    <!-- Hero Slider Immersif -->
+    <!-- Hero Slider Immersif - CORRIGÉ -->
     <section class="hero">
         <div class="hero-slider">
             <div class="slide active">
@@ -1948,11 +2039,11 @@
         <div class="hero-content">
             <h1 class="hero-title">
                 Excellence Éducative<br>
-                <span class="title-highlight">2025-2026</span>
+                <span class="title-highlight">Happy New Year 2026🥳</span>
             </h1>
             <p class="hero-subtitle">
             Crèche, Maternelle & Primaire</p>
-            <p class="hero-description">•°Crèche, Maternelle & Primaire°•
+            <p class="hero-description">
                 Depuis 2017, nous créons un environnement féerique où chaque enfant 
                 découvre la joie d'apprendre et s'épanouit pleinement dans un cadre 
                 stimulant et sécurisé. <strong>Bienvenue pour l'année scolaire 2025-2026!</strong>
@@ -2026,7 +2117,7 @@
         </div>
     </section>
 
-    <!-- Video Section avec Plyr.js -->
+    <!-- Video Section avec Plyr.js - SIMPLE ET EFFICACE -->
     <section id="video" class="video-section">
         <div class="container">
             <div class="section-header">
@@ -2039,8 +2130,21 @@
             <div class="video-wrapper">
                 <video id="player" playsinline controls data-poster="assets/images/video-poster.jpg">
                     <source src="assets/videos/ecole.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la vidéo.
+                    <source src="assets/videos/ecole.webm" type="video/webm">
+                    <!-- Téléchargement comme option de secours -->
+                    <a href="assets/videos/ecole.mp4" download="Les_Bulles_de_Joie_Presentation.mp4" 
+                       style="display:none;" id="videoDownloadLink">
+                       Télécharger la vidéo
+                    </a>
+                    Votre navigateur ne supporte pas la vidéo HTML5.
+                    <a href="assets/videos/ecole.mp4" download="Les_Bulles_de_Joie_Presentation.mp4">
+                        Télécharger la vidéo
+                    </a>
                 </video>
+                
+            <!-- Informations vidéo -->
+            <div class="video-info" style="margin-top: 2rem; text-align: center; color: #666;">
+                <p><i class="fas fa-info-circle"></i> Amour • Travail • Rigueur • Créativité</p>
             </div>
         </div>
     </section>
@@ -2653,12 +2757,162 @@
                 });
             });
             
-            // 6. PLYR.JS VIDEO PLAYER
+            // 6. CONFIGURATION PLYR.JS AVEC TÉLÉCHARGEMENT
             const player = new Plyr('#player', {
-                controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'fullscreen'],
+                controls: [
+                    'play-large',
+                    'play',
+                    'progress',
+                    'current-time',
+                    'mute',
+                    'volume',
+                    'captions',
+                    'settings',
+                    'pip',
+                    'fullscreen',
+                    'download' // Ajout du bouton de téléchargement
+                ],
                 settings: ['captions', 'quality', 'speed'],
                 keyboard: { focused: true, global: true },
-                tooltips: { controls: true, seek: true }
+                tooltips: { controls: true, seek: true },
+                i18n: {
+                    download: 'Télécharger la vidéo'
+                }
+            });
+            
+            // Gestion du bouton de téléchargement flottant
+            const downloadFloat = document.getElementById('videoDownloadFloat');
+            const downloadBtn = downloadFloat?.querySelector('.download-btn');
+            
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Créer un lien de téléchargement temporaire
+                    const video = document.querySelector('#player source');
+                    if (video && video.src) {
+                        const link = document.createElement('a');
+                        link.href = video.src;
+                        link.download = 'Les_Bulles_de_Joie_Presentation.mp4';
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        // Animation de confirmation
+                        this.innerHTML = '<i class="fas fa-check"></i> Téléchargé !';
+                        this.style.background = 'var(--secondary)';
+                        this.style.borderColor = 'var(--secondary)';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-download"></i> Télécharger';
+                            this.style.background = 'rgba(0, 0, 0, 0.7)';
+                            this.style.borderColor = 'var(--primary)';
+                        }, 2000);
+                    }
+                });
+            }
+            
+            // Personnaliser le bouton de téléchargement dans les contrôles Plyr
+            player.on('ready', () => {
+                // Ajouter un événement au bouton de téléchargement intégré
+                const downloadControl = player.elements.controls.querySelector('[data-plyr="download"]');
+                if (downloadControl) {
+                    downloadControl.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Télécharger la vidéo actuelle
+                        const video = document.querySelector('#player source');
+                        if (video && video.src) {
+                            const link = document.createElement('a');
+                            link.href = video.src;
+                            link.download = 'Les_Bulles_de_Joie_Presentation.mp4';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            
+                            // Feedback visuel
+                            const originalHTML = this.innerHTML;
+                            this.innerHTML = '<span style="color: var(--secondary)">✔ Téléchargement...</span>';
+                            
+                            setTimeout(() => {
+                                this.innerHTML = originalHTML;
+                            }, 1500);
+                        }
+                    });
+                }
+            });
+            
+            // Qualités disponibles (simulées pour l'exemple)
+            player.on('enterfullscreen', () => {
+                console.log('Plein écran activé');
+            });
+            
+            player.on('exitfullscreen', () => {
+                console.log('Plein écran désactivé');
+            });
+            
+            // Gestion des erreurs
+            player.on('error', (error) => {
+                console.error('Erreur vidéo:', error);
+                
+                // Afficher une alternative de téléchargement
+                const wrapper = document.querySelector('.video-wrapper');
+                if (wrapper) {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.innerHTML = `
+                        <div style="
+                            background: rgba(255, 20, 147, 0.1);
+                            border: 2px solid var(--primary);
+                            border-radius: var(--radius);
+                            padding: 2rem;
+                            text-align: center;
+                            margin-top: 1rem;
+                        ">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                            <h3 style="color: var(--dark); margin-bottom: 0.5rem;">Problème de lecture vidéo</h3>
+                            <p style="margin-bottom: 1rem;">La vidéo ne peut pas être lue directement.</p>
+                            <a href="assets/videos/ecole.mp4" download="Les_Bulles_de_Joie_Presentation.mp4" 
+                               class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-download"></i>
+                                Télécharger la vidéo (45 MB)
+                            </a>
+                        </div>
+                    `;
+                    wrapper.appendChild(errorMsg);
+                }
+            });
+            
+            // Statistiques de lecture
+            let playCount = 0;
+            player.on('play', () => {
+                playCount++;
+                console.log(`Vidéo jouée ${playCount} fois`);
+                
+                // Tracking Google Analytics (exemple)
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'video_play', {
+                        'event_category': 'Engagement',
+                        'event_label': 'Vidéo de présentation'
+                    });
+                }
+            });
+            
+            // Partage vidéo (fonctionnalité additionnelle)
+            player.on('controlshidden', () => {
+                // Afficher le bouton de téléchargement flottant
+                if (downloadFloat) {
+                    downloadFloat.style.opacity = '1';
+                }
+            });
+            
+            player.on('controlsshown', () => {
+                // Cacher le bouton de téléchargement flottant
+                if (downloadFloat) {
+                    downloadFloat.style.opacity = '0';
+                }
             });
             
             // 7. GALLERY SYSTEM MASONRY
