@@ -409,21 +409,23 @@
             transition: var(--transition);
         }
 
-        /* ===== HERO SECTION RÉSULTATS ===== */
+        /* ===== HERO SECTION RÉSULTATS - CORRIGÉ ET OPTIMISÉ ===== */
         .hero {
-            min-height: 70vh;
+            min-height: 85vh;
             position: relative;
-            margin-top: 0;
+            margin-top: 80px;
             overflow: hidden;
-            background: 
-                linear-gradient(135deg, 
-                    rgba(255, 20, 147, 0.85) 0%,
-                    rgba(160, 255, 79, 0.15) 100%
-                ),
-                url('assets/images/resultats-hero.jpg') no-repeat center center/cover;
+            background: linear-gradient(135deg, 
+                rgba(45, 27, 58, 0.92) 0%,
+                rgba(255, 20, 147, 0.85) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
         }
 
-        /* Fallback image si resultats-hero.jpg n'existe pas */
+        /* Image de fond avec fallback solide */
         .hero::before {
             content: '';
             position: absolute;
@@ -431,9 +433,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
-            z-index: 0;
-            opacity: 0.3;
+            background-image: url('assets/images/resultats-hero.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* Fallback si image non chargée */
+        .hero.fallback-bg::before {
+            background-image: none;
+            background: linear-gradient(135deg, 
+                var(--dark) 0%,
+                var(--primary) 100%
+            );
         }
 
         .hero-content {
@@ -441,74 +455,192 @@
             z-index: 2;
             text-align: center;
             color: var(--light);
-            padding: 0 2rem;
             max-width: 900px;
-            margin: 0 auto;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            width: 100%;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-lg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .hero-title {
             font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.2;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-family: 'Fredoka One', cursive;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: fadeInUp 1s ease;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
             position: relative;
+            color: var(--light);
         }
 
         .title-highlight {
             color: var(--secondary);
-            text-shadow: 0 0 20px rgba(160, 255, 79, 0.5);
+            text-shadow: 0 0 20px rgba(160, 255, 79, 0.8);
             position: relative;
             display: inline-block;
+            padding: 0 15px;
         }
 
         .title-highlight::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
             height: 4px;
             background: var(--secondary);
             border-radius: 2px;
-            animation: widthGrow 1s ease 0.5s forwards;
-            transform: scaleX(0);
+            animation: widthGrow 0.8s ease 0.3s forwards;
             transform-origin: left;
         }
 
         @keyframes widthGrow {
-            to { transform: scaleX(1); }
+            from { transform: translateX(-50%) scaleX(0); }
+            to { transform: translateX(-50%) scaleX(1); }
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+            color: var(--light);
+            font-weight: 500;
             opacity: 0.95;
-            animation: fadeInUp 1s ease 0.2s both;
-            position: relative;
         }
 
         .hero-description {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-bottom: 3rem;
-            line-height: 1.6;
-            max-width: 600px;
-            animation: fadeInUp 1s ease 0.6s both;
+            line-height: 1.7;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            color: rgba(255,255,255,0.95);
+        }
+
+        .hero-description p {
+            margin-bottom: 1rem;
+        }
+
+        .hero-description p:last-child {
+            margin-bottom: 0;
         }
 
         .hero-actions {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease 0.9s both;
+            gap: 2rem;
             justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        /* Responsive pour hero */
+        @media (max-width: 992px) {
+            .hero {
+                min-height: 80vh;
+                margin-top: 70px;
+            }
+            
+            .hero-content {
+                padding: 2.5rem 1.5rem;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.6rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 75vh;
+                margin-top: 60px;
+            }
+            
+            .hero-content {
+                padding: 2rem 1rem;
+                margin: 0 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-actions {
+                gap: 1.5rem;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                min-height: 70vh;
+                margin-top: 60px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .hero-content {
+                padding: 1.5rem 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .hero-description {
+                font-size: 0.95rem;
+                margin-bottom: 2rem;
+            }
+            
+            .hero-actions {
+                gap: 1rem;
+            }
+        }
+
+        /* Animation d'apparition */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ===== SECTION DES RÉSULTATS ===== */
@@ -918,7 +1050,7 @@
             opacity: 0.9;
         }
 
-        /* ===== MODALE DE RÉSULTATS ===== */
+        /* ===== MODALE DE RÉSULTATS - CORRIGÉE POUR DÉBORDEMENTS ===== */
         .results-modal {
             display: none;
             position: fixed;
@@ -951,7 +1083,7 @@
         .modal-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: var(--light);
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -980,7 +1112,7 @@
             padding: 2rem;
         }
 
-        /* ===== STYLES SPÉCIFIQUES AUX RÉSULTATS ===== */
+        /* ===== STYLES SPÉCIFIQUES AUX RÉSULTATS - AMÉLIORÉS ===== */
         .student-card {
             background: var(--light);
             border-radius: var(--radius);
@@ -999,11 +1131,13 @@
 
         .student-header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 2px solid var(--gray-light);
+            gap: 1rem;
         }
 
         .student-average {
@@ -1013,13 +1147,19 @@
             border-radius: var(--radius);
             background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
             color: var(--dark);
+            flex-shrink: 0;
+            min-width: 140px;
+            text-align: center;
         }
 
+        /* GRID AMÉLIORÉE POUR LES NOTES - SANS DÉBORDEMENT */
         .student-notes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 1rem;
             margin-top: 1.5rem;
+            width: 100%;
+            overflow: hidden;
         }
 
         .note-item {
@@ -1028,12 +1168,22 @@
             border-radius: var(--radius);
             text-align: center;
             transition: var(--transition);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 120px;
+            max-width: 100%;
+            overflow: hidden;
+            word-break: break-word;
         }
 
         .note-item:hover {
             transform: translateY(-3px);
             background: var(--primary-light);
             color: var(--light);
+            border-color: var(--primary);
         }
 
         /* ===== BOUTONS ===== */
@@ -1237,7 +1387,70 @@
             transition: var(--transition);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== AMÉLIORATIONS DE RENDU - CORRIGÉES POUR DÉBORDEMENT ===== */
+        .result-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .badge-insufficient {
+            background: linear-gradient(135deg, #FF5252, #FF4081);
+            color: white;
+        }
+        
+        .badge-average {
+            background: linear-gradient(135deg, #FF9800, #FFC107);
+            color: white;
+        }
+        
+        .badge-good {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+        }
+        
+        .badge-excellent {
+            background: linear-gradient(135deg, #2196F3, #03A9F4);
+            color: white;
+        }
+
+        .note-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 5px;
+            /* Permet le retour à la ligne pour les longs textes */
+            white-space: normal;
+            word-break: break-word;
+            max-height: 2.8em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .note-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.3rem 0;
+            flex-shrink: 0;
+        }
+
+        /* ===== RESPONSIVE DESIGN - AMÉLIORÉ ===== */
         @media (max-width: 992px) {
             .footer-content {
                 grid-template-columns: 1fr 1fr;
@@ -1249,6 +1462,14 @@
             
             .countdown-item {
                 min-width: 100px;
+                padding: 1.5rem;
+            }
+            
+            .student-notes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .modal-body {
                 padding: 1.5rem;
             }
         }
@@ -1278,19 +1499,6 @@
                 display: flex;
             }
             
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
             .section-title {
                 font-size: 2.2rem;
             }
@@ -1315,6 +1523,8 @@
             
             .student-average {
                 font-size: 2rem;
+                min-width: 120px;
+                align-self: center;
             }
             
             .intro-container {
@@ -1328,15 +1538,40 @@
             .logo-subtitle {
                 font-size: 1.4rem;
             }
+            
+            .hero-description {
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+            }
+            
+            .student-notes-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .note-item {
+                min-height: 110px;
+                padding: 0.8rem;
+            }
+            
+            .note-label {
+                font-size: 0.85rem;
+                max-height: 2.6em;
+            }
+            
+            .note-value {
+                font-size: 1.3rem;
+            }
+            
+            .result-badge {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.6rem;
+            }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 0 1.5rem;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
             }
             
             .section-title {
@@ -1376,6 +1611,82 @@
             
             .student-notes-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 0.6rem;
+            }
+            
+            .hero-description {
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
+            
+            .result-badge {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .note-item {
+                min-height: 105px;
+                padding: 0.7rem;
+            }
+            
+            .note-label {
+                font-size: 0.8rem;
+                -webkit-line-clamp: 2;
+                max-height: 2.8em;
+            }
+            
+            .note-value {
+                font-size: 1.2rem;
+            }
+            
+            .modal-header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .modal-body {
+                padding: 1.2rem;
+            }
+            
+            .student-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 320px) {
+            /* Ultra-responsive pour les très petits écrans */
+            .student-notes-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .note-item {
+                min-height: 100px;
+                padding: 0.6rem;
+            }
+            
+            .note-label {
+                font-size: 0.75rem;
+                -webkit-line-clamp: 2;
+                max-height: 2.6em;
+            }
+            
+            .note-value {
+                font-size: 1.1rem;
+            }
+            
+            .result-badge {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+            }
+            
+            .student-average {
+                font-size: 1.8rem;
+                min-width: 110px;
+                padding: 0.4rem 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
             }
         }
 
@@ -1461,17 +1772,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== CONFETTIS ===== */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10002;
-        }
-
         /* ===== LOADING STATES ===== */
         .loading {
             display: inline-block;
@@ -1498,17 +1798,18 @@
             font-weight: bold;
             border-radius: 10px;
         }
+        
+        /* ===== IMPROVED VISIBILITY FOR HERO ===== */
+        .text-shadow-dark {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body>
-    <!-- Canvas pour confettis -->
-    <canvas id="confetti-canvas"></canvas>
-
     <!-- Intro Animation 2026 -->
     <div id="intro-overlay" class="intro-overlay" aria-hidden="true" role="presentation" tabindex="0">
         <div class="intro-container">
             <div class="intro-logo">
-                <!-- Remplacement PNG par JPG -->
                 <img src="assets/images/logo.jpg" alt="Les Bulles de Joie" width="100" height="100" loading="eager" fetchpriority="high"
                      onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDUiIGZpbGw9IiNGRjE0OTMiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkJ1bGxlczwvdGV4dD48L3N2Zz4='; this.alt='Logo Les Bulles de Joie';">
             </div>
@@ -1530,7 +1831,6 @@
     <header class="main-header">
         <div class="header-container">
             <a href="index.html" class="logo">
-                <!-- Remplacement PNG par JPG avec fallback -->
                 <img src="assets/images/logo.jpg" alt="Les Bulles de Joie" class="logo-img" width="60" height="60"
                      onerror="this.onerror=null; this.classList.add('image-fallback'); this.innerHTML='BDJ';">
                 <div class="logo-text">
@@ -1558,18 +1858,18 @@
     </header>
 
     <main>
-        <!-- Hero Section Résultats -->
-        <section class="hero">
+        <!-- Hero Section Résultats - CORRIGÉ -->
+        <section class="hero" id="hero-section">
             <div class="hero-content">
                 <h1 class="hero-title">
                     Résultats Scolaires<br>
                     <span class="title-highlight">2025-2026</span>
                 </h1>
-                <p class="hero-subtitle"></p>
-                <p class="hero-description">
-                    Accédez aux résultats détaillés de votre enfant dans un environnement sécurisé et convivial. 
-                    Suivez sa progression et consultez les commentaires personnalisés de nos enseignants.
-                </p>
+                <p class="hero-subtitle">Suivi Personnalisé des Progrès</p>
+                <div class="hero-description">
+                    <p>Accédez aux résultats détaillés de votre enfant dans un environnement sécurisé et convivial.</p>
+                    <p>Suivez sa progression et consultez les commentaires personnalisés de nos enseignants.</p>
+                </div>
                 <div class="hero-actions">
                     <a href="#portal" class="btn btn-primary">
                         <i class="fas fa-graduation-cap" aria-hidden="true"></i>
@@ -1615,7 +1915,7 @@
                                         type="text" 
                                         id="username" 
                                         class="form-input"
-                                        placeholder="Votre identifiant (ex: CE1-...)"
+                                        placeholder="Votre identifiant (ex: C..001)"
                                         required
                                     >
                                     <i class="fas fa-user input-icon"></i>
@@ -1629,7 +1929,7 @@
                                         type="password" 
                                         id="password" 
                                         class="form-input"
-                                        placeholder="Prénom de l'enfant (ex: stein)"
+                                        placeholder="Prénom de l'enfant (ex: eeere)"
                                         required
                                     >
                                     <i class="fas fa-lock input-icon"></i>
@@ -1645,7 +1945,7 @@
                             
                             <p class="form-info">
                                 <i class="fas fa-info-circle"></i>
-                                Identifiants : CE1... • Mot de passe : prénom de l'enfant
+                                Identifiants : CE1... • Mot de passe : prénom de l'enfant (minuscules)
                             </p>
                         </div>
                         
@@ -1734,7 +2034,6 @@
         <div class="footer-content">
             <div class="footer-section">
                 <div class="footer-logo">
-                    <!-- Remplacement PNG par JPG avec fallback -->
                     <img src="assets/images/logo.jpg" alt="Les Bulles de Joie" class="footer-logo-img"
                          onerror="this.onerror=null; this.classList.add('image-fallback'); this.innerHTML='BDJ';">
                     <div class="footer-text">
@@ -1818,45 +2117,9 @@
     <script>
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Créer les confettis pour l'intro 2026
-            function createConfetti() {
-                const intro = document.getElementById('intro-overlay');
-                if (!intro) return;
-                
-                for (let i = 0; i < 30; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    
-                    // Couleurs aléatoires (rose fuchsia et vert-citron)
-                    const colors = ['#FF1493', '#A0FF4F', '#FF66B2', '#7ACC3C'];
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    // Taille aléatoire
-                    const size = Math.random() * 8 + 4;
-                    confetti.style.width = `${size}px`;
-                    confetti.style.height = `${size}px`;
-                    
-                    // Position aléatoire
-                    confetti.style.left = `${Math.random() * 100}vw`;
-                    
-                    // Opacité aléatoire
-                    confetti.style.opacity = Math.random() * 0.7 + 0.3;
-                    
-                    // Animation
-                    const duration = Math.random() * 3 + 2;
-                    const delay = Math.random() * 2;
-                    confetti.style.animation = `confettiFall ${duration}s linear ${delay}s infinite`;
-                    
-                    intro.appendChild(confetti);
-                }
-            }
-            
-            createConfetti();
-            
-            // 2. Intro Animation 2026
+            // 1. Intro Animation 2026 (confettis retirés)
             const intro = document.getElementById('intro-overlay');
             if (intro) {
-                // Skip intro au clic
                 intro.addEventListener('click', () => {
                     intro.style.animation = 'fadeOut 0.5s ease forwards';
                     setTimeout(() => {
@@ -1865,7 +2128,6 @@
                     }, 500);
                 });
                 
-                // Skip intro avec la touche Échap
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && intro.style.display !== 'none') {
                         intro.style.animation = 'fadeOut 0.5s ease forwards';
@@ -1876,7 +2138,6 @@
                     }
                 });
                 
-                // Fermeture automatique après 6 secondes
                 setTimeout(() => {
                     intro.style.animation = 'fadeOut 0.5s ease forwards';
                     setTimeout(() => {
@@ -1886,7 +2147,7 @@
                 }, 6000);
             }
             
-            // 3. NAVIGATION MOBILE
+            // 2. NAVIGATION MOBILE
             const navToggle = document.querySelector('.nav-toggle');
             const navMenu = document.querySelector('.nav-menu');
             
@@ -1910,7 +2171,6 @@
                     }
                 });
                 
-                // Close menu when clicking on links
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.addEventListener('click', () => {
                         navMenu.classList.remove('active');
@@ -1924,7 +2184,7 @@
                 });
             }
             
-            // 4. DONNÉES DES ÉLÈVES CE1
+            // 3. DONNÉES DES ÉLÈVES CE1
             const CE1_STUDENTS = [
                 {
                     id: "CE1-001",
@@ -2138,7 +2398,7 @@
                 }
             ];
 
-            // 5. SYSTÈME DE CONNEXION
+            // 4. SYSTÈME DE CONNEXION
             const loginForm = document.getElementById('loginForm');
             const resultsDisplay = document.getElementById('resultsDisplay');
             const usernameInput = document.getElementById('username');
@@ -2226,6 +2486,14 @@
                 showNotification('Déconnexion réussie', 'info');
             }
 
+            // Fonction pour déterminer l'appréciation
+            function getAppreciation(note) {
+                if (note >= 18) return {text: "Très satisfaisant", class: "badge-excellent"};
+                if (note >= 14) return {text: "Satisfaisant", class: "badge-good"};
+                if (note >= 10) return {text: "Peu satisfaisant", class: "badge-average"};
+                return {text: "Insuffisant", class: "badge-insufficient"};
+            }
+
             // Show student results
             function showCurrentStudentResults() {
                 if (!currentStudent) {
@@ -2239,10 +2507,15 @@
                 
                 let notesHtml = '';
                 Object.entries(student.notes).forEach(([subject, note]) => {
+                    const appreciation = getAppreciation(note);
+                    
                     notesHtml += `
                         <div class="note-item">
-                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${subject}</div>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">${note}</div>
+                            <div class="note-label" title="${subject}">${subject}</div>
+                            <div class="note-value">${note}/20</div>
+                            <div class="result-badge ${appreciation.class}" title="${appreciation.text}">
+                                ${appreciation.text}
+                            </div>
                         </div>
                     `;
                 });
@@ -2251,49 +2524,57 @@
                     <div class="student-card">
                         <div class="student-header">
                             <div>
-                                <h2 style="font-size: 1.8rem; color: var(--primary);">${student.fullName}</h2>
-                                <div style="display: inline-block; padding: 0.5rem 1rem; border-radius: 20px; background: ${student.mention === 'Satisfaisant' ? 'var(--secondary)' : '#FFB74D'}; color: ${student.mention === 'Satisfaisant' ? 'var(--dark)' : 'var(--dark)'}; margin-top: 0.5rem;">
-                                    <i class="fas fa-${student.mention === 'Satisfaisant' ? 'star' : 'exclamation-circle'}"></i>
+                                <h2 style="font-size: 1.8rem; color: var(--primary); margin-bottom: 0.5rem;">
+                                    ${student.fullName}
+                                </h2>
+                                <div style="display: inline-block; padding: 0.5rem 1.2rem; border-radius: 20px; background: ${student.average >= 14 ? 'var(--secondary)' : student.average >= 10 ? '#FFB74D' : '#FF5252'}; color: ${student.average >= 14 ? 'var(--dark)' : 'var(--light)'}; margin-top: 0.5rem; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${student.mention}">
+                                    <i class="fas fa-${student.average >= 14 ? 'star' : student.average >= 10 ? 'exclamation-circle' : 'exclamation-triangle'}"></i>
                                     ${student.mention}
                                 </div>
                             </div>
                             <div class="student-average">
                                 ${student.average.toFixed(2)}/20
-                                <i class="fas fa-${student.average >= 15 ? 'trophy' : student.average >= 13 ? 'chart-line' : 'chart-bar'}"></i>
+                                <div style="font-size: 0.9rem; margin-top: 0.3rem; font-weight: 600; color: var(--dark);">
+                                    Moyenne générale
+                                </div>
                             </div>
                         </div>
                         
                         ${student.comment ? `
-                            <div style="background: var(--gray-light); padding: 1.5rem; border-radius: var(--radius); margin: 1.5rem 0; border-left: 4px solid var(--primary);">
-                                <i class="fas fa-comment" style="color: var(--primary); margin-right: 0.5rem;"></i>
-                                ${student.comment}
+                            <div style="background: var(--gray-light); padding: 1.5rem; border-radius: var(--radius); margin: 1.5rem 0; border-left: 4px solid var(--primary); display: flex; align-items: flex-start;">
+                                <i class="fas fa-comment" style="color: var(--primary); margin-right: 1rem; margin-top: 0.2rem; font-size: 1.2rem;"></i>
+                                <div>
+                                    <strong style="color: var(--primary); display: block; margin-bottom: 0.3rem;">Commentaire de l'enseignant :</strong>
+                                    ${student.comment}
+                                </div>
                             </div>
                         ` : ''}
                         
-                        <h3 style="margin: 2rem 0 1rem; color: var(--primary);">Notes par matière</h3>
+                        <h3 style="margin: 2rem 0 1rem; color: var(--primary); border-bottom: 2px solid var(--gray-light); padding-bottom: 0.5rem;">Notes par matière</h3>
                         <div class="student-notes-grid">
                             ${notesHtml}
                         </div>
                     </div>
                 `;
                 
-                if (student.comment.toLowerCase().includes('félicitations') || 
-                    student.comment.toLowerCase().includes('encouragement')) {
+                if (student.comment && (student.comment.toLowerCase().includes('félicitations') || 
+                    student.comment.toLowerCase().includes('encouragement') ||
+                    student.average >= 15)) {
                     
                     html += `
-                        <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: var(--radius); padding: 3rem 2rem; text-align: center; margin: 2rem 0; color: var(--light);">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">
-                                🏆✨💯🎉🌟
+                        <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: var(--radius); padding: 3rem 2rem; text-align: center; margin: 2rem 0; color: var(--light); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.1);"></div>
+                            <div style="position: relative; z-index: 1;">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">
+                                    🏆✨💯🎉🌟
+                                </div>
+                                <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--light); text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                                    TABLEAU DE FÉLICITATIONS
+                                </h2>
+                                <p style="font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                                    ${student.fullName.split(' ').pop()} ! ${student.comment || 'Excellent travail cette année !'}
+                                </p>
                             </div>
-                            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--light);">
-                                TABLEAU DE FÉLICITATIONS
-                            </h2>
-                            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
-                                ${student.fullName.split(' ').pop()} ! ${student.comment}
-                            </p>
-                            <button class="btn btn-primary" onclick="launchConfetti()" style="background: var(--light); color: var(--primary);">
-                                <i class="fas fa-party-horn"></i> 🎉
-                            </button>
                         </div>
                     `;
                 }
@@ -2301,6 +2582,14 @@
                 resultsContent.innerHTML = html;
                 resultsModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                
+                // Assurer que la modale est bien scrollable sur mobile
+                setTimeout(() => {
+                    const modalBody = document.querySelector('.modal-body');
+                    if (modalBody.scrollHeight > modalBody.clientHeight) {
+                        modalBody.style.overflowY = 'auto';
+                    }
+                }, 100);
             }
 
             // Close modal
@@ -2350,7 +2639,7 @@
 
             checkSession();
 
-            // 6. COMPTE À REBOURS
+            // 5. COMPTE À REBOURS
             const countdownTarget = new Date('December 15, 2025 08:00:00').getTime();
             
             function updateCountdown() {
@@ -2385,7 +2674,7 @@
             setInterval(updateCountdown, 1000);
             updateCountdown();
 
-            // 7. SCROLL ANIMATIONS
+            // 6. SCROLL ANIMATIONS
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -2399,12 +2688,11 @@
                 });
             }, observerOptions);
             
-            // Observe elements for animation
             document.querySelectorAll('.stat-card').forEach(el => {
                 observer.observe(el);
             });
 
-            // 8. SMOOTH SCROLLING
+            // 7. SMOOTH SCROLLING
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
@@ -2419,13 +2707,12 @@
                             behavior: 'smooth'
                         });
                         
-                        // Update URL without page reload
                         history.pushState(null, null, targetId);
                     }
                 });
             });
 
-            // 9. SCROLL EFFECT ON HEADER
+            // 8. SCROLL EFFECT ON HEADER
             const header = document.querySelector('.main-header');
             
             window.addEventListener('scroll', () => {
@@ -2438,12 +2725,11 @@
                 }
             });
 
-            // 10. WINDOW RESIZE HANDLER
+            // 9. WINDOW RESIZE HANDLER
             let resizeTimer;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimer);
                 resizeTimer = setTimeout(() => {
-                    // Reset mobile menu on large screens
                     if (window.innerWidth > 768) {
                         const navMenu = document.querySelector('.nav-menu');
                         const navToggle = document.querySelector('.nav-toggle');
@@ -2461,7 +2747,7 @@
                 }, 250);
             });
 
-            // 11. KEYBOARD NAVIGATION
+            // 10. KEYBOARD NAVIGATION
             document.addEventListener('keydown', (e) => {
                 if (resultsModal.classList.contains('active')) {
                     if (e.key === 'Escape') {
@@ -2470,7 +2756,7 @@
                 }
             });
 
-            // 12. NOTIFICATION SYSTEM
+            // 11. NOTIFICATION SYSTEM
             function showNotification(message, type) {
                 const notification = document.createElement('div');
                 notification.style.position = 'fixed';
@@ -2505,70 +2791,43 @@
                 }, 4000);
             }
 
-            // 13. CONFETTI SYSTEM
-            window.launchConfetti = function() {
-                const canvas = document.getElementById('confetti-canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+            // 12. HERO IMAGE LOADING - AMÉLIORÉ
+            function handleHeroImageLoading() {
+                const heroSection = document.getElementById('hero-section');
                 
-                const particles = [];
-                const colors = ['#FF1493', '#A0FF4F', '#FFD700', '#00BFFF', '#9370DB'];
+                if (!heroSection) return;
                 
-                for (let i = 0; i < 150; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height - canvas.height,
-                        size: Math.random() * 10 + 5,
-                        speedX: Math.random() * 6 - 3,
-                        speedY: Math.random() * 3 + 2,
-                        color: colors[Math.floor(Math.random() * colors.length)],
-                        shape: Math.random() > 0.5 ? 'circle' : 'square',
-                        rotation: Math.random() * 360,
-                        rotationSpeed: Math.random() * 10 - 5
-                    });
-                }
+                // Créer une image pour tester le chargement
+                const testImage = new Image();
+                testImage.src = 'assets/images/resultats-hero.jpg';
                 
-                function animateConfetti() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                testImage.onload = function() {
+                    // Image chargée avec succès
+                    heroSection.classList.remove('fallback-bg');
+                    console.log('Hero image loaded successfully');
+                };
+                
+                testImage.onerror = function() {
+                    // Échec du chargement, activer le fallback
+                    heroSection.classList.add('fallback-bg');
+                    console.log('Hero image failed to load, using fallback');
                     
-                    for (let i = 0; i < particles.length; i++) {
-                        const p = particles[i];
-                        
-                        p.x += p.speedX;
-                        p.y += p.speedY;
-                        p.rotation += p.rotationSpeed;
-                        
-                        p.speedY += 0.05;
-                        
-                        ctx.save();
-                        ctx.translate(p.x, p.y);
-                        ctx.rotate(p.rotation * Math.PI / 180);
-                        ctx.fillStyle = p.color;
-                        
-                        if (p.shape === 'circle') {
-                            ctx.beginPath();
-                            ctx.arc(0, 0, p.size, 0, Math.PI * 2);
-                            ctx.fill();
-                        } else {
-                            ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-                        }
-                        
-                        ctx.restore();
+                    // Ajouter un message subtil dans la console pour le débogage
+                    showNotification('Image de fond non chargée, utilisation du fond de secours', 'info');
+                };
+                
+                // Timeout au cas où le chargement prend trop de temps
+                setTimeout(() => {
+                    if (!testImage.complete) {
+                        heroSection.classList.add('fallback-bg');
                     }
-                    
-                    requestAnimationFrame(animateConfetti);
-                    
-                    setTimeout(() => {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    }, 3000);
-                }
-                
-                animateConfetti();
-                showNotification('Confettis lancés ! 🎉', 'success');
-            };
+                }, 3000);
+            }
+            
+            // Initialiser le chargement de l'image hero
+            handleHeroImageLoading();
 
-            // 14. PWA FUNCTIONALITY
+            // 13. PWA FUNCTIONALITY
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register('/service-worker.js')
@@ -2581,7 +2840,7 @@
                 });
             }
 
-            // 15. IMAGE LOAD ERROR HANDLING
+            // 14. IMAGE LOAD ERROR HANDLING
             function handleImageErrors() {
                 document.querySelectorAll('img').forEach(img => {
                     img.addEventListener('error', function() {
@@ -2599,6 +2858,20 @@
             }
 
             handleImageErrors();
+            
+            // 15. FORCER LE REDIMENSIONNEMENT POUR ÉVITER LES DÉBORDEMENTS
+            function forceResizeForOverflow() {
+                const noteItems = document.querySelectorAll('.note-item');
+                noteItems.forEach(item => {
+                    // S'assurer que les éléments ne débordent pas
+                    item.style.maxWidth = '100%';
+                    item.style.overflow = 'hidden';
+                });
+            }
+            
+            // Appeler après le chargement et lors du redimensionnement
+            window.addEventListener('load', forceResizeForOverflow);
+            window.addEventListener('resize', forceResizeForOverflow);
         });
     </script>
     
