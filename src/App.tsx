@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Users, BookOpen, FileText, Settings, Plus, Search, Edit2, Trash2,
-  Save, X, Upload, Download, Printer, BarChart3, GraduationCap,
-  Phone, Mail, Calendar, Award, TrendingUp, ChevronRight, Zap,
-  CheckCircle, AlertCircle, Info, AlertTriangle, MessageCircle,
-  Camera, Palette, Hash, User, Home, ClipboardList, FileSpreadsheet
+  Home, Users, BookOpen, PenTool, FileText, Settings, Plus, Edit2, Trash2,
+  Save, X, Upload, Download, Search, Phone, Mail, MessageCircle, ChevronDown,
+  Camera, Palette, Award, TrendingUp, BarChart3, Printer, FileSpreadsheet,
+  Moon, Sun, Sparkles, GraduationCap, Star, AlertTriangle, CheckCircle,
+  Info, XCircle, Menu, ChevronRight, Eye, EyeOff, RefreshCw, HelpCircle
 } from 'lucide-react';
 import {
   Chart as ChartJS,
@@ -16,1414 +17,1876 @@ import {
   Legend,
   CategoryScale,
   LinearScale,
-  BarElement
+  BarElement,
+  ArcElement,
 } from 'chart.js';
-import { Radar, Bar } from 'react-chartjs-2';
+import { Radar, Doughnut, Bar } from 'react-chartjs-2';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
-import { db, Student, Subject, Grade, SchoolSettings } from './db';
+import { useStore, getAppreciation, calculateMoyenne, Eleve, Matiere, Note, Mention } from './store';
 
 ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  BarElement
+  RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend,
+  CategoryScale, LinearScale, BarElement, ArcElement
 );
 
-// Types
-type Page = 'dashboard' | 'students' | 'subjects' | 'grades' | 'bulletin' | 'settings';
-type NotificationType = 'success' | 'error' | 'warning' | 'info';
-type Trimester = 'T1' | 'T2' | 'T3';
+// Types locaux
+type TabType = 'dashboard' | 'eleves' | 'matieres' | 'notes' | 'bulletins' | 'settings';
+type Trimestre = 1 | 2 | 3;
 
-interface Notification {
-  id: string;
-  type: NotificationType;
-  message: string;
-  duration?: number;
-}
-
-// Notification Component
-const NotificationToast: React.FC<{ notification: Notification; onClose: () => void }> = ({ notification, onClose }) => {
-  const [isExiting, setIsExiting] = useState(false);
-  
-  const icons = {
-    success: <CheckCircle className="w-6 h-6" />,
-    error: <AlertCircle className="w-6 h-6" />,
-    warning: <AlertTriangle className="w-6 h-6" />,
-    info: <Info className="w-6 h-6" />
-  };
-  
-  const colors = {
-    success: 'from-green-500 to-emerald-600 border-green-400',
-    error: 'from-red-500 to-rose-600 border-red-400',
-    warning: 'from-yellow-500 to-orange-500 border-yellow-400',
-    info: 'from-blue-500 to-cyan-600 border-blue-400'
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsExiting(true);
-      setTimeout(onClose, 400);
-    }, notification.duration || 4000);
-    return () => clearTimeout(timer);
-  }, [notification.duration, onClose]);
-
-  return (
-    <div className={`${isExiting ? 'animate-slide-out' : 'animate-slide-in'} 
-      bg-gradient-to-r ${colors[notification.type]} 
-      border-l-4 rounded-lg shadow-2xl p-4 mb-3 flex items-center gap-3
-      backdrop-blur-sm bg-opacity-95`}
-    >
-      <div className="text-white">{icons[notification.type]}</div>
-      <p className="text-white font-medium flex-1">{notification.message}</p>
-      <button onClick={() => { setIsExiting(true); setTimeout(onClose, 400); }} 
-        className="text-white/80 hover:text-white transition-colors">
-        <X className="w-5 h-5" />
-      </button>
-      <div className="absolute bottom-0 left-0 h-1 bg-white/30 rounded-b-lg animate-[shrink_4s_linear]" 
-        style={{ width: '100%', animation: `shrink ${notification.duration || 4000}ms linear` }} />
-    </div>
-  );
-};
-
-// Main App
+// ============================================
+// COMPOSANT PRINCIPAL
+// ============================================
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('dashboard');
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [students, setStudents] = useState<Student[]>([]);
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [grades, setGrades] = useState<Grade[]>([]);
-  const [settings, setSettings] = useState<SchoolSettings | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTrimester, setSelectedTrimester] = useState<Trimester>('T1');
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const store = useStore();
+  const [trimestre, setTrimestre] = useState<Trimestre>(1);
+  const [searchQuery, setSearchQuery] = useState('');
   const [showContactMenu, setShowContactMenu] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Modals
-  const [showStudentModal, setShowStudentModal] = useState(false);
-  const [showSubjectModal, setShowSubjectModal] = useState(false);
-  const [showGradeModal, setShowGradeModal] = useState(false);
-  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
-  const [editingSubject, setEditingSubject] = useState<Subject | null>(null);
-
-  // Notification helper
-  const notify = useCallback((type: NotificationType, message: string) => {
-    const id = Date.now().toString();
-    setNotifications(prev => [...prev, { id, type, message, duration: type === 'error' ? 6000 : 4000 }]);
-  }, []);
-
-  const removeNotification = useCallback((id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
-  }, []);
-
-  // Load data
+  
+  // Appliquer le thème
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [loadedStudents, loadedSubjects, loadedGrades, loadedSettings] = await Promise.all([
-          db.students.toArray(),
-          db.subjects.toArray(),
-          db.grades.toArray(),
-          db.settings.get(1)
-        ]);
-        setStudents(loadedStudents);
-        setSubjects(loadedSubjects);
-        setGrades(loadedGrades);
-        setSettings(loadedSettings || {
-          id: 1,
-          schoolName: 'Stein Technology STTN',
-          schoolYear: '2024-2025',
-          logo: '',
-          stamp: '',
-          directorSignature: '',
-          teacherSignature: ''
-        });
-        setIsLoading(false);
-      } catch (error) {
-        notify('error', 'Erreur de chargement des données');
-        setIsLoading(false);
-      }
-    };
-    loadData();
-  }, [notify]);
-
-  // Save settings
-  const saveSettings = async (newSettings: SchoolSettings) => {
-    try {
-      await db.settings.put(newSettings);
-      setSettings(newSettings);
-      notify('success', 'Paramètres sauvegardés !');
-    } catch (error) {
-      notify('error', 'Erreur de sauvegarde');
-    }
-  };
-
-  // Student CRUD
-  const saveStudent = async (student: Omit<Student, 'id'> & { id?: number }) => {
-    try {
-      if (student.id) {
-        await db.students.put(student as Student);
-        setStudents(prev => prev.map(s => s.id === student.id ? student as Student : s));
-        notify('success', 'Élève modifié !');
-      } else {
-        const id = await db.students.add(student as Omit<Student, 'id'>);
-        setStudents(prev => [...prev, { ...student, id } as Student]);
-        notify('success', 'Élève ajouté !');
-      }
-      setShowStudentModal(false);
-      setEditingStudent(null);
-    } catch (error) {
-      notify('error', 'Erreur de sauvegarde');
-    }
-  };
-
-  const deleteStudent = async (id: number) => {
-    if (confirm('Supprimer cet élève ?')) {
-      try {
-        await db.students.delete(id);
-        await db.grades.where('studentId').equals(id).delete();
-        setStudents(prev => prev.filter(s => s.id !== id));
-        setGrades(prev => prev.filter(g => g.studentId !== id));
-        notify('success', 'Élève supprimé !');
-      } catch (error) {
-        notify('error', 'Erreur de suppression');
-      }
-    }
-  };
-
-  // Subject CRUD
-  const saveSubject = async (subject: Omit<Subject, 'id'> & { id?: number }) => {
-    try {
-      if (subject.id) {
-        await db.subjects.put(subject as Subject);
-        setSubjects(prev => prev.map(s => s.id === subject.id ? subject as Subject : s));
-        notify('success', 'Matière modifiée !');
-      } else {
-        const id = await db.subjects.add(subject as Omit<Subject, 'id'>);
-        setSubjects(prev => [...prev, { ...subject, id } as Subject]);
-        notify('success', 'Matière ajoutée !');
-      }
-      setShowSubjectModal(false);
-      setEditingSubject(null);
-    } catch (error) {
-      notify('error', 'Erreur de sauvegarde');
-    }
-  };
-
-  const deleteSubject = async (id: number) => {
-    if (confirm('Supprimer cette matière ?')) {
-      try {
-        await db.subjects.delete(id);
-        await db.grades.where('subjectId').equals(id).delete();
-        setSubjects(prev => prev.filter(s => s.id !== id));
-        setGrades(prev => prev.filter(g => g.subjectId !== id));
-        notify('success', 'Matière supprimée !');
-      } catch (error) {
-        notify('error', 'Erreur de suppression');
-      }
-    }
-  };
-
-  // Grade CRUD
-  const saveGrade = async (grade: Omit<Grade, 'id'>) => {
-    try {
-      const id = await db.grades.add(grade);
-      setGrades(prev => [...prev, { ...grade, id } as Grade]);
-      notify('success', 'Note enregistrée !');
-      setShowGradeModal(false);
-    } catch (error) {
-      notify('error', 'Erreur de sauvegarde');
-    }
-  };
-
-  // Calculate averages
-  const calculateStudentAverage = (studentId: number, trimester: Trimester): number => {
-    const studentGrades = grades.filter(g => g.studentId === studentId && g.trimester === trimester);
-    if (studentGrades.length === 0) return 0;
-
-    let totalWeighted = 0;
-    let totalCoef = 0;
-
-    subjects.forEach(subject => {
-      const subjectGrades = studentGrades.filter(g => g.subjectId === subject.id);
-      if (subjectGrades.length > 0) {
-        const avg = subjectGrades.reduce((sum, g) => sum + g.value, 0) / subjectGrades.length;
-        totalWeighted += avg * subject.coefficient;
-        totalCoef += subject.coefficient;
-      }
-    });
-
-    return totalCoef > 0 ? Math.round((totalWeighted / totalCoef) * 100) / 100 : 0;
-  };
-
-  const calculateSubjectAverage = (studentId: number, subjectId: number, trimester: Trimester): number => {
-    const subjectGrades = grades.filter(
-      g => g.studentId === studentId && g.subjectId === subjectId && g.trimester === trimester
-    );
-    if (subjectGrades.length === 0) return 0;
-    return Math.round((subjectGrades.reduce((sum, g) => sum + g.value, 0) / subjectGrades.length) * 100) / 100;
-  };
-
-  const calculateClassAverageForSubject = (subjectId: number, trimester: Trimester): number => {
-    const subjectGrades = grades.filter(g => g.subjectId === subjectId && g.trimester === trimester);
-    if (subjectGrades.length === 0) return 0;
-    return Math.round((subjectGrades.reduce((sum, g) => sum + g.value, 0) / subjectGrades.length) * 100) / 100;
-  };
-
-  const calculateRank = (studentId: number, trimester: Trimester): number => {
-    const averages = students.map(s => ({
-      id: s.id,
-      avg: calculateStudentAverage(s.id!, trimester)
-    })).sort((a, b) => b.avg - a.avg);
-    
-    const rank = averages.findIndex(a => a.id === studentId) + 1;
-    return rank;
-  };
-
-  // Export functions
-  const exportJSON = () => {
-    const data = { students, subjects, grades, settings };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `sttn-backup-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    notify('success', 'Sauvegarde JSON exportée !');
-  };
-
-  const importJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      try {
-        const data = JSON.parse(event.target?.result as string);
-        if (data.students) {
-          await db.students.clear();
-          await db.students.bulkAdd(data.students);
-          setStudents(data.students);
-        }
-        if (data.subjects) {
-          await db.subjects.clear();
-          await db.subjects.bulkAdd(data.subjects);
-          setSubjects(data.subjects);
-        }
-        if (data.grades) {
-          await db.grades.clear();
-          await db.grades.bulkAdd(data.grades);
-          setGrades(data.grades);
-        }
-        if (data.settings) {
-          await db.settings.put(data.settings);
-          setSettings(data.settings);
-        }
-        notify('success', 'Données importées avec succès !');
-      } catch (error) {
-        notify('error', 'Fichier invalide');
-      }
-    };
-    reader.readAsText(file);
-  };
-
-  const exportExcel = () => {
-    const wb = XLSX.utils.book_new();
-    
-    // Students sheet
-    const studentsData = students.map(s => ({
-      Nom: s.lastName,
-      Prénom: s.firstName,
-      'Date de naissance': s.birthDate,
-      Classe: s.class,
-      'Parent': s.parentName,
-      'Téléphone': s.parentPhone
-    }));
-    const wsStudents = XLSX.utils.json_to_sheet(studentsData);
-    XLSX.utils.book_append_sheet(wb, wsStudents, 'Élèves');
-
-    // Grades sheet
-    const gradesData = grades.map(g => {
-      const student = students.find(s => s.id === g.studentId);
-      const subject = subjects.find(s => s.id === g.subjectId);
-      return {
-        Élève: student ? `${student.lastName} ${student.firstName}` : '',
-        Matière: subject?.name || '',
-        Note: g.value,
-        Type: g.type,
-        Trimestre: g.trimester,
-        Date: g.date
-      };
-    });
-    const wsGrades = XLSX.utils.json_to_sheet(gradesData);
-    XLSX.utils.book_append_sheet(wb, wsGrades, 'Notes');
-
-    XLSX.writeFile(wb, `sttn-export-${new Date().toISOString().split('T')[0]}.xlsx`);
-    notify('success', 'Export Excel réussi !');
-  };
-
-  const exportPDF = () => {
-    if (!selectedStudent) {
-      notify('warning', 'Sélectionnez un élève');
-      return;
-    }
-
-    const doc = new jsPDF();
-    const avg = calculateStudentAverage(selectedStudent.id!, selectedTrimester);
-    const rank = calculateRank(selectedStudent.id!, selectedTrimester);
-
-    doc.setFontSize(18);
-    doc.setTextColor(255, 0, 255);
-    doc.text(settings?.schoolName || 'STTN', 105, 20, { align: 'center' });
-    
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0);
-    doc.text(`Bulletin - ${selectedTrimester} - ${settings?.schoolYear}`, 105, 30, { align: 'center' });
-    
-    doc.setFontSize(12);
-    doc.text(`Élève: ${selectedStudent.lastName} ${selectedStudent.firstName}`, 20, 45);
-    doc.text(`Classe: ${selectedStudent.class}`, 20, 52);
-    doc.text(`Moyenne: ${avg}/20`, 140, 45);
-    doc.text(`Rang: ${rank}/${students.length}`, 140, 52);
-
-    let y = 65;
-    doc.setFillColor(255, 0, 255);
-    doc.rect(20, y, 170, 8, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.text('Matière', 25, y + 6);
-    doc.text('Moy. Élève', 100, y + 6);
-    doc.text('Moy. Classe', 140, y + 6);
-
-    y += 10;
-    doc.setTextColor(0, 0, 0);
-    subjects.forEach(subject => {
-      const subjectAvg = calculateSubjectAverage(selectedStudent.id!, subject.id!, selectedTrimester);
-      const classAvg = calculateClassAverageForSubject(subject.id!, selectedTrimester);
-      doc.text(subject.name, 25, y + 5);
-      doc.text(subjectAvg.toString(), 108, y + 5);
-      doc.text(classAvg.toString(), 148, y + 5);
-      doc.rect(20, y, 170, 8);
-      y += 8;
-    });
-
-    doc.save(`bulletin-${selectedStudent.lastName}-${selectedTrimester}.pdf`);
-    notify('success', 'PDF généré !');
-  };
-
-  const printBulletin = () => {
-    if (!selectedStudent) {
-      notify('warning', 'Sélectionnez un élève');
-      return;
-    }
-    window.print();
-  };
-
-  // Filtered students
-  const filteredStudents = students.filter(s =>
-    `${s.lastName} ${s.firstName}`.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  // Loading screen
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-fuchsia-900 via-black to-lime-900">
-        <div className="text-center">
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-fuchsia-500 to-lime-400 animate-pulse flex items-center justify-center">
-            <Zap className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-white">Chargement...</h1>
-        </div>
-      </div>
-    );
-  }
-
-  // Render pages
-  const renderDashboard = () => (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center py-6">
-        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-lime-500 shadow-lg shadow-fuchsia-500/30">
-          <Zap className="w-8 h-8 text-white" />
-          <h1 className="text-2xl font-bold text-white">{settings?.schoolName}</h1>
-        </div>
-        <p className="text-lime-400 mt-2 font-medium">Année scolaire {settings?.schoolYear}</p>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="card-fuchsia rounded-2xl p-5 text-center">
-          <Users className="w-10 h-10 mx-auto mb-2 text-fuchsia-400" />
-          <div className="text-3xl font-bold text-white">{students.length}</div>
-          <div className="text-fuchsia-300 text-sm">Élèves</div>
-        </div>
-        <div className="card-citron rounded-2xl p-5 text-center">
-          <BookOpen className="w-10 h-10 mx-auto mb-2 text-lime-400" />
-          <div className="text-3xl font-bold text-white">{subjects.length}</div>
-          <div className="text-lime-300 text-sm">Matières</div>
-        </div>
-        <div className="card-citron rounded-2xl p-5 text-center">
-          <ClipboardList className="w-10 h-10 mx-auto mb-2 text-lime-400" />
-          <div className="text-3xl font-bold text-white">{grades.length}</div>
-          <div className="text-lime-300 text-sm">Notes</div>
-        </div>
-        <div className="card-fuchsia rounded-2xl p-5 text-center">
-          <Award className="w-10 h-10 mx-auto mb-2 text-fuchsia-400" />
-          <div className="text-3xl font-bold text-white">
-            {students.length > 0 ? (students.reduce((sum, s) => sum + calculateStudentAverage(s.id!, selectedTrimester), 0) / students.length).toFixed(1) : '0'}
-          </div>
-          <div className="text-fuchsia-300 text-sm">Moy. Classe</div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="glass rounded-2xl p-5">
-        <h2 className="text-lg font-bold text-fuchsia-400 mb-4 flex items-center gap-2">
-          <Zap className="w-5 h-5" /> Actions Rapides
-        </h2>
-        <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => { setCurrentPage('students'); setShowStudentModal(true); }}
-            className="btn-fuchsia p-4 rounded-xl flex items-center justify-center gap-2">
-            <Plus className="w-5 h-5" /> Élève
-          </button>
-          <button onClick={() => { setCurrentPage('grades'); setShowGradeModal(true); }}
-            className="btn-citron p-4 rounded-xl flex items-center justify-center gap-2">
-            <Plus className="w-5 h-5" /> Note
-          </button>
-          <button onClick={exportJSON}
-            className="glass p-4 rounded-xl flex items-center justify-center gap-2 text-white hover:bg-fuchsia-500/20 transition-colors">
-            <Download className="w-5 h-5 text-fuchsia-400" /> Sauvegarder
-          </button>
-          <label className="glass p-4 rounded-xl flex items-center justify-center gap-2 text-white hover:bg-lime-500/20 transition-colors cursor-pointer">
-            <Upload className="w-5 h-5 text-lime-400" /> Importer
-            <input type="file" accept=".json" onChange={importJSON} className="hidden" />
-          </label>
-        </div>
-      </div>
-
-      {/* Top Students */}
-      {students.length > 0 && (
-        <div className="card-citron rounded-2xl p-5">
-          <h2 className="text-lg font-bold text-lime-400 mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5" /> Top 5 - {selectedTrimester}
-          </h2>
-          <div className="space-y-2">
-            {students
-              .map(s => ({ ...s, avg: calculateStudentAverage(s.id!, selectedTrimester) }))
-              .sort((a, b) => b.avg - a.avg)
-              .slice(0, 5)
-              .map((s, i) => (
-                <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-black/30">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm
-                    ${i === 0 ? 'bg-yellow-500 text-black' : i === 1 ? 'bg-gray-300 text-black' : i === 2 ? 'bg-orange-400 text-black' : 'bg-gray-600 text-white'}`}>
-                    {i + 1}
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-white font-medium">{s.lastName} {s.firstName}</div>
-                    <div className="text-lime-400 text-sm">{s.class}</div>
-                  </div>
-                  <div className="text-xl font-bold text-lime-400">{s.avg}/20</div>
-                </div>
-              ))}
-          </div>
-        </div>
-      )}
-
-      {/* Contact */}
-      <div className="glass rounded-2xl p-5 text-center">
-        <h3 className="text-fuchsia-400 font-bold mb-3">Besoin d'aide ?</h3>
-        <div className="flex justify-center gap-4">
-          <a href="https://wa.me/22949114951" target="_blank" rel="noopener noreferrer"
-            className="btn-fuchsia px-6 py-3 rounded-xl flex items-center gap-2">
-            <MessageCircle className="w-5 h-5" /> WhatsApp
-          </a>
-          <a href="mailto:codjosamuelstein@gmail.com"
-            className="btn-citron px-6 py-3 rounded-xl flex items-center gap-2">
-            <Mail className="w-5 h-5" /> Email
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderStudents = () => (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-          Élèves
-        </h1>
-        <button onClick={() => { setEditingStudent(null); setShowStudentModal(true); }}
-          className="btn-fuchsia p-3 rounded-xl">
-          <Plus className="w-6 h-6" />
-        </button>
-      </div>
-
-      {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-fuchsia-400" />
-        <input type="text" placeholder="Rechercher..."
-          value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-          className="input-styled w-full pl-12 pr-4 py-3 rounded-xl" />
-      </div>
-
-      {/* List */}
-      <div className="space-y-3">
-        {filteredStudents.map(student => (
-          <div key={student.id} className="card-fuchsia rounded-2xl p-4 flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-fuchsia-500 to-lime-400 flex items-center justify-center overflow-hidden">
-              {student.photo ? (
-                <img src={student.photo} alt="" className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-7 h-7 text-white" />
-              )}
-            </div>
-            <div className="flex-1">
-              <div className="text-white font-bold">{student.lastName} {student.firstName}</div>
-              <div className="text-fuchsia-300 text-sm">{student.class}</div>
-              <div className="text-lime-400 text-xs">Moy: {calculateStudentAverage(student.id!, selectedTrimester)}/20</div>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => { setEditingStudent(student); setShowStudentModal(true); }}
-                className="p-2 rounded-lg bg-fuchsia-500/30 text-fuchsia-300 hover:bg-fuchsia-500/50">
-                <Edit2 className="w-5 h-5" />
-              </button>
-              <button onClick={() => deleteStudent(student.id!)}
-                className="p-2 rounded-lg bg-red-500/30 text-red-300 hover:bg-red-500/50">
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        ))}
-        {filteredStudents.length === 0 && (
-          <div className="text-center py-10 text-gray-400">
-            <Users className="w-16 h-16 mx-auto mb-4 opacity-50" />
-            <p>Aucun élève trouvé</p>
-          </div>
-        )}
-      </div>
-
-      {/* Student Modal */}
-      {showStudentModal && (
-        <StudentModal
-          student={editingStudent}
-          onSave={saveStudent}
-          onClose={() => { setShowStudentModal(false); setEditingStudent(null); }}
-        />
-      )}
-    </div>
-  );
-
-  const renderSubjects = () => (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-          Matières
-        </h1>
-        <button onClick={() => { setEditingSubject(null); setShowSubjectModal(true); }}
-          className="btn-citron p-3 rounded-xl">
-          <Plus className="w-6 h-6" />
-        </button>
-      </div>
-
-      <div className="space-y-3">
-        {subjects.map(subject => (
-          <div key={subject.id} className="card-citron rounded-2xl p-4 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center" 
-              style={{ backgroundColor: subject.color + '40' }}>
-              <BookOpen className="w-6 h-6" style={{ color: subject.color }} />
-            </div>
-            <div className="flex-1">
-              <div className="text-white font-bold">{subject.name}</div>
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-lime-400">Coef: {subject.coefficient}</span>
-                <span className="text-gray-400">•</span>
-                <span className="text-fuchsia-300">{subject.category}</span>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => { setEditingSubject(subject); setShowSubjectModal(true); }}
-                className="p-2 rounded-lg bg-lime-500/30 text-lime-300 hover:bg-lime-500/50">
-                <Edit2 className="w-5 h-5" />
-              </button>
-              <button onClick={() => deleteSubject(subject.id!)}
-                className="p-2 rounded-lg bg-red-500/30 text-red-300 hover:bg-red-500/50">
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        ))}
-        {subjects.length === 0 && (
-          <div className="text-center py-10 text-gray-400">
-            <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
-            <p>Aucune matière</p>
-            <button onClick={() => setShowSubjectModal(true)}
-              className="btn-citron mt-4 px-6 py-2 rounded-xl">
-              Ajouter une matière
-            </button>
-          </div>
-        )}
-      </div>
-
-      {showSubjectModal && (
-        <SubjectModal
-          subject={editingSubject}
-          onSave={saveSubject}
-          onClose={() => { setShowSubjectModal(false); setEditingSubject(null); }}
-        />
-      )}
-    </div>
-  );
-
-  const renderGrades = () => (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-          Saisie Notes
-        </h1>
-        <button onClick={() => setShowGradeModal(true)}
-          className="btn-fuchsia p-3 rounded-xl">
-          <Plus className="w-6 h-6" />
-        </button>
-      </div>
-
-      {/* Trimester Selector */}
-      <div className="flex gap-2">
-        {(['T1', 'T2', 'T3'] as Trimester[]).map(t => (
-          <button key={t}
-            onClick={() => setSelectedTrimester(t)}
-            className={`flex-1 py-3 rounded-xl font-bold transition-all
-              ${selectedTrimester === t 
-                ? 'bg-gradient-to-r from-fuchsia-500 to-lime-500 text-white shadow-lg' 
-                : 'glass text-gray-400 hover:text-white'}`}>
-            {t}
-          </button>
-        ))}
-      </div>
-
-      {/* Recent Grades */}
-      <div className="space-y-3">
-        <h3 className="text-fuchsia-400 font-bold">Notes récentes - {selectedTrimester}</h3>
-        {grades
-          .filter(g => g.trimester === selectedTrimester)
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-          .slice(0, 20)
-          .map(grade => {
-            const student = students.find(s => s.id === grade.studentId);
-            const subject = subjects.find(s => s.id === grade.subjectId);
-            return (
-              <div key={grade.id} className="glass rounded-xl p-4 flex items-center gap-4">
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-fuchsia-500 to-lime-400 flex items-center justify-center">
-                  <span className="text-xl font-bold text-white">{grade.value}</span>
-                </div>
-                <div className="flex-1">
-                  <div className="text-white font-medium">{student?.lastName} {student?.firstName}</div>
-                  <div className="text-fuchsia-300 text-sm">{subject?.name}</div>
-                  <div className="text-gray-400 text-xs">{grade.type} • {grade.date}</div>
-                </div>
-              </div>
-            );
-          })}
-        {grades.filter(g => g.trimester === selectedTrimester).length === 0 && (
-          <div className="text-center py-10 text-gray-400">
-            <ClipboardList className="w-16 h-16 mx-auto mb-4 opacity-50" />
-            <p>Aucune note pour {selectedTrimester}</p>
-          </div>
-        )}
-      </div>
-
-      {showGradeModal && (
-        <GradeModal
-          students={students}
-          subjects={subjects}
-          trimester={selectedTrimester}
-          onSave={saveGrade}
-          onClose={() => setShowGradeModal(false)}
-        />
-      )}
-    </div>
-  );
-
-  const renderBulletin = () => {
-    const studentAvg = selectedStudent ? calculateStudentAverage(selectedStudent.id!, selectedTrimester) : 0;
-    const studentRank = selectedStudent ? calculateRank(selectedStudent.id!, selectedTrimester) : 0;
-
-    const radarData = {
-      labels: subjects.map(s => s.name.substring(0, 10)),
-      datasets: [{
-        label: 'Notes',
-        data: subjects.map(s => selectedStudent ? calculateSubjectAverage(selectedStudent.id!, s.id!, selectedTrimester) : 0),
-        backgroundColor: 'rgba(255, 0, 255, 0.3)',
-        borderColor: '#FF00FF',
-        borderWidth: 2,
-        pointBackgroundColor: '#CCFF00',
-        pointBorderColor: '#CCFF00',
-        pointRadius: 4
-      }]
-    };
-
-    const radarOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 20,
-          ticks: { stepSize: 4, color: '#999', backdropColor: 'transparent' },
-          grid: { color: 'rgba(255, 0, 255, 0.2)' },
-          angleLines: { color: 'rgba(204, 255, 0, 0.2)' },
-          pointLabels: { color: '#fff', font: { size: 10 } }
-        }
-      },
-      plugins: { legend: { display: false } }
-    };
-
-    return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-          Bulletin Scolaire
-        </h1>
-
-        {/* Trimester & Student Selection */}
-        <div className="flex gap-2 mb-4">
-          {(['T1', 'T2', 'T3'] as Trimester[]).map(t => (
-            <button key={t}
-              onClick={() => setSelectedTrimester(t)}
-              className={`flex-1 py-2 rounded-xl font-bold text-sm
-                ${selectedTrimester === t 
-                  ? 'bg-gradient-to-r from-fuchsia-500 to-lime-500 text-white' 
-                  : 'glass text-gray-400'}`}>
-              {t}
-            </button>
-          ))}
-        </div>
-
-        <select value={selectedStudent?.id || ''}
-          onChange={(e) => setSelectedStudent(students.find(s => s.id === Number(e.target.value)) || null)}
-          className="input-styled w-full p-4 rounded-xl">
-          <option value="">-- Sélectionner un élève --</option>
-          {students.map(s => (
-            <option key={s.id} value={s.id}>{s.lastName} {s.firstName} - {s.class}</option>
-          ))}
-        </select>
-
-        {selectedStudent && (
-          <>
-            {/* Actions */}
-            <div className="flex gap-2">
-              <button onClick={printBulletin} className="btn-fuchsia flex-1 py-3 rounded-xl flex items-center justify-center gap-2">
-                <Printer className="w-5 h-5" /> Imprimer
-              </button>
-              <button onClick={exportPDF} className="btn-citron flex-1 py-3 rounded-xl flex items-center justify-center gap-2">
-                <FileText className="w-5 h-5" /> PDF
-              </button>
-              <button onClick={exportExcel} className="glass flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-white">
-                <FileSpreadsheet className="w-5 h-5 text-lime-400" /> Excel
-              </button>
-            </div>
-
-            {/* Preview - Also used for printing */}
-            <div className="print-bulletin bulletin-preview bg-white rounded-2xl overflow-hidden" id="bulletin-print">
-              {/* Print Header */}
-              <div className="print-header flex justify-between items-center p-4 border-b-4 border-fuchsia-500">
-                <div>
-                  <h1 className="text-xl font-bold text-fuchsia-600">{settings?.schoolName}</h1>
-                  <p className="text-sm text-gray-600">Année scolaire {settings?.schoolYear}</p>
-                </div>
-                <div className="text-right">
-                  <h2 className="text-lg font-bold text-gray-800">BULLETIN DE NOTES</h2>
-                  <p className="text-lime-600 font-bold">{selectedTrimester === 'T1' ? '1er Trimestre' : selectedTrimester === 'T2' ? '2ème Trimestre' : '3ème Trimestre'}</p>
-                </div>
-              </div>
-
-              {/* Student Info */}
-              <div className="print-student-info grid grid-cols-2 md:grid-cols-4 gap-2 p-3 bg-gray-50 text-sm">
-                <div><strong className="text-fuchsia-600">Nom:</strong> {selectedStudent.lastName}</div>
-                <div><strong className="text-fuchsia-600">Prénom:</strong> {selectedStudent.firstName}</div>
-                <div><strong className="text-fuchsia-600">Classe:</strong> {selectedStudent.class}</div>
-                <div><strong className="text-fuchsia-600">Né(e) le:</strong> {selectedStudent.birthDate}</div>
-              </div>
-
-              {/* Grades Table */}
-              <div className="p-3">
-                <table className="print-table w-full text-sm">
-                  <thead>
-                    <tr>
-                      <th className="text-left bg-fuchsia-500 text-white p-2">Matière</th>
-                      <th className="bg-fuchsia-500 text-white p-2">Coef</th>
-                      <th className="bg-fuchsia-500 text-white p-2">Moy. Élève</th>
-                      <th className="bg-fuchsia-500 text-white p-2">Moy. Classe</th>
-                      <th className="bg-fuchsia-500 text-white p-2">Appréciation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subjects.map(subject => {
-                      const subjectAvg = calculateSubjectAverage(selectedStudent.id!, subject.id!, selectedTrimester);
-                      const classAvg = calculateClassAverageForSubject(subject.id!, selectedTrimester);
-                      let appreciation = '';
-                      if (subjectAvg >= 16) appreciation = 'Excellent';
-                      else if (subjectAvg >= 14) appreciation = 'Très Bien';
-                      else if (subjectAvg >= 12) appreciation = 'Bien';
-                      else if (subjectAvg >= 10) appreciation = 'Assez Bien';
-                      else if (subjectAvg >= 8) appreciation = 'Passable';
-                      else appreciation = 'Insuffisant';
-                      
-                      return (
-                        <tr key={subject.id}>
-                          <td className="text-left p-2 font-medium subject-name">{subject.name}</td>
-                          <td className="p-2 text-center">{subject.coefficient}</td>
-                          <td className="p-2 text-center font-bold" style={{ color: subjectAvg >= 10 ? '#16a34a' : '#dc2626' }}>
-                            {subjectAvg || '-'}
-                          </td>
-                          <td className="p-2 text-center text-gray-600">{classAvg || '-'}</td>
-                          <td className="p-2 text-center text-xs">{appreciation}</td>
-                        </tr>
-                      );
-                    })}
-                    <tr className="moyenne-row bg-lime-400">
-                      <td colSpan={2} className="p-2 text-left font-bold">MOYENNE GÉNÉRALE</td>
-                      <td className="p-2 text-center font-bold text-lg">{studentAvg}/20</td>
-                      <td className="p-2 text-center font-bold">Rang: {studentRank}/{students.length}</td>
-                      <td className="p-2"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Chart & Stats */}
-              <div className="print-summary grid grid-cols-1 md:grid-cols-2 gap-3 p-3">
-                <div className="print-chart h-48 md:h-40">
-                  <Radar data={radarData} options={radarOptions} />
-                </div>
-                <div className="print-stats grid grid-cols-3 gap-2">
-                  <div className="print-stat-box border-2 border-fuchsia-400 rounded-lg p-2 text-center">
-                    <div className="value text-2xl font-bold text-fuchsia-600">{studentAvg}</div>
-                    <div className="label text-xs text-gray-500">Moyenne</div>
-                  </div>
-                  <div className="print-stat-box border-2 border-lime-400 rounded-lg p-2 text-center">
-                    <div className="value text-2xl font-bold text-lime-600">{studentRank}</div>
-                    <div className="label text-xs text-gray-500">Rang</div>
-                  </div>
-                  <div className="print-stat-box border-2 border-fuchsia-400 rounded-lg p-2 text-center">
-                    <div className="value text-2xl font-bold text-fuchsia-600">{students.length}</div>
-                    <div className="label text-xs text-gray-500">Effectif</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Appreciation */}
-              <div className="print-appreciation mx-3 p-3 border-2 border-lime-400 rounded-lg bg-lime-50">
-                <h4 className="font-bold text-lime-700 mb-1">Appréciation du Conseil de Classe</h4>
-                <p className="text-gray-700 text-sm">
-                  {studentAvg >= 16 ? 'Excellent travail ! Félicitations du conseil de classe. Continuez ainsi.' :
-                   studentAvg >= 14 ? 'Très bon travail. Encouragements du conseil de classe.' :
-                   studentAvg >= 12 ? 'Bon travail. Continuez vos efforts.' :
-                   studentAvg >= 10 ? 'Travail satisfaisant. Des efforts supplémentaires sont attendus.' :
-                   'Travail insuffisant. Des efforts importants sont nécessaires.'}
-                </p>
-              </div>
-
-              {/* Signatures */}
-              <div className="print-signatures grid grid-cols-3 gap-3 p-3 mt-2">
-                <div className="print-signature-box text-center">
-                  <p className="text-xs text-gray-500 mb-6">Le Directeur</p>
-                  {settings?.directorSignature && (
-                    <img src={settings.directorSignature} alt="Signature" className="h-10 mx-auto" />
-                  )}
-                  <div className="border-t border-gray-300 pt-1 text-xs text-gray-400">Signature</div>
-                </div>
-                <div className="print-signature-box text-center">
-                  <p className="text-xs text-gray-500 mb-6">Le Parent</p>
-                  <div className="border-t border-gray-300 pt-1 text-xs text-gray-400">Signature</div>
-                </div>
-                <div className="print-signature-box text-center">
-                  <p className="text-xs text-gray-500 mb-6">Cachet de l'école</p>
-                  {settings?.stamp && (
-                    <img src={settings.stamp} alt="Cachet" className="h-10 mx-auto" />
-                  )}
-                  <div className="border-t border-gray-300 pt-1 text-xs text-gray-400">Cachet</div>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="print-footer text-center py-2 border-t text-xs text-gray-400">
-                {settings?.schoolName} • Bulletin généré le {new Date().toLocaleDateString('fr-FR')}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    );
-  };
-
-  const renderSettings = () => (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-        Paramètres
-      </h1>
-
-      <div className="space-y-4">
-        {/* School Info */}
-        <div className="card-fuchsia rounded-2xl p-5">
-          <h3 className="text-fuchsia-400 font-bold mb-4 flex items-center gap-2">
-            <GraduationCap className="w-5 h-5" /> École
-          </h3>
-          <div className="space-y-3">
-            <input type="text" placeholder="Nom de l'école"
-              value={settings?.schoolName || ''} 
-              onChange={(e) => setSettings((prev: SchoolSettings | null) => prev ? {...prev, schoolName: e.target.value} : prev)}
-              className="input-styled w-full p-3 rounded-xl" />
-            <input type="text" placeholder="Année scolaire (ex: 2024-2025)"
-              value={settings?.schoolYear || ''} 
-              onChange={(e) => setSettings((prev: SchoolSettings | null) => prev ? {...prev, schoolYear: e.target.value} : prev)}
-              className="input-styled w-full p-3 rounded-xl" />
-          </div>
-        </div>
-
-        {/* Images */}
-        <div className="card-citron rounded-2xl p-5">
-          <h3 className="text-lime-400 font-bold mb-4 flex items-center gap-2">
-            <Camera className="w-5 h-5" /> Images
-          </h3>
-          <div className="grid grid-cols-2 gap-4">
-            <ImageUpload label="Logo École" value={settings?.logo} 
-              onChange={(v) => setSettings((prev: SchoolSettings | null) => prev ? {...prev, logo: v} : prev)} />
-            <ImageUpload label="Cachet/Tampon" value={settings?.stamp} 
-              onChange={(v) => setSettings((prev: SchoolSettings | null) => prev ? {...prev, stamp: v} : prev)} />
-            <ImageUpload label="Signature Directeur" value={settings?.directorSignature} 
-              onChange={(v) => setSettings((prev: SchoolSettings | null) => prev ? {...prev, directorSignature: v} : prev)} />
-            <ImageUpload label="Signature Prof" value={settings?.teacherSignature} 
-              onChange={(v) => setSettings((prev: SchoolSettings | null) => prev ? {...prev, teacherSignature: v} : prev)} />
-          </div>
-        </div>
-
-        {/* Save Button */}
-        <button onClick={() => settings && saveSettings(settings)}
-          className="btn-fuchsia w-full py-4 rounded-xl flex items-center justify-center gap-2 text-lg">
-          <Save className="w-6 h-6" /> Sauvegarder les paramètres
-        </button>
-
-        {/* Export/Import */}
-        <div className="glass rounded-2xl p-5">
-          <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-            <Download className="w-5 h-5 text-lime-400" /> Sauvegarde & Export
-          </h3>
-          <div className="grid grid-cols-2 gap-3">
-            <button onClick={exportJSON} className="btn-citron py-3 rounded-xl flex items-center justify-center gap-2">
-              <Download className="w-5 h-5" /> Backup JSON
-            </button>
-            <label className="btn-fuchsia py-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
-              <Upload className="w-5 h-5" /> Importer
-              <input type="file" accept=".json" onChange={importJSON} className="hidden" />
-            </label>
-            <button onClick={exportExcel} className="glass py-3 rounded-xl flex items-center justify-center gap-2 text-lime-400 col-span-2">
-              <FileSpreadsheet className="w-5 h-5" /> Export Excel
-            </button>
-          </div>
-        </div>
-
-        {/* Contact */}
-        <div className="glass rounded-2xl p-5 text-center">
-          <h3 className="text-fuchsia-400 font-bold mb-3">Support Technique</h3>
-          <p className="text-gray-400 text-sm mb-4">Besoin d'aide ? Contactez-nous !</p>
-          <div className="flex gap-3 justify-center">
-            <a href="https://wa.me/22949114951" target="_blank" rel="noopener noreferrer"
-              className="btn-fuchsia px-5 py-3 rounded-xl flex items-center gap-2">
-              <MessageCircle className="w-5 h-5" /> +229 49 11 49 51
-            </a>
-            <a href="mailto:codjosamuelstein@gmail.com"
-              className="btn-citron px-5 py-3 rounded-xl flex items-center gap-2">
-              <Mail className="w-5 h-5" /> Email
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    document.body.className = `theme-${store.settings.theme}`;
+  }, [store.settings.theme]);
+
+  const tabs = [
+    { id: 'dashboard', label: 'Accueil', icon: Home },
+    { id: 'eleves', label: 'Élèves', icon: Users },
+    { id: 'matieres', label: 'Matières', icon: BookOpen },
+    { id: 'notes', label: 'Notes', icon: PenTool },
+    { id: 'bulletins', label: 'Bulletins', icon: FileText },
+    { id: 'settings', label: 'Paramètres', icon: Settings },
+  ];
 
   return (
-    <div className="min-h-screen pb-24">
-      {/* Background Bubbles */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-fuchsia-500/20 blur-3xl animate-float" />
-        <div className="absolute top-40 right-10 w-40 h-40 rounded-full bg-lime-500/20 blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-40 left-1/4 w-36 h-36 rounded-full bg-fuchsia-500/15 blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-        <div className="absolute bottom-20 right-1/4 w-28 h-28 rounded-full bg-lime-500/15 blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-      </div>
+    <div className="min-h-screen bg-[var(--bg-dark)] text-white pb-24 relative overflow-hidden">
+      {/* Bulles décoratives */}
+      <div className="bubble bubble-1" />
+      <div className="bubble bubble-2" />
+      <div className="bubble bubble-3" />
 
       {/* Notifications */}
-      <div className="fixed top-4 right-4 z-50 w-80 max-w-[90vw]">
-        {notifications.map(n => (
-          <NotificationToast key={n.id} notification={n} onClose={() => removeNotification(n.id)} />
-        ))}
-      </div>
+      <NotificationContainer />
 
-      {/* Main Content */}
-      <main className="relative z-10 p-4 max-w-2xl mx-auto">
-        {currentPage === 'dashboard' && renderDashboard()}
-        {currentPage === 'students' && renderStudents()}
-        {currentPage === 'subjects' && renderSubjects()}
-        {currentPage === 'grades' && renderGrades()}
-        {currentPage === 'bulletin' && renderBulletin()}
-        {currentPage === 'settings' && renderSettings()}
+      {/* Header */}
+      <header className="sticky top-0 z-40 glass border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {store.settings.ecoleLogo ? (
+              <img src={store.settings.ecoleLogo} alt="Logo" className="w-12 h-12 rounded-full object-cover border-2 border-primary" />
+            ) : (
+              <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-2xl">
+                🫧
+              </div>
+            )}
+            <div>
+              <h1 className="text-lg font-bold gradient-text">{store.settings.ecoleNom}</h1>
+              <p className="text-xs text-white/60">{store.settings.ecoleSlogan}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            {/* Sélecteur de trimestre */}
+            <select
+              value={trimestre}
+              onChange={(e) => setTrimestre(Number(e.target.value) as Trimestre)}
+              className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm focus:border-primary outline-none"
+            >
+              <option value={1}>Trimestre 1</option>
+              <option value={2}>Trimestre 2</option>
+              <option value={3}>Trimestre 3</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      {/* Contenu principal */}
+      <main className="max-w-7xl mx-auto px-4 py-6 relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={store.currentTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+          >
+            {store.currentTab === 'dashboard' && <Dashboard trimestre={trimestre} />}
+            {store.currentTab === 'eleves' && <ElevesPage searchQuery={searchQuery} setSearchQuery={setSearchQuery} />}
+            {store.currentTab === 'matieres' && <MatieresPage />}
+            {store.currentTab === 'notes' && <NotesPage trimestre={trimestre} />}
+            {store.currentTab === 'bulletins' && <BulletinsPage trimestre={trimestre} />}
+            {store.currentTab === 'settings' && <SettingsPage />}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-xl border-t border-fuchsia-500/30 no-print">
-        <div className="flex justify-around items-center py-2 max-w-2xl mx-auto">
-          {[
-            { id: 'dashboard' as Page, icon: Home, label: 'Accueil' },
-            { id: 'students' as Page, icon: Users, label: 'Élèves' },
-            { id: 'grades' as Page, icon: ClipboardList, label: 'Notes' },
-            { id: 'bulletin' as Page, icon: FileText, label: 'Bulletin' },
-            { id: 'settings' as Page, icon: Settings, label: 'Config' }
-          ].map(item => (
-            <button key={item.id}
-              onClick={() => setCurrentPage(item.id)}
-              className={`nav-item flex flex-col items-center py-2 px-4 rounded-xl transition-all
-                ${currentPage === item.id ? 'active' : 'text-gray-400'}`}>
-              <item.icon className="w-6 h-6" />
-              <span className="text-xs mt-1">{item.label}</span>
-            </button>
-          ))}
+      {/* Navigation bottom */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-2">
+          <div className="flex justify-around py-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => store.setCurrentTab(tab.id)}
+                className={`nav-item flex-1 ${store.currentTab === tab.id ? 'active' : 'text-white/60'}`}
+              >
+                <tab.icon size={20} />
+                <span className="text-xs mt-1 hidden sm:block">{tab.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </nav>
 
-      {/* Floating Contact Button */}
-      <div className="fixed bottom-24 right-4 z-50 no-print">
-        <button onClick={() => setShowContactMenu(!showContactMenu)}
-          className={`w-14 h-14 rounded-full bg-gradient-to-r from-fuchsia-500 to-lime-500 
-            flex items-center justify-center shadow-lg shadow-fuchsia-500/50 
-            transition-transform ${showContactMenu ? 'rotate-45' : ''}`}>
-          <Plus className="w-7 h-7 text-white" />
-        </button>
-        {showContactMenu && (
-          <div className="absolute bottom-16 right-0 space-y-2 animate-bounce-in">
-            <a href="https://wa.me/22949114951" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
-              <MessageCircle className="w-5 h-5" /> WhatsApp
-            </a>
-            <a href="mailto:codjosamuelstein@gmail.com"
-              className="flex items-center gap-2 bg-fuchsia-500 text-white px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
-              <Mail className="w-5 h-5" /> Email
-            </a>
-          </div>
-        )}
+      {/* Bouton contact flottant */}
+      <div className="fixed bottom-24 right-4 z-50">
+        <AnimatePresence>
+          {showContactMenu && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 20 }}
+              className="absolute bottom-16 right-0 flex flex-col gap-2"
+            >
+              <a
+                href="https://wa.me/22949114951"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-600 transition-all"
+              >
+                <MessageCircle size={20} />
+                <span className="text-sm font-medium">WhatsApp</span>
+              </a>
+              <a
+                href="mailto:codjosamuelstein@gmail.com"
+                className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 transition-all"
+              >
+                <Mail size={20} />
+                <span className="text-sm font-medium">Email</span>
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowContactMenu(!showContactMenu)}
+          className="w-14 h-14 rounded-full gradient-primary flex items-center justify-center shadow-lg glow-primary"
+        >
+          <motion.div animate={{ rotate: showContactMenu ? 45 : 0 }}>
+            {showContactMenu ? <X size={24} /> : <HelpCircle size={24} />}
+          </motion.div>
+        </motion.button>
       </div>
     </div>
   );
 }
 
-// Sub-components
-const ImageUpload: React.FC<{ label: string; value?: string; onChange: (v: string) => void }> = ({ label, value, onChange }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => onChange(ev.target?.result as string);
-      reader.readAsDataURL(file);
-    }
+// ============================================
+// NOTIFICATIONS
+// ============================================
+function NotificationContainer() {
+  const { notifications, removeNotification } = useStore();
+
+  const icons = {
+    success: CheckCircle,
+    error: XCircle,
+    warning: AlertTriangle,
+    info: Info,
+  };
+
+  const colors = {
+    success: 'from-green-500 to-emerald-600',
+    error: 'from-red-500 to-rose-600',
+    warning: 'from-yellow-500 to-orange-600',
+    info: 'from-blue-500 to-indigo-600',
   };
 
   return (
-    <label className="block cursor-pointer">
-      <div className="text-white text-sm mb-2">{label}</div>
-      <div className="h-20 rounded-xl border-2 border-dashed border-fuchsia-400/50 flex items-center justify-center overflow-hidden hover:border-lime-400 transition-colors">
-        {value ? (
-          <img src={value} alt="" className="h-full object-contain" />
-        ) : (
-          <Upload className="w-6 h-6 text-gray-400" />
-        )}
-      </div>
-      <input type="file" accept="image/*" onChange={handleChange} className="hidden" />
-    </label>
+    <div className="fixed top-20 right-4 z-[100] flex flex-col gap-2 max-w-sm">
+      <AnimatePresence>
+        {notifications.map((notif) => {
+          const Icon = icons[notif.type];
+          return (
+            <motion.div
+              key={notif.id}
+              initial={{ opacity: 0, x: 100, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 100, scale: 0.8 }}
+              className={`relative bg-gradient-to-r ${colors[notif.type]} rounded-xl p-4 pr-10 shadow-2xl`}
+            >
+              <div className="flex items-start gap-3">
+                <Icon className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
+                <p className="text-white text-sm font-medium">{notif.message}</p>
+              </div>
+              <button
+                onClick={() => removeNotification(notif.id)}
+                className="absolute top-2 right-2 text-white/80 hover:text-white"
+              >
+                <X size={16} />
+              </button>
+              <motion.div
+                initial={{ width: '100%' }}
+                animate={{ width: '0%' }}
+                transition={{ duration: 5, ease: 'linear' }}
+                className="absolute bottom-0 left-0 h-1 bg-white/30 rounded-b-xl"
+              />
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </div>
   );
-};
+}
 
-const StudentModal: React.FC<{
-  student: Student | null;
-  onSave: (s: Omit<Student, 'id'> & { id?: number }) => void;
-  onClose: () => void;
-}> = ({ student, onSave, onClose }) => {
-  const [form, setForm] = useState({
-    firstName: student?.firstName || '',
-    lastName: student?.lastName || '',
-    birthDate: student?.birthDate || '',
-    class: student?.class || '',
-    photo: student?.photo || '',
-    parentName: student?.parentName || '',
-    parentPhone: student?.parentPhone || '',
-    address: student?.address || ''
-  });
+// ============================================
+// DASHBOARD
+// ============================================
+function Dashboard({ trimestre }: { trimestre: Trimestre }) {
+  const { eleves, matieres, notes, settings } = useStore();
+  
+  const notesTrimestreActuel = notes.filter(n => n.trimestre === trimestre);
+  const moyenneClasse = eleves.length > 0 
+    ? eleves.reduce((sum, e) => {
+        const notesEleve = notesTrimestreActuel.filter(n => n.eleveId === e.id);
+        return sum + calculateMoyenne(notesEleve, matieres);
+      }, 0) / eleves.length
+    : 0;
 
-  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => setForm(prev => ({ ...prev, photo: ev.target?.result as string }));
-      reader.readAsDataURL(file);
-    }
-  };
+  const stats = [
+    { label: 'Élèves', value: eleves.length, icon: Users, color: 'from-pink-500 to-fuchsia-600' },
+    { label: 'Matières', value: matieres.length, icon: BookOpen, color: 'from-lime-400 to-green-500' },
+    { label: 'Notes', value: notesTrimestreActuel.length, icon: PenTool, color: 'from-cyan-400 to-blue-500' },
+    { label: 'Moyenne', value: moyenneClasse.toFixed(2), icon: TrendingUp, color: 'from-purple-500 to-violet-600' },
+  ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-gray-900 to-black border border-fuchsia-500/30 rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-            {student ? 'Modifier Élève' : 'Nouvel Élève'}
-          </h2>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10">
-            <X className="w-6 h-6 text-gray-400" />
-          </button>
+    <div className="space-y-6">
+      {/* Hero Section */}
+      {settings.heroImage && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative rounded-2xl overflow-hidden h-48"
+        >
+          <img src={settings.heroImage} alt="Hero" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+            <div>
+              <h2 className="text-2xl font-bold gradient-text">{settings.ecoleNom}</h2>
+              <p className="text-white/70">{settings.ecoleSlogan}</p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {stats.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="card"
+          >
+            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-3`}>
+              <stat.icon className="w-6 h-6 text-white" />
+            </div>
+            <p className="text-3xl font-bold gradient-text">{stat.value}</p>
+            <p className="text-white/60 text-sm">{stat.label}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Graphiques */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Répartition des moyennes */}
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <BarChart3 className="text-primary" size={20} />
+            Répartition des moyennes
+          </h3>
+          <div className="h-64">
+            <Bar
+              data={{
+                labels: ['0-9', '10-13', '14-16', '17-20'],
+                datasets: [{
+                  label: 'Nombre d\'élèves',
+                  data: [
+                    eleves.filter(e => {
+                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
+                      return m < 10;
+                    }).length,
+                    eleves.filter(e => {
+                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
+                      return m >= 10 && m < 14;
+                    }).length,
+                    eleves.filter(e => {
+                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
+                      return m >= 14 && m < 17;
+                    }).length,
+                    eleves.filter(e => {
+                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
+                      return m >= 17;
+                    }).length,
+                  ],
+                  backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#10B981'],
+                  borderRadius: 8,
+                }],
+              }}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                  y: { beginAtZero: true, ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                  x: { ticks: { color: '#fff' }, grid: { display: false } },
+                },
+              }}
+            />
+          </div>
         </div>
 
-        <div className="space-y-4">
-          {/* Photo */}
-          <label className="block">
-            <div className="w-24 h-24 mx-auto rounded-full border-4 border-fuchsia-500 overflow-hidden cursor-pointer hover:border-lime-400 transition-colors">
-              {form.photo ? (
-                <img src={form.photo} alt="" className="w-full h-full object-cover" />
+        {/* Top 5 élèves */}
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Award className="text-secondary" size={20} />
+            Top 5 Élèves
+          </h3>
+          <div className="space-y-3">
+            {eleves
+              .map(e => ({
+                ...e,
+                moyenne: calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres)
+              }))
+              .sort((a, b) => b.moyenne - a.moyenne)
+              .slice(0, 5)
+              .map((eleve, i) => (
+                <div key={eleve.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                    i === 0 ? 'bg-yellow-500 text-black' :
+                    i === 1 ? 'bg-gray-300 text-black' :
+                    i === 2 ? 'bg-orange-400 text-black' :
+                    'bg-white/10 text-white'
+                  }`}>
+                    {i + 1}
+                  </div>
+                  {eleve.photo ? (
+                    <img src={eleve.photo} alt="" className="w-10 h-10 rounded-full object-cover" />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                      {eleve.prenom[0]}{eleve.nom[0]}
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <p className="font-medium">{eleve.prenom} {eleve.nom}</p>
+                    <p className="text-sm text-white/60">{eleve.classe}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xl font-bold gradient-text">{eleve.moyenne.toFixed(2)}</p>
+                    <p className="text-xs text-white/60">{getAppreciation(eleve.moyenne).text}</p>
+                  </div>
+                </div>
+              ))}
+            {eleves.length === 0 && (
+              <p className="text-center text-white/40 py-8">Aucun élève inscrit</p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Carte contact */}
+      <div className="card card-primary">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Sparkles className="text-secondary" size={20} />
+          Besoin d'aide ?
+        </h3>
+        <p className="text-white/70 mb-4">
+          Contactez le support technique de Stein Technology pour toute question.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="https://wa.me/22949114951"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary flex items-center gap-2"
+          >
+            <MessageCircle size={18} />
+            WhatsApp
+          </a>
+          <a
+            href="mailto:codjosamuelstein@gmail.com"
+            className="btn btn-secondary flex items-center gap-2"
+          >
+            <Mail size={18} />
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// PAGE ÉLÈVES
+// ============================================
+function ElevesPage({ searchQuery, setSearchQuery }: { searchQuery: string; setSearchQuery: (q: string) => void }) {
+  const { eleves, addEleve, updateEleve, deleteEleve, notify } = useStore();
+  const [showModal, setShowModal] = useState(false);
+  const [editingEleve, setEditingEleve] = useState<Eleve | null>(null);
+  const [formData, setFormData] = useState({
+    nom: '', prenom: '', dateNaissance: '', sexe: 'M' as 'M' | 'F',
+    classe: '', photo: '', nomParent: '', telParent: '', adresse: ''
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const filteredEleves = eleves.filter(e =>
+    `${e.prenom} ${e.nom} ${e.classe}`.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, photo: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!formData.nom || !formData.prenom) {
+      notify('error', 'Veuillez remplir le nom et prénom');
+      return;
+    }
+    if (editingEleve) {
+      updateEleve(editingEleve.id, formData);
+    } else {
+      addEleve(formData);
+    }
+    setShowModal(false);
+    setEditingEleve(null);
+    setFormData({ nom: '', prenom: '', dateNaissance: '', sexe: 'M', classe: '', photo: '', nomParent: '', telParent: '', adresse: '' });
+  };
+
+  const openEdit = (eleve: Eleve) => {
+    setEditingEleve(eleve);
+    setFormData({
+      nom: eleve.nom, prenom: eleve.prenom, dateNaissance: eleve.dateNaissance,
+      sexe: eleve.sexe, classe: eleve.classe, photo: eleve.photo || '',
+      nomParent: eleve.nomParent, telParent: eleve.telParent, adresse: eleve.adresse
+    });
+    setShowModal(true);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+        <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
+          <Users size={28} />
+          Gestion des Élèves
+        </h2>
+        <button onClick={() => setShowModal(true)} className="btn btn-primary flex items-center gap-2">
+          <Plus size={20} />
+          Ajouter un élève
+        </button>
+      </div>
+
+      {/* Recherche */}
+      <div className="relative">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={20} />
+        <input
+          type="text"
+          placeholder="Rechercher un élève..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="input pl-12"
+        />
+      </div>
+
+      {/* Liste des élèves */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredEleves.map((eleve) => (
+          <motion.div
+            key={eleve.id}
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="card hover:border-primary/50"
+          >
+            <div className="flex items-start gap-4">
+              {eleve.photo ? (
+                <img src={eleve.photo} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-primary/30" />
               ) : (
-                <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-                  <Camera className="w-8 h-8 text-gray-400" />
+                <div className="w-16 h-16 rounded-xl gradient-primary flex items-center justify-center text-white text-xl font-bold">
+                  {eleve.prenom[0]}{eleve.nom[0]}
                 </div>
               )}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold truncate">{eleve.prenom} {eleve.nom}</h3>
+                <p className="text-sm text-white/60">{eleve.classe}</p>
+                <p className="text-xs text-white/40 mt-1">Mat: {eleve.matricule}</p>
+              </div>
             </div>
-            <input type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
-            <p className="text-center text-gray-400 text-sm mt-2">Cliquez pour ajouter une photo</p>
-          </label>
-
-          <div className="grid grid-cols-2 gap-3">
-            <input type="text" placeholder="Nom *" value={form.lastName}
-              onChange={e => setForm(prev => ({ ...prev, lastName: e.target.value }))}
-              className="input-styled p-3 rounded-xl" required />
-            <input type="text" placeholder="Prénom *" value={form.firstName}
-              onChange={e => setForm(prev => ({ ...prev, firstName: e.target.value }))}
-              className="input-styled p-3 rounded-xl" required />
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3">
-            <input type="date" placeholder="Date naissance" value={form.birthDate}
-              onChange={e => setForm(prev => ({ ...prev, birthDate: e.target.value }))}
-              className="input-styled p-3 rounded-xl" />
-            <input type="text" placeholder="Classe *" value={form.class}
-              onChange={e => setForm(prev => ({ ...prev, class: e.target.value }))}
-              className="input-styled p-3 rounded-xl" required />
-          </div>
-
-          <input type="text" placeholder="Nom du parent" value={form.parentName}
-            onChange={e => setForm(prev => ({ ...prev, parentName: e.target.value }))}
-            className="input-styled w-full p-3 rounded-xl" />
-          
-          <input type="tel" placeholder="Téléphone parent" value={form.parentPhone}
-            onChange={e => setForm(prev => ({ ...prev, parentPhone: e.target.value }))}
-            className="input-styled w-full p-3 rounded-xl" />
-
-          <textarea placeholder="Adresse" value={form.address}
-            onChange={e => setForm(prev => ({ ...prev, address: e.target.value }))}
-            className="input-styled w-full p-3 rounded-xl h-20 resize-none" />
-
-          <button onClick={() => form.lastName && form.firstName && form.class && onSave({ ...form, id: student?.id })}
-            className="btn-fuchsia w-full py-4 rounded-xl flex items-center justify-center gap-2">
-            <Save className="w-5 h-5" /> {student ? 'Modifier' : 'Ajouter'}
-          </button>
-        </div>
+            <div className="flex gap-2 mt-4">
+              <button onClick={() => openEdit(eleve)} className="flex-1 btn btn-outline text-sm py-2">
+                <Edit2 size={16} className="inline mr-1" /> Modifier
+              </button>
+              <button
+                onClick={() => {
+                  if (confirm('Supprimer cet élève ?')) deleteEleve(eleve.id);
+                }}
+                className="btn bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white text-sm py-2 px-3"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          </motion.div>
+        ))}
       </div>
+
+      {filteredEleves.length === 0 && (
+        <div className="text-center py-12 text-white/40">
+          <Users size={48} className="mx-auto mb-4 opacity-50" />
+          <p>Aucun élève trouvé</p>
+        </div>
+      )}
+
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <Modal onClose={() => { setShowModal(false); setEditingEleve(null); }}>
+            <h3 className="text-xl font-bold mb-6 gradient-text">
+              {editingEleve ? 'Modifier l\'élève' : 'Nouvel élève'}
+            </h3>
+            
+            {/* Photo */}
+            <div className="flex justify-center mb-6">
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="w-24 h-24 rounded-xl border-2 border-dashed border-primary/50 flex items-center justify-center cursor-pointer hover:border-primary transition-colors overflow-hidden"
+              >
+                {formData.photo ? (
+                  <img src={formData.photo} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <Camera size={32} className="text-white/40" />
+                )}
+              </div>
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <input
+                type="text"
+                placeholder="Prénom *"
+                value={formData.prenom}
+                onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
+                className="input"
+              />
+              <input
+                type="text"
+                placeholder="Nom *"
+                value={formData.nom}
+                onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                className="input"
+              />
+              <input
+                type="date"
+                value={formData.dateNaissance}
+                onChange={(e) => setFormData({ ...formData, dateNaissance: e.target.value })}
+                className="input"
+              />
+              <select
+                value={formData.sexe}
+                onChange={(e) => setFormData({ ...formData, sexe: e.target.value as 'M' | 'F' })}
+                className="input"
+              >
+                <option value="M">Masculin</option>
+                <option value="F">Féminin</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Classe"
+                value={formData.classe}
+                onChange={(e) => setFormData({ ...formData, classe: e.target.value })}
+                className="input"
+              />
+              <input
+                type="text"
+                placeholder="Nom du parent"
+                value={formData.nomParent}
+                onChange={(e) => setFormData({ ...formData, nomParent: e.target.value })}
+                className="input"
+              />
+              <input
+                type="tel"
+                placeholder="Téléphone parent"
+                value={formData.telParent}
+                onChange={(e) => setFormData({ ...formData, telParent: e.target.value })}
+                className="input"
+              />
+              <input
+                type="text"
+                placeholder="Adresse"
+                value={formData.adresse}
+                onChange={(e) => setFormData({ ...formData, adresse: e.target.value })}
+                className="input sm:col-span-2"
+              />
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button onClick={() => { setShowModal(false); setEditingEleve(null); }} className="flex-1 btn btn-outline">
+                Annuler
+              </button>
+              <button onClick={handleSubmit} className="flex-1 btn btn-primary">
+                <Save size={18} className="inline mr-2" />
+                {editingEleve ? 'Enregistrer' : 'Ajouter'}
+              </button>
+            </div>
+          </Modal>
+        )}
+      </AnimatePresence>
     </div>
   );
-};
+}
 
-const SubjectModal: React.FC<{
-  subject: Subject | null;
-  onSave: (s: Omit<Subject, 'id'> & { id?: number }) => void;
-  onClose: () => void;
-}> = ({ subject, onSave, onClose }) => {
-  const [form, setForm] = useState({
-    name: subject?.name || '',
-    coefficient: subject?.coefficient || 1,
-    color: subject?.color || '#FF00FF',
-    category: subject?.category || 'Principal'
+// ============================================
+// PAGE MATIÈRES
+// ============================================
+function MatieresPage() {
+  const { matieres, addMatiere, updateMatiere, deleteMatiere, notify } = useStore();
+  const [showModal, setShowModal] = useState(false);
+  const [editingMatiere, setEditingMatiere] = useState<Matiere | null>(null);
+  const [formData, setFormData] = useState({
+    nom: '', coefficient: 1, couleur: '#FF00FF',
+    categorie: 'principal' as Matiere['categorie'], ordre: 1
   });
 
-  const colors = ['#FF00FF', '#CCFF00', '#00FFFF', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8'];
-  const categories = ['Principal', 'Secondaire', 'Sport', 'Art', 'Langue'];
+  const categories = [
+    { value: 'principal', label: 'Principal', color: '#FF00FF' },
+    { value: 'secondaire', label: 'Secondaire', color: '#CCFF00' },
+    { value: 'langue', label: 'Langue', color: '#00FFFF' },
+    { value: 'sport', label: 'Sport', color: '#45B7D1' },
+    { value: 'art', label: 'Art', color: '#DDA0DD' },
+  ];
+
+  const handleSubmit = () => {
+    if (!formData.nom) {
+      notify('error', 'Veuillez entrer le nom de la matière');
+      return;
+    }
+    if (editingMatiere) {
+      updateMatiere(editingMatiere.id, formData);
+    } else {
+      addMatiere({ ...formData, ordre: matieres.length + 1 });
+    }
+    setShowModal(false);
+    setEditingMatiere(null);
+    setFormData({ nom: '', coefficient: 1, couleur: '#FF00FF', categorie: 'principal', ordre: 1 });
+  };
+
+  const openEdit = (matiere: Matiere) => {
+    setEditingMatiere(matiere);
+    setFormData({
+      nom: matiere.nom, coefficient: matiere.coefficient, couleur: matiere.couleur,
+      categorie: matiere.categorie, ordre: matiere.ordre
+    });
+    setShowModal(true);
+  };
+
+  const groupedMatieres = categories.map(cat => ({
+    ...cat,
+    matieres: matieres.filter(m => m.categorie === cat.value).sort((a, b) => a.ordre - b.ordre)
+  }));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-gray-900 to-black border border-lime-500/30 rounded-2xl p-6 w-full max-w-md">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-            {subject ? 'Modifier Matière' : 'Nouvelle Matière'}
-          </h2>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10">
-            <X className="w-6 h-6 text-gray-400" />
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          <input type="text" placeholder="Nom de la matière *" value={form.name}
-            onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))}
-            className="input-styled w-full p-3 rounded-xl" required />
-
-          <div>
-            <label className="text-white text-sm mb-2 block">Coefficient: {form.coefficient}</label>
-            <input type="range" min="1" max="5" value={form.coefficient}
-              onChange={e => setForm(prev => ({ ...prev, coefficient: Number(e.target.value) }))}
-              className="w-full accent-lime-400" />
-            <div className="flex justify-between text-xs text-gray-400">
-              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-white text-sm mb-2 block">Couleur</label>
-            <div className="flex flex-wrap gap-2">
-              {colors.map(c => (
-                <button key={c} onClick={() => setForm(prev => ({ ...prev, color: c }))}
-                  className={`w-10 h-10 rounded-full transition-transform ${form.color === c ? 'scale-125 ring-2 ring-white' : ''}`}
-                  style={{ backgroundColor: c }} />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="text-white text-sm mb-2 block">Catégorie</label>
-            <div className="flex flex-wrap gap-2">
-              {categories.map(cat => (
-                <button key={cat} onClick={() => setForm(prev => ({ ...prev, category: cat }))}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all
-                    ${form.category === cat 
-                      ? 'bg-gradient-to-r from-fuchsia-500 to-lime-500 text-white' 
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}>
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button onClick={() => form.name && onSave({ ...form, id: subject?.id })}
-            className="btn-citron w-full py-4 rounded-xl flex items-center justify-center gap-2">
-            <Save className="w-5 h-5" /> {subject ? 'Modifier' : 'Ajouter'}
-          </button>
-        </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+        <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
+          <BookOpen size={28} />
+          Gestion des Matières
+        </h2>
+        <button onClick={() => setShowModal(true)} className="btn btn-primary flex items-center gap-2">
+          <Plus size={20} />
+          Ajouter une matière
+        </button>
       </div>
+
+      {/* Liste par catégorie */}
+      <div className="space-y-6">
+        {groupedMatieres.map((group) => (
+          <div key={group.value} className="card">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: group.color }} />
+              {group.label}
+              <span className="text-sm text-white/40 font-normal">({group.matieres.length})</span>
+            </h3>
+            
+            {group.matieres.length > 0 ? (
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {group.matieres.map((matiere) => (
+                  <div
+                    key={matiere.id}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                  >
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold"
+                      style={{ backgroundColor: matiere.couleur }}
+                    >
+                      {matiere.nom.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate">{matiere.nom}</p>
+                      <p className="text-sm text-white/60">Coef. {matiere.coefficient}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => openEdit(matiere)}
+                        className="p-2 rounded-lg hover:bg-primary/20 text-primary"
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm('Supprimer cette matière ?')) deleteMatiere(matiere.id);
+                        }}
+                        className="p-2 rounded-lg hover:bg-red-500/20 text-red-400"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-white/40 text-center py-4">Aucune matière dans cette catégorie</p>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <Modal onClose={() => { setShowModal(false); setEditingMatiere(null); }}>
+            <h3 className="text-xl font-bold mb-6 gradient-text">
+              {editingMatiere ? 'Modifier la matière' : 'Nouvelle matière'}
+            </h3>
+            
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nom de la matière *"
+                value={formData.nom}
+                onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
+                className="input"
+              />
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-white/60 mb-2">Coefficient</label>
+                  <select
+                    value={formData.coefficient}
+                    onChange={(e) => setFormData({ ...formData, coefficient: Number(e.target.value) })}
+                    className="input"
+                  >
+                    {[1, 2, 3, 4, 5].map(c => (
+                      <option key={c} value={c}>Coef. {c}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-white/60 mb-2">Couleur</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="color"
+                      value={formData.couleur}
+                      onChange={(e) => setFormData({ ...formData, couleur: e.target.value })}
+                      className="w-12 h-12 rounded-lg cursor-pointer"
+                    />
+                    <input
+                      type="text"
+                      value={formData.couleur}
+                      onChange={(e) => setFormData({ ...formData, couleur: e.target.value })}
+                      className="input flex-1"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm text-white/60 mb-2">Catégorie</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.value}
+                      onClick={() => setFormData({ ...formData, categorie: cat.value as Matiere['categorie'] })}
+                      className={`p-3 rounded-xl text-sm font-medium transition-all ${
+                        formData.categorie === cat.value
+                          ? 'bg-primary text-white'
+                          : 'bg-white/5 hover:bg-white/10'
+                      }`}
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button onClick={() => { setShowModal(false); setEditingMatiere(null); }} className="flex-1 btn btn-outline">
+                Annuler
+              </button>
+              <button onClick={handleSubmit} className="flex-1 btn btn-primary">
+                <Save size={18} className="inline mr-2" />
+                {editingMatiere ? 'Enregistrer' : 'Ajouter'}
+              </button>
+            </div>
+          </Modal>
+        )}
+      </AnimatePresence>
     </div>
   );
-};
+}
 
-const GradeModal: React.FC<{
-  students: Student[];
-  subjects: Subject[];
-  trimester: Trimester;
-  onSave: (g: Omit<Grade, 'id'>) => void;
-  onClose: () => void;
-}> = ({ students, subjects, trimester, onSave, onClose }) => {
-  const [form, setForm] = useState({
-    studentId: 0,
-    subjectId: 0,
-    value: 0,
-    type: 'Contrôle',
-    date: new Date().toISOString().split('T')[0]
-  });
+// ============================================
+// PAGE NOTES
+// ============================================
+function NotesPage({ trimestre }: { trimestre: Trimestre }) {
+  const { eleves, matieres, notes, addNote, deleteNote, notify } = useStore();
+  const [selectedEleve, setSelectedEleve] = useState<string>('');
+  const [selectedMatiere, setSelectedMatiere] = useState<string>('');
+  const [noteValue, setNoteValue] = useState<string>('');
+  const [noteType, setNoteType] = useState<Note['type']>('controle');
 
-  const types = ['Examen', 'Contrôle', 'Devoir', 'Participation', 'TP'];
+  const handleAddNote = () => {
+    if (!selectedEleve || !selectedMatiere) {
+      notify('error', 'Sélectionnez un élève et une matière');
+      return;
+    }
+    const value = parseFloat(noteValue);
+    if (isNaN(value) || value < 0 || value > 20) {
+      notify('error', 'La note doit être entre 0 et 20');
+      return;
+    }
+    addNote({
+      eleveId: selectedEleve,
+      matiereId: selectedMatiere,
+      valeur: value,
+      type: noteType,
+      trimestre,
+      date: new Date().toISOString().split('T')[0],
+    });
+    setNoteValue('');
+  };
 
-  const handleNumpad = (n: number | string) => {
-    if (n === 'C') {
-      setForm(prev => ({ ...prev, value: 0 }));
-    } else if (n === '←') {
-      setForm(prev => ({ ...prev, value: Math.floor(prev.value / 10) }));
+  const numPad = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0', '⌫'];
+
+  const handleNumPad = (key: string) => {
+    if (key === '⌫') {
+      setNoteValue(noteValue.slice(0, -1));
+    } else if (key === '.' && noteValue.includes('.')) {
+      return;
     } else {
-      const newValue = form.value * 10 + (n as number);
-      if (newValue <= 20) {
-        setForm(prev => ({ ...prev, value: newValue }));
+      const newValue = noteValue + key;
+      if (parseFloat(newValue) <= 20) {
+        setNoteValue(newValue);
       }
     }
   };
 
+  const recentNotes = notes
+    .filter(n => n.trimestre === trimestre)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 10);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-gray-900 to-black border border-fuchsia-500/30 rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-            Nouvelle Note - {trimester}
-          </h2>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10">
-            <X className="w-6 h-6 text-gray-400" />
-          </button>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
+        <PenTool size={28} />
+        Saisie des Notes - T{trimestre}
+      </h2>
+
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Formulaire de saisie */}
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4">Nouvelle note</h3>
+          
+          <div className="space-y-4">
+            <select
+              value={selectedEleve}
+              onChange={(e) => setSelectedEleve(e.target.value)}
+              className="input"
+            >
+              <option value="">Sélectionner un élève</option>
+              {eleves.map(e => (
+                <option key={e.id} value={e.id}>{e.prenom} {e.nom}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedMatiere}
+              onChange={(e) => setSelectedMatiere(e.target.value)}
+              className="input"
+            >
+              <option value="">Sélectionner une matière</option>
+              {matieres.map(m => (
+                <option key={m.id} value={m.id}>{m.nom}</option>
+              ))}
+            </select>
+
+            <div className="grid grid-cols-2 gap-2">
+              {(['controle', 'examen', 'devoir', 'interrogation'] as const).map(type => (
+                <button
+                  key={type}
+                  onClick={() => setNoteType(type)}
+                  className={`p-3 rounded-xl text-sm font-medium transition-all capitalize ${
+                    noteType === type ? 'bg-primary text-white' : 'bg-white/5 hover:bg-white/10'
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+
+            {/* Affichage de la note */}
+            <div className="text-center py-6 bg-white/5 rounded-xl">
+              <span className="text-5xl font-bold gradient-text">
+                {noteValue || '0'}
+              </span>
+              <span className="text-2xl text-white/40">/20</span>
+            </div>
+
+            {/* Pavé numérique */}
+            <div className="grid grid-cols-3 gap-2">
+              {numPad.map((key) => (
+                <button
+                  key={key}
+                  onClick={() => handleNumPad(key)}
+                  className="h-14 rounded-xl text-xl font-semibold bg-white/10 hover:bg-primary/30 active:scale-95 transition-all"
+                >
+                  {key}
+                </button>
+              ))}
+            </div>
+
+            <button onClick={handleAddNote} className="w-full btn btn-primary text-lg">
+              <Save size={20} className="inline mr-2" />
+              Enregistrer la note
+            </button>
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <select value={form.studentId} onChange={e => setForm(prev => ({ ...prev, studentId: Number(e.target.value) }))}
-            className="input-styled w-full p-3 rounded-xl">
-            <option value={0}>-- Sélectionner un élève --</option>
-            {students.map(s => (
-              <option key={s.id} value={s.id}>{s.lastName} {s.firstName}</option>
-            ))}
-          </select>
-
-          <select value={form.subjectId} onChange={e => setForm(prev => ({ ...prev, subjectId: Number(e.target.value) }))}
-            className="input-styled w-full p-3 rounded-xl">
-            <option value={0}>-- Sélectionner une matière --</option>
-            {subjects.map(s => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
-
-          <div className="flex flex-wrap gap-2">
-            {types.map(t => (
-              <button key={t} onClick={() => setForm(prev => ({ ...prev, type: t }))}
-                className={`px-3 py-2 rounded-full text-sm font-medium transition-all
-                  ${form.type === t 
-                    ? 'bg-gradient-to-r from-fuchsia-500 to-lime-500 text-white' 
-                    : 'bg-gray-700 text-gray-300'}`}>
-                {t}
-              </button>
-            ))}
+        {/* Notes récentes */}
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4">Notes récentes</h3>
+          
+          <div className="space-y-2 max-h-[500px] overflow-y-auto">
+            {recentNotes.map(note => {
+              const eleve = eleves.find(e => e.id === note.eleveId);
+              const matiere = matieres.find(m => m.id === note.matiereId);
+              const appreciation = getAppreciation(note.valeur);
+              
+              return (
+                <div key={note.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+                    style={{ backgroundColor: matiere?.couleur || '#666' }}
+                  >
+                    {note.valeur}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium truncate">{eleve?.prenom} {eleve?.nom}</p>
+                    <p className="text-sm text-white/60">{matiere?.nom} • {note.type}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: `${appreciation.color}30`, color: appreciation.color }}>
+                      {appreciation.text}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => deleteNote(note.id)}
+                    className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              );
+            })}
+            
+            {recentNotes.length === 0 && (
+              <p className="text-center text-white/40 py-8">Aucune note pour ce trimestre</p>
+            )}
           </div>
-
-          {/* Big Note Display */}
-          <div className="text-center py-4">
-            <div className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-lime-400">
-              {form.value}/20
-            </div>
-          </div>
-
-          {/* Numpad */}
-          <div className="grid grid-cols-3 gap-2">
-            {[1,2,3,4,5,6,7,8,9,'C',0,'←'].map(n => (
-              <button key={n} onClick={() => handleNumpad(n)}
-                className={`py-4 rounded-xl text-xl font-bold transition-all
-                  ${n === 'C' ? 'bg-red-500/30 text-red-400 hover:bg-red-500/50' :
-                    n === '←' ? 'bg-orange-500/30 text-orange-400 hover:bg-orange-500/50' :
-                    'bg-gray-700 text-white hover:bg-gray-600 active:scale-95'}`}>
-                {n}
-              </button>
-            ))}
-          </div>
-
-          {/* Quick Values */}
-          <div className="flex gap-2">
-            {[10, 12, 14, 16, 18, 20].map(v => (
-              <button key={v} onClick={() => setForm(prev => ({ ...prev, value: v }))}
-                className="flex-1 py-2 rounded-lg bg-lime-500/20 text-lime-400 font-bold hover:bg-lime-500/40">
-                {v}
-              </button>
-            ))}
-          </div>
-
-          <button onClick={() => form.studentId && form.subjectId && onSave({ ...form, trimester })}
-            disabled={!form.studentId || !form.subjectId}
-            className="btn-fuchsia w-full py-4 rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-            <Save className="w-5 h-5" /> Enregistrer
-          </button>
         </div>
       </div>
     </div>
   );
-};
+}
+
+// ============================================
+// PAGE BULLETINS
+// ============================================
+function BulletinsPage({ trimestre }: { trimestre: Trimestre }) {
+  const store = useStore();
+  const { eleves, matieres, notes, mentions, commentaires, settings, setCommentaire, notify } = store;
+  const [selectedEleve, setSelectedEleve] = useState<string>('');
+  const [showBulletin, setShowBulletin] = useState(false);
+  const [comment, setComment] = useState('');
+  const [selectedMention, setSelectedMention] = useState<string>('');
+  const bulletinRef = useRef<HTMLDivElement>(null);
+
+  const eleve = eleves.find(e => e.id === selectedEleve);
+  const notesEleve = notes.filter(n => n.eleveId === selectedEleve && n.trimestre === trimestre);
+  const moyenne = calculateMoyenne(notesEleve, matieres);
+
+  // Calcul du rang
+  const classement = eleves
+    .map(e => ({
+      id: e.id,
+      moyenne: calculateMoyenne(notes.filter(n => n.eleveId === e.id && n.trimestre === trimestre), matieres)
+    }))
+    .sort((a, b) => b.moyenne - a.moyenne);
+  const rang = classement.findIndex(c => c.id === selectedEleve) + 1;
+
+  // Charger le commentaire existant
+  useEffect(() => {
+    const existing = commentaires.find(c => c.eleveId === selectedEleve && c.trimestre === trimestre);
+    if (existing) {
+      setComment(existing.commentaire);
+      setSelectedMention(existing.mentionId || '');
+    } else {
+      setComment('');
+      setSelectedMention('');
+    }
+  }, [selectedEleve, trimestre, commentaires]);
+
+  const saveComment = () => {
+    if (selectedEleve) {
+      setCommentaire(selectedEleve, trimestre, comment, selectedMention || undefined);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleExportPDF = async () => {
+    if (!bulletinRef.current || !eleve) return;
+    
+    try {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.setFontSize(12);
+      pdf.text(`Bulletin de ${eleve.prenom} ${eleve.nom} - T${trimestre}`, 20, 20);
+      pdf.text(`Moyenne: ${moyenne.toFixed(2)}/20`, 20, 30);
+      pdf.text(`Rang: ${rang}/${eleves.length}`, 20, 40);
+      pdf.save(`bulletin_${eleve.nom}_${eleve.prenom}_T${trimestre}.pdf`);
+      notify('success', 'PDF exporté avec succès!');
+    } catch (error) {
+      notify('error', 'Erreur lors de l\'export PDF');
+    }
+  };
+
+  const handleExportExcel = () => {
+    if (!eleve) return;
+    
+    const data = matieres.map(m => {
+      const notesMatiere = notesEleve.filter(n => n.matiereId === m.id);
+      const moyenneMatiere = notesMatiere.length > 0
+        ? notesMatiere.reduce((sum, n) => sum + n.valeur, 0) / notesMatiere.length
+        : 0;
+      return {
+        Matière: m.nom,
+        Coefficient: m.coefficient,
+        Notes: notesMatiere.map(n => n.valeur).join(', '),
+        Moyenne: moyenneMatiere.toFixed(2),
+        Appréciation: getAppreciation(moyenneMatiere).text,
+      };
+    });
+    
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Bulletin');
+    XLSX.writeFile(wb, `bulletin_${eleve.nom}_${eleve.prenom}_T${trimestre}.xlsx`);
+    notify('success', 'Excel exporté avec succès!');
+  };
+
+  // Données pour le graphique radar
+  const radarData = {
+    labels: matieres.slice(0, 8).map(m => m.nom),
+    datasets: [{
+      label: 'Moyenne',
+      data: matieres.slice(0, 8).map(m => {
+        const notesM = notesEleve.filter(n => n.matiereId === m.id);
+        return notesM.length > 0 ? notesM.reduce((s, n) => s + n.valeur, 0) / notesM.length : 0;
+      }),
+      backgroundColor: 'rgba(255, 0, 255, 0.2)',
+      borderColor: '#FF00FF',
+      borderWidth: 2,
+      pointBackgroundColor: '#CCFF00',
+    }],
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
+        <FileText size={28} />
+        Bulletins Scolaires - T{trimestre}
+      </h2>
+
+      {/* Sélection élève */}
+      <div className="card">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <select
+            value={selectedEleve}
+            onChange={(e) => { setSelectedEleve(e.target.value); setShowBulletin(false); }}
+            className="input"
+          >
+            <option value="">Sélectionner un élève</option>
+            {eleves.map(e => (
+              <option key={e.id} value={e.id}>{e.prenom} {e.nom} - {e.classe}</option>
+            ))}
+          </select>
+          
+          {selectedEleve && (
+            <button onClick={() => setShowBulletin(true)} className="btn btn-primary">
+              <Eye size={18} className="inline mr-2" />
+              Afficher le bulletin
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Aperçu du bulletin */}
+      {selectedEleve && eleve && showBulletin && (
+        <>
+          {/* Options d'export */}
+          <div className="flex flex-wrap gap-3 no-print">
+            <button onClick={handlePrint} className="btn btn-primary">
+              <Printer size={18} className="inline mr-2" />
+              Imprimer
+            </button>
+            <button onClick={handleExportPDF} className="btn btn-secondary">
+              <Download size={18} className="inline mr-2" />
+              Export PDF
+            </button>
+            <button onClick={handleExportExcel} className="btn btn-outline">
+              <FileSpreadsheet size={18} className="inline mr-2" />
+              Export Excel
+            </button>
+          </div>
+
+          {/* Commentaire et mention */}
+          <div className="card no-print">
+            <h3 className="text-lg font-semibold mb-4">Commentaire & Mention</h3>
+            
+            <div className="grid sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-sm text-white/60 mb-2">Mention</label>
+                <select
+                  value={selectedMention}
+                  onChange={(e) => setSelectedMention(e.target.value)}
+                  className="input"
+                >
+                  <option value="">Aucune mention</option>
+                  {mentions.map(m => (
+                    <option key={m.id} value={m.id}>{m.icone} {m.nom}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm text-white/60 mb-2">Commentaire de l'enseignant</label>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="Ajouter un commentaire..."
+                  className="input min-h-[80px] resize-none"
+                />
+              </div>
+            </div>
+            
+            <button onClick={saveComment} className="btn btn-primary">
+              <Save size={18} className="inline mr-2" />
+              Enregistrer
+            </button>
+          </div>
+
+          {/* Bulletin imprimable */}
+          <div ref={bulletinRef} className="card print-bulletin bg-white text-black" id="bulletin">
+            {/* En-tête */}
+            <div className="bulletin-header flex justify-between items-center border-b-2 border-[#FF00FF] pb-4 mb-4">
+              <div className="flex items-center gap-3">
+                {settings.ecoleLogo ? (
+                  <img src={settings.ecoleLogo} alt="Logo" className="bulletin-logo w-16 h-16 object-contain" />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF00FF] to-[#CCFF00] flex items-center justify-center text-3xl">
+                    🫧
+                  </div>
+                )}
+                <div>
+                  <h1 className="bulletin-title text-xl font-bold text-[#FF00FF]">{settings.ecoleNom}</h1>
+                  <p className="bulletin-subtitle text-sm text-gray-600">{settings.ecoleSlogan}</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="font-semibold">Année scolaire {settings.anneeDebut}-{settings.anneeFin}</p>
+                <p className="text-[#FF00FF] font-bold">Bulletin du {trimestre}ème Trimestre</p>
+              </div>
+            </div>
+
+            {/* Infos élève */}
+            <div className="bulletin-student-info grid grid-cols-[auto_1fr_auto] gap-4 p-4 bg-gray-50 rounded-lg mb-4">
+              {settings.bulletin.afficherPhoto && eleve.photo ? (
+                <img src={eleve.photo} alt="" className="bulletin-student-photo w-20 h-24 object-cover rounded-lg" />
+              ) : (
+                <div className="w-20 h-24 bg-gradient-to-br from-[#FF00FF] to-[#CCFF00] rounded-lg flex items-center justify-center text-white text-2xl font-bold">
+                  {eleve.prenom[0]}{eleve.nom[0]}
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <p><span className="text-gray-500">Nom:</span> <strong>{eleve.nom}</strong></p>
+                <p><span className="text-gray-500">Prénom:</span> <strong>{eleve.prenom}</strong></p>
+                <p><span className="text-gray-500">Matricule:</span> <strong>{eleve.matricule}</strong></p>
+                <p><span className="text-gray-500">Classe:</span> <strong>{eleve.classe}</strong></p>
+                <p><span className="text-gray-500">Né(e) le:</span> <strong>{eleve.dateNaissance}</strong></p>
+                <p><span className="text-gray-500">Sexe:</span> <strong>{eleve.sexe === 'M' ? 'Masculin' : 'Féminin'}</strong></p>
+              </div>
+              <div className="text-center">
+                {settings.bulletin.afficherRang && (
+                  <div className="bg-gradient-to-br from-[#FF00FF] to-[#CCFF00] text-white rounded-lg p-3">
+                    <p className="text-xs">RANG</p>
+                    <p className="text-2xl font-bold">{rang}/{eleves.length}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Tableau des notes */}
+            <table className="bulletin-table w-full border-collapse text-sm mb-4">
+              <thead>
+                <tr>
+                  <th className="text-left p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Matière</th>
+                  <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Coef</th>
+                  <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Notes</th>
+                  <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Moy.</th>
+                  {settings.bulletin.afficherMoyenneClasse && (
+                    <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Moy. Cl.</th>
+                  )}
+                  {settings.bulletin.afficherAppreciation && (
+                    <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Appréciation</th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {matieres.map((matiere, i) => {
+                  const notesM = notesEleve.filter(n => n.matiereId === matiere.id);
+                  const moyM = notesM.length > 0 ? notesM.reduce((s, n) => s + n.valeur, 0) / notesM.length : 0;
+                  const appreciation = getAppreciation(moyM);
+                  
+                  // Moyenne de classe pour cette matière
+                  const moyenneClasse = eleves.length > 0
+                    ? eleves.reduce((sum, e) => {
+                        const notesE = notes.filter(n => n.eleveId === e.id && n.matiereId === matiere.id && n.trimestre === trimestre);
+                        return sum + (notesE.length > 0 ? notesE.reduce((s, n) => s + n.valeur, 0) / notesE.length : 0);
+                      }, 0) / eleves.length
+                    : 0;
+                  
+                  return (
+                    <tr key={matiere.id} className={i % 2 === 0 ? 'bg-gray-50' : ''}>
+                      <td className="matiere-cell p-2 font-medium" style={{ borderLeft: `4px solid ${matiere.couleur}` }}>
+                        {matiere.nom}
+                      </td>
+                      <td className="p-2 text-center">{matiere.coefficient}</td>
+                      <td className="p-2 text-center text-sm">
+                        {notesM.map(n => n.valeur).join(' | ') || '-'}
+                      </td>
+                      <td className="note-cell p-2 text-center font-bold">
+                        {notesM.length > 0 ? moyM.toFixed(2) : '-'}
+                      </td>
+                      {settings.bulletin.afficherMoyenneClasse && (
+                        <td className="p-2 text-center text-gray-500">{moyenneClasse.toFixed(2)}</td>
+                      )}
+                      {settings.bulletin.afficherAppreciation && (
+                        <td className="appreciation-cell p-2 text-sm" style={{ color: appreciation.color }}>
+                          {notesM.length > 0 ? appreciation.text : '-'}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            {/* Résumé */}
+            <div className="bulletin-summary grid grid-cols-3 gap-4 p-4 bg-gradient-to-r from-[#FF00FF]/10 to-[#CCFF00]/10 rounded-lg mb-4">
+              <div className="text-center">
+                <p className="text-sm text-gray-500">Moyenne Générale</p>
+                <p className="text-3xl font-bold text-[#FF00FF]">{moyenne.toFixed(2)}/20</p>
+              </div>
+              <div className="text-center">
+                <p className="text-sm text-gray-500">Appréciation</p>
+                <p className="text-xl font-semibold" style={{ color: getAppreciation(moyenne).color }}>
+                  {getAppreciation(moyenne).text}
+                </p>
+              </div>
+              {settings.bulletin.afficherRang && (
+                <div className="text-center">
+                  <p className="text-sm text-gray-500">Classement</p>
+                  <p className="text-3xl font-bold text-[#CCFF00]">{rang}<sup>e</sup>/{eleves.length}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Graphique radar */}
+            {settings.bulletin.afficherGraphique && (
+              <div className="bulletin-chart mx-auto mb-4" style={{ maxWidth: '250px', maxHeight: '250px' }}>
+                <Radar
+                  data={radarData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                      r: {
+                        beginAtZero: true,
+                        max: 20,
+                        ticks: { display: false },
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                      },
+                    },
+                    plugins: { legend: { display: false } },
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Mention et commentaire */}
+            {(settings.bulletin.afficherMentions || comment) && (
+              <div className="bulletin-comments p-4 bg-gray-50 rounded-lg border-l-4 border-[#FF00FF] mb-4">
+                {settings.bulletin.afficherMentions && selectedMention && (
+                  <div className="bulletin-mention inline-block px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-lg font-bold mb-2">
+                    {mentions.find(m => m.id === selectedMention)?.icone}{' '}
+                    {mentions.find(m => m.id === selectedMention)?.nom}
+                  </div>
+                )}
+                {comment && (
+                  <p className="text-gray-700 italic">"{comment}"</p>
+                )}
+              </div>
+            )}
+
+            {/* Signatures */}
+            {settings.bulletin.afficherSignatures && (
+              <div className="bulletin-signatures grid grid-cols-3 gap-6 pt-4 border-t border-dashed border-gray-300">
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 mb-2">Le Parent</p>
+                  <div className="h-16 border-b border-gray-300" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 mb-2">L'Enseignant(e)</p>
+                  {settings.signatureEnseignant ? (
+                    <img src={settings.signatureEnseignant} alt="Signature" className="bulletin-signature-img mx-auto max-h-12" />
+                  ) : (
+                    <div className="h-16 border-b border-gray-300" />
+                  )}
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-gray-500 mb-2">Le Directeur</p>
+                  {settings.signatureDirecteur ? (
+                    <img src={settings.signatureDirecteur} alt="Signature" className="bulletin-signature-img mx-auto max-h-12" />
+                  ) : (
+                    <div className="h-16 border-b border-gray-300" />
+                  )}
+                  {settings.bulletin.afficherCachet && settings.cachet && (
+                    <img src={settings.cachet} alt="Cachet" className="bulletin-stamp mx-auto mt-2 max-h-16 opacity-70" />
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="bulletin-footer text-center text-xs text-gray-400 mt-4 pt-2 border-t border-gray-200">
+              {settings.ecoleAdresse} | Tél: {settings.ecoleTel} | {settings.ecoleEmail}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// PAGE PARAMÈTRES
+// ============================================
+function SettingsPage() {
+  const store = useStore();
+  const { settings, mentions, updateSettings, updateBulletinSettings, addMention, updateMention, deleteMention, exportData, importData, resetData, notify } = store;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const importInputRef = useRef<HTMLInputElement>(null);
+
+  const themes = [
+    { id: 'neon', name: 'Néon', colors: ['#FF00FF', '#CCFF00'] },
+    { id: 'ocean', name: 'Océan', colors: ['#00CED1', '#00FA9A'] },
+    { id: 'sunset', name: 'Coucher', colors: ['#FF6B6B', '#FFE66D'] },
+    { id: 'forest', name: 'Forêt', colors: ['#00D084', '#7CB342'] },
+    { id: 'royal', name: 'Royal', colors: ['#9B59B6', '#E74C3C'] },
+  ];
+
+  const handleImageUpload = (type: 'ecoleLogo' | 'heroImage' | 'cachet' | 'signatureDirecteur' | 'signatureEnseignant') => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        updateSettings({ [type]: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleExport = () => {
+    const data = exportData();
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bulles-de-joie-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    notify('success', 'Sauvegarde exportée avec succès!');
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        importData(event.target?.result as string);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const [showMentionModal, setShowMentionModal] = useState(false);
+  const [editingMention, setEditingMention] = useState<Mention | null>(null);
+  const [mentionForm, setMentionForm] = useState({ nom: '', condition: '', couleur: '#FFD700', icone: '⭐' });
+
+  const handleMentionSubmit = () => {
+    if (!mentionForm.nom) {
+      notify('error', 'Veuillez entrer le nom de la mention');
+      return;
+    }
+    if (editingMention) {
+      updateMention(editingMention.id, mentionForm);
+    } else {
+      addMention(mentionForm);
+    }
+    setShowMentionModal(false);
+    setEditingMention(null);
+    setMentionForm({ nom: '', condition: '', couleur: '#FFD700', icone: '⭐' });
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
+        <Settings size={28} />
+        Paramètres
+      </h2>
+
+      {/* Thème */}
+      <div className="card">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Palette size={20} className="text-primary" />
+          Thème de couleurs
+        </h3>
+        <div className="grid grid-cols-5 gap-3">
+          {themes.map((theme) => (
+            <button
+              key={theme.id}
+              onClick={() => updateSettings({ theme: theme.id as typeof settings.theme })}
+              className={`p-4 rounded-xl transition-all ${
+                settings.theme === theme.id ? 'ring-2 ring-white scale-105' : 'opacity-60 hover:opacity-100'
+              }`}
+            >
+              <div className="flex gap-1 mb-2">
+                <div className="w-6 h-6 rounded-full" style={{ backgroundColor: theme.colors[0] }} />
+                <div className="w-6 h-6 rounded-full" style={{ backgroundColor: theme.colors[1] }} />
+              </div>
+              <p className="text-sm font-medium">{theme.name}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Informations école */}
+      <div className="card">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <GraduationCap size={20} className="text-secondary" />
+          Informations de l'école
+        </h3>
+        
+        <div className="grid sm:grid-cols-2 gap-4">
+          {/* Logo */}
+          <div>
+            <label className="block text-sm text-white/60 mb-2">Logo de l'école</label>
+            <div className="flex items-center gap-4">
+              {settings.ecoleLogo ? (
+                <img src={settings.ecoleLogo} alt="Logo" className="w-16 h-16 rounded-xl object-cover" />
+              ) : (
+                <div className="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Upload size={24} className="text-white/40" />
+                </div>
+              )}
+              <div>
+                <input type="file" accept="image/*" onChange={handleImageUpload('ecoleLogo')} className="hidden" id="logo-upload" />
+                <label htmlFor="logo-upload" className="btn btn-outline text-sm cursor-pointer">
+                  Changer le logo
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          {/* Hero Image */}
+          <div>
+            <label className="block text-sm text-white/60 mb-2">Image Hero (Dashboard)</label>
+            <div className="flex items-center gap-4">
+              {settings.heroImage ? (
+                <img src={settings.heroImage} alt="Hero" className="w-16 h-16 rounded-xl object-cover" />
+              ) : (
+                <div className="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Upload size={24} className="text-white/40" />
+                </div>
+              )}
+              <div>
+                <input type="file" accept="image/*" onChange={handleImageUpload('heroImage')} className="hidden" id="hero-upload" />
+                <label htmlFor="hero-upload" className="btn btn-outline text-sm cursor-pointer">
+                  Changer l'image
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <input
+            type="text"
+            placeholder="Nom de l'école"
+            value={settings.ecoleNom}
+            onChange={(e) => updateSettings({ ecoleNom: e.target.value })}
+            className="input"
+          />
+          <input
+            type="text"
+            placeholder="Slogan"
+            value={settings.ecoleSlogan}
+            onChange={(e) => updateSettings({ ecoleSlogan: e.target.value })}
+            className="input"
+          />
+          <input
+            type="text"
+            placeholder="Adresse"
+            value={settings.ecoleAdresse}
+            onChange={(e) => updateSettings({ ecoleAdresse: e.target.value })}
+            className="input"
+          />
+          <input
+            type="tel"
+            placeholder="Téléphone"
+            value={settings.ecoleTel}
+            onChange={(e) => updateSettings({ ecoleTel: e.target.value })}
+            className="input"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={settings.ecoleEmail}
+            onChange={(e) => updateSettings({ ecoleEmail: e.target.value })}
+            className="input"
+          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Année début"
+              value={settings.anneeDebut}
+              onChange={(e) => updateSettings({ anneeDebut: e.target.value })}
+              className="input flex-1"
+            />
+            <input
+              type="text"
+              placeholder="Année fin"
+              value={settings.anneeFin}
+              onChange={(e) => updateSettings({ anneeFin: e.target.value })}
+              className="input flex-1"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Options du bulletin */}
+      <div className="card">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <FileText size={20} className="text-primary" />
+          Options du Bulletin
+        </h3>
+        
+        <div className="grid sm:grid-cols-2 gap-4">
+          {[
+            { key: 'afficherRang', label: 'Afficher le rang général' },
+            { key: 'afficherRangMatiere', label: 'Afficher le rang par matière' },
+            { key: 'afficherMoyenneClasse', label: 'Afficher la moyenne de classe' },
+            { key: 'afficherAppreciation', label: 'Afficher les appréciations' },
+            { key: 'afficherMentions', label: 'Afficher les mentions' },
+            { key: 'afficherGraphique', label: 'Afficher le graphique radar' },
+            { key: 'afficherPhoto', label: 'Afficher la photo de l\'élève' },
+            { key: 'afficherSignatures', label: 'Afficher les signatures' },
+            { key: 'afficherCachet', label: 'Afficher le cachet' },
+          ].map((option) => (
+            <label key={option.key} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 cursor-pointer hover:bg-white/10">
+              <input
+                type="checkbox"
+                checked={settings.bulletin[option.key as keyof typeof settings.bulletin] as boolean}
+                onChange={(e) => updateBulletinSettings({ [option.key]: e.target.checked })}
+                className="w-5 h-5 rounded accent-[#FF00FF]"
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
+        </div>
+
+        {/* Signatures et cachet */}
+        <div className="grid sm:grid-cols-3 gap-4 mt-6">
+          <div>
+            <label className="block text-sm text-white/60 mb-2">Signature Directeur</label>
+            <input type="file" accept="image/*" onChange={handleImageUpload('signatureDirecteur')} className="hidden" id="sig-dir" />
+            <label htmlFor="sig-dir" className="block w-full p-4 border-2 border-dashed border-white/20 rounded-xl text-center cursor-pointer hover:border-primary">
+              {settings.signatureDirecteur ? (
+                <img src={settings.signatureDirecteur} alt="" className="max-h-12 mx-auto" />
+              ) : (
+                <Upload size={24} className="mx-auto text-white/40" />
+              )}
+            </label>
+          </div>
+          <div>
+            <label className="block text-sm text-white/60 mb-2">Signature Enseignant</label>
+            <input type="file" accept="image/*" onChange={handleImageUpload('signatureEnseignant')} className="hidden" id="sig-ens" />
+            <label htmlFor="sig-ens" className="block w-full p-4 border-2 border-dashed border-white/20 rounded-xl text-center cursor-pointer hover:border-primary">
+              {settings.signatureEnseignant ? (
+                <img src={settings.signatureEnseignant} alt="" className="max-h-12 mx-auto" />
+              ) : (
+                <Upload size={24} className="mx-auto text-white/40" />
+              )}
+            </label>
+          </div>
+          <div>
+            <label className="block text-sm text-white/60 mb-2">Cachet de l'école</label>
+            <input type="file" accept="image/*" onChange={handleImageUpload('cachet')} className="hidden" id="cachet" />
+            <label htmlFor="cachet" className="block w-full p-4 border-2 border-dashed border-white/20 rounded-xl text-center cursor-pointer hover:border-primary">
+              {settings.cachet ? (
+                <img src={settings.cachet} alt="" className="max-h-12 mx-auto" />
+              ) : (
+                <Upload size={24} className="mx-auto text-white/40" />
+              )}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* Gestion des mentions */}
+      <div className="card">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Award size={20} className="text-yellow-400" />
+            Mentions personnalisées
+          </h3>
+          <button onClick={() => setShowMentionModal(true)} className="btn btn-primary text-sm">
+            <Plus size={16} className="inline mr-1" /> Ajouter
+          </button>
+        </div>
+        
+        <div className="grid gap-3 sm:grid-cols-2">
+          {mentions.map((mention) => (
+            <div key={mention.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+              <span className="text-2xl">{mention.icone}</span>
+              <div className="flex-1">
+                <p className="font-medium">{mention.nom}</p>
+                <p className="text-sm text-white/60">{mention.condition}</p>
+              </div>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => {
+                    setEditingMention(mention);
+                    setMentionForm({ nom: mention.nom, condition: mention.condition, couleur: mention.couleur, icone: mention.icone });
+                    setShowMentionModal(true);
+                  }}
+                  className="p-2 hover:bg-primary/20 rounded-lg text-primary"
+                >
+                  <Edit2 size={16} />
+                </button>
+                <button
+                  onClick={() => deleteMention(mention.id)}
+                  className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sauvegarde */}
+      <div className="card">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Download size={20} className="text-primary" />
+          Sauvegarde & Import
+        </h3>
+        
+        <div className="flex flex-wrap gap-3">
+          <button onClick={handleExport} className="btn btn-primary">
+            <Download size={18} className="inline mr-2" />
+            Exporter les données
+          </button>
+          <div>
+            <input ref={importInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
+            <button onClick={() => importInputRef.current?.click()} className="btn btn-secondary">
+              <Upload size={18} className="inline mr-2" />
+              Importer
+            </button>
+          </div>
+          <button
+            onClick={() => {
+              if (confirm('⚠️ Cette action supprimera toutes vos données. Continuer ?')) {
+                resetData();
+              }
+            }}
+            className="btn bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white"
+          >
+            <RefreshCw size={18} className="inline mr-2" />
+            Réinitialiser
+          </button>
+        </div>
+      </div>
+
+      {/* Contact */}
+      <div className="card card-primary">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Sparkles size={20} className="text-secondary" />
+          Support Technique - Stein Technology
+        </h3>
+        <p className="text-white/70 mb-4">
+          Besoin d'aide ou de personnalisation ? Contactez-nous !
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a href="https://wa.me/22949114951" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+            <MessageCircle size={18} className="inline mr-2" />
+            +229 49 11 49 51
+          </a>
+          <a href="mailto:codjosamuelstein@gmail.com" className="btn btn-secondary">
+            <Mail size={18} className="inline mr-2" />
+            Email
+          </a>
+        </div>
+      </div>
+
+      {/* Modal Mention */}
+      <AnimatePresence>
+        {showMentionModal && (
+          <Modal onClose={() => { setShowMentionModal(false); setEditingMention(null); }}>
+            <h3 className="text-xl font-bold mb-6 gradient-text">
+              {editingMention ? 'Modifier la mention' : 'Nouvelle mention'}
+            </h3>
+            
+            <div className="space-y-4">
+              <div className="flex gap-4">
+                <div>
+                  <label className="block text-sm text-white/60 mb-2">Émoji</label>
+                  <input
+                    type="text"
+                    value={mentionForm.icone}
+                    onChange={(e) => setMentionForm({ ...mentionForm, icone: e.target.value })}
+                    className="input w-20 text-center text-2xl"
+                    maxLength={2}
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm text-white/60 mb-2">Nom de la mention</label>
+                  <input
+                    type="text"
+                    value={mentionForm.nom}
+                    onChange={(e) => setMentionForm({ ...mentionForm, nom: e.target.value })}
+                    className="input"
+                    placeholder="Ex: Félicitations"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm text-white/60 mb-2">Condition d'attribution</label>
+                <input
+                  type="text"
+                  value={mentionForm.condition}
+                  onChange={(e) => setMentionForm({ ...mentionForm, condition: e.target.value })}
+                  className="input"
+                  placeholder="Ex: Moyenne ≥ 16"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm text-white/60 mb-2">Couleur</label>
+                <div className="flex gap-2">
+                  <input
+                    type="color"
+                    value={mentionForm.couleur}
+                    onChange={(e) => setMentionForm({ ...mentionForm, couleur: e.target.value })}
+                    className="w-12 h-12 rounded-lg cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    value={mentionForm.couleur}
+                    onChange={(e) => setMentionForm({ ...mentionForm, couleur: e.target.value })}
+                    className="input flex-1"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button onClick={() => { setShowMentionModal(false); setEditingMention(null); }} className="flex-1 btn btn-outline">
+                Annuler
+              </button>
+              <button onClick={handleMentionSubmit} className="flex-1 btn btn-primary">
+                <Save size={18} className="inline mr-2" />
+                {editingMention ? 'Enregistrer' : 'Ajouter'}
+              </button>
+            </div>
+          </Modal>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ============================================
+// COMPOSANTS UTILITAIRES
+// ============================================
+function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="bg-[#1a1a1a] rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-white/10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}

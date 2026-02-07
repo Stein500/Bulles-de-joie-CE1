@@ -2,50 +2,154 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variables couleurs dominantes */
+/* Variables de thème */
 :root {
-  --fuchsia: #FF00FF;
-  --fuchsia-dark: #CC00CC;
-  --fuchsia-light: #FF66FF;
-  --citron: #CCFF00;
-  --citron-dark: #99CC00;
-  --citron-light: #E6FF66;
+  --primary: #FF00FF;
+  --secondary: #CCFF00;
+  --bg-dark: #0a0a0a;
+  --bg-card: rgba(20, 20, 20, 0.8);
 }
 
-/* Base styles avec couleurs dominantes */
+/* Thème Océan */
+.theme-ocean {
+  --primary: #00CED1;
+  --secondary: #00FA9A;
+  --bg-dark: #0a1628;
+}
+
+/* Thème Sunset */
+.theme-sunset {
+  --primary: #FF6B6B;
+  --secondary: #FFE66D;
+  --bg-dark: #1a0a0a;
+}
+
+/* Thème Forêt */
+.theme-forest {
+  --primary: #00D084;
+  --secondary: #7CB342;
+  --bg-dark: #0a1a0a;
+}
+
+/* Thème Royal */
+.theme-royal {
+  --primary: #9B59B6;
+  --secondary: #E74C3C;
+  --bg-dark: #0f0a1a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
 body {
-  background: linear-gradient(135deg, #1a0a1a 0%, #0d0d0d 50%, #0a1a0a 100%);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg-dark);
+  color: #fff;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Scrollbar stylée */
+/* Scrollbar personnalisée */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 0, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #FF00FF, #CCFF00);
+  background: var(--primary);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #FF66FF, #E6FF66);
+  background: var(--secondary);
 }
 
-/* Animation des bulles */
+/* Classes utilitaires personnalisées */
+@layer utilities {
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+  
+  .text-primary {
+    color: var(--primary);
+  }
+  
+  .text-secondary {
+    color: var(--secondary);
+  }
+  
+  .border-primary {
+    border-color: var(--primary);
+  }
+  
+  .border-secondary {
+    border-color: var(--secondary);
+  }
+  
+  .glow-primary {
+    box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(255, 0, 255, 0.3);
+  }
+  
+  .glow-secondary {
+    box-shadow: 0 0 20px var(--secondary), 0 0 40px rgba(204, 255, 0, 0.3);
+  }
+  
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-primary {
+    background: rgba(255, 0, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 0, 255, 0.3);
+  }
+  
+  .glass-secondary {
+    background: rgba(204, 255, 0, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(204, 255, 0, 0.3);
+  }
+}
+
+/* Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-  50% { transform: translateY(-30px) rotate(180deg); opacity: 0.6; }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(5deg); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
-  50% { box-shadow: 0 0 40px rgba(204, 255, 0, 0.8); }
+  0%, 100% { box-shadow: 0 0 20px var(--primary); }
+  50% { box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary); }
 }
 
 @keyframes gradient-shift {
@@ -65,23 +169,23 @@ body {
 }
 
 @keyframes bounce-in {
-  0% { transform: scale(0); }
+  0% { transform: scale(0); opacity: 0; }
   50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
-/* Classes utilitaires */
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 .animate-gradient {
@@ -90,397 +194,432 @@ body {
 }
 
 .animate-slide-in {
-  animation: slide-in 0.4s ease-out forwards;
-}
-
-.animate-slide-out {
-  animation: slide-out 0.4s ease-out forwards;
+  animation: slide-in 0.3s ease-out forwards;
 }
 
 .animate-bounce-in {
-  animation: bounce-in 0.5s ease-out;
+  animation: bounce-in 0.4s ease-out forwards;
 }
 
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+/* Bulles décoratives */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  opacity: 0.1;
+  pointer-events: none;
 }
 
-/* Glassmorphism avec couleurs */
-.glass {
-  background: rgba(255, 0, 255, 0.08);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 0, 255, 0.2);
+.bubble-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+  animation: float 8s ease-in-out infinite;
 }
 
-.glass-citron {
-  background: rgba(204, 255, 0, 0.08);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(204, 255, 0, 0.2);
+.bubble-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -50px;
+  left: -50px;
+  animation: float 10s ease-in-out infinite reverse;
 }
 
-/* Boutons avec couleurs dominantes */
-.btn-fuchsia {
-  background: linear-gradient(135deg, #FF00FF, #CC00CC);
+.bubble-3 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  animation: float 12s ease-in-out infinite;
+}
+
+/* Boutons améliorés */
+.btn {
+  @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform active:scale-95;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #cc00cc);
   color: white;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 0, 255, 0.4);
 }
 
-.btn-fuchsia:hover {
-  background: linear-gradient(135deg, #FF66FF, #FF00FF);
-  box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+.btn-primary:hover {
+  box-shadow: 0 6px 30px rgba(255, 0, 255, 0.6);
   transform: translateY(-2px);
 }
 
-.btn-citron {
-  background: linear-gradient(135deg, #CCFF00, #99CC00);
-  color: #1a1a1a;
-  font-weight: 600;
-  transition: all 0.3s ease;
+.btn-secondary {
+  background: linear-gradient(135deg, var(--secondary), #99cc00);
+  color: #000;
+  box-shadow: 0 4px 20px rgba(204, 255, 0, 0.4);
 }
 
-.btn-citron:hover {
-  background: linear-gradient(135deg, #E6FF66, #CCFF00);
-  box-shadow: 0 0 30px rgba(204, 255, 0, 0.6);
+.btn-secondary:hover {
+  box-shadow: 0 6px 30px rgba(204, 255, 0, 0.6);
   transform: translateY(-2px);
 }
 
-/* Cards avec bordures colorées */
-.card-fuchsia {
-  background: linear-gradient(135deg, rgba(255, 0, 255, 0.15), rgba(255, 0, 255, 0.05));
-  border: 2px solid rgba(255, 0, 255, 0.3);
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
 }
 
-.card-citron {
-  background: linear-gradient(135deg, rgba(204, 255, 0, 0.15), rgba(204, 255, 0, 0.05));
-  border: 2px solid rgba(204, 255, 0, 0.3);
-  box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
+.btn-outline:hover {
+  background: var(--primary);
+  color: white;
 }
 
-/* Inputs stylés */
-.input-styled {
+/* Cards améliorées */
+.card {
+  @apply rounded-2xl p-6;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 0, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(255, 0, 255, 0.1);
+}
+
+.card-primary {
+  border-color: rgba(255, 0, 255, 0.3);
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(204, 255, 0, 0.05));
+}
+
+/* Inputs améliorés */
+.input {
+  @apply w-full px-4 py-3 rounded-xl outline-none transition-all duration-300;
   background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 0, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   color: white;
-  transition: all 0.3s ease;
 }
 
-.input-styled:focus {
-  border-color: #CCFF00;
-  box-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
-  outline: none;
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
 }
 
-.input-styled::placeholder {
+.input::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* Navigation bottom */
+/* Navigation bottom bar */
 .nav-item {
-  transition: all 0.3s ease;
+  @apply flex flex-col items-center justify-center py-2 px-4 rounded-xl transition-all duration-300;
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, #FF00FF, #CCFF00);
-  color: #1a1a1a;
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #000;
+  box-shadow: 0 -4px 20px rgba(255, 0, 255, 0.4);
 }
 
-.nav-item:not(.active):hover {
-  background: rgba(255, 0, 255, 0.2);
-  color: #FF00FF;
+/* Tableau amélioré */
+.table-custom {
+  @apply w-full border-collapse;
 }
 
-/* ===== STYLES D'IMPRESSION BULLETIN ===== */
+.table-custom th {
+  @apply px-4 py-3 text-left font-semibold;
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(204, 255, 0, 0.1));
+  border-bottom: 2px solid var(--primary);
+}
+
+.table-custom td {
+  @apply px-4 py-3;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-custom tr:hover td {
+  background: rgba(255, 0, 255, 0.05);
+}
+
+/* Badge */
+.badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-error {
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-info {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3B82F6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* ======================================
+   STYLES D'IMPRESSION BULLETIN
+   ====================================== */
+
 @media print {
-  /* Reset complet */
-  *, *::before, *::after {
-    box-sizing: border-box !important;
-  }
-  
   @page {
     size: A4 portrait;
     margin: 8mm;
   }
   
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  
   html, body {
-    width: 210mm !important;
-    height: 297mm !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    width: 210mm;
+    height: 297mm;
     background: white !important;
     color: black !important;
     font-size: 9pt !important;
     line-height: 1.2 !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    overflow: hidden !important;
   }
   
   /* Cacher tout sauf le bulletin */
-  body > * {
+  body > *:not(.print-bulletin) {
     display: none !important;
   }
   
-  body > #root {
-    display: block !important;
-  }
-  
-  #root > * {
+  .no-print {
     display: none !important;
   }
   
-  /* Zone imprimable du bulletin */
   .print-bulletin {
     display: block !important;
-    position: fixed !important;
+    position: absolute !important;
     top: 0 !important;
     left: 0 !important;
-    width: 210mm !important;
-    height: 297mm !important;
-    max-height: 297mm !important;
-    overflow: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
     background: white !important;
     padding: 5mm !important;
     margin: 0 !important;
-    page-break-inside: avoid !important;
-    page-break-after: avoid !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: hidden !important;
   }
   
-  .print-bulletin * {
-    color: black !important;
-    background: white !important;
-    border-color: #333 !important;
-  }
-  
-  /* En-tête compact */
-  .print-header {
+  /* En-tête bulletin */
+  .bulletin-header {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
     padding-bottom: 3mm !important;
-    border-bottom: 2pt solid #FF00FF !important;
+    border-bottom: 2px solid #FF00FF !important;
     margin-bottom: 3mm !important;
   }
   
-  .print-header h1 {
+  .bulletin-logo {
+    width: 18mm !important;
+    height: 18mm !important;
+    object-fit: contain !important;
+  }
+  
+  .bulletin-title {
     font-size: 14pt !important;
     font-weight: bold !important;
     color: #FF00FF !important;
-    margin: 0 !important;
+    text-align: center !important;
   }
   
-  .print-header .school-info {
-    text-align: right !important;
-    font-size: 8pt !important;
+  .bulletin-subtitle {
+    font-size: 9pt !important;
+    color: #666 !important;
   }
   
-  /* Infos élève compact */
-  .print-student-info {
+  /* Infos élève */
+  .bulletin-student-info {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 2mm !important;
+    grid-template-columns: auto 1fr auto !important;
+    gap: 3mm !important;
     padding: 2mm !important;
-    background: #f5f5f5 !important;
-    border: 1pt solid #ddd !important;
+    background: #f8f8f8 !important;
+    border-radius: 2mm !important;
     margin-bottom: 3mm !important;
     font-size: 8pt !important;
   }
   
-  .print-student-info div {
-    background: transparent !important;
+  .bulletin-student-photo {
+    width: 20mm !important;
+    height: 25mm !important;
+    object-fit: cover !important;
+    border-radius: 2mm !important;
+    border: 1px solid #ddd !important;
   }
   
-  .print-student-info strong {
-    color: #FF00FF !important;
-  }
-  
-  /* Tableau des notes compact */
-  .print-table {
+  /* Tableau des notes */
+  .bulletin-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    font-size: 8pt !important;
+    font-size: 7.5pt !important;
     margin-bottom: 3mm !important;
   }
   
-  .print-table th {
-    background: linear-gradient(135deg, #FF00FF, #CC00CC) !important;
+  .bulletin-table th {
+    background: linear-gradient(135deg, #FF00FF, #CCFF00) !important;
     color: white !important;
-    padding: 2mm 1mm !important;
+    padding: 1.5mm 2mm !important;
     text-align: center !important;
     font-weight: bold !important;
     font-size: 7pt !important;
-    border: 1pt solid #333 !important;
+    border: 0.5px solid #ddd !important;
   }
   
-  .print-table td {
-    padding: 1.5mm 1mm !important;
+  .bulletin-table td {
+    padding: 1.2mm 2mm !important;
+    border: 0.5px solid #ddd !important;
     text-align: center !important;
-    border: 1pt solid #999 !important;
-    font-size: 8pt !important;
   }
   
-  .print-table tr:nth-child(even) td {
+  .bulletin-table tr:nth-child(even) td {
     background: #f9f9f9 !important;
   }
   
-  .print-table .subject-name {
+  .bulletin-table .matiere-cell {
     text-align: left !important;
-    padding-left: 2mm !important;
     font-weight: 500 !important;
+    padding-left: 2mm !important;
   }
   
-  .print-table .moyenne-row td {
-    background: #CCFF00 !important;
+  .bulletin-table .note-cell {
     font-weight: bold !important;
-    color: #1a1a1a !important;
   }
   
-  /* Section graphique + résumé */
-  .print-summary {
+  .bulletin-table .appreciation-cell {
+    font-size: 6.5pt !important;
+    text-align: left !important;
+  }
+  
+  /* Résumé */
+  .bulletin-summary {
     display: grid !important;
-    grid-template-columns: 55mm 1fr !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
     gap: 3mm !important;
-    margin-bottom: 3mm !important;
-  }
-  
-  .print-chart {
-    width: 55mm !important;
-    height: 55mm !important;
-    border: 1pt solid #ddd !important;
     padding: 2mm !important;
-  }
-  
-  .print-chart canvas {
-    max-width: 100% !important;
-    max-height: 100% !important;
-  }
-  
-  .print-stats {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2mm !important;
-  }
-  
-  .print-stat-box {
-    text-align: center !important;
-    padding: 2mm !important;
-    border: 1pt solid #FF00FF !important;
+    background: linear-gradient(135deg, rgba(255,0,255,0.1), rgba(204,255,0,0.1)) !important;
     border-radius: 2mm !important;
-  }
-  
-  .print-stat-box .value {
-    font-size: 14pt !important;
-    font-weight: bold !important;
-    color: #FF00FF !important;
-  }
-  
-  .print-stat-box .label {
-    font-size: 7pt !important;
-    color: #666 !important;
-  }
-  
-  /* Appréciation */
-  .print-appreciation {
-    padding: 2mm !important;
-    border: 1pt solid #CCFF00 !important;
-    background: #ffffee !important;
     margin-bottom: 3mm !important;
     font-size: 8pt !important;
   }
   
-  .print-appreciation h4 {
-    color: #99CC00 !important;
-    margin: 0 0 1mm 0 !important;
-    font-size: 9pt !important;
+  .bulletin-summary-item {
+    text-align: center !important;
+  }
+  
+  .bulletin-summary-label {
+    font-size: 7pt !important;
+    color: #666 !important;
+  }
+  
+  .bulletin-summary-value {
+    font-size: 12pt !important;
+    font-weight: bold !important;
+    color: #FF00FF !important;
+  }
+  
+  /* Graphique radar */
+  .bulletin-chart {
+    width: 60mm !important;
+    height: 60mm !important;
+    margin: 0 auto 3mm !important;
+  }
+  
+  /* Commentaires et mentions */
+  .bulletin-comments {
+    padding: 2mm !important;
+    background: #f8f8f8 !important;
+    border-radius: 2mm !important;
+    border-left: 3px solid #FF00FF !important;
+    margin-bottom: 3mm !important;
+    font-size: 8pt !important;
+  }
+  
+  .bulletin-mention {
+    display: inline-block !important;
+    padding: 1mm 3mm !important;
+    background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+    color: #000 !important;
+    border-radius: 2mm !important;
+    font-weight: bold !important;
+    font-size: 8pt !important;
+    margin-bottom: 2mm !important;
   }
   
   /* Signatures */
-  .print-signatures {
+  .bulletin-signatures {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 3mm !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 5mm !important;
     margin-top: 3mm !important;
+    padding-top: 2mm !important;
+    border-top: 1px dashed #ccc !important;
   }
   
-  .print-signature-box {
+  .bulletin-signature-box {
     text-align: center !important;
-    padding: 2mm !important;
-    border-top: 1pt solid #333 !important;
   }
   
-  .print-signature-box .title {
+  .bulletin-signature-label {
     font-size: 7pt !important;
     color: #666 !important;
-    margin-bottom: 8mm !important;
+    margin-bottom: 2mm !important;
   }
   
-  .print-signature-box img {
-    max-height: 12mm !important;
+  .bulletin-signature-img {
     max-width: 25mm !important;
+    max-height: 15mm !important;
+    margin: 0 auto !important;
   }
   
-  /* Pied de page */
-  .print-footer {
+  .bulletin-stamp {
+    max-width: 20mm !important;
+    max-height: 20mm !important;
+  }
+  
+  /* Footer */
+  .bulletin-footer {
     position: absolute !important;
     bottom: 5mm !important;
     left: 5mm !important;
     right: 5mm !important;
     text-align: center !important;
-    font-size: 7pt !important;
+    font-size: 6pt !important;
     color: #999 !important;
-    border-top: 1pt solid #ddd !important;
+    border-top: 1px solid #eee !important;
     padding-top: 2mm !important;
   }
-  
-  /* Cacher éléments non imprimables */
-  .no-print,
-  button,
-  nav,
-  .nav-bottom,
-  .notifications,
-  .fab-contact {
-    display: none !important;
+}
+
+/* Responsive mobile */
+@media (max-width: 640px) {
+  .btn {
+    @apply px-4 py-3 text-sm;
   }
-}
-
-/* Preview bulletin dans l'app */
-.bulletin-preview {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 210mm;
-  margin: 0 auto;
-}
-
-.bulletin-preview table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.bulletin-preview th,
-.bulletin-preview td {
-  border: 1px solid #333;
-  padding: 6px 8px;
-  text-align: center;
-}
-
-.bulletin-preview th {
-  background: linear-gradient(135deg, #FF00FF, #CC00CC);
-  color: white;
-  font-weight: bold;
-}
-
-.bulletin-preview tr:nth-child(even) {
-  background: #f5f5f5;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .glass, .glass-citron {
-    backdrop-filter: blur(10px);
+  
+  .card {
+    @apply p-4 rounded-xl;
+  }
+  
+  .input {
+    @apply text-base;
   }
 }
