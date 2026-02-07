@@ -1,176 +1,158 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-* {
-  -webkit-tap-highlight-color: transparent;
+/* Palette de couleurs harmonisée Les Bulles de Joie */
+:root {
+  --color-fuchsia: #FF00FF;
+  --color-fuchsia-light: #FF66FF;
+  --color-fuchsia-dark: #CC00CC;
+  --color-lime: #CCFF00;
+  --color-lime-light: #E6FF66;
+  --color-lime-dark: #99CC00;
+  --color-rose: #FF4D8D;
+  --color-rose-light: #FF80AA;
+  --color-rose-dark: #E6336F;
+  --color-red: #FF3366;
+  --color-blue-soft: #66B2FF;
+  --color-blue-soft-light: #99CCFF;
+  --color-white: #FFFFFF;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Styles pour l'impression */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background: white !important;
+  }
+  
+  /* Masquer éléments non-imprimables */
+  .no-print,
+  header,
+  aside,
+  nav,
+  button:not(.print-visible),
+  select,
+  input,
+  .sidebar,
+  [class*="no-print"] {
+    display: none !important;
+  }
+  
+  /* Afficher seulement le bulletin */
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .bulletin-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .bulletin-container * {
+    page-break-inside: avoid !important;
+  }
+  
+  /* Optimiser le tableau */
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    font-size: 10pt !important;
+  }
+  
+  th, td {
+    border: 1px solid #000 !important;
+    padding: 4px 6px !important;
+  }
+  
+  th {
+    background-color: #333 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  
+  /* Mode compact */
+  .compact-mode {
+    font-size: 9pt !important;
+  }
+  
+  .compact-mode th,
+  .compact-mode td {
+    padding: 2px 4px !important;
+  }
+  
+  /* Images */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Forcer les couleurs de fond */
+  .print-bg-gray {
+    background-color: #f3f4f6 !important;
+    -webkit-print-color-adjust: exact !important;
+  }
 }
 
-body {
-  font-family: "Inter", system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s infinite;
 }
 
 /* Scrollbar personnalisée */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff00ff, #cc00cc);
-  border-radius: 3px;
+  background: linear-gradient(180deg, #FF00FF, #CC00CC);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #cc00cc, #990099);
+  background: linear-gradient(180deg, #FF66FF, #FF00FF);
 }
 
-/* Input file custom */
-input[type="file"] {
-  cursor: pointer;
+/* Focus visible amélioré */
+*:focus-visible {
+  outline: 2px solid var(--color-fuchsia);
+  outline-offset: 2px;
 }
 
-/* Classes utilitaires personnalisées */
-@layer components {
-  .btn-primary {
-    @apply bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/40 active:scale-95 transition-all duration-200;
+/* Boutons mobiles optimisés */
+@media (max-width: 640px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
   }
-
-  .btn-secondary {
-    @apply bg-gradient-to-r from-citron-400 to-citron-500 text-gray-900 font-semibold py-3 px-6 rounded-xl shadow-lg shadow-citron-500/30 hover:shadow-xl hover:shadow-citron-500/40 active:scale-95 transition-all duration-200;
-  }
-
-  .btn-icon {
-    @apply w-14 h-14 flex items-center justify-center rounded-2xl text-xl font-bold active:scale-90 transition-all duration-150;
-  }
-
-  .card {
-    @apply bg-white rounded-3xl shadow-xl shadow-black/5 border border-gray-100 overflow-hidden;
-  }
-
-  .input-field {
-    @apply w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-fuchsia-500 focus:ring-4 focus:ring-fuchsia-500/20 outline-none transition-all duration-200 bg-white;
-  }
-
-  .glass-effect {
-    @apply bg-white/80 backdrop-blur-xl;
-  }
-}
-
-/* Styles pour l'impression du bulletin */
-@media print {
-  @page {
-    size: A4;
-    margin: 10mm;
-  }
-
-  body {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
-  .print-only {
-    display: block !important;
-  }
-
-  .bulletin-container {
-    width: 100% !important;
-    max-width: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  .bulletin-header {
-    background: linear-gradient(135deg, #ff00ff 0%, #cc00cc 100%) !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .grade-cell {
-    border: 1px solid #ddd !important;
-    padding: 4px 8px !important;
-  }
-
-  .radar-chart-container {
-    page-break-inside: avoid;
-    max-height: 300px !important;
-  }
-
-  .signature-section {
-    page-break-inside: avoid;
-    margin-top: 20px;
-  }
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 6px 10px;
-    text-align: left;
-  }
-
-  th {
-    background-color: #ff00ff !important;
-    color: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-}
-
-.print-only {
-  display: none;
-}
-
-/* Animation pour les bulles décoratives */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: float 6s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-/* Gradient animé */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animated-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 4s ease infinite;
 }
