@@ -1,12 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useCallback } from "react";
 import {
-  Home, Users, BookOpen, PenTool, FileText, Settings, Plus, Edit2, Trash2,
-  Save, X, Upload, Download, Search, Phone, Mail, MessageCircle, ChevronDown,
-  Camera, Palette, Award, TrendingUp, BarChart3, Printer, FileSpreadsheet,
-  Moon, Sun, Sparkles, GraduationCap, Star, AlertTriangle, CheckCircle,
-  Info, XCircle, Menu, ChevronRight, Eye, EyeOff, RefreshCw, HelpCircle
-} from 'lucide-react';
+  Home,
+  Users,
+  BookOpen,
+  ClipboardList,
+  FileText,
+  Settings,
+  Plus,
+  Trash2,
+  Edit2,
+  Camera,
+  Save,
+  Download,
+  Upload,
+  Printer,
+  X,
+  Check,
+  ChevronLeft,
+  Star,
+  Award,
+  TrendingUp,
+  Search,
+} from "lucide-react";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -18,1875 +33,2114 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  ArcElement,
-} from 'chart.js';
-import { Radar, Doughnut, Bar } from 'react-chartjs-2';
-import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
-import { useStore, getAppreciation, calculateMoyenne, Eleve, Matiere, Note, Mention } from './store';
+} from "chart.js";
+import { Radar, Bar } from "react-chartjs-2";
+import * as XLSX from "xlsx";
+import { jsPDF } from "jspdf";
+import type {
+  Student,
+  Subject,
+  Grade,
+  SchoolSettings,
+  TabType,
+  Period,
+  AppData,
+} from "./types";
+import * as db from "./db";
 
+// Enregistrer les composants Chart.js
 ChartJS.register(
-  RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend,
-  CategoryScale, LinearScale, BarElement, ArcElement
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
 );
 
-// Types locaux
-type TabType = 'dashboard' | 'eleves' | 'matieres' | 'notes' | 'bulletins' | 'settings';
-type Trimestre = 1 | 2 | 3;
+// ========== COMPOSANT PRINCIPAL ==========
+export function App() {
+  const [activeTab, setActiveTab] = useState<TabType>("dashboard");
+  const [students, setStudents] = useState<Student[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [grades, setGrades] = useState<Grade[]>([]);
+  const [settings, setSettings] = useState<SchoolSettings>(db.getDefaultSettings());
+  const [loading, setLoading] = useState(true);
+  const [selectedPeriod, setSelectedPeriod] = useState<Period>("T1");
 
-// ============================================
-// COMPOSANT PRINCIPAL
-// ============================================
-export default function App() {
-  const store = useStore();
-  const [trimestre, setTrimestre] = useState<Trimestre>(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showContactMenu, setShowContactMenu] = useState(false);
-  
-  // Appliquer le thème
+  // Charger les données au démarrage
   useEffect(() => {
-    document.body.className = `theme-${store.settings.theme}`;
-  }, [store.settings.theme]);
+    loadData();
+  }, []);
 
-  const tabs = [
-    { id: 'dashboard', label: 'Accueil', icon: Home },
-    { id: 'eleves', label: 'Élèves', icon: Users },
-    { id: 'matieres', label: 'Matières', icon: BookOpen },
-    { id: 'notes', label: 'Notes', icon: PenTool },
-    { id: 'bulletins', label: 'Bulletins', icon: FileText },
-    { id: 'settings', label: 'Paramètres', icon: Settings },
-  ];
+  const loadData = async () => {
+    try {
+      const [loadedStudents, loadedSubjects, loadedGrades, loadedSettings] =
+        await Promise.all([
+          db.getAllStudents(),
+          db.getAllSubjects(),
+          db.getAllGrades(),
+          db.getSettings(),
+        ]);
+
+      setStudents(loadedStudents);
+      setSubjects(loadedSubjects);
+      setGrades(loadedGrades);
+      if (loadedSettings) setSettings(loadedSettings);
+
+      // Initialiser les matières par défaut si vide
+      if (loadedSubjects.length === 0) {
+        const defaultSubjects = db.getDefaultSubjects();
+        const newSubjects: Subject[] = [];
+        for (const subj of defaultSubjects) {
+          const created = await db.addSubject(subj);
+          newSubjects.push(created);
+        }
+        setSubjects(newSubjects);
+      }
+    } catch (error) {
+      console.error("Erreur chargement données:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const refreshData = useCallback(async () => {
+    const [loadedStudents, loadedSubjects, loadedGrades] = await Promise.all([
+      db.getAllStudents(),
+      db.getAllSubjects(),
+      db.getAllGrades(),
+    ]);
+    setStudents(loadedStudents);
+    setSubjects(loadedSubjects);
+    setGrades(loadedGrades);
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
-    <div className="min-h-screen bg-[var(--bg-dark)] text-white pb-24 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-50 via-white to-citron-50">
       {/* Bulles décoratives */}
-      <div className="bubble bubble-1" />
-      <div className="bubble bubble-2" />
-      <div className="bubble bubble-3" />
-
-      {/* Notifications */}
-      <NotificationContainer />
-
-      {/* Header */}
-      <header className="sticky top-0 z-40 glass border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {store.settings.ecoleLogo ? (
-              <img src={store.settings.ecoleLogo} alt="Logo" className="w-12 h-12 rounded-full object-cover border-2 border-primary" />
-            ) : (
-              <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-2xl">
-                🫧
-              </div>
-            )}
-            <div>
-              <h1 className="text-lg font-bold gradient-text">{store.settings.ecoleNom}</h1>
-              <p className="text-xs text-white/60">{store.settings.ecoleSlogan}</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            {/* Sélecteur de trimestre */}
-            <select
-              value={trimestre}
-              onChange={(e) => setTrimestre(Number(e.target.value) as Trimestre)}
-              className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm focus:border-primary outline-none"
-            >
-              <option value={1}>Trimestre 1</option>
-              <option value={2}>Trimestre 2</option>
-              <option value={3}>Trimestre 3</option>
-            </select>
-          </div>
-        </div>
-      </header>
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-fuchsia-200/30 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/3 -right-32 w-96 h-96 bg-citron-200/30 rounded-full blur-3xl animate-float-delayed" />
+        <div className="absolute -bottom-20 left-1/4 w-72 h-72 bg-fuchsia-300/20 rounded-full blur-3xl animate-float" />
+      </div>
 
       {/* Contenu principal */}
-      <main className="max-w-7xl mx-auto px-4 py-6 relative z-10">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={store.currentTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-          >
-            {store.currentTab === 'dashboard' && <Dashboard trimestre={trimestre} />}
-            {store.currentTab === 'eleves' && <ElevesPage searchQuery={searchQuery} setSearchQuery={setSearchQuery} />}
-            {store.currentTab === 'matieres' && <MatieresPage />}
-            {store.currentTab === 'notes' && <NotesPage trimestre={trimestre} />}
-            {store.currentTab === 'bulletins' && <BulletinsPage trimestre={trimestre} />}
-            {store.currentTab === 'settings' && <SettingsPage />}
-          </motion.div>
-        </AnimatePresence>
-      </main>
+      <div className="relative z-10 pb-24">
+        {activeTab === "dashboard" && (
+          <Dashboard
+            students={students}
+            subjects={subjects}
+            grades={grades}
+            settings={settings}
+            selectedPeriod={selectedPeriod}
+            onPeriodChange={setSelectedPeriod}
+          />
+        )}
+        {activeTab === "students" && (
+          <StudentsPage students={students} onRefresh={refreshData} />
+        )}
+        {activeTab === "subjects" && (
+          <SubjectsPage subjects={subjects} onRefresh={refreshData} />
+        )}
+        {activeTab === "grades" && (
+          <GradesPage
+            students={students}
+            subjects={subjects}
+            grades={grades}
+            selectedPeriod={selectedPeriod}
+            onPeriodChange={setSelectedPeriod}
+            onRefresh={refreshData}
+          />
+        )}
+        {activeTab === "bulletin" && (
+          <BulletinPage
+            students={students}
+            subjects={subjects}
+            grades={grades}
+            settings={settings}
+            selectedPeriod={selectedPeriod}
+            onPeriodChange={setSelectedPeriod}
+          />
+        )}
+        {activeTab === "settings" && (
+          <SettingsPage
+            settings={settings}
+            onSettingsUpdate={async (newSettings) => {
+              await db.saveSettings(newSettings);
+              setSettings(newSettings);
+            }}
+            onDataExport={async () => {
+              const data = await db.exportAllData();
+              downloadJSON(data, `bulles-de-joie-backup-${Date.now()}.json`);
+            }}
+            onDataImport={async (data) => {
+              await db.importAllData(data);
+              await loadData();
+            }}
+          />
+        )}
+      </div>
 
       {/* Navigation bottom */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-2">
-          <div className="flex justify-around py-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => store.setCurrentTab(tab.id)}
-                className={`nav-item flex-1 ${store.currentTab === tab.id ? 'active' : 'text-white/60'}`}
-              >
-                <tab.icon size={20} />
-                <span className="text-xs mt-1 hidden sm:block">{tab.label}</span>
-              </button>
-            ))}
+      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+    </div>
+  );
+}
+
+// ========== ÉCRAN DE CHARGEMENT ==========
+function LoadingScreen() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-500 to-fuchsia-700 flex items-center justify-center">
+      <div className="text-center text-white">
+        <div className="w-24 h-24 mx-auto mb-6 relative">
+          <div className="absolute inset-0 rounded-full bg-white/20 animate-ping" />
+          <div className="absolute inset-2 rounded-full bg-white/30 animate-pulse" />
+          <div className="absolute inset-4 rounded-full bg-white flex items-center justify-center">
+            <span className="text-3xl">🎈</span>
           </div>
         </div>
-      </nav>
-
-      {/* Bouton contact flottant */}
-      <div className="fixed bottom-24 right-4 z-50">
-        <AnimatePresence>
-          {showContactMenu && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 20 }}
-              className="absolute bottom-16 right-0 flex flex-col gap-2"
-            >
-              <a
-                href="https://wa.me/22949114951"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-green-600 transition-all"
-              >
-                <MessageCircle size={20} />
-                <span className="text-sm font-medium">WhatsApp</span>
-              </a>
-              <a
-                href="mailto:codjosamuelstein@gmail.com"
-                className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 transition-all"
-              >
-                <Mail size={20} />
-                <span className="text-sm font-medium">Email</span>
-              </a>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setShowContactMenu(!showContactMenu)}
-          className="w-14 h-14 rounded-full gradient-primary flex items-center justify-center shadow-lg glow-primary"
-        >
-          <motion.div animate={{ rotate: showContactMenu ? 45 : 0 }}>
-            {showContactMenu ? <X size={24} /> : <HelpCircle size={24} />}
-          </motion.div>
-        </motion.button>
+        <h1 className="text-2xl font-bold mb-2">Les Bulles de Joie</h1>
+        <p className="text-fuchsia-200">Chargement...</p>
       </div>
     </div>
   );
 }
 
-// ============================================
-// NOTIFICATIONS
-// ============================================
-function NotificationContainer() {
-  const { notifications, removeNotification } = useStore();
-
-  const icons = {
-    success: CheckCircle,
-    error: XCircle,
-    warning: AlertTriangle,
-    info: Info,
-  };
-
-  const colors = {
-    success: 'from-green-500 to-emerald-600',
-    error: 'from-red-500 to-rose-600',
-    warning: 'from-yellow-500 to-orange-600',
-    info: 'from-blue-500 to-indigo-600',
-  };
-
-  return (
-    <div className="fixed top-20 right-4 z-[100] flex flex-col gap-2 max-w-sm">
-      <AnimatePresence>
-        {notifications.map((notif) => {
-          const Icon = icons[notif.type];
-          return (
-            <motion.div
-              key={notif.id}
-              initial={{ opacity: 0, x: 100, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 100, scale: 0.8 }}
-              className={`relative bg-gradient-to-r ${colors[notif.type]} rounded-xl p-4 pr-10 shadow-2xl`}
-            >
-              <div className="flex items-start gap-3">
-                <Icon className="w-5 h-5 text-white flex-shrink-0 mt-0.5" />
-                <p className="text-white text-sm font-medium">{notif.message}</p>
-              </div>
-              <button
-                onClick={() => removeNotification(notif.id)}
-                className="absolute top-2 right-2 text-white/80 hover:text-white"
-              >
-                <X size={16} />
-              </button>
-              <motion.div
-                initial={{ width: '100%' }}
-                animate={{ width: '0%' }}
-                transition={{ duration: 5, ease: 'linear' }}
-                className="absolute bottom-0 left-0 h-1 bg-white/30 rounded-b-xl"
-              />
-            </motion.div>
-          );
-        })}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// ============================================
-// DASHBOARD
-// ============================================
-function Dashboard({ trimestre }: { trimestre: Trimestre }) {
-  const { eleves, matieres, notes, settings } = useStore();
-  
-  const notesTrimestreActuel = notes.filter(n => n.trimestre === trimestre);
-  const moyenneClasse = eleves.length > 0 
-    ? eleves.reduce((sum, e) => {
-        const notesEleve = notesTrimestreActuel.filter(n => n.eleveId === e.id);
-        return sum + calculateMoyenne(notesEleve, matieres);
-      }, 0) / eleves.length
-    : 0;
-
-  const stats = [
-    { label: 'Élèves', value: eleves.length, icon: Users, color: 'from-pink-500 to-fuchsia-600' },
-    { label: 'Matières', value: matieres.length, icon: BookOpen, color: 'from-lime-400 to-green-500' },
-    { label: 'Notes', value: notesTrimestreActuel.length, icon: PenTool, color: 'from-cyan-400 to-blue-500' },
-    { label: 'Moyenne', value: moyenneClasse.toFixed(2), icon: TrendingUp, color: 'from-purple-500 to-violet-600' },
+// ========== NAVIGATION ==========
+function BottomNav({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: TabType;
+  onTabChange: (tab: TabType) => void;
+}) {
+  const tabs: { id: TabType; icon: typeof Home; label: string }[] = [
+    { id: "dashboard", icon: Home, label: "Accueil" },
+    { id: "students", icon: Users, label: "Élèves" },
+    { id: "subjects", icon: BookOpen, label: "Matières" },
+    { id: "grades", icon: ClipboardList, label: "Notes" },
+    { id: "bulletin", icon: FileText, label: "Bulletin" },
+    { id: "settings", icon: Settings, label: "Réglages" },
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Hero Section */}
-      {settings.heroImage && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative rounded-2xl overflow-hidden h-48"
-        >
-          <img src={settings.heroImage} alt="Hero" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-            <div>
-              <h2 className="text-2xl font-bold gradient-text">{settings.ecoleNom}</h2>
-              <p className="text-white/70">{settings.ecoleSlogan}</p>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="card"
+    <nav className="fixed bottom-0 left-0 right-0 glass-effect border-t border-gray-200 z-50 no-print">
+      <div className="flex justify-around items-center py-2 px-1">
+        {tabs.map(({ id, icon: Icon, label }) => (
+          <button
+            key={id}
+            onClick={() => onTabChange(id)}
+            className={`flex flex-col items-center py-2 px-2 rounded-xl transition-all ${
+              activeTab === id
+                ? "text-fuchsia-600 bg-fuchsia-50"
+                : "text-gray-500 hover:text-fuchsia-500"
+            }`}
           >
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-3`}>
-              <stat.icon className="w-6 h-6 text-white" />
-            </div>
-            <p className="text-3xl font-bold gradient-text">{stat.value}</p>
-            <p className="text-white/60 text-sm">{stat.label}</p>
-          </motion.div>
+            <Icon size={22} strokeWidth={activeTab === id ? 2.5 : 2} />
+            <span className="text-[10px] mt-1 font-medium">{label}</span>
+          </button>
         ))}
       </div>
+    </nav>
+  );
+}
 
-      {/* Graphiques */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Répartition des moyennes */}
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <BarChart3 className="text-primary" size={20} />
-            Répartition des moyennes
-          </h3>
+// ========== DASHBOARD ==========
+function Dashboard({
+  students,
+  subjects,
+  grades,
+  settings,
+  selectedPeriod,
+  onPeriodChange,
+}: {
+  students: Student[];
+  subjects: Subject[];
+  grades: Grade[];
+  settings: SchoolSettings;
+  selectedPeriod: Period;
+  onPeriodChange: (p: Period) => void;
+}) {
+  const periodGrades = grades.filter((g) => g.period === selectedPeriod);
+
+  const stats = {
+    totalStudents: students.length,
+    totalSubjects: subjects.length,
+    totalGrades: periodGrades.length,
+    averageGrade:
+      periodGrades.length > 0
+        ? (
+            periodGrades.reduce((sum, g) => sum + (g.value / g.maxValue) * 20, 0) /
+            periodGrades.length
+          ).toFixed(1)
+        : "0",
+  };
+
+  return (
+    <div className="p-4">
+      {/* Header */}
+      <header className="mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
+            <span className="text-2xl">🎈</span>
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">
+              {settings.schoolName || "Les Bulles de Joie"}
+            </h1>
+            <p className="text-sm text-gray-500">{settings.academicYear}</p>
+          </div>
+        </div>
+
+        {/* Sélecteur de période */}
+        <PeriodSelector selected={selectedPeriod} onChange={onPeriodChange} />
+      </header>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <StatCard
+          icon={<Users className="text-fuchsia-500" />}
+          value={stats.totalStudents}
+          label="Élèves"
+          gradient="from-fuchsia-500/10 to-fuchsia-500/5"
+        />
+        <StatCard
+          icon={<BookOpen className="text-citron-600" />}
+          value={stats.totalSubjects}
+          label="Matières"
+          gradient="from-citron-500/10 to-citron-500/5"
+        />
+        <StatCard
+          icon={<ClipboardList className="text-blue-500" />}
+          value={stats.totalGrades}
+          label="Notes saisies"
+          gradient="from-blue-500/10 to-blue-500/5"
+        />
+        <StatCard
+          icon={<TrendingUp className="text-green-500" />}
+          value={stats.averageGrade}
+          label="Moyenne classe"
+          gradient="from-green-500/10 to-green-500/5"
+        />
+      </div>
+
+      {/* Graphique des moyennes par matière */}
+      {subjects.length > 0 && periodGrades.length > 0 && (
+        <div className="card p-4 mb-6">
+          <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <Award className="text-fuchsia-500" size={20} />
+            Moyennes par matière
+          </h2>
           <div className="h-64">
             <Bar
               data={{
-                labels: ['0-9', '10-13', '14-16', '17-20'],
-                datasets: [{
-                  label: 'Nombre d\'élèves',
-                  data: [
-                    eleves.filter(e => {
-                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
-                      return m < 10;
-                    }).length,
-                    eleves.filter(e => {
-                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
-                      return m >= 10 && m < 14;
-                    }).length,
-                    eleves.filter(e => {
-                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
-                      return m >= 14 && m < 17;
-                    }).length,
-                    eleves.filter(e => {
-                      const m = calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres);
-                      return m >= 17;
-                    }).length,
-                  ],
-                  backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6', '#10B981'],
-                  borderRadius: 8,
-                }],
+                labels: subjects.map((s) => s.name),
+                datasets: [
+                  {
+                    label: "Moyenne",
+                    data: subjects.map((s) => {
+                      const subjectGrades = periodGrades.filter(
+                        (g) => g.subjectId === s.id
+                      );
+                      if (subjectGrades.length === 0) return 0;
+                      return (
+                        subjectGrades.reduce(
+                          (sum, g) => sum + (g.value / g.maxValue) * 20,
+                          0
+                        ) / subjectGrades.length
+                      );
+                    }),
+                    backgroundColor: subjects.map((s) => s.color + "80"),
+                    borderColor: subjects.map((s) => s.color),
+                    borderWidth: 2,
+                    borderRadius: 8,
+                  },
+                ],
               }}
               options={{
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
-                  y: { beginAtZero: true, ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                  x: { ticks: { color: '#fff' }, grid: { display: false } },
+                  y: { beginAtZero: true, max: 20 },
+                  x: { ticks: { font: { size: 10 } } },
                 },
               }}
             />
           </div>
         </div>
+      )}
 
-        {/* Top 5 élèves */}
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Award className="text-secondary" size={20} />
-            Top 5 Élèves
-          </h3>
-          <div className="space-y-3">
-            {eleves
-              .map(e => ({
-                ...e,
-                moyenne: calculateMoyenne(notesTrimestreActuel.filter(n => n.eleveId === e.id), matieres)
-              }))
-              .sort((a, b) => b.moyenne - a.moyenne)
-              .slice(0, 5)
-              .map((eleve, i) => (
-                <div key={eleve.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                    i === 0 ? 'bg-yellow-500 text-black' :
-                    i === 1 ? 'bg-gray-300 text-black' :
-                    i === 2 ? 'bg-orange-400 text-black' :
-                    'bg-white/10 text-white'
-                  }`}>
-                    {i + 1}
-                  </div>
-                  {eleve.photo ? (
-                    <img src={eleve.photo} alt="" className="w-10 h-10 rounded-full object-cover" />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
-                      {eleve.prenom[0]}{eleve.nom[0]}
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <p className="font-medium">{eleve.prenom} {eleve.nom}</p>
-                    <p className="text-sm text-white/60">{eleve.classe}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xl font-bold gradient-text">{eleve.moyenne.toFixed(2)}</p>
-                    <p className="text-xs text-white/60">{getAppreciation(eleve.moyenne).text}</p>
-                  </div>
-                </div>
-              ))}
-            {eleves.length === 0 && (
-              <p className="text-center text-white/40 py-8">Aucun élève inscrit</p>
-            )}
-          </div>
+      {/* Top 5 élèves */}
+      {students.length > 0 && periodGrades.length > 0 && (
+        <div className="card p-4">
+          <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <Star className="text-citron-500" size={20} />
+            Top 5 Élèves - {selectedPeriod}
+          </h2>
+          <TopStudentsList
+            students={students}
+            grades={periodGrades}
+            subjects={subjects}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatCard({
+  icon,
+  value,
+  label,
+  gradient,
+}: {
+  icon: React.ReactNode;
+  value: number | string;
+  label: string;
+  gradient: string;
+}) {
+  return (
+    <div className={`card p-4 bg-gradient-to-br ${gradient}`}>
+      <div className="flex items-start justify-between mb-2">
+        <div className="w-10 h-10 rounded-xl bg-white shadow flex items-center justify-center">
+          {icon}
         </div>
       </div>
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-sm text-gray-600">{label}</p>
+    </div>
+  );
+}
 
-      {/* Carte contact */}
-      <div className="card card-primary">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Sparkles className="text-secondary" size={20} />
-          Besoin d'aide ?
-        </h3>
-        <p className="text-white/70 mb-4">
-          Contactez le support technique de Stein Technology pour toute question.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="https://wa.me/22949114951"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary flex items-center gap-2"
+function PeriodSelector({
+  selected,
+  onChange,
+}: {
+  selected: Period;
+  onChange: (p: Period) => void;
+}) {
+  const periods: Period[] = ["T1", "T2", "T3"];
+  const labels = { T1: "Trimestre 1", T2: "Trimestre 2", T3: "Trimestre 3" };
+
+  return (
+    <div className="flex gap-2 p-1 bg-gray-100 rounded-2xl">
+      {periods.map((p) => (
+        <button
+          key={p}
+          onClick={() => onChange(p)}
+          className={`flex-1 py-2.5 px-4 rounded-xl font-medium transition-all ${
+            selected === p
+              ? "bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white shadow-lg shadow-fuchsia-500/30"
+              : "text-gray-600 hover:text-gray-900"
+          }`}
+        >
+          {labels[p]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function TopStudentsList({
+  students,
+  grades,
+  subjects,
+}: {
+  students: Student[];
+  grades: Grade[];
+  subjects: Subject[];
+}) {
+  const studentAverages = students.map((student) => {
+    const studentGrades = grades.filter((g) => g.studentId === student.id);
+    let totalWeighted = 0;
+    let totalCoeff = 0;
+
+    subjects.forEach((subject) => {
+      const subjectGrades = studentGrades.filter(
+        (g) => g.subjectId === subject.id
+      );
+      if (subjectGrades.length > 0) {
+        const avg =
+          subjectGrades.reduce((sum, g) => sum + (g.value / g.maxValue) * 20, 0) /
+          subjectGrades.length;
+        totalWeighted += avg * subject.coefficient;
+        totalCoeff += subject.coefficient;
+      }
+    });
+
+    return {
+      student,
+      average: totalCoeff > 0 ? totalWeighted / totalCoeff : 0,
+    };
+  });
+
+  const sorted = studentAverages.sort((a, b) => b.average - a.average).slice(0, 5);
+
+  return (
+    <div className="space-y-3">
+      {sorted.map(({ student, average }, index) => (
+        <div
+          key={student.id}
+          className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-gray-50 to-white"
+        >
+          <div
+            className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+              index === 0
+                ? "bg-yellow-400 text-yellow-900"
+                : index === 1
+                ? "bg-gray-300 text-gray-700"
+                : index === 2
+                ? "bg-orange-300 text-orange-800"
+                : "bg-gray-100 text-gray-600"
+            }`}
           >
-            <MessageCircle size={18} />
-            WhatsApp
-          </a>
-          <a
-            href="mailto:codjosamuelstein@gmail.com"
-            className="btn btn-secondary flex items-center gap-2"
-          >
-            <Mail size={18} />
-            Email
-          </a>
+            {index + 1}
+          </div>
+          {student.photo ? (
+            <img
+              src={student.photo}
+              alt=""
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 font-bold">
+              {student.firstName[0]}
+              {student.lastName[0]}
+            </div>
+          )}
+          <div className="flex-1">
+            <p className="font-medium text-gray-900">
+              {student.firstName} {student.lastName}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="font-bold text-fuchsia-600">{average.toFixed(2)}/20</p>
+          </div>
         </div>
+      ))}
+      {sorted.length === 0 && (
+        <p className="text-gray-500 text-center py-4">Aucune donnée</p>
+      )}
+    </div>
+  );
+}
+
+// ========== PAGE ÉLÈVES ==========
+function StudentsPage({
+  students,
+  onRefresh,
+}: {
+  students: Student[];
+  onRefresh: () => void;
+}) {
+  const [showForm, setShowForm] = useState(false);
+  const [editStudent, setEditStudent] = useState<Student | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredStudents = students.filter(
+    (s) =>
+      s.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      s.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSave = async (data: Omit<Student, "id" | "createdAt">) => {
+    if (editStudent) {
+      await db.updateStudent({ ...editStudent, ...data });
+    } else {
+      await db.addStudent(data);
+    }
+    onRefresh();
+    setShowForm(false);
+    setEditStudent(null);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Supprimer cet élève et toutes ses notes ?")) {
+      await db.deleteStudent(id);
+      onRefresh();
+    }
+  };
+
+  if (showForm) {
+    return (
+      <StudentForm
+        student={editStudent}
+        onSave={handleSave}
+        onCancel={() => {
+          setShowForm(false);
+          setEditStudent(null);
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="p-4">
+      <header className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Élèves</h1>
+        <button
+          onClick={() => setShowForm(true)}
+          className="btn-primary flex items-center gap-2"
+        >
+          <Plus size={20} />
+          Ajouter
+        </button>
+      </header>
+
+      {/* Recherche */}
+      <div className="relative mb-4">
+        <Search
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          size={20}
+        />
+        <input
+          type="text"
+          placeholder="Rechercher un élève..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="input-field pl-12"
+        />
+      </div>
+
+      {/* Liste */}
+      <div className="space-y-3">
+        {filteredStudents.map((student) => (
+          <div key={student.id} className="card p-4 flex items-center gap-4">
+            {student.photo ? (
+              <img
+                src={student.photo}
+                alt=""
+                className="w-14 h-14 rounded-2xl object-cover"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-400 to-fuchsia-600 flex items-center justify-center text-white text-xl font-bold">
+                {student.firstName[0]}
+                {student.lastName[0]}
+              </div>
+            )}
+            <div className="flex-1">
+              <p className="font-semibold text-gray-900">
+                {student.firstName} {student.lastName}
+              </p>
+              <p className="text-sm text-gray-500">
+                {student.gender === "M" ? "👦" : "👧"}{" "}
+                {new Date(student.dateOfBirth).toLocaleDateString("fr-FR")}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  setEditStudent(student);
+                  setShowForm(true);
+                }}
+                className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+              >
+                <Edit2 size={18} />
+              </button>
+              <button
+                onClick={() => handleDelete(student.id)}
+                className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center"
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
+          </div>
+        ))}
+        {filteredStudents.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            <Users size={48} className="mx-auto mb-4 opacity-50" />
+            <p>Aucun élève trouvé</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-// ============================================
-// PAGE ÉLÈVES
-// ============================================
-function ElevesPage({ searchQuery, setSearchQuery }: { searchQuery: string; setSearchQuery: (q: string) => void }) {
-  const { eleves, addEleve, updateEleve, deleteEleve, notify } = useStore();
-  const [showModal, setShowModal] = useState(false);
-  const [editingEleve, setEditingEleve] = useState<Eleve | null>(null);
-  const [formData, setFormData] = useState({
-    nom: '', prenom: '', dateNaissance: '', sexe: 'M' as 'M' | 'F',
-    classe: '', photo: '', nomParent: '', telParent: '', adresse: ''
+function StudentForm({
+  student,
+  onSave,
+  onCancel,
+}: {
+  student: Student | null;
+  onSave: (data: Omit<Student, "id" | "createdAt">) => void;
+  onCancel: () => void;
+}) {
+  const [form, setForm] = useState({
+    firstName: student?.firstName || "",
+    lastName: student?.lastName || "",
+    dateOfBirth: student?.dateOfBirth || "",
+    gender: student?.gender || ("M" as "M" | "F"),
+    photo: student?.photo || "",
+    parentName: student?.parentName || "",
+    parentPhone: student?.parentPhone || "",
+    address: student?.address || "",
   });
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const filteredEleves = eleves.filter(e =>
-    `${e.prenom} ${e.nom} ${e.classe}`.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, photo: reader.result as string });
+      reader.onload = (ev) => {
+        setForm({ ...form, photo: ev.target?.result as string });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = () => {
-    if (!formData.nom || !formData.prenom) {
-      notify('error', 'Veuillez remplir le nom et prénom');
-      return;
-    }
-    if (editingEleve) {
-      updateEleve(editingEleve.id, formData);
-    } else {
-      addEleve(formData);
-    }
-    setShowModal(false);
-    setEditingEleve(null);
-    setFormData({ nom: '', prenom: '', dateNaissance: '', sexe: 'M', classe: '', photo: '', nomParent: '', telParent: '', adresse: '' });
-  };
-
-  const openEdit = (eleve: Eleve) => {
-    setEditingEleve(eleve);
-    setFormData({
-      nom: eleve.nom, prenom: eleve.prenom, dateNaissance: eleve.dateNaissance,
-      sexe: eleve.sexe, classe: eleve.classe, photo: eleve.photo || '',
-      nomParent: eleve.nomParent, telParent: eleve.telParent, adresse: eleve.adresse
-    });
-    setShowModal(true);
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-        <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
-          <Users size={28} />
-          Gestion des Élèves
-        </h2>
-        <button onClick={() => setShowModal(true)} className="btn btn-primary flex items-center gap-2">
-          <Plus size={20} />
-          Ajouter un élève
+    <div className="p-4">
+      <header className="flex items-center gap-4 mb-6">
+        <button
+          onClick={onCancel}
+          className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"
+        >
+          <ChevronLeft size={24} />
         </button>
-      </div>
+        <h1 className="text-xl font-bold">
+          {student ? "Modifier l'élève" : "Nouvel élève"}
+        </h1>
+      </header>
 
-      {/* Recherche */}
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={20} />
-        <input
-          type="text"
-          placeholder="Rechercher un élève..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="input pl-12"
-        />
-      </div>
-
-      {/* Liste des élèves */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredEleves.map((eleve) => (
-          <motion.div
-            key={eleve.id}
-            layout
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="card hover:border-primary/50"
-          >
-            <div className="flex items-start gap-4">
-              {eleve.photo ? (
-                <img src={eleve.photo} alt="" className="w-16 h-16 rounded-xl object-cover border-2 border-primary/30" />
-              ) : (
-                <div className="w-16 h-16 rounded-xl gradient-primary flex items-center justify-center text-white text-xl font-bold">
-                  {eleve.prenom[0]}{eleve.nom[0]}
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold truncate">{eleve.prenom} {eleve.nom}</h3>
-                <p className="text-sm text-white/60">{eleve.classe}</p>
-                <p className="text-xs text-white/40 mt-1">Mat: {eleve.matricule}</p>
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4">
-              <button onClick={() => openEdit(eleve)} className="flex-1 btn btn-outline text-sm py-2">
-                <Edit2 size={16} className="inline mr-1" /> Modifier
-              </button>
-              <button
-                onClick={() => {
-                  if (confirm('Supprimer cet élève ?')) deleteEleve(eleve.id);
-                }}
-                className="btn bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white text-sm py-2 px-3"
-              >
-                <Trash2 size={16} />
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {filteredEleves.length === 0 && (
-        <div className="text-center py-12 text-white/40">
-          <Users size={48} className="mx-auto mb-4 opacity-50" />
-          <p>Aucun élève trouvé</p>
-        </div>
-      )}
-
-      {/* Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <Modal onClose={() => { setShowModal(false); setEditingEleve(null); }}>
-            <h3 className="text-xl font-bold mb-6 gradient-text">
-              {editingEleve ? 'Modifier l\'élève' : 'Nouvel élève'}
-            </h3>
-            
-            {/* Photo */}
-            <div className="flex justify-center mb-6">
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="w-24 h-24 rounded-xl border-2 border-dashed border-primary/50 flex items-center justify-center cursor-pointer hover:border-primary transition-colors overflow-hidden"
-              >
-                {formData.photo ? (
-                  <img src={formData.photo} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <Camera size={32} className="text-white/40" />
-                )}
-              </div>
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <input
-                type="text"
-                placeholder="Prénom *"
-                value={formData.prenom}
-                onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
-                className="input"
+      <div className="space-y-4">
+        {/* Photo */}
+        <div className="flex justify-center mb-6">
+          <label className="relative cursor-pointer">
+            {form.photo ? (
+              <img
+                src={form.photo}
+                alt=""
+                className="w-28 h-28 rounded-3xl object-cover shadow-lg"
               />
-              <input
-                type="text"
-                placeholder="Nom *"
-                value={formData.nom}
-                onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
-                className="input"
-              />
-              <input
-                type="date"
-                value={formData.dateNaissance}
-                onChange={(e) => setFormData({ ...formData, dateNaissance: e.target.value })}
-                className="input"
-              />
-              <select
-                value={formData.sexe}
-                onChange={(e) => setFormData({ ...formData, sexe: e.target.value as 'M' | 'F' })}
-                className="input"
-              >
-                <option value="M">Masculin</option>
-                <option value="F">Féminin</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Classe"
-                value={formData.classe}
-                onChange={(e) => setFormData({ ...formData, classe: e.target.value })}
-                className="input"
-              />
-              <input
-                type="text"
-                placeholder="Nom du parent"
-                value={formData.nomParent}
-                onChange={(e) => setFormData({ ...formData, nomParent: e.target.value })}
-                className="input"
-              />
-              <input
-                type="tel"
-                placeholder="Téléphone parent"
-                value={formData.telParent}
-                onChange={(e) => setFormData({ ...formData, telParent: e.target.value })}
-                className="input"
-              />
-              <input
-                type="text"
-                placeholder="Adresse"
-                value={formData.adresse}
-                onChange={(e) => setFormData({ ...formData, adresse: e.target.value })}
-                className="input sm:col-span-2"
-              />
-            </div>
-
-            <div className="flex gap-3 mt-6">
-              <button onClick={() => { setShowModal(false); setEditingEleve(null); }} className="flex-1 btn btn-outline">
-                Annuler
-              </button>
-              <button onClick={handleSubmit} className="flex-1 btn btn-primary">
-                <Save size={18} className="inline mr-2" />
-                {editingEleve ? 'Enregistrer' : 'Ajouter'}
-              </button>
-            </div>
-          </Modal>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// ============================================
-// PAGE MATIÈRES
-// ============================================
-function MatieresPage() {
-  const { matieres, addMatiere, updateMatiere, deleteMatiere, notify } = useStore();
-  const [showModal, setShowModal] = useState(false);
-  const [editingMatiere, setEditingMatiere] = useState<Matiere | null>(null);
-  const [formData, setFormData] = useState({
-    nom: '', coefficient: 1, couleur: '#FF00FF',
-    categorie: 'principal' as Matiere['categorie'], ordre: 1
-  });
-
-  const categories = [
-    { value: 'principal', label: 'Principal', color: '#FF00FF' },
-    { value: 'secondaire', label: 'Secondaire', color: '#CCFF00' },
-    { value: 'langue', label: 'Langue', color: '#00FFFF' },
-    { value: 'sport', label: 'Sport', color: '#45B7D1' },
-    { value: 'art', label: 'Art', color: '#DDA0DD' },
-  ];
-
-  const handleSubmit = () => {
-    if (!formData.nom) {
-      notify('error', 'Veuillez entrer le nom de la matière');
-      return;
-    }
-    if (editingMatiere) {
-      updateMatiere(editingMatiere.id, formData);
-    } else {
-      addMatiere({ ...formData, ordre: matieres.length + 1 });
-    }
-    setShowModal(false);
-    setEditingMatiere(null);
-    setFormData({ nom: '', coefficient: 1, couleur: '#FF00FF', categorie: 'principal', ordre: 1 });
-  };
-
-  const openEdit = (matiere: Matiere) => {
-    setEditingMatiere(matiere);
-    setFormData({
-      nom: matiere.nom, coefficient: matiere.coefficient, couleur: matiere.couleur,
-      categorie: matiere.categorie, ordre: matiere.ordre
-    });
-    setShowModal(true);
-  };
-
-  const groupedMatieres = categories.map(cat => ({
-    ...cat,
-    matieres: matieres.filter(m => m.categorie === cat.value).sort((a, b) => a.ordre - b.ordre)
-  }));
-
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-        <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
-          <BookOpen size={28} />
-          Gestion des Matières
-        </h2>
-        <button onClick={() => setShowModal(true)} className="btn btn-primary flex items-center gap-2">
-          <Plus size={20} />
-          Ajouter une matière
-        </button>
-      </div>
-
-      {/* Liste par catégorie */}
-      <div className="space-y-6">
-        {groupedMatieres.map((group) => (
-          <div key={group.value} className="card">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: group.color }} />
-              {group.label}
-              <span className="text-sm text-white/40 font-normal">({group.matieres.length})</span>
-            </h3>
-            
-            {group.matieres.length > 0 ? (
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {group.matieres.map((matiere) => (
-                  <div
-                    key={matiere.id}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
-                  >
-                    <div
-                      className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold"
-                      style={{ backgroundColor: matiere.couleur }}
-                    >
-                      {matiere.nom.substring(0, 2).toUpperCase()}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium truncate">{matiere.nom}</p>
-                      <p className="text-sm text-white/60">Coef. {matiere.coefficient}</p>
-                    </div>
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => openEdit(matiere)}
-                        className="p-2 rounded-lg hover:bg-primary/20 text-primary"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm('Supprimer cette matière ?')) deleteMatiere(matiere.id);
-                        }}
-                        className="p-2 rounded-lg hover:bg-red-500/20 text-red-400"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
             ) : (
-              <p className="text-white/40 text-center py-4">Aucune matière dans cette catégorie</p>
+              <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-fuchsia-100 to-fuchsia-200 flex items-center justify-center">
+                <Camera size={32} className="text-fuchsia-500" />
+              </div>
             )}
+            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-fuchsia-500 text-white flex items-center justify-center shadow-lg">
+              <Camera size={18} />
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Prénom *
+            </label>
+            <input
+              type="text"
+              value={form.firstName}
+              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+              className="input-field"
+              required
+            />
           </div>
-        ))}
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Nom *
+            </label>
+            <input
+              type="text"
+              value={form.lastName}
+              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+              className="input-field"
+              required
+            />
+          </div>
+        </div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <Modal onClose={() => { setShowModal(false); setEditingMatiere(null); }}>
-            <h3 className="text-xl font-bold mb-6 gradient-text">
-              {editingMatiere ? 'Modifier la matière' : 'Nouvelle matière'}
-            </h3>
-            
-            <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Nom de la matière *"
-                value={formData.nom}
-                onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
-                className="input"
-              />
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm text-white/60 mb-2">Coefficient</label>
-                  <select
-                    value={formData.coefficient}
-                    onChange={(e) => setFormData({ ...formData, coefficient: Number(e.target.value) })}
-                    className="input"
-                  >
-                    {[1, 2, 3, 4, 5].map(c => (
-                      <option key={c} value={c}>Coef. {c}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm text-white/60 mb-2">Couleur</label>
-                  <div className="flex gap-2">
-                    <input
-                      type="color"
-                      value={formData.couleur}
-                      onChange={(e) => setFormData({ ...formData, couleur: e.target.value })}
-                      className="w-12 h-12 rounded-lg cursor-pointer"
-                    />
-                    <input
-                      type="text"
-                      value={formData.couleur}
-                      onChange={(e) => setFormData({ ...formData, couleur: e.target.value })}
-                      className="input flex-1"
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm text-white/60 mb-2">Catégorie</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.value}
-                      onClick={() => setFormData({ ...formData, categorie: cat.value as Matiere['categorie'] })}
-                      className={`p-3 rounded-xl text-sm font-medium transition-all ${
-                        formData.categorie === cat.value
-                          ? 'bg-primary text-white'
-                          : 'bg-white/5 hover:bg-white/10'
-                      }`}
-                    >
-                      {cat.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Date de naissance *
+          </label>
+          <input
+            type="date"
+            value={form.dateOfBirth}
+            onChange={(e) => setForm({ ...form, dateOfBirth: e.target.value })}
+            className="input-field"
+            required
+          />
+        </div>
 
-            <div className="flex gap-3 mt-6">
-              <button onClick={() => { setShowModal(false); setEditingMatiere(null); }} className="flex-1 btn btn-outline">
-                Annuler
-              </button>
-              <button onClick={handleSubmit} className="flex-1 btn btn-primary">
-                <Save size={18} className="inline mr-2" />
-                {editingMatiere ? 'Enregistrer' : 'Ajouter'}
-              </button>
-            </div>
-          </Modal>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// ============================================
-// PAGE NOTES
-// ============================================
-function NotesPage({ trimestre }: { trimestre: Trimestre }) {
-  const { eleves, matieres, notes, addNote, deleteNote, notify } = useStore();
-  const [selectedEleve, setSelectedEleve] = useState<string>('');
-  const [selectedMatiere, setSelectedMatiere] = useState<string>('');
-  const [noteValue, setNoteValue] = useState<string>('');
-  const [noteType, setNoteType] = useState<Note['type']>('controle');
-
-  const handleAddNote = () => {
-    if (!selectedEleve || !selectedMatiere) {
-      notify('error', 'Sélectionnez un élève et une matière');
-      return;
-    }
-    const value = parseFloat(noteValue);
-    if (isNaN(value) || value < 0 || value > 20) {
-      notify('error', 'La note doit être entre 0 et 20');
-      return;
-    }
-    addNote({
-      eleveId: selectedEleve,
-      matiereId: selectedMatiere,
-      valeur: value,
-      type: noteType,
-      trimestre,
-      date: new Date().toISOString().split('T')[0],
-    });
-    setNoteValue('');
-  };
-
-  const numPad = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0', '⌫'];
-
-  const handleNumPad = (key: string) => {
-    if (key === '⌫') {
-      setNoteValue(noteValue.slice(0, -1));
-    } else if (key === '.' && noteValue.includes('.')) {
-      return;
-    } else {
-      const newValue = noteValue + key;
-      if (parseFloat(newValue) <= 20) {
-        setNoteValue(newValue);
-      }
-    }
-  };
-
-  const recentNotes = notes
-    .filter(n => n.trimestre === trimestre)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 10);
-
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
-        <PenTool size={28} />
-        Saisie des Notes - T{trimestre}
-      </h2>
-
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Formulaire de saisie */}
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Nouvelle note</h3>
-          
-          <div className="space-y-4">
-            <select
-              value={selectedEleve}
-              onChange={(e) => setSelectedEleve(e.target.value)}
-              className="input"
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Genre
+          </label>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => setForm({ ...form, gender: "M" })}
+              className={`flex-1 py-3 rounded-xl font-medium transition-all ${
+                form.gender === "M"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 text-gray-600"
+              }`}
             >
-              <option value="">Sélectionner un élève</option>
-              {eleves.map(e => (
-                <option key={e.id} value={e.id}>{e.prenom} {e.nom}</option>
-              ))}
-            </select>
-
-            <select
-              value={selectedMatiere}
-              onChange={(e) => setSelectedMatiere(e.target.value)}
-              className="input"
+              👦 Garçon
+            </button>
+            <button
+              type="button"
+              onClick={() => setForm({ ...form, gender: "F" })}
+              className={`flex-1 py-3 rounded-xl font-medium transition-all ${
+                form.gender === "F"
+                  ? "bg-pink-500 text-white"
+                  : "bg-gray-100 text-gray-600"
+              }`}
             >
-              <option value="">Sélectionner une matière</option>
-              {matieres.map(m => (
-                <option key={m.id} value={m.id}>{m.nom}</option>
-              ))}
-            </select>
-
-            <div className="grid grid-cols-2 gap-2">
-              {(['controle', 'examen', 'devoir', 'interrogation'] as const).map(type => (
-                <button
-                  key={type}
-                  onClick={() => setNoteType(type)}
-                  className={`p-3 rounded-xl text-sm font-medium transition-all capitalize ${
-                    noteType === type ? 'bg-primary text-white' : 'bg-white/5 hover:bg-white/10'
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-
-            {/* Affichage de la note */}
-            <div className="text-center py-6 bg-white/5 rounded-xl">
-              <span className="text-5xl font-bold gradient-text">
-                {noteValue || '0'}
-              </span>
-              <span className="text-2xl text-white/40">/20</span>
-            </div>
-
-            {/* Pavé numérique */}
-            <div className="grid grid-cols-3 gap-2">
-              {numPad.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => handleNumPad(key)}
-                  className="h-14 rounded-xl text-xl font-semibold bg-white/10 hover:bg-primary/30 active:scale-95 transition-all"
-                >
-                  {key}
-                </button>
-              ))}
-            </div>
-
-            <button onClick={handleAddNote} className="w-full btn btn-primary text-lg">
-              <Save size={20} className="inline mr-2" />
-              Enregistrer la note
+              👧 Fille
             </button>
           </div>
         </div>
 
-        {/* Notes récentes */}
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Notes récentes</h3>
-          
-          <div className="space-y-2 max-h-[500px] overflow-y-auto">
-            {recentNotes.map(note => {
-              const eleve = eleves.find(e => e.id === note.eleveId);
-              const matiere = matieres.find(m => m.id === note.matiereId);
-              const appreciation = getAppreciation(note.valeur);
-              
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Nom du parent
+          </label>
+          <input
+            type="text"
+            value={form.parentName}
+            onChange={(e) => setForm({ ...form, parentName: e.target.value })}
+            className="input-field"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Téléphone parent
+          </label>
+          <input
+            type="tel"
+            value={form.parentPhone}
+            onChange={(e) => setForm({ ...form, parentPhone: e.target.value })}
+            className="input-field"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Adresse
+          </label>
+          <textarea
+            value={form.address}
+            onChange={(e) => setForm({ ...form, address: e.target.value })}
+            className="input-field resize-none"
+            rows={2}
+          />
+        </div>
+
+        <button
+          onClick={() => {
+            if (form.firstName && form.lastName && form.dateOfBirth) {
+              onSave(form);
+            }
+          }}
+          className="btn-primary w-full flex items-center justify-center gap-2"
+        >
+          <Save size={20} />
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ========== PAGE MATIÈRES ==========
+function SubjectsPage({
+  subjects,
+  onRefresh,
+}: {
+  subjects: Subject[];
+  onRefresh: () => void;
+}) {
+  const [showForm, setShowForm] = useState(false);
+  const [editSubject, setEditSubject] = useState<Subject | null>(null);
+
+  const handleSave = async (data: Omit<Subject, "id">) => {
+    if (editSubject) {
+      await db.updateSubject({ ...editSubject, ...data });
+    } else {
+      await db.addSubject(data);
+    }
+    onRefresh();
+    setShowForm(false);
+    setEditSubject(null);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Supprimer cette matière et toutes les notes associées ?")) {
+      await db.deleteSubject(id);
+      onRefresh();
+    }
+  };
+
+  if (showForm) {
+    return (
+      <SubjectForm
+        subject={editSubject}
+        onSave={handleSave}
+        onCancel={() => {
+          setShowForm(false);
+          setEditSubject(null);
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="p-4">
+      <header className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Matières</h1>
+        <button
+          onClick={() => setShowForm(true)}
+          className="btn-primary flex items-center gap-2"
+        >
+          <Plus size={20} />
+          Ajouter
+        </button>
+      </header>
+
+      <div className="space-y-3">
+        {subjects.map((subject) => (
+          <div key={subject.id} className="card p-4 flex items-center gap-4">
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center text-white text-xl font-bold"
+              style={{ backgroundColor: subject.color }}
+            >
+              {subject.name.substring(0, 2).toUpperCase()}
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold text-gray-900">{subject.name}</p>
+              <p className="text-sm text-gray-500">
+                Coef. {subject.coefficient} •{" "}
+                {
+                  {
+                    principal: "Principal",
+                    secondary: "Secondaire",
+                    sport: "Sport",
+                    art: "Art",
+                  }[subject.category]
+                }
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  setEditSubject(subject);
+                  setShowForm(true);
+                }}
+                className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"
+              >
+                <Edit2 size={18} />
+              </button>
+              <button
+                onClick={() => handleDelete(subject.id)}
+                className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center"
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SubjectForm({
+  subject,
+  onSave,
+  onCancel,
+}: {
+  subject: Subject | null;
+  onSave: (data: Omit<Subject, "id">) => void;
+  onCancel: () => void;
+}) {
+  const [form, setForm] = useState({
+    name: subject?.name || "",
+    coefficient: subject?.coefficient || 1,
+    color: subject?.color || "#FF00FF",
+    category: subject?.category || ("principal" as Subject["category"]),
+  });
+
+  const colors = [
+    "#FF00FF",
+    "#CCFF00",
+    "#00CCFF",
+    "#FF9900",
+    "#9900FF",
+    "#00FF99",
+    "#FF6699",
+    "#6699FF",
+    "#FF3333",
+    "#33CC33",
+  ];
+
+  return (
+    <div className="p-4">
+      <header className="flex items-center gap-4 mb-6">
+        <button
+          onClick={onCancel}
+          className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="text-xl font-bold">
+          {subject ? "Modifier la matière" : "Nouvelle matière"}
+        </h1>
+      </header>
+
+      <div className="space-y-5">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Nom de la matière *
+          </label>
+          <input
+            type="text"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className="input-field"
+            placeholder="Ex: Mathématiques"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Coefficient
+          </label>
+          <div className="flex gap-2">
+            {[1, 2, 3, 4, 5].map((c) => (
+              <button
+                key={c}
+                onClick={() => setForm({ ...form, coefficient: c })}
+                className={`flex-1 py-3 rounded-xl font-bold text-lg transition-all ${
+                  form.coefficient === c
+                    ? "bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white shadow-lg"
+                    : "bg-gray-100 text-gray-600"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Couleur
+          </label>
+          <div className="flex flex-wrap gap-3">
+            {colors.map((c) => (
+              <button
+                key={c}
+                onClick={() => setForm({ ...form, color: c })}
+                className={`w-12 h-12 rounded-2xl transition-all ${
+                  form.color === c
+                    ? "ring-4 ring-offset-2 ring-fuchsia-500 scale-110"
+                    : ""
+                }`}
+                style={{ backgroundColor: c }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Catégorie
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { id: "principal", label: "📚 Principal" },
+              { id: "secondary", label: "📖 Secondaire" },
+              { id: "sport", label: "⚽ Sport" },
+              { id: "art", label: "🎨 Art" },
+            ].map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() =>
+                  setForm({ ...form, category: id as Subject["category"] })
+                }
+                className={`py-3 rounded-xl font-medium transition-all ${
+                  form.category === id
+                    ? "bg-fuchsia-500 text-white"
+                    : "bg-gray-100 text-gray-600"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            if (form.name) {
+              onSave(form);
+            }
+          }}
+          className="btn-primary w-full flex items-center justify-center gap-2"
+        >
+          <Save size={20} />
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ========== PAGE NOTES ==========
+function GradesPage({
+  students,
+  subjects,
+  grades,
+  selectedPeriod,
+  onPeriodChange,
+  onRefresh,
+}: {
+  students: Student[];
+  subjects: Subject[];
+  grades: Grade[];
+  selectedPeriod: Period;
+  onPeriodChange: (p: Period) => void;
+  onRefresh: () => void;
+}) {
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
+  const [gradeValue, setGradeValue] = useState("");
+  const [maxValue, setMaxValue] = useState("20");
+  const [gradeType, setGradeType] = useState<Grade["type"]>("exam");
+
+  const handleAddGrade = async () => {
+    if (!selectedStudent || !selectedSubject || !gradeValue) return;
+
+    await db.addGrade({
+      studentId: selectedStudent.id,
+      subjectId: selectedSubject.id,
+      value: parseFloat(gradeValue),
+      maxValue: parseFloat(maxValue),
+      period: selectedPeriod,
+      type: gradeType,
+      date: new Date().toISOString().split("T")[0],
+    });
+
+    setGradeValue("");
+    onRefresh();
+  };
+
+  const periodGrades = grades.filter((g) => g.period === selectedPeriod);
+
+  return (
+    <div className="p-4">
+      <header className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">Saisie des Notes</h1>
+        <PeriodSelector selected={selectedPeriod} onChange={onPeriodChange} />
+      </header>
+
+      {/* Sélection élève */}
+      <div className="card p-4 mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Élève
+        </label>
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          {students.map((student) => (
+            <button
+              key={student.id}
+              onClick={() => setSelectedStudent(student)}
+              className={`flex-shrink-0 px-4 py-3 rounded-xl font-medium transition-all ${
+                selectedStudent?.id === student.id
+                  ? "bg-fuchsia-500 text-white shadow-lg"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+            >
+              {student.firstName} {student.lastName[0]}.
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Sélection matière */}
+      {selectedStudent && (
+        <div className="card p-4 mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Matière
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            {subjects.map((subject) => (
+              <button
+                key={subject.id}
+                onClick={() => setSelectedSubject(subject)}
+                className={`p-3 rounded-xl font-medium transition-all border-2 ${
+                  selectedSubject?.id === subject.id
+                    ? "border-fuchsia-500 bg-fuchsia-50"
+                    : "border-gray-200 bg-white"
+                }`}
+              >
+                <span
+                  className="inline-block w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: subject.color }}
+                />
+                {subject.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Saisie note avec gros boutons */}
+      {selectedStudent && selectedSubject && (
+        <div className="card p-4 mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            Note pour {selectedStudent.firstName} en {selectedSubject.name}
+          </label>
+
+          {/* Clavier numérique personnalisé */}
+          <div className="grid grid-cols-4 gap-2 mb-4">
+            {["7", "8", "9", "←", "4", "5", "6", ".", "1", "2", "3", "C", "0", "10", "15", "20"].map(
+              (key) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    if (key === "←") {
+                      setGradeValue(gradeValue.slice(0, -1));
+                    } else if (key === "C") {
+                      setGradeValue("");
+                    } else if (key === "10" || key === "15" || key === "20") {
+                      setGradeValue(key);
+                    } else {
+                      setGradeValue(gradeValue + key);
+                    }
+                  }}
+                  className={`btn-icon ${
+                    key === "←" || key === "C"
+                      ? "bg-red-100 text-red-600"
+                      : key === "10" || key === "15" || key === "20"
+                      ? "bg-citron-100 text-citron-700"
+                      : "bg-gray-100 text-gray-800"
+                  }`}
+                >
+                  {key}
+                </button>
+              )
+            )}
+          </div>
+
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex-1">
+              <input
+                type="text"
+                value={gradeValue}
+                onChange={(e) => setGradeValue(e.target.value)}
+                className="input-field text-center text-3xl font-bold"
+                placeholder="0"
+              />
+            </div>
+            <span className="text-2xl font-bold text-gray-400">/</span>
+            <div className="w-20">
+              <input
+                type="number"
+                value={maxValue}
+                onChange={(e) => setMaxValue(e.target.value)}
+                className="input-field text-center text-xl font-bold"
+              />
+            </div>
+          </div>
+
+          {/* Type de note */}
+          <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+            {[
+              { id: "exam", label: "📝 Examen" },
+              { id: "test", label: "📋 Contrôle" },
+              { id: "homework", label: "📚 Devoir" },
+              { id: "participation", label: "🙋 Participation" },
+            ].map(({ id, label }) => (
+              <button
+                key={id}
+                onClick={() => setGradeType(id as Grade["type"])}
+                className={`flex-shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  gradeType === id
+                    ? "bg-citron-400 text-gray-900"
+                    : "bg-gray-100 text-gray-600"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={handleAddGrade}
+            disabled={!gradeValue}
+            className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            <Check size={20} />
+            Ajouter la note
+          </button>
+        </div>
+      )}
+
+      {/* Récapitulatif des notes */}
+      <div className="card p-4">
+        <h2 className="font-bold text-gray-900 mb-3">
+          Notes saisies - {selectedPeriod}
+        </h2>
+        <div className="space-y-2 max-h-60 overflow-y-auto">
+          {periodGrades
+            .slice()
+            .reverse()
+            .slice(0, 20)
+            .map((grade) => {
+              const student = students.find((s) => s.id === grade.studentId);
+              const subject = subjects.find((s) => s.id === grade.subjectId);
               return (
-                <div key={note.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                <div
+                  key={grade.id}
+                  className="flex items-center gap-3 p-2 rounded-lg bg-gray-50"
+                >
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-                    style={{ backgroundColor: matiere?.couleur || '#666' }}
-                  >
-                    {note.valeur}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{eleve?.prenom} {eleve?.nom}</p>
-                    <p className="text-sm text-white/60">{matiere?.nom} • {note.type}</p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs px-2 py-1 rounded-full" style={{ backgroundColor: `${appreciation.color}30`, color: appreciation.color }}>
-                      {appreciation.text}
-                    </span>
-                  </div>
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: subject?.color }}
+                  />
+                  <span className="flex-1 text-sm">
+                    {student?.firstName} {student?.lastName[0]}. - {subject?.name}
+                  </span>
+                  <span className="font-bold text-fuchsia-600">
+                    {grade.value}/{grade.maxValue}
+                  </span>
                   <button
-                    onClick={() => deleteNote(note.id)}
-                    className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
+                    onClick={async () => {
+                      await db.deleteGrade(grade.id);
+                      onRefresh();
+                    }}
+                    className="text-red-400 hover:text-red-600"
                   >
-                    <Trash2 size={16} />
+                    <X size={16} />
                   </button>
                 </div>
               );
             })}
-            
-            {recentNotes.length === 0 && (
-              <p className="text-center text-white/40 py-8">Aucune note pour ce trimestre</p>
-            )}
-          </div>
+          {periodGrades.length === 0 && (
+            <p className="text-gray-500 text-center py-4">Aucune note saisie</p>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-// ============================================
-// PAGE BULLETINS
-// ============================================
-function BulletinsPage({ trimestre }: { trimestre: Trimestre }) {
-  const store = useStore();
-  const { eleves, matieres, notes, mentions, commentaires, settings, setCommentaire, notify } = store;
-  const [selectedEleve, setSelectedEleve] = useState<string>('');
-  const [showBulletin, setShowBulletin] = useState(false);
-  const [comment, setComment] = useState('');
-  const [selectedMention, setSelectedMention] = useState<string>('');
-  const bulletinRef = useRef<HTMLDivElement>(null);
+// ========== PAGE BULLETIN ==========
+function BulletinPage({
+  students,
+  subjects,
+  grades,
+  settings,
+  selectedPeriod,
+  onPeriodChange,
+}: {
+  students: Student[];
+  subjects: Subject[];
+  grades: Grade[];
+  settings: SchoolSettings;
+  selectedPeriod: Period;
+  onPeriodChange: (p: Period) => void;
+}) {
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [appreciation, setAppreciation] = useState("");
 
-  const eleve = eleves.find(e => e.id === selectedEleve);
-  const notesEleve = notes.filter(n => n.eleveId === selectedEleve && n.trimestre === trimestre);
-  const moyenne = calculateMoyenne(notesEleve, matieres);
+  const periodGrades = grades.filter((g) => g.period === selectedPeriod);
 
-  // Calcul du rang
-  const classement = eleves
-    .map(e => ({
-      id: e.id,
-      moyenne: calculateMoyenne(notes.filter(n => n.eleveId === e.id && n.trimestre === trimestre), matieres)
-    }))
-    .sort((a, b) => b.moyenne - a.moyenne);
-  const rang = classement.findIndex(c => c.id === selectedEleve) + 1;
+  // Calcul des moyennes et rangs pour tous les élèves
+  const studentStats = students.map((student) => {
+    const studentGrades = periodGrades.filter((g) => g.studentId === student.id);
+    let totalWeighted = 0;
+    let totalCoeff = 0;
 
-  // Charger le commentaire existant
-  useEffect(() => {
-    const existing = commentaires.find(c => c.eleveId === selectedEleve && c.trimestre === trimestre);
-    if (existing) {
-      setComment(existing.commentaire);
-      setSelectedMention(existing.mentionId || '');
-    } else {
-      setComment('');
-      setSelectedMention('');
-    }
-  }, [selectedEleve, trimestre, commentaires]);
+    subjects.forEach((subject) => {
+      const subjectGrades = studentGrades.filter((g) => g.subjectId === subject.id);
+      if (subjectGrades.length > 0) {
+        const avg =
+          subjectGrades.reduce((sum, g) => sum + (g.value / g.maxValue) * 20, 0) /
+          subjectGrades.length;
+        totalWeighted += avg * subject.coefficient;
+        totalCoeff += subject.coefficient;
+      }
+    });
 
-  const saveComment = () => {
-    if (selectedEleve) {
-      setCommentaire(selectedEleve, trimestre, comment, selectedMention || undefined);
-    }
+    return {
+      student,
+      average: totalCoeff > 0 ? totalWeighted / totalCoeff : 0,
+    };
+  });
+
+  const sortedByAverage = [...studentStats].sort((a, b) => b.average - a.average);
+  const getRank = (studentId: string) => {
+    return sortedByAverage.findIndex((s) => s.student.id === studentId) + 1;
   };
 
   const handlePrint = () => {
     window.print();
   };
 
-  const handleExportPDF = async () => {
-    if (!bulletinRef.current || !eleve) return;
-    
-    try {
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      pdf.setFontSize(12);
-      pdf.text(`Bulletin de ${eleve.prenom} ${eleve.nom} - T${trimestre}`, 20, 20);
-      pdf.text(`Moyenne: ${moyenne.toFixed(2)}/20`, 20, 30);
-      pdf.text(`Rang: ${rang}/${eleves.length}`, 20, 40);
-      pdf.save(`bulletin_${eleve.nom}_${eleve.prenom}_T${trimestre}.pdf`);
-      notify('success', 'PDF exporté avec succès!');
-    } catch (error) {
-      notify('error', 'Erreur lors de l\'export PDF');
+  const handleExportPDF = () => {
+    if (!selectedStudent) return;
+
+    const doc = new jsPDF();
+    const rank = getRank(selectedStudent.id);
+    const studentStat = studentStats.find(
+      (s) => s.student.id === selectedStudent.id
+    );
+
+    doc.setFontSize(18);
+    doc.text(settings.schoolName || "Les Bulles de Joie", 105, 20, {
+      align: "center",
+    });
+    doc.setFontSize(14);
+    doc.text(`Bulletin Scolaire - ${selectedPeriod}`, 105, 30, {
+      align: "center",
+    });
+    doc.setFontSize(12);
+    doc.text(
+      `Élève: ${selectedStudent.firstName} ${selectedStudent.lastName}`,
+      20,
+      50
+    );
+    doc.text(`Moyenne Générale: ${studentStat?.average.toFixed(2)}/20`, 20, 60);
+    doc.text(`Rang: ${rank}/${students.length}`, 20, 70);
+
+    let y = 90;
+    doc.setFontSize(10);
+    doc.text("Matière", 20, y);
+    doc.text("Moyenne", 80, y);
+    doc.text("Coef.", 120, y);
+    doc.text("Moy. Pondérée", 150, y);
+    y += 10;
+
+    subjects.forEach((subject) => {
+      const subjectGrades = periodGrades.filter(
+        (g) => g.studentId === selectedStudent.id && g.subjectId === subject.id
+      );
+      if (subjectGrades.length > 0) {
+        const avg =
+          subjectGrades.reduce((sum, g) => sum + (g.value / g.maxValue) * 20, 0) /
+          subjectGrades.length;
+        doc.text(subject.name, 20, y);
+        doc.text(avg.toFixed(2), 80, y);
+        doc.text(subject.coefficient.toString(), 120, y);
+        doc.text((avg * subject.coefficient).toFixed(2), 150, y);
+        y += 8;
+      }
+    });
+
+    if (appreciation) {
+      y += 10;
+      doc.text("Appréciation:", 20, y);
+      y += 8;
+      doc.text(appreciation, 20, y, { maxWidth: 170 });
     }
+
+    doc.save(
+      `bulletin-${selectedStudent.lastName}-${selectedStudent.firstName}-${selectedPeriod}.pdf`
+    );
   };
 
   const handleExportExcel = () => {
-    if (!eleve) return;
-    
-    const data = matieres.map(m => {
-      const notesMatiere = notesEleve.filter(n => n.matiereId === m.id);
-      const moyenneMatiere = notesMatiere.length > 0
-        ? notesMatiere.reduce((sum, n) => sum + n.valeur, 0) / notesMatiere.length
-        : 0;
-      return {
-        Matière: m.nom,
-        Coefficient: m.coefficient,
-        Notes: notesMatiere.map(n => n.valeur).join(', '),
-        Moyenne: moyenneMatiere.toFixed(2),
-        Appréciation: getAppreciation(moyenneMatiere).text,
+    const data = students.map((student) => {
+      const row: Record<string, string | number> = {
+        Nom: student.lastName,
+        Prénom: student.firstName,
       };
+
+      subjects.forEach((subject) => {
+        const subjectGrades = periodGrades.filter(
+          (g) => g.studentId === student.id && g.subjectId === subject.id
+        );
+        if (subjectGrades.length > 0) {
+          const avg =
+            subjectGrades.reduce(
+              (sum, g) => sum + (g.value / g.maxValue) * 20,
+              0
+            ) / subjectGrades.length;
+          row[subject.name] = avg.toFixed(2);
+        } else {
+          row[subject.name] = "-";
+        }
+      });
+
+      const stat = studentStats.find((s) => s.student.id === student.id);
+      row["Moyenne Générale"] = stat?.average.toFixed(2) || "0";
+      row["Rang"] = getRank(student.id);
+
+      return row;
     });
-    
+
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Bulletin');
-    XLSX.writeFile(wb, `bulletin_${eleve.nom}_${eleve.prenom}_T${trimestre}.xlsx`);
-    notify('success', 'Excel exporté avec succès!');
+    XLSX.utils.book_append_sheet(wb, ws, `Bulletin ${selectedPeriod}`);
+    XLSX.writeFile(wb, `bulletins-${selectedPeriod}.xlsx`);
   };
 
-  // Données pour le graphique radar
-  const radarData = {
-    labels: matieres.slice(0, 8).map(m => m.nom),
-    datasets: [{
-      label: 'Moyenne',
-      data: matieres.slice(0, 8).map(m => {
-        const notesM = notesEleve.filter(n => n.matiereId === m.id);
-        return notesM.length > 0 ? notesM.reduce((s, n) => s + n.valeur, 0) / notesM.length : 0;
-      }),
-      backgroundColor: 'rgba(255, 0, 255, 0.2)',
-      borderColor: '#FF00FF',
-      borderWidth: 2,
-      pointBackgroundColor: '#CCFF00',
-    }],
+  // Données pour le radar chart
+  const getRadarData = (student: Student) => {
+    const studentGrades = periodGrades.filter((g) => g.studentId === student.id);
+
+    return {
+      labels: subjects.map((s) => s.name),
+      datasets: [
+        {
+          label: `${student.firstName} ${student.lastName}`,
+          data: subjects.map((subject) => {
+            const subjectGrades = studentGrades.filter(
+              (g) => g.subjectId === subject.id
+            );
+            if (subjectGrades.length === 0) return 0;
+            return (
+              subjectGrades.reduce(
+                (sum, g) => sum + (g.value / g.maxValue) * 20,
+                0
+              ) / subjectGrades.length
+            );
+          }),
+          backgroundColor: "rgba(255, 0, 255, 0.2)",
+          borderColor: "#FF00FF",
+          borderWidth: 2,
+          pointBackgroundColor: "#FF00FF",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "#FF00FF",
+        },
+      ],
+    };
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
-        <FileText size={28} />
-        Bulletins Scolaires - T{trimestre}
-      </h2>
+    <div className="p-4">
+      <header className="mb-6 no-print">
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">Bulletin Scolaire</h1>
+        <PeriodSelector selected={selectedPeriod} onChange={onPeriodChange} />
+      </header>
 
       {/* Sélection élève */}
-      <div className="card">
-        <div className="grid sm:grid-cols-2 gap-4">
-          <select
-            value={selectedEleve}
-            onChange={(e) => { setSelectedEleve(e.target.value); setShowBulletin(false); }}
-            className="input"
-          >
-            <option value="">Sélectionner un élève</option>
-            {eleves.map(e => (
-              <option key={e.id} value={e.id}>{e.prenom} {e.nom} - {e.classe}</option>
-            ))}
-          </select>
-          
-          {selectedEleve && (
-            <button onClick={() => setShowBulletin(true)} className="btn btn-primary">
-              <Eye size={18} className="inline mr-2" />
-              Afficher le bulletin
+      <div className="card p-4 mb-4 no-print">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Sélectionner un élève
+        </label>
+        <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+          {students.map((student) => (
+            <button
+              key={student.id}
+              onClick={() => setSelectedStudent(student)}
+              className={`p-3 rounded-xl font-medium text-left transition-all ${
+                selectedStudent?.id === student.id
+                  ? "bg-fuchsia-500 text-white shadow-lg"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+            >
+              {student.firstName} {student.lastName}
             </button>
-          )}
+          ))}
         </div>
       </div>
 
+      {/* Actions d'export */}
+      <div className="flex gap-2 mb-4 no-print">
+        <button
+          onClick={handlePrint}
+          disabled={!selectedStudent}
+          className="flex-1 btn-secondary flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          <Printer size={18} />
+          Imprimer
+        </button>
+        <button
+          onClick={handleExportPDF}
+          disabled={!selectedStudent}
+          className="flex-1 btn-primary flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          <Download size={18} />
+          PDF
+        </button>
+        <button
+          onClick={handleExportExcel}
+          className="flex-1 bg-green-500 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2"
+        >
+          <Download size={18} />
+          Excel
+        </button>
+      </div>
+
       {/* Aperçu du bulletin */}
-      {selectedEleve && eleve && showBulletin && (
-        <>
-          {/* Options d'export */}
-          <div className="flex flex-wrap gap-3 no-print">
-            <button onClick={handlePrint} className="btn btn-primary">
-              <Printer size={18} className="inline mr-2" />
-              Imprimer
-            </button>
-            <button onClick={handleExportPDF} className="btn btn-secondary">
-              <Download size={18} className="inline mr-2" />
-              Export PDF
-            </button>
-            <button onClick={handleExportExcel} className="btn btn-outline">
-              <FileSpreadsheet size={18} className="inline mr-2" />
-              Export Excel
-            </button>
-          </div>
-
-          {/* Commentaire et mention */}
-          <div className="card no-print">
-            <h3 className="text-lg font-semibold mb-4">Commentaire & Mention</h3>
-            
-            <div className="grid sm:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-sm text-white/60 mb-2">Mention</label>
-                <select
-                  value={selectedMention}
-                  onChange={(e) => setSelectedMention(e.target.value)}
-                  className="input"
-                >
-                  <option value="">Aucune mention</option>
-                  {mentions.map(m => (
-                    <option key={m.id} value={m.id}>{m.icone} {m.nom}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-white/60 mb-2">Commentaire de l'enseignant</label>
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Ajouter un commentaire..."
-                  className="input min-h-[80px] resize-none"
-                />
-              </div>
-            </div>
-            
-            <button onClick={saveComment} className="btn btn-primary">
-              <Save size={18} className="inline mr-2" />
-              Enregistrer
-            </button>
-          </div>
-
-          {/* Bulletin imprimable */}
-          <div ref={bulletinRef} className="card print-bulletin bg-white text-black" id="bulletin">
-            {/* En-tête */}
-            <div className="bulletin-header flex justify-between items-center border-b-2 border-[#FF00FF] pb-4 mb-4">
-              <div className="flex items-center gap-3">
-                {settings.ecoleLogo ? (
-                  <img src={settings.ecoleLogo} alt="Logo" className="bulletin-logo w-16 h-16 object-contain" />
+      {selectedStudent && (
+        <div className="bulletin-container card overflow-hidden">
+          {/* En-tête du bulletin */}
+          <div className="bulletin-header bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                {settings.logo ? (
+                  <img
+                    src={settings.logo}
+                    alt="Logo"
+                    className="w-16 h-16 rounded-xl object-contain bg-white p-1"
+                  />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF00FF] to-[#CCFF00] flex items-center justify-center text-3xl">
-                    🫧
+                  <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center">
+                    <span className="text-3xl">🎈</span>
                   </div>
                 )}
                 <div>
-                  <h1 className="bulletin-title text-xl font-bold text-[#FF00FF]">{settings.ecoleNom}</h1>
-                  <p className="bulletin-subtitle text-sm text-gray-600">{settings.ecoleSlogan}</p>
+                  <h2 className="text-xl font-bold">
+                    {settings.schoolName || "Les Bulles de Joie"}
+                  </h2>
+                  <p className="text-fuchsia-100 text-sm">{settings.schoolAddress}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-semibold">Année scolaire {settings.anneeDebut}-{settings.anneeFin}</p>
-                <p className="text-[#FF00FF] font-bold">Bulletin du {trimestre}ème Trimestre</p>
+                <p className="font-bold">BULLETIN SCOLAIRE</p>
+                <p className="text-fuchsia-100">
+                  {selectedPeriod === "T1"
+                    ? "1er Trimestre"
+                    : selectedPeriod === "T2"
+                    ? "2ème Trimestre"
+                    : "3ème Trimestre"}
+                </p>
+                <p className="text-fuchsia-100 text-sm">{settings.academicYear}</p>
               </div>
             </div>
+          </div>
 
-            {/* Infos élève */}
-            <div className="bulletin-student-info grid grid-cols-[auto_1fr_auto] gap-4 p-4 bg-gray-50 rounded-lg mb-4">
-              {settings.bulletin.afficherPhoto && eleve.photo ? (
-                <img src={eleve.photo} alt="" className="bulletin-student-photo w-20 h-24 object-cover rounded-lg" />
-              ) : (
-                <div className="w-20 h-24 bg-gradient-to-br from-[#FF00FF] to-[#CCFF00] rounded-lg flex items-center justify-center text-white text-2xl font-bold">
-                  {eleve.prenom[0]}{eleve.nom[0]}
-                </div>
-              )}
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <p><span className="text-gray-500">Nom:</span> <strong>{eleve.nom}</strong></p>
-                <p><span className="text-gray-500">Prénom:</span> <strong>{eleve.prenom}</strong></p>
-                <p><span className="text-gray-500">Matricule:</span> <strong>{eleve.matricule}</strong></p>
-                <p><span className="text-gray-500">Classe:</span> <strong>{eleve.classe}</strong></p>
-                <p><span className="text-gray-500">Né(e) le:</span> <strong>{eleve.dateNaissance}</strong></p>
-                <p><span className="text-gray-500">Sexe:</span> <strong>{eleve.sexe === 'M' ? 'Masculin' : 'Féminin'}</strong></p>
+          {/* Info élève */}
+          <div className="p-4 bg-gray-50 border-b flex items-center gap-4">
+            {selectedStudent.photo ? (
+              <img
+                src={selectedStudent.photo}
+                alt=""
+                className="w-16 h-16 rounded-xl object-cover"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-xl bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 text-xl font-bold">
+                {selectedStudent.firstName[0]}
+                {selectedStudent.lastName[0]}
               </div>
-              <div className="text-center">
-                {settings.bulletin.afficherRang && (
-                  <div className="bg-gradient-to-br from-[#FF00FF] to-[#CCFF00] text-white rounded-lg p-3">
-                    <p className="text-xs">RANG</p>
-                    <p className="text-2xl font-bold">{rang}/{eleves.length}</p>
-                  </div>
-                )}
-              </div>
+            )}
+            <div className="flex-1">
+              <h3 className="text-lg font-bold text-gray-900">
+                {selectedStudent.firstName} {selectedStudent.lastName}
+              </h3>
+              <p className="text-sm text-gray-600">
+                Né(e) le{" "}
+                {new Date(selectedStudent.dateOfBirth).toLocaleDateString("fr-FR")}
+              </p>
             </div>
+            <div className="text-right">
+              <p className="text-3xl font-bold text-fuchsia-600">
+                {studentStats
+                  .find((s) => s.student.id === selectedStudent.id)
+                  ?.average.toFixed(2)}
+                /20
+              </p>
+              <p className="text-sm text-gray-600">
+                Rang: {getRank(selectedStudent.id)}/{students.length}
+              </p>
+            </div>
+          </div>
 
-            {/* Tableau des notes */}
-            <table className="bulletin-table w-full border-collapse text-sm mb-4">
+          {/* Tableau des notes */}
+          <div className="p-4 overflow-x-auto">
+            <table className="w-full text-sm">
               <thead>
-                <tr>
-                  <th className="text-left p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Matière</th>
-                  <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Coef</th>
-                  <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Notes</th>
-                  <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Moy.</th>
-                  {settings.bulletin.afficherMoyenneClasse && (
-                    <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Moy. Cl.</th>
-                  )}
-                  {settings.bulletin.afficherAppreciation && (
-                    <th className="p-2 bg-gradient-to-r from-[#FF00FF] to-[#CCFF00] text-white">Appréciation</th>
-                  )}
+                <tr className="bg-fuchsia-500 text-white">
+                  <th className="p-3 text-left rounded-tl-xl">Matière</th>
+                  <th className="p-3 text-center">Coef</th>
+                  <th className="p-3 text-center">Moyenne</th>
+                  <th className="p-3 text-center">Moy. Classe</th>
+                  <th className="p-3 text-center rounded-tr-xl">Appr.</th>
                 </tr>
               </thead>
               <tbody>
-                {matieres.map((matiere, i) => {
-                  const notesM = notesEleve.filter(n => n.matiereId === matiere.id);
-                  const moyM = notesM.length > 0 ? notesM.reduce((s, n) => s + n.valeur, 0) / notesM.length : 0;
-                  const appreciation = getAppreciation(moyM);
-                  
-                  // Moyenne de classe pour cette matière
-                  const moyenneClasse = eleves.length > 0
-                    ? eleves.reduce((sum, e) => {
-                        const notesE = notes.filter(n => n.eleveId === e.id && n.matiereId === matiere.id && n.trimestre === trimestre);
-                        return sum + (notesE.length > 0 ? notesE.reduce((s, n) => s + n.valeur, 0) / notesE.length : 0);
-                      }, 0) / eleves.length
-                    : 0;
-                  
+                {subjects.map((subject, idx) => {
+                  const studentGrades = periodGrades.filter(
+                    (g) =>
+                      g.studentId === selectedStudent.id &&
+                      g.subjectId === subject.id
+                  );
+                  const allSubjectGrades = periodGrades.filter(
+                    (g) => g.subjectId === subject.id
+                  );
+
+                  const studentAvg =
+                    studentGrades.length > 0
+                      ? studentGrades.reduce(
+                          (sum, g) => sum + (g.value / g.maxValue) * 20,
+                          0
+                        ) / studentGrades.length
+                      : null;
+
+                  const classAvg =
+                    allSubjectGrades.length > 0
+                      ? allSubjectGrades.reduce(
+                          (sum, g) => sum + (g.value / g.maxValue) * 20,
+                          0
+                        ) / allSubjectGrades.length
+                      : null;
+
+                  const getAppreciation = (avg: number | null) => {
+                    if (avg === null) return "-";
+                    if (avg >= 16) return "Excellent";
+                    if (avg >= 14) return "Très bien";
+                    if (avg >= 12) return "Bien";
+                    if (avg >= 10) return "Passable";
+                    return "Insuffisant";
+                  };
+
                   return (
-                    <tr key={matiere.id} className={i % 2 === 0 ? 'bg-gray-50' : ''}>
-                      <td className="matiere-cell p-2 font-medium" style={{ borderLeft: `4px solid ${matiere.couleur}` }}>
-                        {matiere.nom}
+                    <tr
+                      key={subject.id}
+                      className={idx % 2 === 0 ? "bg-gray-50" : "bg-white"}
+                    >
+                      <td className="p-3 font-medium">
+                        <span
+                          className="inline-block w-3 h-3 rounded-full mr-2"
+                          style={{ backgroundColor: subject.color }}
+                        />
+                        {subject.name}
                       </td>
-                      <td className="p-2 text-center">{matiere.coefficient}</td>
-                      <td className="p-2 text-center text-sm">
-                        {notesM.map(n => n.valeur).join(' | ') || '-'}
+                      <td className="p-3 text-center">{subject.coefficient}</td>
+                      <td className="p-3 text-center font-bold">
+                        {studentAvg !== null ? studentAvg.toFixed(2) : "-"}
                       </td>
-                      <td className="note-cell p-2 text-center font-bold">
-                        {notesM.length > 0 ? moyM.toFixed(2) : '-'}
+                      <td className="p-3 text-center text-gray-600">
+                        {classAvg !== null ? classAvg.toFixed(2) : "-"}
                       </td>
-                      {settings.bulletin.afficherMoyenneClasse && (
-                        <td className="p-2 text-center text-gray-500">{moyenneClasse.toFixed(2)}</td>
-                      )}
-                      {settings.bulletin.afficherAppreciation && (
-                        <td className="appreciation-cell p-2 text-sm" style={{ color: appreciation.color }}>
-                          {notesM.length > 0 ? appreciation.text : '-'}
-                        </td>
-                      )}
+                      <td className="p-3 text-center text-xs">
+                        {getAppreciation(studentAvg)}
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+          </div>
 
-            {/* Résumé */}
-            <div className="bulletin-summary grid grid-cols-3 gap-4 p-4 bg-gradient-to-r from-[#FF00FF]/10 to-[#CCFF00]/10 rounded-lg mb-4">
-              <div className="text-center">
-                <p className="text-sm text-gray-500">Moyenne Générale</p>
-                <p className="text-3xl font-bold text-[#FF00FF]">{moyenne.toFixed(2)}/20</p>
-              </div>
-              <div className="text-center">
-                <p className="text-sm text-gray-500">Appréciation</p>
-                <p className="text-xl font-semibold" style={{ color: getAppreciation(moyenne).color }}>
-                  {getAppreciation(moyenne).text}
-                </p>
-              </div>
-              {settings.bulletin.afficherRang && (
-                <div className="text-center">
-                  <p className="text-sm text-gray-500">Classement</p>
-                  <p className="text-3xl font-bold text-[#CCFF00]">{rang}<sup>e</sup>/{eleves.length}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Graphique radar */}
-            {settings.bulletin.afficherGraphique && (
-              <div className="bulletin-chart mx-auto mb-4" style={{ maxWidth: '250px', maxHeight: '250px' }}>
-                <Radar
-                  data={radarData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    scales: {
-                      r: {
-                        beginAtZero: true,
-                        max: 20,
-                        ticks: { display: false },
-                        grid: { color: 'rgba(0,0,0,0.1)' },
-                      },
+          {/* Radar Chart */}
+          <div className="p-4 radar-chart-container">
+            <h4 className="font-bold text-gray-900 mb-3">
+              Profil de Compétences
+            </h4>
+            <div className="h-64">
+              <Radar
+                data={getRadarData(selectedStudent)}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    r: {
+                      beginAtZero: true,
+                      max: 20,
+                      ticks: { stepSize: 5 },
                     },
-                    plugins: { legend: { display: false } },
-                  }}
-                />
-              </div>
-            )}
-
-            {/* Mention et commentaire */}
-            {(settings.bulletin.afficherMentions || comment) && (
-              <div className="bulletin-comments p-4 bg-gray-50 rounded-lg border-l-4 border-[#FF00FF] mb-4">
-                {settings.bulletin.afficherMentions && selectedMention && (
-                  <div className="bulletin-mention inline-block px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-lg font-bold mb-2">
-                    {mentions.find(m => m.id === selectedMention)?.icone}{' '}
-                    {mentions.find(m => m.id === selectedMention)?.nom}
-                  </div>
-                )}
-                {comment && (
-                  <p className="text-gray-700 italic">"{comment}"</p>
-                )}
-              </div>
-            )}
-
-            {/* Signatures */}
-            {settings.bulletin.afficherSignatures && (
-              <div className="bulletin-signatures grid grid-cols-3 gap-6 pt-4 border-t border-dashed border-gray-300">
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-2">Le Parent</p>
-                  <div className="h-16 border-b border-gray-300" />
-                </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-2">L'Enseignant(e)</p>
-                  {settings.signatureEnseignant ? (
-                    <img src={settings.signatureEnseignant} alt="Signature" className="bulletin-signature-img mx-auto max-h-12" />
-                  ) : (
-                    <div className="h-16 border-b border-gray-300" />
-                  )}
-                </div>
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-2">Le Directeur</p>
-                  {settings.signatureDirecteur ? (
-                    <img src={settings.signatureDirecteur} alt="Signature" className="bulletin-signature-img mx-auto max-h-12" />
-                  ) : (
-                    <div className="h-16 border-b border-gray-300" />
-                  )}
-                  {settings.bulletin.afficherCachet && settings.cachet && (
-                    <img src={settings.cachet} alt="Cachet" className="bulletin-stamp mx-auto mt-2 max-h-16 opacity-70" />
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Footer */}
-            <div className="bulletin-footer text-center text-xs text-gray-400 mt-4 pt-2 border-t border-gray-200">
-              {settings.ecoleAdresse} | Tél: {settings.ecoleTel} | {settings.ecoleEmail}
+                  },
+                  plugins: {
+                    legend: { display: false },
+                  },
+                }}
+              />
             </div>
           </div>
-        </>
+
+          {/* Appréciation générale */}
+          <div className="p-4 no-print">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Appréciation générale
+            </label>
+            <textarea
+              value={appreciation}
+              onChange={(e) => setAppreciation(e.target.value)}
+              className="input-field resize-none"
+              rows={3}
+              placeholder="Saisissez une appréciation..."
+            />
+          </div>
+
+          {appreciation && (
+            <div className="p-4 print-only">
+              <p className="text-sm">
+                <strong>Appréciation:</strong> {appreciation}
+              </p>
+            </div>
+          )}
+
+          {/* Signatures */}
+          <div className="signature-section p-4 grid grid-cols-2 gap-4 border-t">
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-700 mb-2">
+                L'Enseignant(e)
+              </p>
+              {settings.teacherSignature ? (
+                <img
+                  src={settings.teacherSignature}
+                  alt="Signature"
+                  className="h-16 mx-auto object-contain"
+                />
+              ) : (
+                <div className="h-16 border-b-2 border-gray-300 w-32 mx-auto" />
+              )}
+              <p className="text-sm text-gray-600 mt-1">
+                {settings.teacherName || "_________________"}
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-medium text-gray-700 mb-2">
+                Le Directeur/La Directrice
+              </p>
+              {settings.directorSignature ? (
+                <img
+                  src={settings.directorSignature}
+                  alt="Signature"
+                  className="h-16 mx-auto object-contain"
+                />
+              ) : (
+                <div className="h-16 border-b-2 border-gray-300 w-32 mx-auto" />
+              )}
+              <p className="text-sm text-gray-600 mt-1">
+                {settings.directorName || "_________________"}
+              </p>
+            </div>
+          </div>
+
+          {/* Cachet */}
+          {settings.stamp && (
+            <div className="p-4 flex justify-center">
+              <img
+                src={settings.stamp}
+                alt="Cachet"
+                className="h-24 object-contain opacity-70"
+              />
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
 }
 
-// ============================================
-// PAGE PARAMÈTRES
-// ============================================
-function SettingsPage() {
-  const store = useStore();
-  const { settings, mentions, updateSettings, updateBulletinSettings, addMention, updateMention, deleteMention, exportData, importData, resetData, notify } = store;
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const importInputRef = useRef<HTMLInputElement>(null);
+// ========== PAGE PARAMÈTRES ==========
+function SettingsPage({
+  settings,
+  onSettingsUpdate,
+  onDataExport,
+  onDataImport,
+}: {
+  settings: SchoolSettings;
+  onSettingsUpdate: (s: SchoolSettings) => void;
+  onDataExport: () => void;
+  onDataImport: (data: AppData) => void;
+}) {
+  const [form, setForm] = useState(settings);
 
-  const themes = [
-    { id: 'neon', name: 'Néon', colors: ['#FF00FF', '#CCFF00'] },
-    { id: 'ocean', name: 'Océan', colors: ['#00CED1', '#00FA9A'] },
-    { id: 'sunset', name: 'Coucher', colors: ['#FF6B6B', '#FFE66D'] },
-    { id: 'forest', name: 'Forêt', colors: ['#00D084', '#7CB342'] },
-    { id: 'royal', name: 'Royal', colors: ['#9B59B6', '#E74C3C'] },
-  ];
-
-  const handleImageUpload = (type: 'ecoleLogo' | 'heroImage' | 'cachet' | 'signatureDirecteur' | 'signatureEnseignant') => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        updateSettings({ [type]: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleImageUpload = (
+    field: "logo" | "stamp" | "directorSignature" | "teacherSignature"
+  ) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          setForm({ ...form, [field]: ev.target?.result as string });
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
   };
 
-  const handleExport = () => {
-    const data = exportData();
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `bulles-de-joie-backup-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    notify('success', 'Sauvegarde exportée avec succès!');
-  };
-
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        importData(event.target?.result as string);
-      };
-      reader.readAsText(file);
-    }
-  };
-
-  const [showMentionModal, setShowMentionModal] = useState(false);
-  const [editingMention, setEditingMention] = useState<Mention | null>(null);
-  const [mentionForm, setMentionForm] = useState({ nom: '', condition: '', couleur: '#FFD700', icone: '⭐' });
-
-  const handleMentionSubmit = () => {
-    if (!mentionForm.nom) {
-      notify('error', 'Veuillez entrer le nom de la mention');
-      return;
-    }
-    if (editingMention) {
-      updateMention(editingMention.id, mentionForm);
-    } else {
-      addMention(mentionForm);
-    }
-    setShowMentionModal(false);
-    setEditingMention(null);
-    setMentionForm({ nom: '', condition: '', couleur: '#FFD700', icone: '⭐' });
+  const handleImport = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const data = JSON.parse(ev.target?.result as string) as AppData;
+            if (confirm("Remplacer toutes les données par la sauvegarde ?")) {
+              onDataImport(data);
+            }
+          } catch {
+            alert("Fichier invalide");
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold gradient-text flex items-center gap-2">
-        <Settings size={28} />
-        Paramètres
-      </h2>
+    <div className="p-4">
+      <header className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Paramètres</h1>
+      </header>
 
-      {/* Thème */}
-      <div className="card">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Palette size={20} className="text-primary" />
-          Thème de couleurs
-        </h3>
-        <div className="grid grid-cols-5 gap-3">
-          {themes.map((theme) => (
-            <button
-              key={theme.id}
-              onClick={() => updateSettings({ theme: theme.id as typeof settings.theme })}
-              className={`p-4 rounded-xl transition-all ${
-                settings.theme === theme.id ? 'ring-2 ring-white scale-105' : 'opacity-60 hover:opacity-100'
-              }`}
-            >
-              <div className="flex gap-1 mb-2">
-                <div className="w-6 h-6 rounded-full" style={{ backgroundColor: theme.colors[0] }} />
-                <div className="w-6 h-6 rounded-full" style={{ backgroundColor: theme.colors[1] }} />
-              </div>
-              <p className="text-sm font-medium">{theme.name}</p>
-            </button>
-          ))}
-        </div>
-      </div>
+      <div className="space-y-4">
+        {/* Info école */}
+        <div className="card p-4">
+          <h2 className="font-bold text-gray-900 mb-4">
+            Informations de l'École
+          </h2>
 
-      {/* Informations école */}
-      <div className="card">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <GraduationCap size={20} className="text-secondary" />
-          Informations de l'école
-        </h3>
-        
-        <div className="grid sm:grid-cols-2 gap-4">
-          {/* Logo */}
-          <div>
-            <label className="block text-sm text-white/60 mb-2">Logo de l'école</label>
+          <div className="space-y-4">
+            {/* Logo */}
             <div className="flex items-center gap-4">
-              {settings.ecoleLogo ? (
-                <img src={settings.ecoleLogo} alt="Logo" className="w-16 h-16 rounded-xl object-cover" />
-              ) : (
-                <div className="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Upload size={24} className="text-white/40" />
-                </div>
-              )}
+              <button
+                onClick={() => handleImageUpload("logo")}
+                className="w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden"
+              >
+                {form.logo ? (
+                  <img
+                    src={form.logo}
+                    alt="Logo"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Camera size={24} className="text-gray-400" />
+                )}
+              </button>
               <div>
-                <input type="file" accept="image/*" onChange={handleImageUpload('ecoleLogo')} className="hidden" id="logo-upload" />
-                <label htmlFor="logo-upload" className="btn btn-outline text-sm cursor-pointer">
-                  Changer le logo
-                </label>
+                <p className="font-medium">Logo de l'école</p>
+                <p className="text-sm text-gray-500">Cliquez pour modifier</p>
               </div>
             </div>
-          </div>
-          
-          {/* Hero Image */}
-          <div>
-            <label className="block text-sm text-white/60 mb-2">Image Hero (Dashboard)</label>
-            <div className="flex items-center gap-4">
-              {settings.heroImage ? (
-                <img src={settings.heroImage} alt="Hero" className="w-16 h-16 rounded-xl object-cover" />
-              ) : (
-                <div className="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Upload size={24} className="text-white/40" />
-                </div>
-              )}
-              <div>
-                <input type="file" accept="image/*" onChange={handleImageUpload('heroImage')} className="hidden" id="hero-upload" />
-                <label htmlFor="hero-upload" className="btn btn-outline text-sm cursor-pointer">
-                  Changer l'image
-                </label>
-              </div>
-            </div>
-          </div>
-          
-          <input
-            type="text"
-            placeholder="Nom de l'école"
-            value={settings.ecoleNom}
-            onChange={(e) => updateSettings({ ecoleNom: e.target.value })}
-            className="input"
-          />
-          <input
-            type="text"
-            placeholder="Slogan"
-            value={settings.ecoleSlogan}
-            onChange={(e) => updateSettings({ ecoleSlogan: e.target.value })}
-            className="input"
-          />
-          <input
-            type="text"
-            placeholder="Adresse"
-            value={settings.ecoleAdresse}
-            onChange={(e) => updateSettings({ ecoleAdresse: e.target.value })}
-            className="input"
-          />
-          <input
-            type="tel"
-            placeholder="Téléphone"
-            value={settings.ecoleTel}
-            onChange={(e) => updateSettings({ ecoleTel: e.target.value })}
-            className="input"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={settings.ecoleEmail}
-            onChange={(e) => updateSettings({ ecoleEmail: e.target.value })}
-            className="input"
-          />
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Année début"
-              value={settings.anneeDebut}
-              onChange={(e) => updateSettings({ anneeDebut: e.target.value })}
-              className="input flex-1"
-            />
-            <input
-              type="text"
-              placeholder="Année fin"
-              value={settings.anneeFin}
-              onChange={(e) => updateSettings({ anneeFin: e.target.value })}
-              className="input flex-1"
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Options du bulletin */}
-      <div className="card">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <FileText size={20} className="text-primary" />
-          Options du Bulletin
-        </h3>
-        
-        <div className="grid sm:grid-cols-2 gap-4">
-          {[
-            { key: 'afficherRang', label: 'Afficher le rang général' },
-            { key: 'afficherRangMatiere', label: 'Afficher le rang par matière' },
-            { key: 'afficherMoyenneClasse', label: 'Afficher la moyenne de classe' },
-            { key: 'afficherAppreciation', label: 'Afficher les appréciations' },
-            { key: 'afficherMentions', label: 'Afficher les mentions' },
-            { key: 'afficherGraphique', label: 'Afficher le graphique radar' },
-            { key: 'afficherPhoto', label: 'Afficher la photo de l\'élève' },
-            { key: 'afficherSignatures', label: 'Afficher les signatures' },
-            { key: 'afficherCachet', label: 'Afficher le cachet' },
-          ].map((option) => (
-            <label key={option.key} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 cursor-pointer hover:bg-white/10">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Nom de l'école
+              </label>
               <input
-                type="checkbox"
-                checked={settings.bulletin[option.key as keyof typeof settings.bulletin] as boolean}
-                onChange={(e) => updateBulletinSettings({ [option.key]: e.target.checked })}
-                className="w-5 h-5 rounded accent-[#FF00FF]"
+                type="text"
+                value={form.schoolName}
+                onChange={(e) => setForm({ ...form, schoolName: e.target.value })}
+                className="input-field"
               />
-              <span>{option.label}</span>
-            </label>
-          ))}
-        </div>
-
-        {/* Signatures et cachet */}
-        <div className="grid sm:grid-cols-3 gap-4 mt-6">
-          <div>
-            <label className="block text-sm text-white/60 mb-2">Signature Directeur</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload('signatureDirecteur')} className="hidden" id="sig-dir" />
-            <label htmlFor="sig-dir" className="block w-full p-4 border-2 border-dashed border-white/20 rounded-xl text-center cursor-pointer hover:border-primary">
-              {settings.signatureDirecteur ? (
-                <img src={settings.signatureDirecteur} alt="" className="max-h-12 mx-auto" />
-              ) : (
-                <Upload size={24} className="mx-auto text-white/40" />
-              )}
-            </label>
-          </div>
-          <div>
-            <label className="block text-sm text-white/60 mb-2">Signature Enseignant</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload('signatureEnseignant')} className="hidden" id="sig-ens" />
-            <label htmlFor="sig-ens" className="block w-full p-4 border-2 border-dashed border-white/20 rounded-xl text-center cursor-pointer hover:border-primary">
-              {settings.signatureEnseignant ? (
-                <img src={settings.signatureEnseignant} alt="" className="max-h-12 mx-auto" />
-              ) : (
-                <Upload size={24} className="mx-auto text-white/40" />
-              )}
-            </label>
-          </div>
-          <div>
-            <label className="block text-sm text-white/60 mb-2">Cachet de l'école</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload('cachet')} className="hidden" id="cachet" />
-            <label htmlFor="cachet" className="block w-full p-4 border-2 border-dashed border-white/20 rounded-xl text-center cursor-pointer hover:border-primary">
-              {settings.cachet ? (
-                <img src={settings.cachet} alt="" className="max-h-12 mx-auto" />
-              ) : (
-                <Upload size={24} className="mx-auto text-white/40" />
-              )}
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {/* Gestion des mentions */}
-      <div className="card">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <Award size={20} className="text-yellow-400" />
-            Mentions personnalisées
-          </h3>
-          <button onClick={() => setShowMentionModal(true)} className="btn btn-primary text-sm">
-            <Plus size={16} className="inline mr-1" /> Ajouter
-          </button>
-        </div>
-        
-        <div className="grid gap-3 sm:grid-cols-2">
-          {mentions.map((mention) => (
-            <div key={mention.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-              <span className="text-2xl">{mention.icone}</span>
-              <div className="flex-1">
-                <p className="font-medium">{mention.nom}</p>
-                <p className="text-sm text-white/60">{mention.condition}</p>
-              </div>
-              <div className="flex gap-1">
-                <button
-                  onClick={() => {
-                    setEditingMention(mention);
-                    setMentionForm({ nom: mention.nom, condition: mention.condition, couleur: mention.couleur, icone: mention.icone });
-                    setShowMentionModal(true);
-                  }}
-                  className="p-2 hover:bg-primary/20 rounded-lg text-primary"
-                >
-                  <Edit2 size={16} />
-                </button>
-                <button
-                  onClick={() => deleteMention(mention.id)}
-                  className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Sauvegarde */}
-      <div className="card">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Download size={20} className="text-primary" />
-          Sauvegarde & Import
-        </h3>
-        
-        <div className="flex flex-wrap gap-3">
-          <button onClick={handleExport} className="btn btn-primary">
-            <Download size={18} className="inline mr-2" />
-            Exporter les données
-          </button>
-          <div>
-            <input ref={importInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
-            <button onClick={() => importInputRef.current?.click()} className="btn btn-secondary">
-              <Upload size={18} className="inline mr-2" />
-              Importer
-            </button>
-          </div>
-          <button
-            onClick={() => {
-              if (confirm('⚠️ Cette action supprimera toutes vos données. Continuer ?')) {
-                resetData();
-              }
-            }}
-            className="btn bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white"
-          >
-            <RefreshCw size={18} className="inline mr-2" />
-            Réinitialiser
-          </button>
-        </div>
-      </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Adresse
+              </label>
+              <input
+                type="text"
+                value={form.schoolAddress}
+                onChange={(e) =>
+                  setForm({ ...form, schoolAddress: e.target.value })
+                }
+                className="input-field"
+              />
+            </div>
 
-      {/* Contact */}
-      <div className="card card-primary">
-        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Sparkles size={20} className="text-secondary" />
-          Support Technique - Stein Technology
-        </h3>
-        <p className="text-white/70 mb-4">
-          Besoin d'aide ou de personnalisation ? Contactez-nous !
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a href="https://wa.me/22949114951" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-            <MessageCircle size={18} className="inline mr-2" />
-            +229 49 11 49 51
-          </a>
-          <a href="mailto:codjosamuelstein@gmail.com" className="btn btn-secondary">
-            <Mail size={18} className="inline mr-2" />
-            Email
-          </a>
-        </div>
-      </div>
-
-      {/* Modal Mention */}
-      <AnimatePresence>
-        {showMentionModal && (
-          <Modal onClose={() => { setShowMentionModal(false); setEditingMention(null); }}>
-            <h3 className="text-xl font-bold mb-6 gradient-text">
-              {editingMention ? 'Modifier la mention' : 'Nouvelle mention'}
-            </h3>
-            
-            <div className="space-y-4">
-              <div className="flex gap-4">
-                <div>
-                  <label className="block text-sm text-white/60 mb-2">Émoji</label>
-                  <input
-                    type="text"
-                    value={mentionForm.icone}
-                    onChange={(e) => setMentionForm({ ...mentionForm, icone: e.target.value })}
-                    className="input w-20 text-center text-2xl"
-                    maxLength={2}
-                  />
-                </div>
-                <div className="flex-1">
-                  <label className="block text-sm text-white/60 mb-2">Nom de la mention</label>
-                  <input
-                    type="text"
-                    value={mentionForm.nom}
-                    onChange={(e) => setMentionForm({ ...mentionForm, nom: e.target.value })}
-                    className="input"
-                    placeholder="Ex: Félicitations"
-                  />
-                </div>
-              </div>
-              
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-white/60 mb-2">Condition d'attribution</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Téléphone
+                </label>
                 <input
-                  type="text"
-                  value={mentionForm.condition}
-                  onChange={(e) => setMentionForm({ ...mentionForm, condition: e.target.value })}
-                  className="input"
-                  placeholder="Ex: Moyenne ≥ 16"
+                  type="tel"
+                  value={form.schoolPhone}
+                  onChange={(e) =>
+                    setForm({ ...form, schoolPhone: e.target.value })
+                  }
+                  className="input-field"
                 />
               </div>
-              
               <div>
-                <label className="block text-sm text-white/60 mb-2">Couleur</label>
-                <div className="flex gap-2">
-                  <input
-                    type="color"
-                    value={mentionForm.couleur}
-                    onChange={(e) => setMentionForm({ ...mentionForm, couleur: e.target.value })}
-                    className="w-12 h-12 rounded-lg cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={mentionForm.couleur}
-                    onChange={(e) => setMentionForm({ ...mentionForm, couleur: e.target.value })}
-                    className="input flex-1"
-                  />
-                </div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Année scolaire
+                </label>
+                <input
+                  type="text"
+                  value={form.academicYear}
+                  onChange={(e) =>
+                    setForm({ ...form, academicYear: e.target.value })
+                  }
+                  className="input-field"
+                />
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="flex gap-3 mt-6">
-              <button onClick={() => { setShowMentionModal(false); setEditingMention(null); }} className="flex-1 btn btn-outline">
-                Annuler
-              </button>
-              <button onClick={handleMentionSubmit} className="flex-1 btn btn-primary">
-                <Save size={18} className="inline mr-2" />
-                {editingMention ? 'Enregistrer' : 'Ajouter'}
+        {/* Signatures et Cachet */}
+        <div className="card p-4">
+          <h2 className="font-bold text-gray-900 mb-4">Signatures et Cachet</h2>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Nom du directeur
+              </label>
+              <input
+                type="text"
+                value={form.directorName}
+                onChange={(e) =>
+                  setForm({ ...form, directorName: e.target.value })
+                }
+                className="input-field"
+              />
+              <button
+                onClick={() => handleImageUpload("directorSignature")}
+                className="mt-2 w-full h-20 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden"
+              >
+                {form.directorSignature ? (
+                  <img
+                    src={form.directorSignature}
+                    alt=""
+                    className="h-full object-contain"
+                  />
+                ) : (
+                  <span className="text-gray-400 text-sm">+ Signature</span>
+                )}
               </button>
             </div>
-          </Modal>
-        )}
-      </AnimatePresence>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Nom de l'enseignant
+              </label>
+              <input
+                type="text"
+                value={form.teacherName}
+                onChange={(e) =>
+                  setForm({ ...form, teacherName: e.target.value })
+                }
+                className="input-field"
+              />
+              <button
+                onClick={() => handleImageUpload("teacherSignature")}
+                className="mt-2 w-full h-20 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden"
+              >
+                {form.teacherSignature ? (
+                  <img
+                    src={form.teacherSignature}
+                    alt=""
+                    className="h-full object-contain"
+                  />
+                ) : (
+                  <span className="text-gray-400 text-sm">+ Signature</span>
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Cachet de l'école
+            </label>
+            <button
+              onClick={() => handleImageUpload("stamp")}
+              className="w-full h-24 rounded-xl bg-gray-100 flex items-center justify-center overflow-hidden"
+            >
+              {form.stamp ? (
+                <img
+                  src={form.stamp}
+                  alt=""
+                  className="h-full object-contain"
+                />
+              ) : (
+                <span className="text-gray-400">+ Ajouter un cachet (PNG)</span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Bouton sauvegarder */}
+        <button
+          onClick={() => onSettingsUpdate(form)}
+          className="btn-primary w-full flex items-center justify-center gap-2"
+        >
+          <Save size={20} />
+          Enregistrer les paramètres
+        </button>
+
+        {/* Export/Import */}
+        <div className="card p-4">
+          <h2 className="font-bold text-gray-900 mb-4">
+            Sauvegarde et Restauration
+          </h2>
+
+          <div className="space-y-3">
+            <button
+              onClick={onDataExport}
+              className="w-full py-3 px-4 rounded-xl bg-green-500 text-white font-semibold flex items-center justify-center gap-2"
+            >
+              <Download size={20} />
+              Exporter toutes les données (JSON)
+            </button>
+
+            <button
+              onClick={handleImport}
+              className="w-full py-3 px-4 rounded-xl bg-blue-500 text-white font-semibold flex items-center justify-center gap-2"
+            >
+              <Upload size={20} />
+              Importer une sauvegarde
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500 mt-3 text-center">
+            Exportez régulièrement vos données pour éviter toute perte.
+          </p>
+        </div>
+
+        {/* Info Termux */}
+        <div className="card p-4 bg-gradient-to-br from-fuchsia-50 to-citron-50">
+          <h3 className="font-bold text-gray-900 mb-2">📱 Installation Termux</h3>
+          <div className="text-sm text-gray-600 space-y-1">
+            <p>
+              <code className="bg-gray-200 px-1 rounded">pkg install nodejs</code>
+            </p>
+            <p>
+              <code className="bg-gray-200 px-1 rounded">npm install</code>
+            </p>
+            <p>
+              <code className="bg-gray-200 px-1 rounded">npm run build</code>
+            </p>
+            <p className="mt-2">
+              Le fichier <code className="bg-gray-200 px-1 rounded">dist/index.html</code>{" "}
+              est autonome et fonctionne hors-ligne.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-// ============================================
-// COMPOSANTS UTILITAIRES
-// ============================================
-function Modal({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-[#1a1a1a] rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto border border-white/10"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {children}
-      </motion.div>
-    </motion.div>
-  );
+// ========== UTILITAIRES ==========
+function downloadJSON(data: AppData, filename: string) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
 }

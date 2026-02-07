@@ -2,624 +2,175 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variables de thème */
-:root {
-  --primary: #FF00FF;
-  --secondary: #CCFF00;
-  --bg-dark: #0a0a0a;
-  --bg-card: rgba(20, 20, 20, 0.8);
-}
-
-/* Thème Océan */
-.theme-ocean {
-  --primary: #00CED1;
-  --secondary: #00FA9A;
-  --bg-dark: #0a1628;
-}
-
-/* Thème Sunset */
-.theme-sunset {
-  --primary: #FF6B6B;
-  --secondary: #FFE66D;
-  --bg-dark: #1a0a0a;
-}
-
-/* Thème Forêt */
-.theme-forest {
-  --primary: #00D084;
-  --secondary: #7CB342;
-  --bg-dark: #0a1a0a;
-}
-
-/* Thème Royal */
-.theme-royal {
-  --primary: #9B59B6;
-  --secondary: #E74C3C;
-  --bg-dark: #0f0a1a;
-}
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
-  font-size: 16px;
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-dark);
-  color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Scrollbar personnalisée */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  background: #f1f1f1;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
+  background: linear-gradient(180deg, #ff00ff, #cc00cc);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--secondary);
+  background: linear-gradient(180deg, #cc00cc, #990099);
+}
+
+/* Input file custom */
+input[type="file"] {
+  cursor: pointer;
 }
 
 /* Classes utilitaires personnalisées */
-@layer utilities {
-  .bg-primary {
-    background-color: var(--primary);
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/40 active:scale-95 transition-all duration-200;
   }
-  
-  .bg-secondary {
-    background-color: var(--secondary);
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-citron-400 to-citron-500 text-gray-900 font-semibold py-3 px-6 rounded-xl shadow-lg shadow-citron-500/30 hover:shadow-xl hover:shadow-citron-500/40 active:scale-95 transition-all duration-200;
   }
-  
-  .text-primary {
-    color: var(--primary);
+
+  .btn-icon {
+    @apply w-14 h-14 flex items-center justify-center rounded-2xl text-xl font-bold active:scale-90 transition-all duration-150;
   }
-  
-  .text-secondary {
-    color: var(--secondary);
+
+  .card {
+    @apply bg-white rounded-3xl shadow-xl shadow-black/5 border border-gray-100 overflow-hidden;
   }
-  
-  .border-primary {
-    border-color: var(--primary);
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-fuchsia-500 focus:ring-4 focus:ring-fuchsia-500/20 outline-none transition-all duration-200 bg-white;
   }
-  
-  .border-secondary {
-    border-color: var(--secondary);
-  }
-  
-  .glow-primary {
-    box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(255, 0, 255, 0.3);
-  }
-  
-  .glow-secondary {
-    box-shadow: 0 0 20px var(--secondary), 0 0 40px rgba(204, 255, 0, 0.3);
-  }
-  
-  .gradient-primary {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-  }
-  
-  .gradient-text {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .glass-primary {
-    background: rgba(255, 0, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 0, 255, 0.3);
-  }
-  
-  .glass-secondary {
-    background: rgba(204, 255, 0, 0.1);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(204, 255, 0, 0.3);
+
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-xl;
   }
 }
 
-/* Animations */
+/* Styles pour l'impression du bulletin */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .bulletin-container {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .bulletin-header {
+    background: linear-gradient(135deg, #ff00ff 0%, #cc00cc 100%) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .grade-cell {
+    border: 1px solid #ddd !important;
+    padding: 4px 8px !important;
+  }
+
+  .radar-chart-container {
+    page-break-inside: avoid;
+    max-height: 300px !important;
+  }
+
+  .signature-section {
+    page-break-inside: avoid;
+    margin-top: 20px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #ff00ff !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+/* Animation pour les bulles décoratives */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-30px) rotate(5deg); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px var(--primary); }
-  50% { box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary); }
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes slide-in {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slide-out {
-  from { transform: translateX(0); opacity: 1; }
-  to { transform: translateX(100%); opacity: 0; }
-}
-
-@keyframes bounce-in {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
 }
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
-.animate-gradient {
+/* Gradient animé */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient {
   background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
-}
-
-.animate-slide-in {
-  animation: slide-in 0.3s ease-out forwards;
-}
-
-.animate-bounce-in {
-  animation: bounce-in 0.4s ease-out forwards;
-}
-
-/* Bulles décoratives */
-.bubble {
-  position: absolute;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  opacity: 0.1;
-  pointer-events: none;
-}
-
-.bubble-1 {
-  width: 400px;
-  height: 400px;
-  top: -100px;
-  right: -100px;
-  animation: float 8s ease-in-out infinite;
-}
-
-.bubble-2 {
-  width: 300px;
-  height: 300px;
-  bottom: -50px;
-  left: -50px;
-  animation: float 10s ease-in-out infinite reverse;
-}
-
-.bubble-3 {
-  width: 200px;
-  height: 200px;
-  top: 50%;
-  left: 50%;
-  animation: float 12s ease-in-out infinite;
-}
-
-/* Boutons améliorés */
-.btn {
-  @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform active:scale-95;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), #cc00cc);
-  color: white;
-  box-shadow: 0 4px 20px rgba(255, 0, 255, 0.4);
-}
-
-.btn-primary:hover {
-  box-shadow: 0 6px 30px rgba(255, 0, 255, 0.6);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: linear-gradient(135deg, var(--secondary), #99cc00);
-  color: #000;
-  box-shadow: 0 4px 20px rgba(204, 255, 0, 0.4);
-}
-
-.btn-secondary:hover {
-  box-shadow: 0 6px 30px rgba(204, 255, 0, 0.6);
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-
-.btn-outline:hover {
-  background: var(--primary);
-  color: white;
-}
-
-/* Cards améliorées */
-.card {
-  @apply rounded-2xl p-6;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
-}
-
-.card:hover {
-  border-color: rgba(255, 0, 255, 0.3);
-  box-shadow: 0 10px 40px rgba(255, 0, 255, 0.1);
-}
-
-.card-primary {
-  border-color: rgba(255, 0, 255, 0.3);
-  background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(204, 255, 0, 0.05));
-}
-
-/* Inputs améliorés */
-.input {
-  @apply w-full px-4 py-3 rounded-xl outline-none transition-all duration-300;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
-}
-
-.input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* Navigation bottom bar */
-.nav-item {
-  @apply flex flex-col items-center justify-center py-2 px-4 rounded-xl transition-all duration-300;
-}
-
-.nav-item.active {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #000;
-  box-shadow: 0 -4px 20px rgba(255, 0, 255, 0.4);
-}
-
-/* Tableau amélioré */
-.table-custom {
-  @apply w-full border-collapse;
-}
-
-.table-custom th {
-  @apply px-4 py-3 text-left font-semibold;
-  background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(204, 255, 0, 0.1));
-  border-bottom: 2px solid var(--primary);
-}
-
-.table-custom td {
-  @apply px-4 py-3;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.table-custom tr:hover td {
-  background: rgba(255, 0, 255, 0.05);
-}
-
-/* Badge */
-.badge {
-  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
-}
-
-.badge-success {
-  background: rgba(16, 185, 129, 0.2);
-  color: #10B981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.badge-warning {
-  background: rgba(245, 158, 11, 0.2);
-  color: #F59E0B;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.badge-error {
-  background: rgba(239, 68, 68, 0.2);
-  color: #EF4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.badge-info {
-  background: rgba(59, 130, 246, 0.2);
-  color: #3B82F6;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-}
-
-/* ======================================
-   STYLES D'IMPRESSION BULLETIN
-   ====================================== */
-
-@media print {
-  @page {
-    size: A4 portrait;
-    margin: 8mm;
-  }
-  
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-  
-  html, body {
-    width: 210mm;
-    height: 297mm;
-    background: white !important;
-    color: black !important;
-    font-size: 9pt !important;
-    line-height: 1.2 !important;
-    overflow: hidden !important;
-  }
-  
-  /* Cacher tout sauf le bulletin */
-  body > *:not(.print-bulletin) {
-    display: none !important;
-  }
-  
-  .no-print {
-    display: none !important;
-  }
-  
-  .print-bulletin {
-    display: block !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background: white !important;
-    padding: 5mm !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    overflow: hidden !important;
-  }
-  
-  /* En-tête bulletin */
-  .bulletin-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding-bottom: 3mm !important;
-    border-bottom: 2px solid #FF00FF !important;
-    margin-bottom: 3mm !important;
-  }
-  
-  .bulletin-logo {
-    width: 18mm !important;
-    height: 18mm !important;
-    object-fit: contain !important;
-  }
-  
-  .bulletin-title {
-    font-size: 14pt !important;
-    font-weight: bold !important;
-    color: #FF00FF !important;
-    text-align: center !important;
-  }
-  
-  .bulletin-subtitle {
-    font-size: 9pt !important;
-    color: #666 !important;
-  }
-  
-  /* Infos élève */
-  .bulletin-student-info {
-    display: grid !important;
-    grid-template-columns: auto 1fr auto !important;
-    gap: 3mm !important;
-    padding: 2mm !important;
-    background: #f8f8f8 !important;
-    border-radius: 2mm !important;
-    margin-bottom: 3mm !important;
-    font-size: 8pt !important;
-  }
-  
-  .bulletin-student-photo {
-    width: 20mm !important;
-    height: 25mm !important;
-    object-fit: cover !important;
-    border-radius: 2mm !important;
-    border: 1px solid #ddd !important;
-  }
-  
-  /* Tableau des notes */
-  .bulletin-table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    font-size: 7.5pt !important;
-    margin-bottom: 3mm !important;
-  }
-  
-  .bulletin-table th {
-    background: linear-gradient(135deg, #FF00FF, #CCFF00) !important;
-    color: white !important;
-    padding: 1.5mm 2mm !important;
-    text-align: center !important;
-    font-weight: bold !important;
-    font-size: 7pt !important;
-    border: 0.5px solid #ddd !important;
-  }
-  
-  .bulletin-table td {
-    padding: 1.2mm 2mm !important;
-    border: 0.5px solid #ddd !important;
-    text-align: center !important;
-  }
-  
-  .bulletin-table tr:nth-child(even) td {
-    background: #f9f9f9 !important;
-  }
-  
-  .bulletin-table .matiere-cell {
-    text-align: left !important;
-    font-weight: 500 !important;
-    padding-left: 2mm !important;
-  }
-  
-  .bulletin-table .note-cell {
-    font-weight: bold !important;
-  }
-  
-  .bulletin-table .appreciation-cell {
-    font-size: 6.5pt !important;
-    text-align: left !important;
-  }
-  
-  /* Résumé */
-  .bulletin-summary {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
-    gap: 3mm !important;
-    padding: 2mm !important;
-    background: linear-gradient(135deg, rgba(255,0,255,0.1), rgba(204,255,0,0.1)) !important;
-    border-radius: 2mm !important;
-    margin-bottom: 3mm !important;
-    font-size: 8pt !important;
-  }
-  
-  .bulletin-summary-item {
-    text-align: center !important;
-  }
-  
-  .bulletin-summary-label {
-    font-size: 7pt !important;
-    color: #666 !important;
-  }
-  
-  .bulletin-summary-value {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-    color: #FF00FF !important;
-  }
-  
-  /* Graphique radar */
-  .bulletin-chart {
-    width: 60mm !important;
-    height: 60mm !important;
-    margin: 0 auto 3mm !important;
-  }
-  
-  /* Commentaires et mentions */
-  .bulletin-comments {
-    padding: 2mm !important;
-    background: #f8f8f8 !important;
-    border-radius: 2mm !important;
-    border-left: 3px solid #FF00FF !important;
-    margin-bottom: 3mm !important;
-    font-size: 8pt !important;
-  }
-  
-  .bulletin-mention {
-    display: inline-block !important;
-    padding: 1mm 3mm !important;
-    background: linear-gradient(135deg, #FFD700, #FFA500) !important;
-    color: #000 !important;
-    border-radius: 2mm !important;
-    font-weight: bold !important;
-    font-size: 8pt !important;
-    margin-bottom: 2mm !important;
-  }
-  
-  /* Signatures */
-  .bulletin-signatures {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
-    gap: 5mm !important;
-    margin-top: 3mm !important;
-    padding-top: 2mm !important;
-    border-top: 1px dashed #ccc !important;
-  }
-  
-  .bulletin-signature-box {
-    text-align: center !important;
-  }
-  
-  .bulletin-signature-label {
-    font-size: 7pt !important;
-    color: #666 !important;
-    margin-bottom: 2mm !important;
-  }
-  
-  .bulletin-signature-img {
-    max-width: 25mm !important;
-    max-height: 15mm !important;
-    margin: 0 auto !important;
-  }
-  
-  .bulletin-stamp {
-    max-width: 20mm !important;
-    max-height: 20mm !important;
-  }
-  
-  /* Footer */
-  .bulletin-footer {
-    position: absolute !important;
-    bottom: 5mm !important;
-    left: 5mm !important;
-    right: 5mm !important;
-    text-align: center !important;
-    font-size: 6pt !important;
-    color: #999 !important;
-    border-top: 1px solid #eee !important;
-    padding-top: 2mm !important;
-  }
-}
-
-/* Responsive mobile */
-@media (max-width: 640px) {
-  .btn {
-    @apply px-4 py-3 text-sm;
-  }
-  
-  .card {
-    @apply p-4 rounded-xl;
-  }
-  
-  .input {
-    @apply text-base;
-  }
+  animation: gradient-shift 4s ease infinite;
 }
