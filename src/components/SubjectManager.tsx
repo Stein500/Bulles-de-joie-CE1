@@ -1,327 +1,535 @@
-import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, X, Save, BookOpen, Palette } from 'lucide-react';
-import { Subject } from '../types';
-import { generateId } from '../db/database';
+import { useState } from 'react';
+import { useStore, defaultSubjects, defaultCategories } from '../stores/useStore';
+import { uid } from '../lib/helpers';
+import { Plus, Trash2, Edit3, X, BookOpen, RotateCcw, Check, FolderPlus, Tag } from 'lucide-react';
+import type { Subject } from '../stores/useStore';
 
-interface SubjectManagerProps {
-  subjects: Subject[];
-  onSave: (subject: Subject) => void;
-  onDelete: (id: string) => void;
-}
+const subjectColors = ['#4169E1', '#DC143C', '#28A745', '#FF8C00', '#9B59B6', '#1ABC9C', '#E74C3C', '#FF69B4', '#2ECC71', '#3498DB', '#F39C12', '#8E44AD'];
 
-const defaultSubject: Omit<Subject, 'id'> = {
-  name: '',
-  coefficient: 1,
-  color: '#FF00FF',
-  category: 'Général',
-  isActive: true
-};
+export function SubjectManager() {
+  const {
+    subjects, addSubject, updateSubject, deleteSubject, setSubjects,
+    addToast, darkMode, periods, categories, addCategory, renameCategory,
+    deleteCategory, setCategories,
+  } = useStore();
+  const [editing, setEditing] = useState<Subject | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [tab, setTab] = useState<'subjects' | 'periods' | 'categories'>('subjects');
 
-const colorPresets = [
-  '#FF00FF', '#CCFF00', '#3B82F6', '#EF4444', '#10B981',
-  '#F59E0B', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'
-];
+  // Category editing
+  const [editingCat, setEditingCat] = useState<string | null>(null);
+  const [editCatName, setEditCatName] = useState('');
+  const [newCatName, setNewCatName] = useState('');
 
-const categories = ['Langues', 'Sciences', 'Humanités', 'Arts', 'Sports', 'Général'];
+  // Icon button classes — ALWAYS VISIBLE with proper contrast
+  const iconEdit = `rounded-lg p-1.5 transition-all ${darkMode ? 'text-blue-400 hover:text-blue-300 hover:bg-blue-900/40' : 'text-blue-600 hover:text-blue-800 hover:bg-blue-100'}`;
+  const iconDelete = `rounded-lg p-1.5 transition-all ${darkMode ? 'text-red-400 hover:text-red-300 hover:bg-red-900/40' : 'text-red-500 hover:text-red-700 hover:bg-red-100'}`;
 
-export const SubjectManager: React.FC<SubjectManagerProps> = ({
-  subjects,
-  onSave,
-  onDelete
-}) => {
-  const [showModal, setShowModal] = useState(false);
-  const [editingSubject, setEditingSubject] = useState<Subject | null>(null);
-  const [formData, setFormData] = useState<Omit<Subject, 'id'>>(defaultSubject);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
-
-  const handleAdd = () => {
-    setEditingSubject(null);
-    setFormData(defaultSubject);
-    setShowModal(true);
+  const openNew = () => {
+    setEditing({
+      id: uid(),
+      name: '',
+      coefficient: 2,
+      color: subjectColors[subjects.length % subjectColors.length],
+      category: categories[0] || 'Autre',
+    });
+    setShowForm(true);
   };
 
-  const handleEdit = (subject: Subject) => {
-    setEditingSubject(subject);
-    setFormData(subject);
-    setShowModal(true);
+  const openEdit = (s: Subject) => {
+    setEditing({ ...s });
+    setShowForm(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const subject: Subject = {
-      ...formData,
-      id: editingSubject?.id || generateId()
-    };
-    onSave(subject);
-    setShowModal(false);
+  const handleSave = () => {
+    if (!editing || !editing.name.trim()) {
+      addToast('Nom de matière obligatoire', 'error');
+      return;
+    }
+    const exists = subjects.find((s) => s.id === editing.id);
+    if (exists) {
+      updateSubject(editing.id, editing);
+      addToast('Matière modifiée ✓', 'success');
+    } else {
+      addSubject(editing);
+      addToast('Matière ajoutée ✓', 'success');
+    }
+    setShowForm(false);
   };
 
   const handleDelete = (id: string) => {
-    onDelete(id);
-    setShowDeleteConfirm(null);
+    if (confirm('Supprimer cette matière et toutes les notes associées ?')) {
+      deleteSubject(id);
+      addToast('Matière supprimée', 'info');
+    }
   };
 
-  // Group subjects by category
-  const groupedSubjects = subjects.reduce((acc, subject) => {
-    const cat = subject.category || 'Général';
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(subject);
-    return acc;
-  }, {} as Record<string, Subject[]>);
+  const handleDeleteAll = () => {
+    if (confirm(`Supprimer les ${subjects.length} matières et toutes les notes ?`)) {
+      setSubjects([]);
+      useStore.getState().setGrades([]);
+      addToast('Toutes les matières supprimées', 'info');
+    }
+  };
+
+  const handleResetDefaults = () => {
+    if (confirm('Remplacer toutes les matières par les valeurs par défaut ?')) {
+      setSubjects([...defaultSubjects]);
+      addToast('Matières réinitialisées ✓', 'success');
+    }
+  };
+
+  const grouped = categories.map((cat) => ({
+    category: cat,
+    items: subjects.filter((s) => s.category === cat),
+  })).filter((g) => g.items.length > 0);
+
+  // Also show uncategorized
+  const uncategorized = subjects.filter((s) => !categories.includes(s.category));
+
+  const cardClass = darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white';
+  const inputClass = darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-200';
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 rounded-2xl p-6 text-white shadow-xl">
-        <h1 className="text-2xl font-bold mb-2">📚 Gestion des Matières</h1>
-        <p className="opacity-90">{subjects.filter(s => s.isActive).length} matières actives</p>
+    <div className="space-y-4">
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-2">
+        <button
+          onClick={() => setTab('subjects')}
+          className={`rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'subjects' ? 'gradient-principal text-white shadow' : darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-600 shadow'}`}
+        >
+          📚 Matières ({subjects.length})
+        </button>
+        <button
+          onClick={() => setTab('categories')}
+          className={`rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'categories' ? 'gradient-principal text-white shadow' : darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-600 shadow'}`}
+        >
+          🏷️ Catégories ({categories.length})
+        </button>
+        <button
+          onClick={() => setTab('periods')}
+          className={`rounded-xl px-4 py-2 text-sm font-medium transition ${tab === 'periods' ? 'gradient-principal text-white shadow' : darkMode ? 'bg-gray-700 text-gray-300' : 'bg-white text-gray-600 shadow'}`}
+        >
+          📅 Périodes ({periods.length})
+        </button>
       </div>
 
-      {/* Add Button */}
-      <button
-        onClick={handleAdd}
-        className="flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all w-full sm:w-auto"
-      >
-        <Plus className="w-5 h-5" />
-        Ajouter une matière
-      </button>
-
-      {/* Subjects by Category */}
-      {Object.entries(groupedSubjects).map(([category, categorySubjects]) => (
-        <div key={category} className="bg-white rounded-2xl p-6 shadow-lg">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-fuchsia-500" />
-            {category}
-            <span className="text-sm text-gray-400 font-normal">({categorySubjects.length})</span>
-          </h3>
-          
-          <div className="grid gap-3">
-            {categorySubjects.map(subject => (
-              <div
-                key={subject.id}
-                className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all hover:shadow-md ${
-                  subject.isActive 
-                    ? 'border-transparent bg-gradient-to-r from-gray-50 to-fuchsia-50' 
-                    : 'border-dashed border-gray-200 opacity-60'
-                }`}
-              >
-                {/* Color Indicator */}
-                <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md"
-                  style={{ backgroundColor: subject.color }}
-                >
-                  {subject.name.charAt(0)}
-                </div>
-
-                {/* Info */}
-                <div className="flex-1">
-                  <h4 className="font-semibold text-gray-800">{subject.name}</h4>
-                  <div className="flex items-center gap-4 mt-1">
-                    <span className="text-sm text-gray-500">
-                      Coefficient: <strong className="text-fuchsia-600">{subject.coefficient}</strong>
-                    </span>
-                    {!subject.isActive && (
-                      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
-                        Inactive
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleEdit(subject)}
-                    className="p-2 hover:bg-blue-50 rounded-xl transition-colors"
-                  >
-                    <Edit2 className="w-5 h-5 text-blue-500" />
-                  </button>
-                  <button
-                    onClick={() => setShowDeleteConfirm(subject.id)}
-                    className="p-2 hover:bg-red-50 rounded-xl transition-colors"
-                  >
-                    <Trash2 className="w-5 h-5 text-red-400" />
-                  </button>
-                </div>
-              </div>
-            ))}
+      {tab === 'subjects' && (
+        <>
+          <div className="flex flex-wrap items-center gap-2 justify-end">
+            <button onClick={handleResetDefaults} className={`flex items-center gap-1 rounded-xl px-3 py-2 text-xs font-medium transition ${darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+              <RotateCcw size={14} /> Défaut
+            </button>
+            {subjects.length > 0 && (
+              <button onClick={handleDeleteAll} className="flex items-center gap-1 rounded-xl bg-rouge-bdj/10 border border-rouge-bdj/30 px-3 py-2 text-xs font-medium text-rouge-bdj hover:bg-rouge-bdj/20">
+                <Trash2 size={14} /> Tout supprimer
+              </button>
+            )}
+            <button onClick={openNew} className="gradient-principal flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white shadow-lg">
+              <Plus size={16} /> Ajouter une matière
+            </button>
           </div>
-        </div>
-      ))}
 
-      {subjects.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-2xl shadow-lg">
-          <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg font-medium">Aucune matière configurée</p>
-          <p className="text-sm text-gray-400 mt-1">Ajoutez des matières pour commencer</p>
+          {grouped.map((group) => (
+            <div key={group.category}>
+              <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">{group.category}</h3>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {group.items.map((sub) => (
+                  <div key={sub.id} className={`flex items-center gap-3 rounded-2xl p-4 shadow transition hover:shadow-lg ${cardClass}`}>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl text-white text-sm font-bold shadow" style={{ background: sub.color }}>
+                      {sub.name.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-sm font-bold">{sub.name}</p>
+                      <p className="text-xs text-gray-500">Coef. {sub.coefficient} • {sub.category}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <button onClick={() => openEdit(sub)} className={iconEdit} title="Modifier"><Edit3 size={14} /></button>
+                      <button onClick={() => handleDelete(sub.id)} className={iconDelete} title="Supprimer"><Trash2 size={14} /></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {uncategorized.length > 0 && (
+            <div>
+              <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Non catégorisé</h3>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {uncategorized.map((sub) => (
+                  <div key={sub.id} className={`flex items-center gap-3 rounded-2xl p-4 shadow transition hover:shadow-lg ${cardClass}`}>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl text-white text-sm font-bold shadow" style={{ background: sub.color }}>
+                      {sub.name.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-sm font-bold">{sub.name}</p>
+                      <p className="text-xs text-gray-500">Coef. {sub.coefficient}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <button onClick={() => openEdit(sub)} className={iconEdit} title="Modifier"><Edit3 size={14} /></button>
+                      <button onClick={() => handleDelete(sub.id)} className={iconDelete} title="Supprimer"><Trash2 size={14} /></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {subjects.length === 0 && (
+            <div className="flex flex-col items-center gap-4 py-20">
+              <BookOpen size={48} className="text-rose-clair" />
+              <p className="text-gray-500">Aucune matière configurée</p>
+              <div className="flex gap-3">
+                <button onClick={openNew} className="gradient-principal rounded-xl px-6 py-2 text-sm font-medium text-white shadow">
+                  Ajouter une matière
+                </button>
+                <button onClick={handleResetDefaults} className="rounded-xl bg-bleu-roi px-6 py-2 text-sm font-medium text-white shadow">
+                  Charger les défauts
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {tab === 'categories' && (
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2 justify-end">
+            <button
+              onClick={() => { setCategories([...defaultCategories]); addToast('Catégories réinitialisées ✓', 'success'); }}
+              className={`flex items-center gap-1 rounded-xl px-3 py-2 text-xs font-medium transition ${darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            >
+              <RotateCcw size={14} /> Défaut
+            </button>
+          </div>
+
+          <p className="text-xs text-gray-500">
+            Gérez les catégories de matières. Renommer une catégorie met à jour automatiquement toutes les matières associées. Supprimer une catégorie déplace ses matières dans « Autre ».
+          </p>
+
+          {/* Add new category */}
+          <div className={`flex items-center gap-3 rounded-2xl p-4 shadow ${cardClass}`}>
+            <FolderPlus size={20} className="text-rose-bdj shrink-0" />
+            <input
+              value={newCatName}
+              onChange={(e) => setNewCatName(e.target.value)}
+              placeholder="Nouvelle catégorie..."
+              className={`flex-1 rounded-lg border px-3 py-2 text-sm ${inputClass}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && newCatName.trim()) {
+                  addCategory(newCatName.trim());
+                  addToast(`Catégorie « ${newCatName.trim()} » ajoutée ✓`, 'success');
+                  setNewCatName('');
+                }
+              }}
+            />
+            <button
+              onClick={() => {
+                if (newCatName.trim()) {
+                  addCategory(newCatName.trim());
+                  addToast(`Catégorie « ${newCatName.trim()} » ajoutée ✓`, 'success');
+                  setNewCatName('');
+                }
+              }}
+              disabled={!newCatName.trim()}
+              className="gradient-principal rounded-xl px-4 py-2 text-sm font-bold text-white shadow disabled:opacity-50"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
+
+          {/* Categories list */}
+          <div className="space-y-2">
+            {categories.map((cat) => {
+              const subCount = subjects.filter((s) => s.category === cat).length;
+              const isEditing = editingCat === cat;
+
+              return (
+                <div
+                  key={cat}
+                  className={`flex items-center gap-3 rounded-xl p-3 transition ${darkMode ? 'bg-gray-700/50 hover:bg-gray-700' : 'bg-gray-50 hover:bg-rose-pale/50'}`}
+                >
+                  <Tag size={16} className="text-rose-bdj shrink-0" />
+                  {isEditing ? (
+                    <div className="flex flex-1 items-center gap-2">
+                      <input
+                        value={editCatName}
+                        onChange={(e) => setEditCatName(e.target.value)}
+                        className={`flex-1 rounded-lg border px-3 py-1 text-sm ${inputClass}`}
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && editCatName.trim()) {
+                            renameCategory(cat, editCatName.trim());
+                            addToast(`Catégorie renommée en « ${editCatName.trim()} » ✓`, 'success');
+                            setEditingCat(null);
+                          }
+                          if (e.key === 'Escape') setEditingCat(null);
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (editCatName.trim()) {
+                            renameCategory(cat, editCatName.trim());
+                            addToast(`Catégorie renommée ✓`, 'success');
+                            setEditingCat(null);
+                          }
+                        }}
+                        className="text-green-500 hover:text-green-400 p-1"
+                      >
+                        <Check size={16} />
+                      </button>
+                      <button onClick={() => setEditingCat(null)} className="text-red-500 hover:text-red-400 p-1">
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold">{cat}</p>
+                        <p className="text-xs text-gray-500">{subCount} matière(s)</p>
+                      </div>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => { setEditingCat(cat); setEditCatName(cat); }}
+                          className={iconEdit}
+                          title="Renommer"
+                        >
+                          <Edit3 size={14} />
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (confirm(`Supprimer la catégorie « ${cat} » ? Les matières seront déplacées dans « Autre ».`)) {
+                              deleteCategory(cat);
+                              addToast(`Catégorie « ${cat} » supprimée ✓`, 'info');
+                            }
+                          }}
+                          className={iconDelete}
+                          title="Supprimer"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {categories.length === 0 && (
+            <div className="text-center py-8 text-gray-400 text-sm">
+              Aucune catégorie. Ajoutez-en ou restaurez les valeurs par défaut.
+            </div>
+          )}
         </div>
       )}
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl w-full max-w-md animate-fade-in">
-            <div className="p-4 bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-between rounded-t-2xl">
-              <h2 className="text-xl font-bold text-white">
-                {editingSubject ? '✏️ Modifier la matière' : '➕ Nouvelle matière'}
-              </h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5 text-white" />
-              </button>
+      {tab === 'periods' && <PeriodsTab />}
+
+      {/* Subject Form Modal */}
+      {showForm && editing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl animate-fade-in-up ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-bold">{subjects.find((s) => s.id === editing.id) ? 'Modifier' : 'Nouvelle'} matière</h3>
+              <button onClick={() => setShowForm(false)} className="rounded-lg p-1 hover:bg-gray-100"><X size={20} /></button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              {/* Name */}
+            <div className="space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Nom de la matière *
-                </label>
+                <label className="text-xs font-medium text-gray-500">Nom de la matière *</label>
                 <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Ex: Mathématiques, Français..."
-                  className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
+                  value={editing.name}
+                  onChange={(e) => setEditing({ ...editing, name: e.target.value })}
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`}
+                  autoFocus
                 />
               </div>
 
-              {/* Coefficient */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Coefficient *
-                </label>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map(coef => (
-                    <button
-                      key={coef}
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, coefficient: coef }))}
-                      className={`flex-1 py-3 rounded-xl font-bold text-lg transition-all ${
-                        formData.coefficient === coef
-                          ? 'bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white shadow-lg scale-105'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                      }`}
-                    >
-                      {coef}
-                    </button>
-                  ))}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Coefficient</label>
+                  <input
+                    type="number"
+                    min={0.5}
+                    max={20}
+                    step={0.5}
+                    value={editing.coefficient}
+                    onChange={(e) => setEditing({ ...editing, coefficient: parseFloat(e.target.value) || 1 })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Catégorie</label>
+                  <select
+                    value={editing.category}
+                    onChange={(e) => setEditing({ ...editing, category: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`}
+                  >
+                    {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+                    {!categories.includes(editing.category) && (
+                      <option value={editing.category}>{editing.category}</option>
+                    )}
+                  </select>
                 </div>
               </div>
 
-              {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Catégorie
-                </label>
-                <select
-                  value={formData.category}
-                  onChange={e => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                  className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                >
-                  {categories.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Color */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <Palette className="w-4 h-4 inline mr-1" />
-                  Couleur
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {colorPresets.map(color => (
+                <label className="text-xs font-medium text-gray-500">Couleur</label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {subjectColors.map((c) => (
                     <button
-                      key={color}
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, color }))}
-                      className={`w-10 h-10 rounded-xl transition-all shadow-md ${
-                        formData.color === color ? 'ring-4 ring-offset-2 ring-fuchsia-500 scale-110' : 'hover:scale-105'
-                      }`}
-                      style={{ backgroundColor: color }}
+                      key={c}
+                      onClick={() => setEditing({ ...editing, color: c })}
+                      className={`h-8 w-8 rounded-full transition ${editing.color === c ? 'ring-2 ring-offset-2 ring-gray-400 scale-110' : 'hover:scale-105'}`}
+                      style={{ background: c }}
                     />
                   ))}
                   <input
                     type="color"
-                    value={formData.color}
-                    onChange={e => setFormData(prev => ({ ...prev, color: e.target.value }))}
-                    className="w-10 h-10 rounded-xl cursor-pointer border-2 border-gray-200"
+                    value={editing.color}
+                    onChange={(e) => setEditing({ ...editing, color: e.target.value })}
+                    className="h-8 w-8 cursor-pointer rounded-full border-0"
                   />
                 </div>
               </div>
+            </div>
 
-              {/* Active Status */}
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                <input
-                  type="checkbox"
-                  id="subjectActive"
-                  checked={formData.isActive}
-                  onChange={e => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
-                  className="w-5 h-5 rounded text-fuchsia-500 focus:ring-fuchsia-500"
-                />
-                <label htmlFor="subjectActive" className="text-sm text-gray-700 font-medium">✅ Matière active</label>
-              </div>
-
-              {/* Preview */}
-              <div className="bg-gradient-to-r from-gray-50 to-fuchsia-50 rounded-xl p-4">
-                <p className="text-sm text-gray-500 mb-2">👁️ Aperçu</p>
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg"
-                    style={{ backgroundColor: formData.color }}
-                  >
-                    {formData.name.charAt(0) || '?'}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-800">{formData.name || 'Nom de la matière'}</p>
-                    <p className="text-sm text-gray-500">Coefficient {formData.coefficient}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
-              >
-                <Save className="w-5 h-5" />
-                Enregistrer
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation */}
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm animate-fade-in">
-            <h3 className="text-lg font-bold text-gray-800 mb-2">⚠️ Confirmer la suppression</h3>
-            <p className="text-gray-600 mb-6">
-              Êtes-vous sûr de vouloir supprimer cette matière ? Toutes les notes associées seront également supprimées.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowDeleteConfirm(null)}
-                className="flex-1 py-2 rounded-xl border-2 border-gray-200 font-medium hover:bg-gray-50 transition-colors"
-              >
-                Annuler
-              </button>
-              <button
-                onClick={() => handleDelete(showDeleteConfirm)}
-                className="flex-1 py-2 rounded-xl bg-gradient-to-r from-red-500 to-rose-500 text-white font-medium hover:shadow-lg transition-all"
-              >
-                Supprimer
-              </button>
+            <div className="mt-6 flex gap-3">
+              <button onClick={() => setShowForm(false)} className={`flex-1 rounded-xl px-4 py-2.5 text-sm font-medium ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>Annuler</button>
+              <button onClick={handleSave} className="flex-1 gradient-principal rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-lg">Enregistrer</button>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-};
+}
+
+function PeriodsTab() {
+  const { periods, addPeriod, updatePeriod, deletePeriod, addToast, darkMode } = useStore();
+  const [editingPeriod, setEditingPeriod] = useState<{ id: string; name: string; type: 'trimestre' | 'semestre' | 'custom'; startDate: string; endDate: string } | null>(null);
+
+  const iconEdit = `rounded-lg p-1.5 transition-all ${darkMode ? 'text-blue-400 hover:text-blue-300 hover:bg-blue-900/40' : 'text-blue-600 hover:text-blue-800 hover:bg-blue-100'}`;
+  const iconDelete = `rounded-lg p-1.5 transition-all ${darkMode ? 'text-red-400 hover:text-red-300 hover:bg-red-900/40' : 'text-red-500 hover:text-red-700 hover:bg-red-100'}`;
+
+  const handleSavePeriod = () => {
+    if (!editingPeriod || !editingPeriod.name.trim()) return;
+    const exists = periods.find((p) => p.id === editingPeriod.id);
+    if (exists) {
+      updatePeriod(editingPeriod.id, editingPeriod);
+      addToast('Période modifiée ✓', 'success');
+    } else {
+      addPeriod(editingPeriod);
+      addToast('Période ajoutée ✓', 'success');
+    }
+    setEditingPeriod(null);
+  };
+
+  const cardClass = darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white';
+  const inputClass = darkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-200';
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <button
+          onClick={() => setEditingPeriod({ id: uid(), name: '', type: 'trimestre', startDate: '', endDate: '' })}
+          className="gradient-principal flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white shadow-lg"
+        >
+          <Plus size={16} /> Ajouter une période
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        {periods.map((period) => (
+          <div key={period.id} className={`flex items-center gap-4 rounded-2xl p-4 shadow ${cardClass}`}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-bleu-roi to-bleu-clair text-sm font-bold text-white shadow">
+              📅
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-bold">{period.name}</p>
+              <p className="text-xs text-gray-500">{period.type} • {period.startDate} → {period.endDate}</p>
+            </div>
+            <div className="flex gap-1">
+              <button onClick={() => setEditingPeriod({ ...period })} className={iconEdit} title="Modifier"><Edit3 size={14} /></button>
+              <button
+                onClick={() => {
+                  if (confirm(`Supprimer « ${period.name} » et toutes les notes associées ?`)) {
+                    deletePeriod(period.id);
+                    addToast('Période supprimée', 'info');
+                  }
+                }}
+                className={iconDelete}
+                title="Supprimer"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {periods.length === 0 && (
+        <div className="flex flex-col items-center gap-4 py-16">
+          <p className="text-gray-500">Aucune période scolaire</p>
+          <button
+            onClick={() => setEditingPeriod({ id: uid(), name: 'Trimestre 1', type: 'trimestre', startDate: '', endDate: '' })}
+            className="gradient-principal rounded-xl px-6 py-2 text-sm font-medium text-white shadow"
+          >
+            Ajouter une période
+          </button>
+        </div>
+      )}
+
+      {editingPeriod && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className={`w-full max-w-md rounded-2xl p-6 shadow-2xl animate-fade-in-up ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-bold">{periods.find((p) => p.id === editingPeriod.id) ? 'Modifier la' : 'Nouvelle'} période</h3>
+              <button onClick={() => setEditingPeriod(null)} className="rounded-lg p-1 hover:bg-gray-100"><X size={20} /></button>
+            </div>
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs font-medium text-gray-500">Nom *</label>
+                <input
+                  value={editingPeriod.name}
+                  onChange={(e) => setEditingPeriod({ ...editingPeriod, name: e.target.value })}
+                  placeholder="Nom de la période"
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`}
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-gray-500">Type</label>
+                <select
+                  value={editingPeriod.type}
+                  onChange={(e) => setEditingPeriod({ ...editingPeriod, type: e.target.value as 'trimestre' | 'semestre' | 'custom' })}
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`}
+                >
+                  <option value="trimestre">Trimestre</option>
+                  <option value="semestre">Semestre</option>
+                  <option value="custom">Personnalisé</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Date début</label>
+                  <input type="date" value={editingPeriod.startDate} onChange={(e) => setEditingPeriod({ ...editingPeriod, startDate: e.target.value })} className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`} />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Date fin</label>
+                  <input type="date" value={editingPeriod.endDate} onChange={(e) => setEditingPeriod({ ...editingPeriod, endDate: e.target.value })} className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${inputClass}`} />
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 flex gap-3">
+              <button onClick={() => setEditingPeriod(null)} className={`flex-1 rounded-xl px-4 py-2.5 text-sm ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>Annuler</button>
+              <button onClick={handleSavePeriod} className="flex-1 gradient-principal rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-lg">Enregistrer</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

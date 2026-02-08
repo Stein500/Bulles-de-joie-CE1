@@ -1,377 +1,312 @@
-import React, { useState } from 'react';
-import { 
-  Plus, Search, Edit2, Trash2, X, Save, 
-  User, Phone, MapPin, Calendar, Camera, Upload 
-} from 'lucide-react';
-import { Student } from '../types';
-import { generateId } from '../db/database';
-import { fileToBase64, formatDate } from '../utils/helpers';
+import { useState, useMemo } from 'react';
+import { useStore } from '../stores/useStore';
+import { uid, generateDemoStudents } from '../lib/helpers';
+import { Plus, Search, Trash2, Edit3, UserPlus, X, Users } from 'lucide-react';
+import type { Student } from '../stores/useStore';
 
-interface StudentManagerProps {
-  students: Student[];
-  onSave: (student: Student) => void;
-  onDelete: (id: string) => void;
-}
-
-const defaultStudent: Omit<Student, 'id'> = {
+const emptyStudent = (): Student => ({
+  id: uid(),
   firstName: '',
   lastName: '',
   dateOfBirth: '',
   gender: 'M',
-  className: '',
-  photo: null,
+  className: 'CM2',
   parentName: '',
   parentPhone: '',
-  address: '',
-  enrollmentDate: new Date().toISOString().split('T')[0],
-  isActive: true
-};
+  parentEmail: '',
+});
 
-export const StudentManager: React.FC<StudentManagerProps> = ({
-  students,
-  onSave,
-  onDelete
-}) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
-  const [formData, setFormData] = useState<Omit<Student, 'id'>>(defaultStudent);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+export function StudentManager() {
+  const { students, addStudent, updateStudent, deleteStudent, setStudents, addToast, darkMode, demoNames } = useStore();
+  const [search, setSearch] = useState('');
+  const [editing, setEditing] = useState<Student | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
-  const filteredStudents = students.filter(s => 
-    `${s.firstName} ${s.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.className.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+    return students
+      .filter((s) => `${s.lastName} ${s.firstName}`.toLowerCase().includes(q))
+      .sort((a, b) => a.lastName.localeCompare(b.lastName));
+  }, [students, search]);
 
-  const handleAdd = () => {
-    setEditingStudent(null);
-    setFormData(defaultStudent);
-    setShowModal(true);
+  const openNew = () => {
+    setEditing(emptyStudent());
+    setShowForm(true);
   };
 
-  const handleEdit = (student: Student) => {
-    setEditingStudent(student);
-    setFormData(student);
-    setShowModal(true);
+  const openEdit = (s: Student) => {
+    setEditing({ ...s });
+    setShowForm(true);
   };
 
-  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const base64 = await fileToBase64(file);
-      setFormData(prev => ({ ...prev, photo: base64 }));
+  const handleSave = () => {
+    if (!editing) return;
+    if (!editing.firstName.trim() || !editing.lastName.trim()) {
+      addToast('Nom et prénom obligatoires', 'error');
+      return;
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const student: Student = {
-      ...formData,
-      id: editingStudent?.id || generateId()
-    };
-    onSave(student);
-    setShowModal(false);
+    const exists = students.find((s) => s.id === editing.id);
+    if (exists) {
+      updateStudent(editing.id, editing);
+      addToast('Élève modifié ✓', 'success');
+    } else {
+      addStudent(editing);
+      addToast('Élève ajouté ✓', 'success');
+    }
+    setShowForm(false);
+    setEditing(null);
   };
 
   const handleDelete = (id: string) => {
-    onDelete(id);
-    setShowDeleteConfirm(null);
+    if (confirm('Supprimer cet élève et toutes ses notes ?')) {
+      deleteStudent(id);
+      addToast('Élève et ses notes supprimés définitivement', 'warning', 'Suppression');
+    }
   };
 
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 rounded-2xl p-6 text-white shadow-xl">
-        <h1 className="text-2xl font-bold mb-2">👥 Gestion des Élèves</h1>
-        <p className="opacity-90">{students.filter(s => s.isActive).length} élèves actifs</p>
-      </div>
+  const addDemoStudents = (count: number) => {
+    if (demoNames.firstNamesMale.length === 0 && demoNames.firstNamesFemale.length === 0) {
+      addToast('Aucun prénom dans le répertoire démo. Allez dans Paramètres → Noms démo.', 'error');
+      return;
+    }
+    if (demoNames.lastNames.length === 0) {
+      addToast('Aucun nom de famille dans le répertoire démo. Allez dans Paramètres → Noms démo.', 'error');
+      return;
+    }
+    const demos = generateDemoStudents(count, demoNames);
+    setStudents([...students, ...demos]);
+    addToast(`${count} élèves démo ajoutés ✓`, 'success');
+  };
 
-      {/* Actions Bar */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editing) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxSize = 200;
+        let { width, height } = img;
+        if (width > height) { height = (height / width) * maxSize; width = maxSize; }
+        else { width = (width / height) * maxSize; height = maxSize; }
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d')?.drawImage(img, 0, 0, width, height);
+        setEditing({ ...editing, photo: canvas.toDataURL('image/jpeg', 0.8) });
+      };
+      img.src = ev.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDeleteAll = () => {
+    if (confirm(`Supprimer les ${students.length} élèves et toutes leurs notes ?`)) {
+      setStudents([]);
+      useStore.getState().setGrades([]);
+      addToast(`${students.length} élèves supprimés avec toutes leurs notes`, 'warning', 'Suppression massive');
+    }
+  };
+
+  const cardClass = darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white';
+
+  return (
+    <div className="space-y-4">
+      {/* Actions bar */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className={`flex flex-1 items-center gap-2 rounded-xl px-3 py-2 shadow ${cardClass}`}>
+          <Search size={16} className="text-gray-400" />
           <input
             type="text"
             placeholder="Rechercher un élève..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 transition-colors"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="flex-1 bg-transparent text-sm outline-none"
           />
         </div>
-        <button
-          onClick={handleAdd}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all"
-        >
-          <Plus className="w-5 h-5" />
-          Ajouter un élève
+        <button onClick={openNew} className="gradient-principal flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white shadow-lg hover:opacity-90">
+          <Plus size={16} /> Ajouter
         </button>
+        <button onClick={() => addDemoStudents(10)} className="flex items-center gap-2 rounded-xl bg-bleu-roi px-4 py-2 text-sm font-medium text-white shadow hover:opacity-90">
+          <UserPlus size={16} /> +10 Démo
+        </button>
+        <button onClick={() => addDemoStudents(50)} className="flex items-center gap-2 rounded-xl bg-fuchsia-fonce px-4 py-2 text-sm font-medium text-white shadow hover:opacity-90">
+          <Users size={16} /> +50 Démo
+        </button>
+        {students.length > 0 && (
+          <button onClick={handleDeleteAll} className="flex items-center gap-2 rounded-xl bg-rouge-bdj/10 border border-rouge-bdj/30 px-3 py-2 text-sm font-medium text-rouge-bdj hover:bg-rouge-bdj/20">
+            <Trash2 size={14} /> Tout suppr.
+          </button>
+        )}
       </div>
 
-      {/* Students Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredStudents.map(student => (
+      <p className="text-xs text-gray-500">{filtered.length} élève(s) trouvé(s) sur {students.length}</p>
+
+      {/* Students list */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((student, idx) => (
           <div
             key={student.id}
-            className={`bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all ${
-              !student.isActive ? 'opacity-60' : ''
-            }`}
+            className={`group rounded-2xl p-4 shadow transition-all hover:shadow-lg hover:scale-[1.01] ${cardClass}`}
           >
-            <div className="flex items-start gap-4">
-              {/* Photo */}
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-fuchsia-100 to-lime-100 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-md">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-rose-bdj to-fuchsia-bdj text-sm font-bold text-white shadow">
                 {student.photo ? (
-                  <img src={student.photo} alt="" className="w-full h-full object-cover" />
+                  <img src={student.photo} alt="" className="h-10 w-10 rounded-full object-cover" />
                 ) : (
-                  <User className="w-8 h-8 text-fuchsia-400" />
+                  `${student.firstName[0] || ''}${student.lastName[0] || ''}`
                 )}
               </div>
-              
-              {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-800 truncate">
-                  {student.lastName.toUpperCase()} {student.firstName}
-                </h3>
-                <p className="text-sm text-fuchsia-600 font-medium">{student.className}</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className={`w-3 h-3 rounded-full ${student.gender === 'M' ? 'bg-blue-400' : 'bg-pink-400'}`} />
-                  <span className="text-xs text-gray-400">
-                    {formatDate(student.dateOfBirth, 'short')}
-                  </span>
-                </div>
+                <p className="truncate text-sm font-bold">{idx + 1}. {student.lastName} {student.firstName}</p>
+                <p className="text-xs text-gray-500">{student.className} • {student.gender === 'M' ? '♂' : '♀'}</p>
+                {student.parentPhone && <p className="text-xs text-gray-400 mt-0.5">📞 {student.parentPhone}</p>}
               </div>
-
-              {/* Actions */}
-              <div className="flex flex-col gap-1">
-                <button
-                  onClick={() => handleEdit(student)}
-                  className="p-2 hover:bg-blue-50 rounded-lg transition-colors"
-                >
-                  <Edit2 className="w-4 h-4 text-blue-500" />
+              <div className="flex gap-1">
+                <button onClick={() => openEdit(student)} className={`rounded-lg p-1.5 transition-all ${darkMode ? 'text-blue-400 hover:text-blue-300 hover:bg-blue-900/40' : 'text-blue-600 hover:text-blue-800 hover:bg-blue-100'}`} title="Modifier">
+                  <Edit3 size={14} />
                 </button>
-                <button
-                  onClick={() => setShowDeleteConfirm(student.id)}
-                  className="p-2 hover:bg-red-50 rounded-lg transition-colors"
-                >
-                  <Trash2 className="w-4 h-4 text-red-400" />
+                <button onClick={() => handleDelete(student.id)} className={`rounded-lg p-1.5 transition-all ${darkMode ? 'text-red-400 hover:text-red-300 hover:bg-red-900/40' : 'text-red-500 hover:text-red-700 hover:bg-red-100'}`} title="Supprimer">
+                  <Trash2 size={14} />
                 </button>
               </div>
             </div>
-
-            {/* Contact Info */}
-            {student.parentPhone && (
-              <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-2 text-sm text-gray-500">
-                <Phone className="w-4 h-4 text-fuchsia-400" />
-                <span>{student.parentPhone}</span>
-              </div>
-            )}
           </div>
         ))}
       </div>
 
-      {filteredStudents.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-2xl shadow-lg">
-          <User className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg font-medium">Aucun élève trouvé</p>
-          <p className="text-sm text-gray-400 mt-1">Ajoutez des élèves pour commencer</p>
-        </div>
-      )}
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto animate-fade-in">
-            <div className="sticky top-0 bg-gradient-to-r from-blue-500 to-cyan-500 p-4 flex items-center justify-between rounded-t-2xl">
-              <h2 className="text-xl font-bold text-white">
-                {editingStudent ? '✏️ Modifier l\'élève' : '➕ Nouvel élève'}
-              </h2>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5 text-white" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              {/* Photo Upload */}
-              <div className="flex justify-center">
-                <label className="relative cursor-pointer group">
-                  <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-fuchsia-100 to-lime-100 flex items-center justify-center overflow-hidden shadow-lg">
-                    {formData.photo ? (
-                      <img src={formData.photo} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <Camera className="w-8 h-8 text-fuchsia-400" />
-                    )}
-                  </div>
-                  <div className="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                    <Upload className="w-6 h-6 text-white" />
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handlePhotoUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-
-              {/* Name Fields */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.firstName}
-                    onChange={e => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
-                    className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                    placeholder="Jean"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.lastName}
-                    onChange={e => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
-                    className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                    placeholder="DUPONT"
-                  />
-                </div>
-              </div>
-
-              {/* Date of Birth & Gender */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    <Calendar className="w-4 h-4 inline mr-1" />
-                    Date de naissance *
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={formData.dateOfBirth}
-                    onChange={e => setFormData(prev => ({ ...prev, dateOfBirth: e.target.value }))}
-                    className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Genre *</label>
-                  <select
-                    value={formData.gender}
-                    onChange={e => setFormData(prev => ({ ...prev, gender: e.target.value as 'M' | 'F' }))}
-                    className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                  >
-                    <option value="M">👦 Masculin</option>
-                    <option value="F">👧 Féminin</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Class */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Classe *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Ex: CM2, 6ème A..."
-                  value={formData.className}
-                  onChange={e => setFormData(prev => ({ ...prev, className: e.target.value }))}
-                  className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                />
-              </div>
-
-              {/* Parent Info */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    <User className="w-4 h-4 inline mr-1" />
-                    Nom du parent
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.parentName}
-                    onChange={e => setFormData(prev => ({ ...prev, parentName: e.target.value }))}
-                    className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                    placeholder="M. Dupont"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    <Phone className="w-4 h-4 inline mr-1" />
-                    Téléphone
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.parentPhone}
-                    onChange={e => setFormData(prev => ({ ...prev, parentPhone: e.target.value }))}
-                    className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500"
-                    placeholder="+33 6 12 34 56 78"
-                  />
-                </div>
-              </div>
-
-              {/* Address */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <MapPin className="w-4 h-4 inline mr-1" />
-                  Adresse
-                </label>
-                <textarea
-                  value={formData.address}
-                  onChange={e => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                  rows={2}
-                  className="w-full px-4 py-2 rounded-xl border-2 border-gray-200 focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 resize-none"
-                  placeholder="123 rue de l'École, 75000 Paris"
-                />
-              </div>
-
-              {/* Active Status */}
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                <input
-                  type="checkbox"
-                  id="isActive"
-                  checked={formData.isActive}
-                  onChange={e => setFormData(prev => ({ ...prev, isActive: e.target.checked }))}
-                  className="w-5 h-5 rounded text-fuchsia-500 focus:ring-fuchsia-500"
-                />
-                <label htmlFor="isActive" className="text-sm text-gray-700 font-medium">✅ Élève actif</label>
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit"
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-fuchsia-500 to-rose-500 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
-              >
-                <Save className="w-5 h-5" />
-                Enregistrer
-              </button>
-            </form>
+      {students.length === 0 && (
+        <div className="flex flex-col items-center gap-4 py-20">
+          <Users size={48} className="text-rose-clair" />
+          <p className="text-gray-500">Aucun élève pour le moment</p>
+          <div className="flex gap-3">
+            <button onClick={openNew} className="gradient-principal rounded-xl px-6 py-2 text-sm font-medium text-white shadow">
+              Ajouter un élève
+            </button>
+            <button onClick={() => addDemoStudents(10)} className="rounded-xl bg-bleu-roi px-6 py-2 text-sm font-medium text-white shadow">
+              +10 élèves démo 🇧🇯
+            </button>
           </div>
         </div>
       )}
 
-      {/* Delete Confirmation */}
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm animate-fade-in">
-            <h3 className="text-lg font-bold text-gray-800 mb-2">⚠️ Confirmer la suppression</h3>
-            <p className="text-gray-600 mb-6">
-              Êtes-vous sûr de vouloir supprimer cet élève ? Cette action est irréversible et supprimera également toutes ses notes.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowDeleteConfirm(null)}
-                className="flex-1 py-2 rounded-xl border-2 border-gray-200 font-medium hover:bg-gray-50 transition-colors"
-              >
+      {/* Modal Form */}
+      {showForm && editing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className={`w-full max-w-lg rounded-2xl p-6 shadow-2xl ${darkMode ? 'bg-gray-800' : 'bg-white'} animate-fade-in-up max-h-[90vh] overflow-y-auto`}>
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-bold">{students.find((s) => s.id === editing.id) ? 'Modifier' : 'Nouvel'} élève</h3>
+              <button onClick={() => setShowForm(false)} className="rounded-lg p-1 hover:bg-gray-100"><X size={20} /></button>
+            </div>
+
+            <div className="space-y-3">
+              {/* Photo */}
+              <div className="flex items-center gap-4">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-rose-bdj to-fuchsia-bdj text-white text-xl font-bold overflow-hidden">
+                  {editing.photo ? <img src={editing.photo} alt="" className="h-full w-full object-cover" /> : '📷'}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="cursor-pointer rounded-lg border border-dashed border-rose-clair px-3 py-1.5 text-xs text-rose-bdj hover:bg-rose-pale">
+                    Choisir photo
+                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
+                  </label>
+                  {editing.photo && (
+                    <button
+                      onClick={() => setEditing({ ...editing, photo: undefined })}
+                      className="text-[10px] text-rouge-bdj hover:underline"
+                    >
+                      Supprimer la photo
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Nom *</label>
+                  <input
+                    value={editing.lastName}
+                    onChange={(e) => setEditing({ ...editing, lastName: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Prénom *</label>
+                  <input
+                    value={editing.firstName}
+                    onChange={(e) => setEditing({ ...editing, firstName: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Sexe</label>
+                  <select
+                    value={editing.gender}
+                    onChange={(e) => setEditing({ ...editing, gender: e.target.value as 'M' | 'F' })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                  >
+                    <option value="M">Masculin</option>
+                    <option value="F">Féminin</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Date naiss.</label>
+                  <input
+                    type="date"
+                    value={editing.dateOfBirth}
+                    onChange={(e) => setEditing({ ...editing, dateOfBirth: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Classe</label>
+                  <input
+                    value={editing.className}
+                    onChange={(e) => setEditing({ ...editing, className: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Nom du parent</label>
+                  <input
+                    value={editing.parentName || ''}
+                    onChange={(e) => setEditing({ ...editing, parentName: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Téléphone</label>
+                  <input
+                    value={editing.parentPhone || ''}
+                    onChange={(e) => setEditing({ ...editing, parentPhone: e.target.value })}
+                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-medium text-gray-500">Matricule (optionnel)</label>
+                <input
+                  value={editing.matricule || ''}
+                  onChange={(e) => setEditing({ ...editing, matricule: e.target.value })}
+                  className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200'}`}
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex gap-3">
+              <button onClick={() => setShowForm(false)} className={`flex-1 rounded-xl px-4 py-2.5 text-sm font-medium ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}>
                 Annuler
               </button>
-              <button
-                onClick={() => handleDelete(showDeleteConfirm)}
-                className="flex-1 py-2 rounded-xl bg-gradient-to-r from-red-500 to-rose-500 text-white font-medium hover:shadow-lg transition-all"
-              >
-                Supprimer
+              <button onClick={handleSave} className="flex-1 gradient-principal rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-lg hover:opacity-90">
+                Enregistrer
               </button>
             </div>
           </div>
@@ -379,4 +314,4 @@ export const StudentManager: React.FC<StudentManagerProps> = ({
       )}
     </div>
   );
-};
+}
