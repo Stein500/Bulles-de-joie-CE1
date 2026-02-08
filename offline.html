@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hors-ligne - Les Bulles de Joie</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;background:#FDFEFE;}
+    .logo{width:80px;height:80px;border-radius:50%;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;animation:float 3s ease-in-out infinite;overflow:hidden;}
+    .logo img{width:52px;height:52px;object-fit:contain;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    h1{font-family:'Poppins',sans-serif;font-size:1.5rem;color:#111827;margin-bottom:.75rem;}
+    p{color:#6B7280;max-width:360px;line-height:1.6;margin-bottom:1.5rem;font-size:.95rem;}
+    .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;background:#F33791;color:white;border:none;border-radius:9999px;font-size:.95rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(243,55,145,.25);}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(243,55,145,.35);}
+    .phone{margin-top:2rem;padding-top:1.5rem;border-top:1px solid #E6E6E6;}
+    .phone h2{font-size:.85rem;color:#A3A7A1;margin-bottom:.5rem;}
+    .phone a{color:#F33791;text-decoration:none;font-weight:700;font-size:1rem;}
+  </style>
+</head>
+<body>
+  <div class="logo"><img src="images/logo-minimal.png" alt="Les Bulles de Joie"></div>
+  <h1>Vous êtes hors-ligne</h1>
+  <p>Pas de connexion Internet. Vérifiez votre connexion et réessayez.</p>
+  <button class="btn" onclick="location.reload()">🔄 Réessayer</button>
+  <div class="phone">
+    <h2>Besoin d'aide ?</h2>
+    <a href="tel:+22901979194 52">📞 +229 01 97 91 94 52</a>
+  </div>
+  <script>window.addEventListener('online',()=>location.reload());</script>
+</body>
+</html>
