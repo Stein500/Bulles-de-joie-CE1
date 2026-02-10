@@ -868,6 +868,18 @@ body{padding-bottom:64px;}
 @keyframes eWiggle{0%,100%{transform:rotate(0) translateZ(0)}25%{transform:rotate(-8deg) translateZ(0)}75%{transform:rotate(8deg) translateZ(0)}}
 @keyframes eHeartbeat{0%,100%{transform:scale(1) translateZ(0)}14%{transform:scale(1.2) translateZ(0)}28%{transform:scale(1) translateZ(0)}42%{transform:scale(1.2) translateZ(0)}70%{transform:scale(1) translateZ(0)}}
 
+/* ═══ PERFORMANCE — GPU Acceleration ═══ */
+.card,.price-card,.pilier-card,.immersion-card,.cycle-card,
+.activite-card,.parcours-card,.fierte-card,.testimonial-card,
+.programme-card,.contact-card,.step-card,.gallery-card,.video-card,
+.niveau-item,.bottom-nav__item,.nav-link,.btn{
+  will-change:transform;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+}
+/* Lazy render below-fold sections */
+.section:nth-child(n+3){content-visibility:auto;contain-intrinsic-size:auto 600px;}
+
 /* ═══ BACKGROUNDS ═══ */
 .bg-smoke{background:var(--smoke);}
 .bg-pink-light{background:var(--pink-50);}

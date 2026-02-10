@@ -312,13 +312,30 @@ git push
 
 ## 📊 Données Tarifs 2025-2026
 
-| Niveau | Nouveau | Ancien |
-|--------|---------|--------|
-| Crèche | 18.000 + 30.000/mois | — |
-| Pré-Maternelle | 122.500 FCFA | 120.500 FCFA |
-| Maternelle | 125.500 FCFA | 123.500 FCFA |
-| Primaire CI-CP | 125.500 FCFA | 123.500 FCFA |
-| Primaire CE1-CE2 | 130.500 FCFA | 128.500 FCFA |
+| Niveau | Scolarité | Frais gén. (nouv.) | Total Nouveau | Total Ancien |
+|--------|-----------|-------------------|---------------|-------------|
+| Crèche | 30.000/mois | 18.000 | — | — |
+| Pré-Maternelle | 90.000 | 32.500 | **122.500 FCFA** | **120.500 FCFA** |
+| Maternelle | 85.000 | 40.500 | **125.500 FCFA** | **123.500 FCFA** |
+| Primaire CI-CP | 85.000 | 40.500 | **125.500 FCFA** | **123.500 FCFA** |
+| Primaire CE1-CE2 | 85.000 | 45.500 | **130.500 FCFA** | **128.500 FCFA** |
+
+### Activités parascolaires
+
+| Niveau | Montant |
+|--------|---------|
+| Pré-Maternelle | 4.000 FCFA |
+| Maternelle → CP | 12.000 FCFA |
+| CE1+ | 17.000 FCFA |
+
+### Statistiques
+
+| Donnée | Valeur |
+|--------|--------|
+| Années d'existence | 8+ |
+| Élèves | 100+ |
+| Personnels actifs | 20+ |
+| Agréments officiels | 2 |
 
 ---
 
@@ -326,7 +343,7 @@ git push
 
 | Service | Téléphone |
 |---------|-----------|
-| Direction | +229 01 49 77 77 00 |
+| Direction | +229 01 97 91 94 52 |
 | WhatsApp Direction | +229 01 97 91 94 52 |
 | Secrétariat | +229 01 49 77 77 01 |
 | WhatsApp Inscriptions | +229 01 58 03 03 02 |
