@@ -92,7 +92,9 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+  *,*::before,*::after{transition-duration:.01ms!important;}
+  .reveal,.reveal-left,.reveal-right,.reveal-scale{opacity:1!important;transform:none!important;}
+  .splash{display:none!important;}
 }
 
 /* ═══ RESET ═══ */
@@ -851,22 +853,22 @@ body{padding-bottom:64px;}
 
 /* ═══ ANIMATED EMOJIS ═══ */
 .emoji{display:inline-block;font-style:normal;}
-.e-bounce{animation:eBounce 2s ease-in-out infinite;}
-.e-float{animation:eFloat 3s ease-in-out infinite;}
-.e-pulse{animation:ePulse 2s ease-in-out infinite;}
-.e-wave{animation:eWave 2.5s ease-in-out infinite;transform-origin:70% 70%;}
-.e-shake{animation:eShake 2s ease-in-out infinite;}
-.e-spin{animation:eSpin 4s linear infinite;}
-.e-wiggle{animation:eWiggle 1.5s ease-in-out infinite;}
-.e-heartbeat{animation:eHeartbeat 1.5s ease-in-out infinite;}
-@keyframes eBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes eFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(3deg)}}
-@keyframes ePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-@keyframes eWave{0%{transform:rotate(0)}15%{transform:rotate(14deg)}30%{transform:rotate(-8deg)}40%{transform:rotate(14deg)}50%{transform:rotate(-4deg)}60%{transform:rotate(10deg)}70%,100%{transform:rotate(0)}}
-@keyframes eShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px) rotate(-3deg)}75%{transform:translateX(3px) rotate(3deg)}}
-@keyframes eSpin{to{transform:rotate(360deg)}}
-@keyframes eWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
-@keyframes eHeartbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.2)}28%{transform:scale(1)}42%{transform:scale(1.2)}70%{transform:scale(1)}}
+.e-bounce{animation:eBounce 2s ease-in-out infinite;will-change:transform;}
+.e-float{animation:eFloat 3s ease-in-out infinite;will-change:transform;}
+.e-pulse{animation:ePulse 2s ease-in-out infinite;will-change:transform;}
+.e-wave{animation:eWave 2.5s ease-in-out infinite;transform-origin:70% 70%;will-change:transform;}
+.e-shake{animation:eShake 2s ease-in-out infinite;will-change:transform;}
+.e-spin{animation:eSpin 4s linear infinite;will-change:transform;}
+.e-wiggle{animation:eWiggle 1.5s ease-in-out infinite;will-change:transform;}
+.e-heartbeat{animation:eHeartbeat 1.5s ease-in-out infinite;will-change:transform;}
+@keyframes eBounce{0%,100%{transform:translateY(0) translateZ(0)}50%{transform:translateY(-8px) translateZ(0)}}
+@keyframes eFloat{0%,100%{transform:translateY(0) rotate(0) translateZ(0)}50%{transform:translateY(-10px) rotate(3deg) translateZ(0)}}
+@keyframes ePulse{0%,100%{transform:scale(1) translateZ(0)}50%{transform:scale(1.15) translateZ(0)}}
+@keyframes eWave{0%{transform:rotate(0) translateZ(0)}15%{transform:rotate(14deg) translateZ(0)}30%{transform:rotate(-8deg) translateZ(0)}40%{transform:rotate(14deg) translateZ(0)}50%{transform:rotate(-4deg) translateZ(0)}60%{transform:rotate(10deg) translateZ(0)}70%,100%{transform:rotate(0) translateZ(0)}}
+@keyframes eShake{0%,100%{transform:translateX(0) translateZ(0)}25%{transform:translateX(-3px) rotate(-3deg) translateZ(0)}75%{transform:translateX(3px) rotate(3deg) translateZ(0)}}
+@keyframes eSpin{to{transform:rotate(360deg) translateZ(0)}}
+@keyframes eWiggle{0%,100%{transform:rotate(0) translateZ(0)}25%{transform:rotate(-8deg) translateZ(0)}75%{transform:rotate(8deg) translateZ(0)}}
+@keyframes eHeartbeat{0%,100%{transform:scale(1) translateZ(0)}14%{transform:scale(1.2) translateZ(0)}28%{transform:scale(1) translateZ(0)}42%{transform:scale(1.2) translateZ(0)}70%{transform:scale(1) translateZ(0)}}
 
 /* ═══ BACKGROUNDS ═══ */
 .bg-smoke{background:var(--smoke);}

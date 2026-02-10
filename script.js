@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initVideoCards();
   initPWA();
   initBottomNav();
+  initMomoPay();
 });
 
 /* ═══ SPLASH (3s white intro) ═══ */
@@ -502,6 +503,35 @@ function showToast(msg, dur = 3000) {
   t.innerHTML = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* ═══ MTN MOMOPAY ═══ */
+function initMomoPay() {
+  const btn = document.getElementById('momo-pay-btn');
+  const input = document.getElementById('momo-amount');
+  if (!btn || !input) return;
+
+  btn.addEventListener('click', () => {
+    const amount = parseInt(input.value);
+    if (!amount || amount < 1000) {
+      showToast('⚠️ Entrez un montant minimum de 1.000 FCFA');
+      input.focus();
+      input.style.borderColor = 'var(--error)';
+      setTimeout(() => input.style.borderColor = '', 2000);
+      return;
+    }
+    /* USSD dial for MTN MomoPay */
+    const ussd = `tel:*880*41*167452*${amount}%23`;
+    window.location.href = ussd;
+  });
+
+  /* Allow Enter key to trigger payment */
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      btn.click();
+    }
+  });
 }
 
 window.triggerInstall = triggerInstall;
