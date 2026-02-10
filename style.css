@@ -92,9 +92,7 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{transition-duration:.01ms!important;}
   .reveal,.reveal-left,.reveal-right,.reveal-scale{opacity:1!important;transform:none!important;}
-  .splash{display:none!important;}
 }
 
 /* ═══ RESET ═══ */
