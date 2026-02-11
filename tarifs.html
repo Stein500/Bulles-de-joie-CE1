@@ -272,7 +272,9 @@
 
           <!-- MTN MOMOPAY -->
           <article class="card reveal stagger-1" style="padding:1.75rem;text-align:center;">
-            <div style="width:56px;height:56px;border-radius:50%;background:#FFCB05;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.5rem;"><span class="emoji e-bounce">📱</span></div>
+            <div class="payment-logo mtn-logo" style="width:64px;height:64px;border-radius:var(--radius-xl);background:#FFCB05;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;box-shadow:var(--shadow-md);overflow:hidden;">
+              <img src="images/logo-mtn.png" alt="MTN MomoPay" style="width:48px;height:48px;object-fit:contain;">
+            </div>
             <h3 style="font-size:var(--text-base);margin-bottom:.35rem;">MTN MomoPay</h3>
             <p style="font-size:var(--text-xs);color:var(--ash);margin-bottom:1rem;">Paiement mobile instantané</p>
             <div class="form-group" style="margin-bottom:.75rem;">
@@ -285,7 +287,9 @@
 
           <!-- VIREMENT BANCAIRE -->
           <article class="card reveal stagger-2" style="padding:1.75rem;text-align:center;">
-            <div style="width:56px;height:56px;border-radius:50%;background:var(--green-50);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.5rem;"><span class="emoji e-float">🏦</span></div>
+            <div class="payment-logo bank-logo" style="width:64px;height:64px;border-radius:var(--radius-xl);background:var(--green-50);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;box-shadow:var(--shadow-md);overflow:hidden;">
+              <img src="images/logo-coriss.png" alt="Coris Bank" style="width:48px;height:48px;object-fit:contain;">
+            </div>
             <h3 style="font-size:var(--text-base);margin-bottom:.35rem;">Coris Bank</h3>
             <p style="font-size:var(--text-xs);color:var(--ash);margin-bottom:1rem;">Virement bancaire</p>
             <div style="background:var(--smoke);border-radius:var(--radius-lg);padding:.75rem;font-size:var(--text-sm);text-align:left;">
@@ -294,15 +298,21 @@
             </div>
           </article>
 
-          <!-- ESPÈCES -->
+          <!-- CORIS MONEY -->
           <article class="card reveal stagger-3" style="padding:1.75rem;text-align:center;">
-            <div style="width:56px;height:56px;border-radius:50%;background:var(--pink-50);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.5rem;"><span class="emoji e-wiggle">💵</span></div>
-            <h3 style="font-size:var(--text-base);margin-bottom:.35rem;">Espèces</h3>
-            <p style="font-size:var(--text-xs);color:var(--ash);margin-bottom:1rem;">Au secrétariat de l'école</p>
-            <div style="background:var(--smoke);border-radius:var(--radius-lg);padding:.75rem;font-size:var(--text-sm);">
-              <p style="color:var(--gray-600);"><span class="emoji e-float">📍</span> Parakou — Zongo</p>
-              <p style="color:var(--gray-600);margin-top:.25rem;"><span class="emoji e-spin">🕐</span> Lun-Ven : 8h-17h</p>
+            <div class="payment-logo coris-logo" style="width:64px;height:64px;border-radius:var(--radius-xl);background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;box-shadow:var(--shadow-md);overflow:hidden;">
+              <img src="images/logo-coris.png" alt="Coris Money" style="width:48px;height:48px;object-fit:contain;">
             </div>
+            <h3 style="font-size:var(--text-base);margin-bottom:.35rem;">Coris Money</h3>
+            <p style="font-size:var(--text-xs);color:var(--ash);margin-bottom:1rem;">Paiement mobile instantané</p>
+            <div style="background:var(--smoke);border-radius:var(--radius-lg);padding:.75rem;font-size:var(--text-sm);margin-bottom:1rem;">
+              <div style="margin-bottom:.35rem;"><span style="color:var(--ash);font-size:var(--text-xs);">Numéro de dépôt</span></div>
+              <div style="font-weight:800;color:var(--green);font-size:var(--text-lg);">+229 01 97 91 94 52</div>
+              <p style="font-size:var(--text-xs);color:var(--gray-500);margin-top:.35rem;">Transfert direct</p>
+            </div>
+            <button class="btn btn--green btn--full ripple" id="coris-pay-btn" style="box-shadow:0 4px 16px rgba(51,105,7,.25);">
+              <span class="emoji e-bounce">📲</span> Ouvrir Coris Money
+            </button>
           </article>
         </div>
       </div>

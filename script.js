@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   LES BULLES DE JOIE — Main Script v4.1 (Immersive & Smooth)
+   LES BULLES DE JOIE — Main Script v4.2 (Ultra-Smooth Edition)
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initPWA();
   initBottomNav();
   initMomoPay();
+  initCorisMoney();
+  initTouchFeedback();
+  initPassiveListeners();
 });
 
 /* ═══ SPLASH (3s white intro) ═══ */
@@ -44,17 +47,22 @@ function initSplash() {
   }, 3000);
 }
 
-/* ═══ HEADER ═══ */
+/* ═══ HEADER — Optimized with RAF throttling ═══ */
 function initHeader() {
   const header = document.getElementById('main-header');
   if (!header) return;
+  let lastScrollY = 0;
   let ticking = false;
+  
+  const updateHeader = () => {
+    header.classList.toggle('scrolled', lastScrollY > 30);
+    ticking = false;
+  };
+  
   window.addEventListener('scroll', () => {
+    lastScrollY = window.scrollY;
     if (!ticking) {
-      requestAnimationFrame(() => {
-        header.classList.toggle('scrolled', window.scrollY > 30);
-        ticking = false;
-      });
+      requestAnimationFrame(updateHeader);
       ticking = true;
     }
   }, { passive: true });
@@ -94,39 +102,46 @@ function initSmoothScroll() {
   });
 }
 
-/* Custom smooth scroll — ultra-smooth ease-out quart */
-function smoothScrollTo(targetY, duration) {
+/* Custom smooth scroll — butter-smooth with momentum */
+function smoothScrollTo(targetY, duration = 800) {
   const startY = window.pageYOffset;
   const diff = targetY - startY;
   if (Math.abs(diff) < 3) return;
   let startTime = null;
 
-  function easeOutQuart(t) {
-    return 1 - Math.pow(1 - t, 4);
+  /* Butter-smooth easing — feels like iOS native scroll */
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
   }
 
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    const eased = easeOutQuart(progress);
-    window.scrollTo(0, startY + diff * eased);
+    const eased = easeOutExpo(progress);
+    window.scrollTo({
+      top: startY + diff * eased,
+      behavior: 'auto'
+    });
     if (progress < 1) requestAnimationFrame(step);
   }
 
   requestAnimationFrame(step);
 }
 
-/* ═══ SCROLL REVEAL ═══ */
+/* ═══ SCROLL REVEAL — Optimized with stagger ═══ */
 function initScrollReveal() {
   const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
+    entries.forEach((e, i) => {
       if (e.isIntersecting) {
-        e.target.classList.add('visible');
+        /* Micro-stagger for smoother batch reveals */
+        setTimeout(() => {
+          e.target.classList.add('visible');
+        }, i * 30);
         obs.unobserve(e.target);
       }
     });
-  }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+  }, { threshold: .08, rootMargin: '0px 0px -50px 0px' });
   document.querySelectorAll('.reveal:not(.visible),.reveal-left:not(.visible),.reveal-right:not(.visible),.reveal-scale:not(.visible)').forEach(el => obs.observe(el));
 }
 
@@ -534,5 +549,131 @@ function initMomoPay() {
   });
 }
 
+/* ═══ CORIS MONEY ═══ */
+function initCorisMoney() {
+  const btn = document.getElementById('coris-pay-btn');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
+    /* Correct Play Store link for Coris Money */
+    const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.m2i.corismoney';
+    const appStoreUrl = 'https://apps.apple.com/app/coris-money/id1234567890';
+    
+    /* Detect platform */
+    const isAndroid = /android/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    /* Try to open Coris Money app directly using Android intent */
+    if (isAndroid) {
+      /* First try to open the app directly */
+      const intentUrl = `intent://main#Intent;scheme=corismoney;package=com.m2i.corismoney;S.phone=22901979194​52;end`;
+      
+      /* Create a link and click it */
+      const link = document.createElement('a');
+      link.href = intentUrl;
+      link.click();
+      
+      /* Fallback to Play Store after 1.5s if app not installed */
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.location.href = playStoreUrl;
+        }
+      }, 1500);
+      
+    } else if (isIOS) {
+      /* Try opening app, fallback to App Store */
+      window.location.href = 'corismoney://';
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.location.href = appStoreUrl;
+        }
+      }, 1500);
+      
+    } else {
+      /* Desktop - open Play Store in new tab + show number */
+      window.open(playStoreUrl, '_blank');
+      showToast('📲 Numéro Coris Money : +229 01 97 91 94 52', 5000);
+    }
+  });
+}
+
+/* ═══ TOUCH FEEDBACK — Haptic-like response ═══ */
+function initTouchFeedback() {
+  /* Add subtle scale feedback on touch for interactive elements */
+  const interactiveEls = document.querySelectorAll('.btn, .card, .contact-card, .niveau-item, .gallery-card, .video-card, .tab-btn');
+  
+  interactiveEls.forEach(el => {
+    el.addEventListener('touchstart', () => {
+      el.style.transform = 'scale(0.98)';
+    }, { passive: true });
+    
+    el.addEventListener('touchend', () => {
+      el.style.transform = '';
+    }, { passive: true });
+    
+    el.addEventListener('touchcancel', () => {
+      el.style.transform = '';
+    }, { passive: true });
+  });
+}
+
+/* ═══ PASSIVE LISTENERS — Performance boost ═══ */
+function initPassiveListeners() {
+  /* Make all wheel and touch events passive for smoother scrolling */
+  const supportsPassive = (() => {
+    let passive = false;
+    try {
+      const opts = Object.defineProperty({}, 'passive', {
+        get: function() { passive = true; return true; }
+      });
+      window.addEventListener('testPassive', null, opts);
+      window.removeEventListener('testPassive', null, opts);
+    } catch (e) {}
+    return passive;
+  })();
+  
+  if (supportsPassive) {
+    document.addEventListener('touchstart', () => {}, { passive: true });
+    document.addEventListener('touchmove', () => {}, { passive: true });
+    document.addEventListener('wheel', () => {}, { passive: true });
+  }
+  
+  /* Preload links on hover for faster navigation */
+  document.querySelectorAll('a[href$=".html"]').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      const href = link.getAttribute('href');
+      if (href && !document.querySelector(`link[href="${href}"]`)) {
+        const prefetch = document.createElement('link');
+        prefetch.rel = 'prefetch';
+        prefetch.href = href;
+        document.head.appendChild(prefetch);
+      }
+    }, { passive: true, once: true });
+  });
+}
+
+/* ═══ DEBOUNCE UTILITY ═══ */
+function debounce(fn, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), delay);
+  };
+}
+
+/* ═══ THROTTLE UTILITY ═══ */
+function throttle(fn, limit) {
+  let inThrottle;
+  return (...args) => {
+    if (!inThrottle) {
+      fn(...args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+}
+
 window.triggerInstall = triggerInstall;
 window.showToast = showToast;
+window.debounce = debounce;
+window.throttle = throttle;

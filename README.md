@@ -38,6 +38,8 @@ lesbullesdejoie/
 │   ├── hero-tarifs.jpg         # Image hero page Tarifs
 │   ├── hero-resultats.jpg      # Image hero page Résultats
 │   ├── hero-contact.jpg        # Image hero page Contact
+│   ├── logo-mtn.png            # Logo MTN MomoPay (paiement)
+│   ├── logo-coris.png          # Logo Coris Money/Bank (paiement)
 │   ├── og-home.jpg             # Open Graph Accueil
 │   ├── og-pedagogie.jpg        # Open Graph Pédagogie
 │   ├── og-tarifs.jpg           # Open Graph Tarifs
