@@ -77,8 +77,7 @@
   html {
     scroll-padding-top: var(--nav-h);
     -webkit-text-size-adjust: 100%;
-    overscroll-behavior: none;
-    /* GPU-composited scrolling sur iOS */
+    /* overscroll-behavior: none supprimé — bloquait le scroll natif sur Android */
     -webkit-overflow-scrolling: touch;
   }
 
@@ -86,11 +85,10 @@
     font-family: var(--font-b);
     background: var(--white);
     color: var(--black);
-    /* Rendu sous-pixel optimal */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    overscroll-behavior-y: contain;
+    /* overscroll-behavior-y: contain supprimé pour compatibilité Termux/Android */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
@@ -124,17 +122,10 @@
   .section { padding: 6rem 0; }
   @media(min-width:768px) { .section { padding: 8.5rem 0; } }
 
-  /* ── content-visibility : le browser saute le paint des sections hors-écran ── */
+  /* ── content-visibility : désactivé pour éviter les bugs de scroll sur mobile ── */
   section {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px; /* valeur réduite pour éviter les sauts */
-  }
-  /* Les sections Hero sont toujours dans le viewport → on exclut */
-  section:first-of-type,
-  section.hero,
-  [data-cv-off] {
-    content-visibility: visible;
-    contain-intrinsic-size: none;
+    /* content-visibility: auto — désactivé */
+    contain-intrinsic-size: unset;
   }
 
   /* ── Timeline pédagogie — responsive ── */

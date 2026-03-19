@@ -283,6 +283,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    // En mode maintenance, ne jamais bloquer le scroll du body
+    if (MAINTENANCE_MODE) {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      return;
+    }
     document.body.style.overflow = (showSplash && !splashDone) ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [showSplash, splashDone]);

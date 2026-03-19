@@ -228,6 +228,7 @@ const TopBar = memo(function TopBar() {
       style={{
         position: "fixed", top: 0, left: 0, right: 0,
         height: 3, zIndex: 500,
+        pointerEvents: "none",
         background: "linear-gradient(90deg, #F33791 0%, #C8FF00 50%, #7C3AFF 80%, #F33791 100%)",
         backgroundSize: "300% 100%",
       }}
@@ -864,6 +865,21 @@ function PortalButton({ delay = 2.25 }) {
 export default function Maintenance() {
   const reduced = useReducedMotion();
 
+  /* ── Réinitialiser tout overflow bloquant dès le montage ── */
+  useEffect(() => {
+    document.body.style.overflow        = "";
+    document.body.style.overflowY       = "";
+    document.documentElement.style.overflow  = "";
+    document.documentElement.style.overflowY = "";
+    // S'assurer que le body est scrollable nativement
+    document.body.style.height          = "auto";
+    document.documentElement.style.height   = "auto";
+    return () => {
+      document.body.style.overflow        = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
+
   return (
     <div style={{
       minHeight: "100svh",
@@ -871,7 +887,6 @@ export default function Maintenance() {
       color: "#fff",
       fontFamily: "'Nunito', sans-serif",
       overflowX: "hidden",
-      overflowY: "auto",
       position: "relative",
     }}>
 
@@ -887,10 +902,10 @@ export default function Maintenance() {
       {/* Contenu principal */}
       <main style={{
         position: "relative", zIndex: 10,
-        minHeight: "100svh",
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "flex-start",
-        padding: "4rem 1.5rem 5rem",
+        padding: "4rem 1.5rem 6rem",
+        width: "100%",
       }}>
 
         {/* Logo */}
