@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F33791" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Les Bulles de Joie" />
+  <meta name="description" content="Les Bulles de Joie — École Bilingue d'Excellence à Parakou, Bénin. Crèche, Maternelle & Primaire. Inscriptions ouvertes 2025-2026." />
+  <meta name="keywords" content="école bilingue Parakou, crèche Bénin, maternelle bilingue, primaire excellence, Les Bulles de Joie, inscription école Parakou" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="author" content="Les Bulles de Joie" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Les Bulles de Joie — École Bilingue d'Excellence à Parakou" />
+  <meta property="og:description" content="Crèche, Maternelle & Primaire bilingue d'excellence à Parakou, Bénin. Fondée en 2017." />
+  <meta property="og:image" content="/images/hero-accueil.jpg" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Nunito : chaleureuse, lisible, scolaire — remplace Syne + Bricolage -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="/images/hero-accueil.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="/images/logo-minimal.png" />
+  <title>Les Bulles de Joie — École Bilingue d'Excellence à Parakou</title>
+  <style>
+    /* Reset géré dans @layer reset de globals.css — pas ici pour éviter d'écraser les layers */
+    body{font-family:'Nunito',system-ui,sans-serif;background:#fff;color:#0A0A0A;overflow-x:hidden;-webkit-font-smoothing:antialiased;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+    #root{min-height:100dvh}
+    /* Variables hors-layer pour qu'elles soient accessibles partout */
+    :root{
+      --nav-h:72px;--bnav-h:64px;
+      --pink:#F33791;--lime:#C8FF00;--black:#0A0A0A;
+      --side-pad: clamp(1.75rem, 5.5vw, 3.5rem);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
