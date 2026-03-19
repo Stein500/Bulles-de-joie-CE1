@@ -671,8 +671,196 @@ const Footer = memo(function Footer() {
 });
 
 /* ══════════════════════════════════════════════════════════
-   PAGE PRINCIPALE
+   HOOK PWA — Détecte beforeinstallprompt
 ══════════════════════════════════════════════════════════ */
+function usePWAInstall() {
+  const [prompt, setPrompt] = useState(null);
+  const [installed, setInstalled] = useState(false);
+
+  useEffect(() => {
+    // Déjà installé ?
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setInstalled(true);
+      return;
+    }
+    const handler = (e) => {
+      e.preventDefault();
+      setPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    window.addEventListener("appinstalled", () => { setInstalled(true); setPrompt(null); });
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const install = async () => {
+    if (!prompt) return;
+    prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    if (outcome === "accepted") { setInstalled(true); setPrompt(null); }
+  };
+
+  return { canInstall: !!prompt && !installed, installed, install };
+}
+
+/* ══════════════════════════════════════════════════════════
+   BOUTON INSTALLER L'APP
+══════════════════════════════════════════════════════════ */
+function InstallButton({ delay = 2.1 }) {
+  const { canInstall, installed, install } = usePWAInstall();
+  const [pulse, setPulse] = useState(false);
+
+  useEffect(() => {
+    if (canInstall) { const t = setTimeout(() => setPulse(true), 1200); return () => clearTimeout(t); }
+  }, [canInstall]);
+
+  if (installed) return (
+    <motion.div
+      style={{
+        display: "inline-flex", alignItems: "center", gap: "0.5rem",
+        padding: "0.75rem 1.6rem",
+        background: "rgba(0,212,106,0.1)",
+        border: "1px solid rgba(0,212,106,0.35)",
+        borderRadius: 100,
+        fontFamily: "'Poppins', sans-serif",
+        fontWeight: 700, fontSize: "0.72rem",
+        color: "#00D46A",
+        letterSpacing: "0.06em",
+        marginBottom: "0.85rem",
+      }}
+      initial={{ opacity: 0, scale: 0.85 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}>
+      ✅ Application installée !
+    </motion.div>
+  );
+
+  if (!canInstall) return null;
+
+  return (
+    <motion.button
+      onClick={install}
+      style={{
+        display: "inline-flex", alignItems: "center", gap: "0.65rem",
+        padding: "0.95rem 2rem",
+        background: "linear-gradient(135deg, #F33791 0%, #7C3AFF 100%)",
+        border: "none",
+        borderRadius: 100,
+        fontFamily: "'Poppins', sans-serif",
+        fontWeight: 800, fontSize: "0.82rem",
+        color: "#fff",
+        letterSpacing: "0.04em",
+        cursor: "pointer",
+        position: "relative",
+        overflow: "hidden",
+        marginBottom: "0.85rem",
+        boxShadow: "0 6px 0 rgba(124,58,255,0.45), 0 16px 40px rgba(243,55,145,0.4)",
+      }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, delay, ease: [0.34, 1.56, 0.64, 1] }}
+      whileHover={{
+        scale: 1.04,
+        boxShadow: "0 8px 0 rgba(124,58,255,0.5), 0 24px 56px rgba(243,55,145,0.55)",
+        y: -2,
+      }}
+      whileTap={{ scale: 0.96, y: 2, boxShadow: "0 2px 0 rgba(124,58,255,0.5)" }}
+      aria-label="Installer l'application Les Bulles de Joie">
+
+      {/* Shimmer sweep */}
+      <motion.div style={{
+        position: "absolute", inset: 0, borderRadius: 100,
+        background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%)",
+        backgroundSize: "200% 100%",
+      }}
+        animate={{ backgroundPosition: ["-200% 0%", "300% 0%"] }}
+        transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.8, ease: "easeInOut" }} />
+
+      {/* Pulse ring (si prêt) */}
+      {pulse && (
+        <motion.span style={{
+          position: "absolute", inset: -4, borderRadius: 100,
+          border: "2px solid rgba(243,55,145,0.6)",
+        }}
+          animate={{ opacity: [0, 0.9, 0], scale: [0.95, 1.06, 1.14] }}
+          transition={{ duration: 1.6, repeat: Infinity }} />
+      )}
+
+      <motion.span
+        style={{ fontSize: "1.05rem", display: "inline-block" }}
+        animate={{ rotate: [0, -10, 10, -6, 0] }}
+        transition={{ duration: 1.2, delay: delay + 0.8, ease: "easeInOut" }}>
+        📲
+      </motion.span>
+
+      <span style={{ position: "relative", zIndex: 1 }}>Installer l'Application</span>
+    </motion.button>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   BOUTON PORTAIL RÉSULTATS
+══════════════════════════════════════════════════════════ */
+function PortalButton({ delay = 2.25 }) {
+  return (
+    <motion.a
+      href={SCHOOL.portalUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "inline-flex", alignItems: "center", gap: "0.65rem",
+        padding: "0.95rem 2rem",
+        background: "rgba(200,255,0,0.07)",
+        border: "1.5px solid rgba(200,255,0,0.3)",
+        borderRadius: 100,
+        fontFamily: "'Poppins', sans-serif",
+        fontWeight: 800, fontSize: "0.82rem",
+        color: "#C8FF00",
+        letterSpacing: "0.04em",
+        textDecoration: "none",
+        marginBottom: "0.85rem",
+        position: "relative",
+        overflow: "hidden",
+        boxShadow: "0 0 0 0 rgba(200,255,0,0)",
+      }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, delay, ease: [0.34, 1.56, 0.64, 1] }}
+      whileHover={{
+        background: "rgba(200,255,0,0.14)",
+        borderColor: "rgba(200,255,0,0.65)",
+        boxShadow: "0 0 28px rgba(200,255,0,0.22)",
+        y: -2,
+      }}
+      whileTap={{ scale: 0.96 }}>
+
+      {/* Glow sweep */}
+      <motion.div style={{
+        position: "absolute", inset: 0, borderRadius: 100,
+        background: "linear-gradient(105deg, transparent 35%, rgba(200,255,0,0.15) 50%, transparent 65%)",
+        backgroundSize: "200% 100%",
+      }}
+        animate={{ backgroundPosition: ["-200% 0%", "300% 0%"] }}
+        transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }} />
+
+      <motion.span
+        style={{ fontSize: "1.1rem", display: "inline-block", position: "relative", zIndex: 1 }}
+        animate={{ scale: [1, 1.18, 1] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+        🏆
+      </motion.span>
+
+      <span style={{ position: "relative", zIndex: 1 }}>Portail Résultats Scolaires</span>
+
+      <motion.span style={{ fontSize: "0.75rem", position: "relative", zIndex: 1, opacity: 0.6 }}
+        animate={{ x: [0, 3, 0] }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}>
+        →
+      </motion.span>
+    </motion.a>
+  );
+}
+
+
 export default function Maintenance() {
   const reduced = useReducedMotion();
 
@@ -683,6 +871,7 @@ export default function Maintenance() {
       color: "#fff",
       fontFamily: "'Nunito', sans-serif",
       overflowX: "hidden",
+      overflowY: "auto",
       position: "relative",
     }}>
 
@@ -700,8 +889,8 @@ export default function Maintenance() {
         position: "relative", zIndex: 10,
         minHeight: "100svh",
         display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center",
-        padding: "5rem 1.5rem 3rem",
+        alignItems: "center", justifyContent: "flex-start",
+        padding: "4rem 1.5rem 5rem",
       }}>
 
         {/* Logo */}
@@ -744,36 +933,30 @@ export default function Maintenance() {
 
         {/* Badges */}
         <motion.div
-          style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem", justifyContent: "center", marginBottom: "2rem" }}>
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem", justifyContent: "center", marginBottom: "2.5rem" }}>
           {BADGES.map((b, i) => <Badge key={b.label} b={b} idx={i} />)}
         </motion.div>
 
-        {/* Portail parents */}
-        <motion.a
-          href={SCHOOL.portalUrl} target="_blank" rel="noopener noreferrer"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: "0.5rem",
-            padding: "0.8rem 1.8rem",
-            background: "rgba(200,255,0,0.08)",
-            border: "1px solid rgba(200,255,0,0.25)",
-            borderRadius: 100,
-            fontFamily: "'Poppins', sans-serif",
-            fontWeight: 700, fontSize: "0.72rem",
-            color: "#C8FF00",
-            letterSpacing: "0.06em", textTransform: "uppercase",
-            textDecoration: "none",
-            marginBottom: "2.5rem",
-          }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.9, ease: E.out }}
-          whileHover={{ background: "rgba(200,255,0,0.14)", borderColor: "rgba(200,255,0,0.5)", y: -2, boxShadow: "0 4px 20px rgba(200,255,0,0.2)" }}
-          whileTap={{ scale: 0.97 }}>
-          🌐 Accéder au Portail Parents
-        </motion.a>
+        {/* CTA Buttons : Installer l'app + Portail résultats */}
+        <div style={{
+          display: "flex", flexDirection: "column", alignItems: "center",
+          gap: "0.1rem", width: "100%", maxWidth: 400,
+          marginBottom: "2.5rem",
+        }}>
+          <InstallButton delay={2.0} />
+          <PortalButton  delay={2.15} />
+        </div>
+
+        {/* Réseaux sociaux */}
+        <motion.div
+          style={{ display: "flex", gap: "0.55rem", marginBottom: "2.5rem" }}
+          aria-label="Réseaux sociaux">
+          {SOCIALS.map((s, i) => <SocialButton key={s.label} s={s} idx={i} />)}
+        </motion.div>
 
         {/* Footer */}
         <Footer />
+
       </main>
     </div>
   );
